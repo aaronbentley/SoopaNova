@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "amd": true
+    },
+    "plugins": ["prettier"],
+    "extends": ["plugin:prettier/recommended", "react-app"],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "prettier/prettier": [
+            "off",
+            {
+                "selfClosing": "line-aligned",
+                "nonEmpty": "after-props"
+            }
+        ],
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": "off",
+        "jsx-a11y/href-no-hash": [0],
+        // "react/no-unknown-property": [
+        //     "error",
+        //     {
+        //         "ignore": ["for", "htmlFor"]
+        //     }
+        // ],
+        "react/jsx-closing-bracket-location": [1, "after-props"]
+    }
+}
