@@ -1,47 +1,31 @@
 /** @jsx jsx */
-import { Box } from '@theme-ui/components'
+import { Heading, Text } from '@theme-ui/components'
+import { Link } from 'gatsby'
 import React from 'react'
 import { jsx } from 'theme-ui'
-
-// <Layout>
-//     <SEO title="Home" />
-//     <h1>Hi people</h1>
-//     <p>Welcome to your new Gatsby site.</p>
-//     <p>Now go build something great.</p>
-//     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-//         <Image />
-//     </div>
-//     <Link to="/page-2/">Go to page 2</Link>
-// </Layout>
+import Layout from '../components/layout/layout'
+import { getUser, isLoggedIn } from '../services/auth'
 
 const IndexPage = () => (
     <React.Fragment>
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100vh',
-            }}>
-            <Box
-                sx={{
-                    p: 3,
-                }}>
-                Header
-            </Box>
-            <Box
-                sx={{
-                    flex: '1 1 auto',
-                    p: 3,
-                }}>
-                Content
-            </Box>
-            <Box
-                sx={{
-                    p: 3,
-                }}>
-                Footer
-            </Box>
-        </Box>
+        <Layout>
+            <Heading as="h1" sx={{ color: 'secondary' }}>
+                Hello {isLoggedIn() ? getUser().name : 'there'}!
+            </Heading>
+            <Text>
+                {isLoggedIn() ? (
+                    <React.Fragment>
+                        You are logged in, so check your{' '}
+                        <Link to="/app/profile">profile</Link>
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        You should <Link to="/app/login">log in</Link> to see
+                        restricted content
+                    </React.Fragment>
+                )}
+            </Text>
+        </Layout>
     </React.Fragment>
 )
 

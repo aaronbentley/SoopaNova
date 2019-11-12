@@ -5802,6 +5802,13 @@ gatsby-page-utils@^0.0.29:
     micromatch "^3.1.10"
     slash "^3.0.0"
 
+gatsby-plugin-create-client-paths@^2.1.16:
+  version "2.1.16"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-create-client-paths/-/gatsby-plugin-create-client-paths-2.1.16.tgz#19db06574044efadd422ea37c34200b643e83af2"
+  integrity sha512-p5z1ZMZoFlZQQDWq2CGEIGcifpjdraZPIaPwHKdwE2jBhdymfPiu3gRDS24A6ymBvf2DHsEK1UespnPnK6qgFA==
+  dependencies:
+    "@babel/runtime" "^7.7.2"
+
 gatsby-plugin-firebase@^0.2.0-rc:
   version "0.2.0-rc"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-firebase/-/gatsby-plugin-firebase-0.2.0-rc.tgz#55c730439e5ec031382d0a2ca4d4a5117176467d"
