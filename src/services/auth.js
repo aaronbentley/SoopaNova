@@ -13,7 +13,7 @@ export const handleLogin = ({ username, password }) => {
         return setUser({
             username: 'john',
             name: 'Johnny',
-            email: 'johnny@example.org',
+            email: 'johnny@example.org'
         })
     }
 
