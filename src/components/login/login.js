@@ -1,12 +1,57 @@
-import { navigate } from 'gatsby'
-import React, { useState } from 'react'
-// import { isLoggedIn } from '../../services/auth'
+import { Button } from '@theme-ui/components'
+import React from 'react'
+import { handleLogin } from '../../services/auth'
 
 const Login = () => {
-    const [inputs, setInputs] = useState({
-        username: '',
-        password: ''
-    })
+    // const [user, setUser] = React.useState({
+    //     displayName: ''
+    // })
+
+    // const firebase = React.useContext(FirebaseContext)
+
+    const loginGoogle = async () => {
+        handleLogin()
+        // setUser(getUser().displayName)
+    }
+
+    // const loginGoogle = async () => {
+    //     const provider = new firebase.auth.GoogleAuthProvider()
+    //     const result = await firebase.auth().signInWithPopup(provider)
+    //     console.log({ result })
+    //     setUser(result.user)
+    // }
+
+    // useFirebase(async firebase => {
+    //     const provider = new firebase.auth.GoogleAuthProvider()
+    //     const result = await firebase.auth().signInWithPopup(provider)
+    //     console.log({ result })
+    //     setUser(result.user)
+    // }, [])
+
+    // {
+    //     user.displayName !== '' ? (
+    //         navigate('/app/profile')
+    //     ) : (
+    //         <Heading>Hello {user.displayName || 'there'}</Heading>
+    //     )
+    // }
+
+    return (
+        <React.Fragment>
+            {/* <Heading>Hello {user.displayName || 'there'}</Heading> */}
+            <Button sx={{ color: 'white' }} onClick={loginGoogle}>
+                Login with Google
+            </Button>
+        </React.Fragment>
+    )
+
+    //#region  NO WORKEY
+    // const [inputs, setInputs] = useState({
+    //     username: '',
+    //     password: ''
+    // })
+
+    // return <Button onPress={() => {}}>Log in</Button>
 
     // const foo = firebase
     // // console.log(foo)
@@ -33,56 +78,58 @@ const Login = () => {
 
     // })
 
-    const handleUpdate = event => {
-        event.persist()
-        setInputs(() => ({
-            ...inputs,
-            [event.target.name]: event.target.value
-        }))
-    }
+    // const handleUpdate = event => {
+    //     event.persist()
+    //     setInputs(() => ({
+    //         ...inputs,
+    //         [event.target.name]: event.target.value
+    //     }))
+    // }
 
-    const handleSubmit = event => {
-        if (event) {
-            event.preventDefault()
-        }
-        console.log({ inputs })
-    }
+    // const handleSubmit = event => {
+    //     if (event) {
+    //         event.preventDefault()
+    //     }
+    //     console.log({ inputs })
+    // }
 
-    return (
-        <React.Fragment>
-            <h1>Log in</h1>
-            <form
-                method="post"
-                onSubmit={event => {
-                    handleSubmit(event)
-                    navigate('/app/profile')
-                }}>
-                <label>
-                    Username
-                    <input
-                        type="text"
-                        name="username"
-                        value={inputs.username}
-                        onChange={event => {
-                            handleUpdate(event)
-                        }}/>
-                </label>
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        name="password"
-                        value={inputs.password}
-                        onChange={event => {
-                            handleUpdate(event)
-                        }}/>
-                </label>
-                <input type="submit" value="Log In" />
-            </form>
-        </React.Fragment>
-    )
+    // return (
+    //     <React.Fragment>
+    //         <h1>Log in</h1>
+    //         <form
+    //             method="post"
+    //             onSubmit={event => {
+    //                 handleSubmit(event)
+    //                 navigate('/app/profile')
+    //             }}>
+    //             <label>
+    //                 Username
+    //                 <input
+    //                     type="text"
+    //                     name="username"
+    //                     value={inputs.username}
+    //                     onChange={event => {
+    //                         handleUpdate(event)
+    //                     }}/>
+    //             </label>
+    //             <label>
+    //                 Password
+    //                 <input
+    //                     type="password"
+    //                     name="password"
+    //                     value={inputs.password}
+    //                     onChange={event => {
+    //                         handleUpdate(event)
+    //                     }}/>
+    //             </label>
+    //             <input type="submit" value="Log In" />
+    //         </form>
+    //     </React.Fragment>
+    // )
+    //#endregion
 }
 
+//#region Class based example
 // class Login extends React.Component {
 //     state = {
 //         username: '',
@@ -138,5 +185,6 @@ const Login = () => {
 //         )
 //     }
 // }
+//#endregion
 
 export default Login

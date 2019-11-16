@@ -1,25 +1,24 @@
 /** @jsx jsx */
-import { Box, Text } from '@theme-ui/components'
-import { Link, navigate } from 'gatsby'
+import { Box } from '@theme-ui/components'
 import React from 'react'
 import { jsx } from 'theme-ui'
-import { getUser, isLoggedIn, logout } from '../../services/auth'
+// import { getUser, isLoggedIn, logout } from '../../services/auth'
 
 const Header = () => {
-    const content = { message: '', login: true }
-    if (isLoggedIn()) {
-        content.message = `Hello, ${getUser().name}`
-    } else {
-        content.message = 'You are not logged in'
-    }
+    // const content = { message: '', login: true }
+    // if (isLoggedIn()) {
+    //     content.message = `Hello, ${getUser().name}`
+    // } else {
+    //     content.message = 'You are not logged in'
+    // }
 
     return (
         <React.Fragment>
             <Box
                 sx={{
-                    p: 3,
+                    p: 3
                 }}>
-                <Text>{content.message}</Text>
+                {/* <Text>{content.message}</Text>
                 <Link to="/">Home</Link>
                 <Link to="/app/profile">Profile</Link>
                 {isLoggedIn() ? (
@@ -32,7 +31,8 @@ const Header = () => {
                         Logout
                     </a>
                 ) : null}
-                {/* <Link to="/">Logout</Link> */}
+                <Link to="/">Logout</Link> 
+            */}
             </Box>
         </React.Fragment>
     )
