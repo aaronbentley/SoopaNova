@@ -7,7 +7,7 @@ const Footer = () => (
     <React.Fragment>
         <Box
             sx={{
-                p: 3,
+                p: 3
             }}>
             <Text sx={{ color: 'highlight' }}>Footer</Text>
         </Box>

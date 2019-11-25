@@ -1,133 +1,167 @@
-import { Button } from '@theme-ui/components'
+/** @jsx jsx */
+import { Heading, Text } from '@theme-ui/components'
+// import XboxLiveAPI from '@xboxreplay/xboxlive-api'
+import { Link } from 'gatsby'
 import React from 'react'
-import { handleLogin } from '../../services/auth'
+import { jsx } from 'theme-ui'
+import Layout from '../../components/layout/layout'
+import { getUser, isLoggedIn } from '../../services/auth'
 
-const Login = () => {
-    // const [user, setUser] = React.useState({
-    //     displayName: ''
-    // })
+const Login = () => (
+    <React.Fragment>
+        <Layout>
+            <Heading as="h1" sx={{ color: 'secondary' }}>
+                Hello {isLoggedIn() ? getUser().name : 'there'}!
+            </Heading>
+            <Text>
+                {isLoggedIn() ? (
+                    <React.Fragment>
+                        You are logged in, so check your{' '}
+                        <Link to="/app/profile">profile</Link>
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        You should <Link to="/app/login">log in</Link> to see
+                        restricted content
+                    </React.Fragment>
+                )}
+            </Text>
+        </Layout>
+    </React.Fragment>
+)
 
-    // const firebase = React.useContext(FirebaseContext)
+export default Login
 
-    const loginGoogle = async () => {
-        handleLogin()
-        // setUser(getUser().displayName)
-    }
+// import { Button } from '@theme-ui/components'
+// import React from 'react'
+// // import { handleLogin } from '../../services/auth'
 
-    // const loginGoogle = async () => {
-    //     const provider = new firebase.auth.GoogleAuthProvider()
-    //     const result = await firebase.auth().signInWithPopup(provider)
-    //     console.log({ result })
-    //     setUser(result.user)
-    // }
+// export const Login = () => {
+//     // const [user, setUser] = React.useState({
+//     //     displayName: ''
+//     // })
 
-    // useFirebase(async firebase => {
-    //     const provider = new firebase.auth.GoogleAuthProvider()
-    //     const result = await firebase.auth().signInWithPopup(provider)
-    //     console.log({ result })
-    //     setUser(result.user)
-    // }, [])
+//     // const firebase = React.useContext(FirebaseContext)
 
-    // {
-    //     user.displayName !== '' ? (
-    //         navigate('/app/profile')
-    //     ) : (
-    //         <Heading>Hello {user.displayName || 'there'}</Heading>
-    //     )
-    // }
+//     // const loginGoogle = async () => {
+//     // handleLogin()
+//     // setUser(getUser().displayName)
+//     // }
 
-    return (
-        <React.Fragment>
-            {/* <Heading>Hello {user.displayName || 'there'}</Heading> */}
-            <Button sx={{ color: 'white' }} onClick={loginGoogle}>
-                Login with Google
-            </Button>
-        </React.Fragment>
-    )
+//     // const loginGoogle = async () => {
+//     //     const provider = new firebase.auth.GoogleAuthProvider()
+//     //     const result = await firebase.auth().signInWithPopup(provider)
+//     //     console.log({ result })
+//     //     setUser(result.user)
+//     // }
 
-    //#region  NO WORKEY
-    // const [inputs, setInputs] = useState({
-    //     username: '',
-    //     password: ''
-    // })
+//     // useFirebase(async firebase => {
+//     //     const provider = new firebase.auth.GoogleAuthProvider()
+//     //     const result = await firebase.auth().signInWithPopup(provider)
+//     //     console.log({ result })
+//     //     setUser(result.user)
+//     // }, [])
 
-    // return <Button onPress={() => {}}>Log in</Button>
+//     // {
+//     //     user.displayName !== '' ? (
+//     //         navigate('/app/profile')
+//     //     ) : (
+//     //         <Heading>Hello {user.displayName || 'there'}</Heading>
+//     //     )
+//     // }
 
-    // const foo = firebase
-    // // console.log(foo)
+//     return (
+//         <React.Fragment>
+//             {/* <Heading>Hello {user.displayName || 'there'}</Heading> */}
+//             <Button sx={{ color: 'white' }}>
+//                 Login with Google
+//             </Button>
+//         </React.Fragment>
+//     )
+// }
 
-    // const { user, isInitialized, isLoggedIn } = useAuth()
-    // console.log(user)
+//#region  NO WORKEY
+// const [inputs, setInputs] = useState({
+//     username: '',
+//     password: ''
+// })
 
-    // useFirebase(firebase => {
-    //     // const provider = firebase.auth.GoogleAuthProvider()
-    //     // firebase.auth().signInWithPopup(provider)
+// return <Button onPress={() => {}}>Log in</Button>
 
-    //     // const user = firebase.useAuth().isLoggedIn
-    //     // console.log(user)
+// const foo = firebase
+// // console.log(foo)
 
-    //     // firebase.useAuth()
-    //     // console.log(firebase)
-    //     // const [setUser, setIsInitialized, isInitialized] = firebase.auth()
+// const { user, isInitialized, isLoggedIn } = useAuth()
+// console.log(user)
 
-    //     // var defaultAuth = firebase.auth()
-    //     // console.log(defaultAuth)
+// useFirebase(firebase => {
+//     // const provider = firebase.auth.GoogleAuthProvider()
+//     // firebase.auth().signInWithPopup(provider)
 
-    //     const foo = firebase
-    //     console.log(foo);
+//     // const user = firebase.useAuth().isLoggedIn
+//     // console.log(user)
 
-    // })
+//     // firebase.useAuth()
+//     // console.log(firebase)
+//     // const [setUser, setIsInitialized, isInitialized] = firebase.auth()
 
-    // const handleUpdate = event => {
-    //     event.persist()
-    //     setInputs(() => ({
-    //         ...inputs,
-    //         [event.target.name]: event.target.value
-    //     }))
-    // }
+//     // var defaultAuth = firebase.auth()
+//     // console.log(defaultAuth)
 
-    // const handleSubmit = event => {
-    //     if (event) {
-    //         event.preventDefault()
-    //     }
-    //     console.log({ inputs })
-    // }
+//     const foo = firebase
+//     console.log(foo);
 
-    // return (
-    //     <React.Fragment>
-    //         <h1>Log in</h1>
-    //         <form
-    //             method="post"
-    //             onSubmit={event => {
-    //                 handleSubmit(event)
-    //                 navigate('/app/profile')
-    //             }}>
-    //             <label>
-    //                 Username
-    //                 <input
-    //                     type="text"
-    //                     name="username"
-    //                     value={inputs.username}
-    //                     onChange={event => {
-    //                         handleUpdate(event)
-    //                     }}/>
-    //             </label>
-    //             <label>
-    //                 Password
-    //                 <input
-    //                     type="password"
-    //                     name="password"
-    //                     value={inputs.password}
-    //                     onChange={event => {
-    //                         handleUpdate(event)
-    //                     }}/>
-    //             </label>
-    //             <input type="submit" value="Log In" />
-    //         </form>
-    //     </React.Fragment>
-    // )
-    //#endregion
-}
+// })
+
+// const handleUpdate = event => {
+//     event.persist()
+//     setInputs(() => ({
+//         ...inputs,
+//         [event.target.name]: event.target.value
+//     }))
+// }
+
+// const handleSubmit = event => {
+//     if (event) {
+//         event.preventDefault()
+//     }
+//     console.log({ inputs })
+// }
+
+// return (
+//     <React.Fragment>
+//         <h1>Log in</h1>
+//         <form
+//             method="post"
+//             onSubmit={event => {
+//                 handleSubmit(event)
+//                 navigate('/app/profile')
+//             }}>
+//             <label>
+//                 Username
+//                 <input
+//                     type="text"
+//                     name="username"
+//                     value={inputs.username}
+//                     onChange={event => {
+//                         handleUpdate(event)
+//                     }}/>
+//             </label>
+//             <label>
+//                 Password
+//                 <input
+//                     type="password"
+//                     name="password"
+//                     value={inputs.password}
+//                     onChange={event => {
+//                         handleUpdate(event)
+//                     }}/>
+//             </label>
+//             <input type="submit" value="Log In" />
+//         </form>
+//     </React.Fragment>
+// )
+//#endregion
 
 //#region Class based example
 // class Login extends React.Component {
@@ -187,4 +221,4 @@ const Login = () => {
 // }
 //#endregion
 
-export default Login
+// export default Login

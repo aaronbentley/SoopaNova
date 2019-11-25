@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Box } from '@theme-ui/components'
+import { Box, Heading } from '@theme-ui/components'
 import React from 'react'
 import { jsx } from 'theme-ui'
 // import { getUser, isLoggedIn, logout } from '../../services/auth'
@@ -16,8 +16,16 @@ const Header = () => {
         <React.Fragment>
             <Box
                 sx={{
-                    p: 3
+                    p: 3,
+                    alignSelf: 'center'
                 }}>
+                <Heading
+                    as="h1"
+                    sx={{
+                        fontSize: 7
+                    }}>
+                    Stacks.io
+                </Heading>
                 {/* <Text>{content.message}</Text>
                 <Link to="/">Home</Link>
                 <Link to="/app/profile">Profile</Link>

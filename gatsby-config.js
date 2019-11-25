@@ -22,11 +22,11 @@ module.exports = {
                 },
                 features: {
                     auth: true,
-                    database: true,
+                    functions: true,
+                    database: false,
                     firestore: false,
                     storage: false,
-                    messaging: false,
-                    functions: true
+                    messaging: false
                 }
             }
         },

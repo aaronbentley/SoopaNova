@@ -1,9 +1,4 @@
-// export default {
-//     colors: {
-//         text: "#111",
-//         background: "#fff",
-//     },
-// }
+import { lighten } from '@theme-ui/color'
 
 export default {
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -12,117 +7,145 @@ export default {
         root: {
             fontFamily: 'body',
             lineHeight: 'body',
-            fontWeight: 'body',
+            fontWeight: 'body'
         },
         h1: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 5,
+            fontSize: 5
         },
         h2: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 4,
+            fontSize: 4
         },
         h3: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 3,
+            fontSize: 3
         },
         h4: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 2,
+            fontSize: 2
         },
         h5: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 1,
+            fontSize: 1
         },
         h6: {
             color: 'text',
             fontFamily: 'heading',
             lineHeight: 'heading',
             fontWeight: 'heading',
-            fontSize: 0,
+            fontSize: 0
         },
         p: {
             color: 'text',
             fontFamily: 'body',
             fontWeight: 'body',
-            lineHeight: 'body',
+            lineHeight: 'body'
         },
         a: {
-            color: 'primary',
+            color: 'primary'
         },
         pre: {
             fontFamily: 'monospace',
             overflowX: 'auto',
             code: {
-                color: 'inherit',
-            },
+                color: 'inherit'
+            }
         },
         code: {
             fontFamily: 'monospace',
-            fontSize: 'inherit',
+            fontSize: 'inherit'
         },
         table: {
             width: '100%',
             borderCollapse: 'separate',
-            borderSpacing: 0,
+            borderSpacing: 0
         },
         th: {
             textAlign: 'left',
-            borderBottomStyle: 'solid',
+            borderBottomStyle: 'solid'
         },
         td: {
             textAlign: 'left',
-            borderBottomStyle: 'solid',
+            borderBottomStyle: 'solid'
         },
         img: {
-            maxWidth: '100%',
-        },
+            maxWidth: '100%'
+        }
     },
     colors: {
-        text: '#000',
-        background: '#fff',
+        text: '#fff',
+        background: '#0e1111',
         primary: '#11e',
         secondary: '#c0c',
         highlight: '#e0e',
         muted: '#f6f6ff',
         modes: {
-            dark: {
-                text: '#fff',
-                background: '#000',
+            light: {
+                text: '#0e1111',
+                background: '#fff',
                 primary: '#0fc',
                 secondary: '#0cf',
                 highlight: '#f0c',
-                muted: '#011',
-            },
-        },
+                muted: '#011'
+            }
+        }
     },
     fonts: {
         body: '"Avenir Next", system-ui, sans-serif',
         heading: 'inherit',
-        moonospace: 'Menlo, monospace',
+        moonospace: 'Menlo, monospace'
     },
     fontWeights: {
         body: 400,
         heading: 600,
-        bold: 700,
+        bold: 700
     },
     lineHeights: {
         body: 1.75,
-        heading: 1.25,
+        heading: 1.25
     },
+    // variants
+    text: {
+        heading: {
+            color: 'highlight',
+            fontFamily: 'body',
+            fontWeight: 'body'
+        }
+    },
+    forms: {
+        label: {},
+        input: {
+            color: 'primary',
+            textAlign: 'center',
+            borderColor: 'highlight',
+            p: 3,
+            backgroundColor: lighten('highlight', 0.4)
+        }
+    },
+    buttons: {
+        primary: {
+            backgroundColor: 'highlight',
+            py: 3,
+            px: 6,
+            ':hover': {
+                backgroundColor: 'secondary'
+            }
+        }
+    }
 }
