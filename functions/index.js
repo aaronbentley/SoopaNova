@@ -3,37 +3,36 @@ const xla = require('async-xbox-live-api')
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 
-exports.getXuid = functions.https.onRequest(async (request, response) => {
+const init = async () => {
     xla.username = functions.config().xbox.user
     xla.password = functions.config().xbox.pass
-    try {
-        const { gamertag = '' } = request.query
-        if (gamertag) {
-            const xuid = await xla.getXuid(gamertag)
-            response.send({ body: xuid })
-        }
-        response.end()
-    } catch (error) {
-        response.send(error)
-    }
-})
+}
+
+//#region getXuid
+// exports.getXuid = functions.https.onRequest(async (request, response) => {
+//     try {
+//         await init()
+//         const { gamertag = '' } = request.query
+//         if (gamertag !== '') {
+//             const xuid = await xla.getXuid(gamertag)
+//             response.send({ xuid })
+//         }
+//         response.end()
+//     } catch (error) {
+//         response.send(error)
+//     }
+// })
+//#endregion
 
 exports.getScreenshots = functions.https.onRequest(
     async (request, response) => {
-        xla.username = functions.config().xbox.user
-        xla.password = functions.config().xbox.pass
         try {
+            await init()
             const { gamertag = '' } = request.query
-            if (gamertag) {
+            if (gamertag !== '') {
                 const screenshots = await xla.getScreenshotsForGamer(gamertag)
-                console.log({ screenshots })
-
-                response.send({ body: screenshots })
+                response.send(screenshots)
             }
             response.end('No Gamertag')
         } catch (error) {
@@ -43,11 +42,10 @@ exports.getScreenshots = functions.https.onRequest(
 )
 
 exports.getClips = functions.https.onRequest(async (request, response) => {
-    xla.username = functions.config().xbox.user
-    xla.password = functions.config().xbox.pass
     try {
+        await init()
         const { gamertag = '' } = request.query
-        if (gamertag) {
+        if (gamertag !== '') {
             const clips = await xla.getClipsForGamer(gamertag)
             console.log({ clips })
             response.send({ body: clips })
