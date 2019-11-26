@@ -12,9 +12,9 @@ const init = async () => {
 exports.getScreenshots = functions.https.onRequest(
     async (request, response) => {
         try {
-            await init()
             const { gamertag = '' } = request.query
             if (gamertag !== '') {
+                await init()
                 const screenshots = await xla.getScreenshotsForGamer(gamertag)
                 response.send(screenshots)
             }
@@ -27,12 +27,11 @@ exports.getScreenshots = functions.https.onRequest(
 
 exports.getClips = functions.https.onRequest(async (request, response) => {
     try {
-        await init()
         const { gamertag = '' } = request.query
         if (gamertag !== '') {
+            await init()
             const clips = await xla.getClipsForGamer(gamertag)
-            console.log({ clips })
-            response.send({ body: clips })
+            response.send({ clips })
         }
         response.end('No Gamertag provided')
     } catch (error) {
