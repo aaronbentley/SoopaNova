@@ -1,5 +1,3 @@
-// require('dotenv').config()
-
 module.exports = {
     siteMetadata: {
         title: 'Stacks.io',
@@ -21,7 +19,7 @@ module.exports = {
                     appId: process.env.FIREBASE_APP_ID
                 },
                 features: {
-                    auth: true,
+                    auth: false,
                     functions: true,
                     database: false,
                     firestore: false,

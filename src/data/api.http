@@ -1,1 +1,8 @@
-GET https://profile.xboxlive.com/users/gt=Cheeky%20Squeezes/settings
+// @gamertag = BARTSKI
+@gamertag = Cheeky Squeezes
+
+GET https://us-central1-stacks-io-dev.cloudfunctions.net/getScreenshots?gamertag={{gamertag}}
+
+###
+
+GET https://us-central1-stacks-io-dev.cloudfunctions.net/getClips?gamertag={{gamertag}}

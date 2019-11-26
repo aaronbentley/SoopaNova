@@ -268,19 +268,6 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
-"@xboxreplay/errors@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@xboxreplay/errors/-/errors-0.1.0.tgz#e8daceb3c88c104872301d4193f54dc141a8d35a"
-  integrity sha512-Tgz1d/OIPDWPeyOvuL5+aai5VCcqObhPnlI3skQuf80GVF3k1I0lPCnGC+8Cm5PV9aLBT5m8qPcJoIUQ2U4y9g==
-
-"@xboxreplay/xboxlive-auth@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@xboxreplay/xboxlive-auth/-/xboxlive-auth-2.2.0.tgz#aa3862a6e49648b65a29a819639a5c0cd8938c2b"
-  integrity sha512-i8xCJXNPkMusKbujnWE98HcpNxP6BlJvZTNNbA2vzJ+5xT6R3/hJFSXY0XWY7E+5BoaY3TQt1+57W8Rhc/3h3Q==
-  dependencies:
-    "@xboxreplay/errors" "^0.1.0"
-    request "^2.88.0"
-
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
