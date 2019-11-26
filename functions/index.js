@@ -9,22 +9,6 @@ const init = async () => {
     xla.password = functions.config().xbox.pass
 }
 
-//#region getXuid
-// exports.getXuid = functions.https.onRequest(async (request, response) => {
-//     try {
-//         await init()
-//         const { gamertag = '' } = request.query
-//         if (gamertag !== '') {
-//             const xuid = await xla.getXuid(gamertag)
-//             response.send({ xuid })
-//         }
-//         response.end()
-//     } catch (error) {
-//         response.send(error)
-//     }
-// })
-//#endregion
-
 exports.getScreenshots = functions.https.onRequest(
     async (request, response) => {
         try {
@@ -34,7 +18,7 @@ exports.getScreenshots = functions.https.onRequest(
                 const screenshots = await xla.getScreenshotsForGamer(gamertag)
                 response.send(screenshots)
             }
-            response.end('No Gamertag')
+            response.end('No Gamertag provided')
         } catch (error) {
             response.send(error)
         }
@@ -50,7 +34,7 @@ exports.getClips = functions.https.onRequest(async (request, response) => {
             console.log({ clips })
             response.send({ body: clips })
         }
-        response.end('No Gamertag')
+        response.end('No Gamertag provided')
     } catch (error) {
         response.send(error)
     }
