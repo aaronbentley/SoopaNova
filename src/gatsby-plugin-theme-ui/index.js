@@ -1,8 +1,42 @@
 import { lighten } from '@theme-ui/color'
 
 export default {
+    breakpoints: ['40em', '52em', '64em'],
+    colors: {
+        text: '#fff',
+        background: '#0e1111',
+        primary: '#11e',
+        secondary: '#c0c',
+        highlight: '#e0e',
+        muted: '#f6f6ff',
+        modes: {
+            light: {
+                text: '#0e1111',
+                background: '#fff',
+                primary: '#0fc',
+                secondary: '#0cf',
+                highlight: '#f0c',
+                muted: '#011'
+            }
+        }
+    },
+    fonts: {
+        body: '"Avenir Next", system-ui, sans-serif',
+        heading: 'inherit',
+        moonospace: 'Menlo, monospace'
+    },
+    fontWeights: {
+        body: 400,
+        heading: 600,
+        bold: 700
+    },
+    lineHeights: {
+        body: 1.75,
+        heading: 1.25
+    },
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
+    radii: [0, 2, 4, 6, 8, 10, 12, 24],
     styles: {
         root: {
             fontFamily: 'body',
@@ -87,38 +121,6 @@ export default {
         img: {
             maxWidth: '100%'
         }
-    },
-    colors: {
-        text: '#fff',
-        background: '#0e1111',
-        primary: '#11e',
-        secondary: '#c0c',
-        highlight: '#e0e',
-        muted: '#f6f6ff',
-        modes: {
-            light: {
-                text: '#0e1111',
-                background: '#fff',
-                primary: '#0fc',
-                secondary: '#0cf',
-                highlight: '#f0c',
-                muted: '#011'
-            }
-        }
-    },
-    fonts: {
-        body: '"Avenir Next", system-ui, sans-serif',
-        heading: 'inherit',
-        moonospace: 'Menlo, monospace'
-    },
-    fontWeights: {
-        body: 400,
-        heading: 600,
-        bold: 700
-    },
-    lineHeights: {
-        body: 1.75,
-        heading: 1.25
     },
     // variants
     text: {

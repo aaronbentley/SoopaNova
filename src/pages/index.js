@@ -1,61 +1,55 @@
 /** @jsx jsx */
-import { Box, Button, Flex, Heading, Input, Label } from '@theme-ui/components'
-// import axios from 'axios'
-// import Qs from 'qs'
-// import { getUser } from '../data/api'
-// import { getUser, isLoggedIn } from '../services/auth'
-// import xla from 'async-xbox-live-api'
+import {
+    Box,
+    Button,
+    Card,
+    Flex,
+    Heading,
+    Image,
+    Input,
+    Label,
+    Text
+} from '@theme-ui/components'
+import { useFirebase } from 'gatsby-plugin-firebase'
 import React, { useState } from 'react'
 import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
 
-// const fetchPreAuthData = async () => {
-//     const response = await axios.get(
-//         'https://login.live.com/oauth20_authorize.srf',
-//         {
-//             headers: {
-//                 // host: 'login.live.com'
-//             },
-//             params: {
-//                 client_id: '0000000048093EE3',
-//                 redirect_uri: 'https://login.live.com/oauth20_desktop.srf',
-//                 response_type: 'token',
-//                 display: 'touch',
-//                 scope: 'service::user.auth.xboxlive.com::MBI_SSL',
-//                 locale: 'en'
-//             },
-//             responseType: 'text',
-//             paramsSerializer: params => {
-//                 return unescape(Qs.stringify(params))
-//             }
-//         }
-//     )
-//     console.log(response)
-// }
-
 const IndexPage = () => {
-    const [user, setUser] = useState('Cheeky Squeezes')
+    const [gamertag, setGamertag] = useState('')
+    const [query, setQuery] = useState('')
+    const [results, setResults] = useState([])
 
-    // getUser('Cheeky Squeezes')
+    useFirebase(
+        firebase => {
+            async function fetchData() {
+                console.log('🔥')
+                const getClips = firebase.functions().httpsCallable('getClips')
+                const { data } = await getClips({
+                    gamertag
+                })
+                // console.log(data)
+                const { gameClips: clips = [] } = data
+                console.log(clips)
+                setResults(clips)
 
-    const handleSubmit = async e => {
-        console.log(user)
-        // const foo = await getUser(user)
-        // xla.username = process.env.GATSBY_MICROSOFT_ACCOUNT_USER
-        // xla.password = process.env.GATSBY_MICROSOFT_ACCOUNT_PASSWORD
-
-        // const xuid = await xla.getXuid('Cheeky Squeezes')
-        // console.log(xuid)
-    }
-
-    const handleChange = e => {
-        e.persist()
-        const {
-            target: { value = '' }
-        } = e
-        console.log(value)
-        setUser(value)
-    }
+                // const getScreenshots = firebase
+                //     .functions()
+                //     .httpsCallable('getScreenshots')
+                // const { data } = await getScreenshots({
+                //     gamertag
+                // })
+                // // console.log(data)
+                // const { screenshots = [] } = data
+                // console.log(screenshots)
+                // setResults(screenshots)
+            }
+            if (query !== '') {
+                fetchData()
+            }
+        },
+        [query]
+    )
 
     return (
         <React.Fragment>
@@ -83,7 +77,8 @@ const IndexPage = () => {
                             as="form"
                             onSubmit={e => {
                                 e.preventDefault()
-                                handleSubmit()
+                                // handleSubmit()
+                                setQuery(gamertag)
                             }}>
                             <Label
                                 htmlFor="gamertag"
@@ -95,24 +90,46 @@ const IndexPage = () => {
                             </Label>
                             <Input
                                 name="gamertag"
-                                defaultValue={user}
-                                onChange={handleChange}
+                                value={gamertag}
+                                onChange={e => setGamertag(e.target.value)}
                                 sx={{ mb: 3 }}/>
                             <Flex
                                 sx={{
                                     justifyContent: 'center'
                                 }}>
-                                <Button>Look me up</Button>
+                                <Button type="submit">Look me up</Button>
                             </Flex>
-                            <Flex
-                                sx={{
-                                    justifyContent: 'center'
-                                }}></Flex>
                         </Box>
-                        {/* <Button sx={{ mt: 4 }} onClick={fetchPreAuthData}>
-                            Fire Request
-                            </Button> */}
                     </Box>
+                </Flex>
+                <Flex
+                    sx={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap'
+                        // alignItems: 'center',
+                        // justifyContent: 'center'
+                    }}>
+                    {results !== [] &&
+                        results.map(item => {
+                            return (
+                                <Box
+                                    key={item.screenshotId || item.gameClipId}
+                                    sx={{
+                                        width: ['100%', '33%', '25%']
+                                    }}>
+                                    <Card
+                                        sx={{
+                                            backgroundColor: 'secondary',
+                                            p: 3,
+                                            m: 3,
+                                            borderRadius: 3
+                                        }}>
+                                        <Image src={item.thumbnails[0].uri} />
+                                        <Text>{item.titleName}</Text>
+                                    </Card>
+                                </Box>
+                            )
+                        })}
                 </Flex>
             </Layout>
         </React.Fragment>

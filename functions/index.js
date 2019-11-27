@@ -14,35 +14,47 @@ const init = async () => {
 /**
  * returns collection of screenshot data for user
  */
-exports.getScreenshots = functions.https.onRequest(
-    async (request, response) => {
-        try {
-            const { gamertag = '' } = request.query
-            if (gamertag !== '') {
-                await init()
-                const screenshots = await xla.getScreenshotsForGamer(gamertag)
-                response.send(screenshots)
-            }
-            response.end('No Gamertag provided')
-        } catch (error) {
-            response.send(error)
+exports.getScreenshots = functions.https.onCall(async (data, context) => {
+    try {
+        // console.log({ data })
+        // console.log({ context })
+        const { gamertag = '' } = data
+        if (gamertag === '') {
+            throw new functions.https.HttpsError(
+                'invalid-argument',
+                'No Gamertag provided'
+            )
         }
+        await init()
+        const screenshots = await xla.getScreenshotsForGamer(gamertag)
+        // console.log(screenshots)
+        return screenshots
+    } catch (error) {
+        console.log(error)
+        return false
     }
-)
+})
 
 /**
  * returns collection of clip data for user
  */
-exports.getClips = functions.https.onRequest(async (request, response) => {
+exports.getClips = functions.https.onCall(async (data, context) => {
     try {
-        const { gamertag = '' } = request.query
-        if (gamertag !== '') {
-            await init()
-            const clips = await xla.getClipsForGamer(gamertag)
-            response.send({ clips })
+        // console.log({ data })
+        // console.log({ context })
+        const { gamertag = '' } = data
+        if (gamertag === '') {
+            throw new functions.https.HttpsError(
+                'invalid-argument',
+                'No Gamertag provided'
+            )
         }
-        response.end('No Gamertag provided')
+        await init()
+        const clips = await xla.getClipsForGamer(gamertag)
+        // console.log(clips)
+        return clips
     } catch (error) {
-        response.send(error)
+        console.log(error)
+        return false
     }
 })
