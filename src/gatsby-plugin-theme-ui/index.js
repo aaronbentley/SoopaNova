@@ -4,14 +4,14 @@ export default {
     breakpoints: ['40em', '52em', '64em'],
     colors: {
         text: '#fff',
-        background: '#0e1111',
-        primary: '#11e',
-        secondary: '#c0c',
+        background: '#1d2424',
+        primary: '#c0c',
+        secondary: '##11e',
         highlight: '#e0e',
         muted: '#f6f6ff',
         modes: {
             light: {
-                text: '#0e1111',
+                text: '#1d2424',
                 background: '#fff',
                 primary: '#0fc',
                 secondary: '#0cf',
@@ -21,14 +21,17 @@ export default {
         }
     },
     fonts: {
-        body: '"Avenir Next", system-ui, sans-serif',
+        body: 'system-ui, sans-serif',
+        // body: '"Avenir Next", system-ui, sans-serif',
         heading: 'inherit',
         moonospace: 'Menlo, monospace'
     },
     fontWeights: {
+        fine: 100,
         body: 400,
         heading: 600,
-        bold: 700
+        bold: 700,
+        black: 900
     },
     lineHeights: {
         body: 1.75,
@@ -37,6 +40,8 @@ export default {
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
     radii: [0, 2, 4, 6, 8, 10, 12, 24],
+    borders: [1, 2, 4, 6, 8, 10, 12],
+    durations: ['0.15s', '0.30s', '0.45s', '1s'],
     styles: {
         root: {
             fontFamily: 'body',
@@ -127,7 +132,11 @@ export default {
         heading: {
             color: 'highlight',
             fontFamily: 'body',
-            fontWeight: 'body'
+            fontWeight: 'fine'
+        },
+        body: {
+            fontFamily: 'body',
+            fontWeight: 'fine'
         }
     },
     forms: {
@@ -137,17 +146,29 @@ export default {
             textAlign: 'center',
             borderColor: 'highlight',
             p: 3,
-            backgroundColor: lighten('highlight', 0.4)
+            fontWeight: 'fine',
+            backgroundColor: lighten('highlight', 0.4),
+            '&::placeholder': {
+                color: 'primary'
+            }
+        },
+        radio: {
+            color: 'secondary'
         }
     },
     buttons: {
         primary: {
-            backgroundColor: 'highlight',
+            backgroundColor: 'primary',
             py: 3,
             px: 6,
+            fontFamily: 'body',
+            fontWeight: 'bold',
             ':hover': {
-                backgroundColor: 'secondary'
+                backgroundColor: 'highlight'
             }
         }
+    },
+    spinner: {
+        color: 'background'
     }
 }

@@ -31,12 +31,7 @@
         "quotes": ["error", "single"],
         "semi": "off",
         "jsx-a11y/href-no-hash": [0],
-        // "react/no-unknown-property": [
-        //     "error",
-        //     {
-        //         "ignore": ["for", "htmlFor"]
-        //     }
-        // ],
-        "react/jsx-closing-bracket-location": [1, "after-props"]
+        "react/jsx-closing-bracket-location": [1, "after-props"],
+        "jsx-quotes": ["error", "prefer-single"]
     }
 }

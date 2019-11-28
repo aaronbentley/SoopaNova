@@ -1,17 +1,23 @@
 /** @jsx jsx */
-import { Box, Text } from '@theme-ui/components'
-import React from 'react'
+import { Box, Flex, Text } from '@theme-ui/components'
 import { jsx } from 'theme-ui'
 
 const Footer = () => (
-    <React.Fragment>
+    <Flex
+        sx={{
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
         <Box
             sx={{
                 p: 3
             }}>
-            <Text sx={{ color: 'highlight' }}>Footer</Text>
+            <Text variant='body' sx={{ color: 'highlight', py: 1 }}>
+                &lt;@aaronbentley/&gt;
+            </Text>
         </Box>
-    </React.Fragment>
+    </Flex>
 )
 
 export default Footer
