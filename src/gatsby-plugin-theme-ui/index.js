@@ -5,8 +5,9 @@ export default {
     colors: {
         text: '#fff',
         background: '#1d2424',
-        primary: '#c0c',
-        secondary: '##11e',
+        // primary: '#c0c',
+        primary: '#ca50b7',
+        secondary: '#28c0e1',
         highlight: '#e0e',
         muted: '#f6f6ff',
         modes: {
@@ -22,8 +23,7 @@ export default {
     },
     fonts: {
         body: 'system-ui, sans-serif',
-        // body: '"Avenir Next", system-ui, sans-serif',
-        heading: 'inherit',
+        heading: 'system-ui, sans-serif',
         moonospace: 'Menlo, monospace'
     },
     fontWeights: {
@@ -42,6 +42,9 @@ export default {
     radii: [0, 2, 4, 6, 8, 10, 12, 24],
     borders: [1, 2, 4, 6, 8, 10, 12],
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
+    sizes: {
+        container: '1200px'
+    },
     styles: {
         root: {
             fontFamily: 'body',
@@ -98,6 +101,7 @@ export default {
         },
         a: {
             color: 'primary'
+            // textDecoration: 'none'
         },
         pre: {
             fontFamily: 'monospace',
@@ -130,13 +134,18 @@ export default {
     // variants
     text: {
         heading: {
-            color: 'highlight',
+            color: 'primary',
             fontFamily: 'body',
             fontWeight: 'fine'
         },
         body: {
             fontFamily: 'body',
             fontWeight: 'fine'
+        }
+    },
+    links: {
+        logo: {
+            textDecoration: 'none'
         }
     },
     forms: {
@@ -146,7 +155,7 @@ export default {
             textAlign: 'center',
             borderColor: 'highlight',
             p: 3,
-            fontWeight: 'fine',
+            fontWeight: 'body',
             backgroundColor: lighten('highlight', 0.4),
             '&::placeholder': {
                 color: 'primary'
@@ -157,15 +166,26 @@ export default {
         }
     },
     buttons: {
+        // primary: {
+        //     backgroundColor: 'primary',
+        //     py: 3,
+        //     px: 6,
+        //     fontFamily: 'body',
+        //     fontWeight: 'bold',
+        //     ':hover': {
+        //         backgroundColor: 'highlight'
+        //     }
+        // }
         primary: {
-            backgroundColor: 'primary',
-            py: 3,
-            px: 6,
-            fontFamily: 'body',
-            fontWeight: 'bold',
-            ':hover': {
-                backgroundColor: 'highlight'
+            color: 'background',
+            bg: 'primary',
+            '&:hover': {
+                bg: 'text'
             }
+        },
+        secondary: {
+            color: 'background',
+            bg: 'secondary'
         }
     },
     spinner: {

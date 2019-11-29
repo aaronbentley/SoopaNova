@@ -4,8 +4,13 @@
         "es6": true,
         "amd": true
     },
-    "plugins": ["prettier"],
-    "extends": ["plugin:prettier/recommended", "react-app"],
+    "plugins": [
+        "prettier"
+    ],
+    "extends": [
+        "plugin:prettier/recommended",
+        "react-app"
+    ],
     "settings": {
         "react": {
             "version": "detect"
@@ -26,12 +31,29 @@
                 "nonEmpty": "after-props"
             }
         ],
-        "indent": ["error", 4],
-        "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "single"],
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
         "semi": "off",
-        "jsx-a11y/href-no-hash": [0],
-        "react/jsx-closing-bracket-location": [1, "after-props"],
-        "jsx-quotes": ["error", "prefer-single"]
+        "jsx-a11y/href-no-hash": [
+            0
+        ],
+        "react/jsx-closing-bracket-location": [
+            "warn",
+            "after-props"
+        ],
+        "jsx-quotes": [
+            "warn",
+            "prefer-single"
+        ]
     }
 }

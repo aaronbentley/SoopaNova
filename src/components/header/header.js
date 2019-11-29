@@ -1,46 +1,27 @@
 /** @jsx jsx */
-import { Box, Heading } from '@theme-ui/components'
+import { Box, Heading, Link as ThemeUILink } from '@theme-ui/components'
+import { Link } from 'gatsby'
 import React from 'react'
 import { jsx } from 'theme-ui'
-// import { getUser, isLoggedIn, logout } from '../../services/auth'
 
 const Header = () => {
-    // const content = { message: '', login: true }
-    // if (isLoggedIn()) {
-    //     content.message = `Hello, ${getUser().name}`
-    // } else {
-    //     content.message = 'You are not logged in'
-    // }
-
     return (
         <React.Fragment>
             <Box
                 sx={{
-                    p: 3,
+                    pt: 2,
+                    pb: 3,
                     alignSelf: 'center'
                 }}>
-                <Heading
-                    as="h1"
-                    sx={{
-                        fontSize: 7
-                    }}>
-                    Stacks.io
-                </Heading>
-                {/* <Text>{content.message}</Text>
-                <Link to="/">Home</Link>
-                <Link to="/app/profile">Profile</Link>
-                {isLoggedIn() ? (
-                    <a
-                        href="/"
-                        onClick={event => {
-                            event.preventDefault()
-                            logout(() => navigate('/app/login'))
+                <ThemeUILink variant='logo' as={Link} to='/'>
+                    <Heading
+                        as='h1'
+                        sx={{
+                            fontSize: [6, 7, 8]
                         }}>
-                        Logout
-                    </a>
-                ) : null}
-                <Link to="/">Logout</Link> 
-            */}
+                        Stacks.io
+                    </Heading>
+                </ThemeUILink>
             </Box>
         </React.Fragment>
     )
