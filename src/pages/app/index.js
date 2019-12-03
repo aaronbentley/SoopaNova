@@ -12,6 +12,7 @@ import {
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import Layout from '../../components/layout/layout'
+import { convertToMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
 
 const Screenshots = ({ location: { state } }) => {
@@ -22,7 +23,7 @@ const Screenshots = ({ location: { state } }) => {
         resolutionHeight = '',
         resolutionWidth = '',
         titleName = '',
-        screenshotUris: [{ uri: imageSrc = '' }],
+        screenshotUris: [{ uri: imageSrc = '', fileSize = 0 }],
         // type = '',
         dateTaken = ''
     } = state
@@ -58,6 +59,9 @@ const Screenshots = ({ location: { state } }) => {
             </Flex>
             <Text variant='body' sx={{ mb: 2, color: 'muted' }}>
                 {resolutionWidth}px x {resolutionHeight}px
+            </Text>
+            <Text variant='body' sx={{ mb: 2 }}>
+                {convertToMegabytes(fileSize)}
             </Text>
             <Text variant='body' sx={{ mb: 2 }}>
                 {formatDate(dateTaken)}
