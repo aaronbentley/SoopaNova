@@ -43,7 +43,11 @@ const Screenshots = ({ location: { state } }) => {
                     sx={{
                         maxWidth: '100%'
                     }}
-                    loader={<Spinner />}/>
+                    loader={
+                        <Flex sx={{ justifyContent: 'center', p: 3 }}>
+                            <Spinner />
+                        </Flex>
+                    }/>
             </Box>
             <Heading
                 as='h2'
@@ -54,7 +58,13 @@ const Screenshots = ({ location: { state } }) => {
                 {titleName}
             </Heading>
             <Flex sx={{ mb: 3 }}>
-                <Button mr={2}>Export to...</Button>
+                <Button
+                    mr={2}
+                    onClick={() => {
+                        window.open(imageSrc, '_blank')
+                    }}>
+                    Export to...
+                </Button>
                 <Button variant='secondary'>Post to...</Button>
             </Flex>
             <Text variant='body' sx={{ mb: 2, color: 'muted' }}>

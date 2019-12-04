@@ -5,7 +5,6 @@ import { useSiteMetadata } from '../../hooks/use-site-metadata'
 
 const Footer = () => {
     const { author } = useSiteMetadata()
-
     return (
         <Flex
             sx={{
