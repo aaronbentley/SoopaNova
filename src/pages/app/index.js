@@ -1,4 +1,6 @@
 /** @jsx jsx */
+// import { faChevronLeft } from '@fortawesome/pro-duotone-svg-icons'
+// / import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Router } from '@reach/router'
 import {
     Box,
@@ -16,7 +18,7 @@ import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
 
 const Screenshots = ({ location: { state } }) => {
-    console.log(state)
+    // console.log(state)
 
     const {
         // screenshotId = '',
@@ -30,6 +32,9 @@ const Screenshots = ({ location: { state } }) => {
 
     return (
         <Container>
+            {/* <FontAwesomeIcon
+                icon={faChevronLeft}
+            sx={{ color: 'primary', fontSize: 6, mb: 3 }}/> */}
             <Box
                 sx={{
                     p: 3,
@@ -49,23 +54,41 @@ const Screenshots = ({ location: { state } }) => {
                         </Flex>
                     }/>
             </Box>
-            <Heading
-                as='h2'
+            <Flex
                 sx={{
-                    fontSize: 5,
-                    my: 3
+                    alignItems: 'center',
+                    my: 3,
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap'
                 }}>
-                {titleName}
-            </Heading>
-            <Flex sx={{ mb: 3 }}>
-                <Button
-                    mr={2}
-                    onClick={() => {
-                        window.open(imageSrc, '_blank')
+                <Heading
+                    as='h2'
+                    sx={{
+                        fontSize: 6
                     }}>
-                    Export to...
-                </Button>
-                <Button variant='secondary'>Post to...</Button>
+                    {titleName}
+                </Heading>
+                <Box>
+                    <Button
+                        sx={{
+                            mr: 2,
+                            mt: 2,
+                            fontSize: 3,
+                            variant: 'buttons.outline.primary'
+                        }}
+                        onClick={() => {
+                            window.open(imageSrc, '_blank')
+                        }}>
+                        Export to...
+                    </Button>
+                    <Button
+                        sx={{
+                            fontSize: 3,
+                            variant: 'buttons.outline.secondary'
+                        }}>
+                        Post to...
+                    </Button>
+                </Box>
             </Flex>
             <Text variant='body' sx={{ mb: 2, color: 'muted' }}>
                 {resolutionWidth}px x {resolutionHeight}px

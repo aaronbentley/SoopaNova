@@ -1,4 +1,4 @@
-import { lighten } from '@theme-ui/color'
+import { darken, lighten } from '@theme-ui/color'
 
 export default {
     breakpoints: ['40em', '52em', '64em'],
@@ -166,29 +166,40 @@ export default {
         }
     },
     buttons: {
-        // primary: {
-        //     backgroundColor: 'primary',
-        //     py: 3,
-        //     px: 6,
-        //     fontFamily: 'body',
-        //     fontWeight: 'bold',
-        //     ':hover': {
-        //         backgroundColor: 'highlight'
-        //     }
-        // }
         primary: {
             color: 'background',
             bg: 'primary',
             '&:hover': {
-                bg: 'text'
+                bg: darken('primary', 0.075)
             }
         },
         secondary: {
             color: 'background',
-            bg: 'secondary'
+            bg: 'secondary',
+            '&:hover': {
+                bg: darken('secondary', 0.075)
+            }
+        },
+        outline: {
+            primary: {
+                color: 'primary',
+                bg: 'transparent',
+                boxShadow: 'inset 0 0 0 1px',
+                '&:hover': {
+                    color: darken('primary', 0.075)
+                }
+            },
+            secondary: {
+                color: 'secondary',
+                bg: 'transparent',
+                boxShadow: 'inset 0 0 0 1px',
+                '&:hover': {
+                    color: darken('secondary', 0.075)
+                }
+            }
         }
     },
     spinner: {
-        color: 'background'
+        color: 'primary'
     }
 }

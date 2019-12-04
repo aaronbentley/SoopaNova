@@ -137,10 +137,11 @@ const IndexPage = () => {
                                     justifyContent: 'center'
                                 }}>
                                 <Button
-                                    variant='secondary'
+                                    variant='outline.primary'
                                     sx={{
                                         mt: 3,
-                                        mb: 4
+                                        mb: 4,
+                                        fontSize: 3
                                     }}
                                     type='submit'>
                                     Get Media

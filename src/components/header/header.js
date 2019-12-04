@@ -5,7 +5,7 @@ import Headroom from 'react-headroom'
 import { jsx } from 'theme-ui'
 import { useSiteMetadata } from '../../hooks/use-site-metadata'
 
-const Header = () => {
+export const Header = () => {
     const { title } = useSiteMetadata()
     return (
         <Headroom sx={{ m: 0, p: 0 }}>
@@ -36,4 +36,3 @@ const Header = () => {
         </Headroom>
     )
 }
-export default Header

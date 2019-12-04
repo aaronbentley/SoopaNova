@@ -3,7 +3,7 @@ import { Box, Flex, Text } from '@theme-ui/components'
 import { jsx } from 'theme-ui'
 import { useSiteMetadata } from '../../hooks/use-site-metadata'
 
-const Footer = () => {
+export const Footer = () => {
     const { author } = useSiteMetadata()
     return (
         <Flex
@@ -16,12 +16,10 @@ const Footer = () => {
                 sx={{
                     p: 3
                 }}>
-                <Text variant='body' sx={{ color: 'highlight', py: 1 }}>
+                <Text variant='body' sx={{ color: 'secondary', py: 1 }}>
                     &lt;{author}/&gt;
                 </Text>
             </Box>
         </Flex>
     )
 }
-
-export default Footer
