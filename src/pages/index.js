@@ -17,7 +17,7 @@ import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
 
 const IndexPage = () => {
-    const [gamertag, setGamertag] = useState('')
+    const [gamertag, setGamertag] = useState('Cheeky Squeezes')
     // const [mediaType, setMediaType] = useState('screenshots')
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([])

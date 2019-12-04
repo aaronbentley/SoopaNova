@@ -3,8 +3,10 @@ import { Box, Heading, Link as ThemeUILink } from '@theme-ui/components'
 import { Link } from 'gatsby'
 import React from 'react'
 import { jsx } from 'theme-ui'
+import { useSiteMetadata } from '../../hooks/use-site-metadata'
 
 const Header = () => {
+    const { title } = useSiteMetadata()
     return (
         <React.Fragment>
             <Box
@@ -19,7 +21,7 @@ const Header = () => {
                         sx={{
                             fontSize: [6, 7, 8]
                         }}>
-                        Stacks.io
+                        {title}
                     </Heading>
                 </ThemeUILink>
             </Box>

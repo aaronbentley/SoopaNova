@@ -1,7 +1,7 @@
 module.exports = {
     siteMetadata: {
         title: 'Stacks.io',
-        description: 'TODO',
+        description: 'Do more with your stuff',
         author: '@aaronbentley'
     },
     plugins: [
