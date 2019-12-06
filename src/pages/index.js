@@ -11,16 +11,35 @@ import {
 } from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useFirebase } from 'gatsby-plugin-firebase'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
+import { useLocalStorage } from '../hooks/use-local-storage'
 
 const IndexPage = () => {
-    const [gamertag, setGamertag] = useState('Cheeky Squeezes')
+    const [gamertag, setGamertag] = useState('')
     // const [mediaType, setMediaType] = useState('screenshots')
     const [query, setQuery] = useState('')
     const [results, setResults] = useState([])
+    const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
+        'mediaLocalStorage',
+        []
+    )
+    const [gamertagLocalStorage, setGamertagLocalStorage] = useLocalStorage(
+        'gamertagLocalStorage',
+        ''
+    )
+
+    // Load saved data from local storage on page load
+    useEffect(() => {
+        if (mediaLocalStorage && mediaLocalStorage.length) {
+            console.log('👩🏻‍🎤', gamertagLocalStorage)
+            console.log('🌠', mediaLocalStorage)
+            setResults(mediaLocalStorage)
+            setGamertag(gamertagLocalStorage)
+        }
+    }, [gamertagLocalStorage, mediaLocalStorage])
 
     useFirebase(
         firebase => {
@@ -45,6 +64,8 @@ const IndexPage = () => {
                 const { screenshots = [] } = data
                 console.log(screenshots)
                 setResults(screenshots)
+                setmediaLocalStorage(screenshots)
+                setGamertagLocalStorage(gamertag)
             }
             if (query !== '') {
                 fetchData()
@@ -94,8 +115,7 @@ const IndexPage = () => {
                                 placeholder='Gamertag'
                                 value={gamertag}
                                 onChange={e => setGamertag(e.target.value)}
-                                sx={{ mb: 3 }}
-                            />
+                                sx={{ mb: 3 }}/>
                             {/* <Flex
                                 sx={
                                     {
@@ -137,6 +157,7 @@ const IndexPage = () => {
                                     justifyContent: 'center'
                                 }}>
                                 <Button
+                                    disabled={gamertag === null}
                                     variant='outline.primary'
                                     sx={{
                                         mt: 3,
@@ -193,8 +214,7 @@ const IndexPage = () => {
                                                     maxWidth: '100%',
                                                     mb: 2
                                                 }}
-                                                loader={<Spinner />}
-                                            />
+                                                loader={<Spinner />}/>
                                             <Box
                                                 sx={{
                                                     px: 3

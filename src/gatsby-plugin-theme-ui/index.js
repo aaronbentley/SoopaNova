@@ -8,7 +8,9 @@ export default {
         // primary: '#c0c',
         primary: '#ca50b7',
         secondary: '#28c0e1',
-        highlight: '#e0e',
+        // secondary: '#64c0d0',
+        // highlight: '#e0e',
+        highlight: '#d2ae6b',
         muted: '#f6f6ff',
         modes: {
             light: {
@@ -168,12 +170,14 @@ export default {
     buttons: {
         primary: {
             color: 'background',
+            fontWeight: 'fine',
             bg: 'primary',
             '&:hover': {
                 bg: darken('primary', 0.075)
             }
         },
         secondary: {
+            variant: 'buttons.primary',
             color: 'background',
             bg: 'secondary',
             '&:hover': {
@@ -185,14 +189,14 @@ export default {
                 color: 'primary',
                 bg: 'transparent',
                 boxShadow: 'inset 0 0 0 1px',
+                fontWeight: 'fine',
                 '&:hover': {
                     color: darken('primary', 0.075)
                 }
             },
             secondary: {
+                variant: 'buttons.outline.primary',
                 color: 'secondary',
-                bg: 'transparent',
-                boxShadow: 'inset 0 0 0 1px',
                 '&:hover': {
                     color: darken('secondary', 0.075)
                 }

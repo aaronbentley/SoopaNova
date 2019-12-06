@@ -1,6 +1,4 @@
 /** @jsx jsx */
-// import { faChevronLeft } from '@fortawesome/pro-duotone-svg-icons'
-// / import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Router } from '@reach/router'
 import {
     Box,
@@ -13,6 +11,7 @@ import {
 } from '@theme-ui/components'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
+import BackButton from '../../components/back-button/back-button'
 import Layout from '../../components/layout/layout'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
@@ -32,9 +31,7 @@ const Screenshots = ({ location: { state } }) => {
 
     return (
         <Container>
-            {/* <FontAwesomeIcon
-                icon={faChevronLeft}
-            sx={{ color: 'primary', fontSize: 6, mb: 3 }}/> */}
+            <BackButton sx={{ background: 'red' }} />
             <Box
                 sx={{
                     p: 3,
@@ -99,9 +96,7 @@ const Screenshots = ({ location: { state } }) => {
             <Text variant='body' sx={{ mb: 2 }}>
                 {formatDate(dateTaken)}
             </Text>
-            {/* 
-                    <pre>{JSON.stringify(state, null, 2)}</pre>
-                */}
+            <pre>{JSON.stringify(state, null, 2)}</pre>
         </Container>
     )
 }
