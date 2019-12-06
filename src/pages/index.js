@@ -11,35 +11,36 @@ import {
 } from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useFirebase } from 'gatsby-plugin-firebase'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
 import { useLocalStorage } from '../hooks/use-local-storage'
 
 const IndexPage = () => {
-    const [gamertag, setGamertag] = useState('')
-    // const [mediaType, setMediaType] = useState('screenshots')
-    const [query, setQuery] = useState('')
-    const [results, setResults] = useState([])
-    const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
-        'mediaLocalStorage',
-        []
-    )
+    // Load saved data from local storage on page load
     const [gamertagLocalStorage, setGamertagLocalStorage] = useLocalStorage(
         'gamertagLocalStorage',
         ''
     )
+    const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
+        'mediaLocalStorage',
+        []
+    )
 
-    // Load saved data from local storage on page load
-    useEffect(() => {
-        if (mediaLocalStorage && mediaLocalStorage.length) {
-            console.log('👩🏻‍🎤', gamertagLocalStorage)
-            console.log('🌠', mediaLocalStorage)
-            setResults(mediaLocalStorage)
-            setGamertag(gamertagLocalStorage)
-        }
-    }, [gamertagLocalStorage, mediaLocalStorage])
+    const gamertagInitialState = () => {
+        // console.log('👩🏻‍🎤', gamertagLocalStorage)
+        return gamertagLocalStorage || ''
+    }
+    const resultsInitialState = () => {
+        // console.log('🌠', mediaLocalStorage)
+        return mediaLocalStorage || []
+    }
+
+    const [gamertag, setGamertag] = useState(gamertagInitialState)
+    // const [mediaType, setMediaType] = useState('screenshots')
+    const [query, setQuery] = useState('')
+    const [results, setResults] = useState(resultsInitialState)
 
     useFirebase(
         firebase => {

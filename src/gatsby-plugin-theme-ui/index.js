@@ -9,8 +9,8 @@ export default {
         primary: '#ca50b7',
         secondary: '#28c0e1',
         // secondary: '#64c0d0',
-        // highlight: '#e0e',
-        highlight: '#d2ae6b',
+        highlight: '#e0e',
+        // highlight: '#d2ae6b',
         muted: '#f6f6ff',
         modes: {
             light: {
