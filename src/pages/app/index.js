@@ -11,7 +11,6 @@ import {
 } from '@theme-ui/components'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
-import BackButton from '../../components/back-button/back-button'
 import Layout from '../../components/layout/layout'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
@@ -31,7 +30,6 @@ const Screenshots = ({ location: { state } }) => {
 
     return (
         <Container>
-            <BackButton sx={{ background: 'red' }} />
             <Box
                 sx={{
                     p: 3,
@@ -87,7 +85,7 @@ const Screenshots = ({ location: { state } }) => {
                     </Button>
                 </Box>
             </Flex>
-            <Text variant='body' sx={{ mb: 2, color: 'muted' }}>
+            <Text variant='body' sx={{ mb: 2 }}>
                 {resolutionWidth}px x {resolutionHeight}px
             </Text>
             <Text variant='body' sx={{ mb: 2 }}>
@@ -96,7 +94,6 @@ const Screenshots = ({ location: { state } }) => {
             <Text variant='body' sx={{ mb: 2 }}>
                 {formatDate(dateTaken)}
             </Text>
-            <pre>{JSON.stringify(state, null, 2)}</pre>
         </Container>
     )
 }

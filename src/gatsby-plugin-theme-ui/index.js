@@ -1,11 +1,12 @@
-import { darken, lighten } from '@theme-ui/color'
+import { darken } from '@theme-ui/color'
 
 export default {
+    initialColorMode: 'system',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
-        text: '#fff',
+        // text: '#fff',
+        text: '#E2DBDB',
         background: '#1d2424',
-        // primary: '#c0c',
         primary: '#ca50b7',
         secondary: '#28c0e1',
         // secondary: '#64c0d0',
@@ -15,11 +16,7 @@ export default {
         modes: {
             light: {
                 text: '#1d2424',
-                background: '#fff',
-                primary: '#0fc',
-                secondary: '#0cf',
-                highlight: '#f0c',
-                muted: '#011'
+                background: '#E2DBDB'
             }
         }
     },
@@ -40,12 +37,15 @@ export default {
         heading: 1.25
     },
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-    fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
+    fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96, 128, 256],
     radii: [0, 2, 4, 6, 8, 10, 12, 24],
     borders: [1, 2, 4, 6, 8, 10, 12],
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
     sizes: {
-        container: '1200px'
+        container: '1200px',
+        header: {
+            button: '36px'
+        }
     },
     styles: {
         root: {
@@ -103,7 +103,6 @@ export default {
         },
         a: {
             color: 'primary'
-            // textDecoration: 'none'
         },
         pre: {
             fontFamily: 'monospace',
@@ -158,7 +157,7 @@ export default {
             borderColor: 'highlight',
             p: 3,
             fontWeight: 'body',
-            backgroundColor: lighten('highlight', 0.4),
+            backgroundColor: 'muted',
             '&::placeholder': {
                 color: 'primary'
             }
@@ -191,14 +190,21 @@ export default {
                 boxShadow: 'inset 0 0 0 1px',
                 fontWeight: 'fine',
                 '&:hover': {
-                    color: darken('primary', 0.075)
+                    color: 'background'
+                },
+                ':disabled': {
+                    cursor: 'not-allowed',
+                    color: 'muted',
+                    background: 'transparent',
+                    opacity: 0.4
                 }
             },
             secondary: {
                 variant: 'buttons.outline.primary',
                 color: 'secondary',
                 '&:hover': {
-                    color: darken('secondary', 0.075)
+                    bg: 'secondary',
+                    color: 'background'
                 }
             }
         }

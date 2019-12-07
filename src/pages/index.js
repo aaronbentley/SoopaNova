@@ -41,11 +41,16 @@ const IndexPage = () => {
     // const [mediaType, setMediaType] = useState('screenshots')
     const [query, setQuery] = useState('')
     const [results, setResults] = useState(resultsInitialState)
+    const [loading, setLoading] = useState(false)
 
     useFirebase(
         firebase => {
             async function fetchData() {
                 console.log('🔥')
+                setResults([])
+                setLoading(true)
+
+                //#region getClips
                 // const getClips = firebase.functions().httpsCallable('getClips')
                 // const { data } = await getClips({
                 //     gamertag
@@ -54,6 +59,7 @@ const IndexPage = () => {
                 // const { gameClips: clips = [] } = data
                 // console.log(clips)
                 // setResults(clips)
+                //#endregion
 
                 const getScreenshots = firebase
                     .functions()
@@ -61,10 +67,11 @@ const IndexPage = () => {
                 const { data } = await getScreenshots({
                     gamertag
                 })
-                // console.log(data)
                 const { screenshots = [] } = data
                 console.log(screenshots)
+                setLoading(false)
                 setResults(screenshots)
+
                 setmediaLocalStorage(screenshots)
                 setGamertagLocalStorage(gamertag)
             }
@@ -116,51 +123,16 @@ const IndexPage = () => {
                                 placeholder='Gamertag'
                                 value={gamertag}
                                 onChange={e => setGamertag(e.target.value)}
-                                sx={{ mb: 3 }}/>
-                            {/* <Flex
-                                sx={
-                                    {
-                                        // justifyContent: 'center'
-                                        // flexDirection: 'row'
-                                    }
-                                }>
-                                <Box>
-                                    <Label>
-                                        <Radio
-                                            name='screenshots'
-                                            value={
-                                                mediaType === 'screenshots'
-                                                    ? 'true'
-                                                    : 'false'
-                                            }
-                                            onChange={() =>
-                                                setMediaType('screenshots')
-                                            }/>
-                                        Screenshots
-                                    </Label>
-                                    <Label>
-                                        <Radio
-                                            name='clips'
-                                            value={
-                                                mediaType === 'clips'
-                                                    ? 'true'
-                                                    : 'false'
-                                            }
-                                            onChange={() =>
-                                                setMediaType('clips')
-                                            }/>
-                                        Clips
-                                    </Label>
-                                </Box>
-                                        </Flex> */}
+                                sx={{ mb: 3 }}
+                            />
                             <Flex
                                 sx={{
                                     justifyContent: 'center'
                                 }}>
                                 <Button
-                                    disabled={gamertag === null}
-                                    variant='outline.primary'
+                                    disabled={gamertag === ''}
                                     sx={{
+                                        variant: 'buttons.outline.primary',
                                         mt: 3,
                                         mb: 4,
                                         fontSize: 3
@@ -172,9 +144,13 @@ const IndexPage = () => {
                         </Box>
                     </Box>
                 </Flex>
+                {loading && (
+                    <Flex sx={{ justifyContent: 'center', p: 3 }}>
+                        <Spinner />
+                    </Flex>
+                )}
                 <Flex
                     sx={{
-                        // flexDirection: 'row',
                         flexWrap: 'wrap'
                     }}>
                     {results !== [] &&
@@ -215,7 +191,8 @@ const IndexPage = () => {
                                                     maxWidth: '100%',
                                                     mb: 2
                                                 }}
-                                                loader={<Spinner />}/>
+                                                loader={<Spinner />}
+                                            />
                                             <Box
                                                 sx={{
                                                     px: 3
@@ -241,3 +218,41 @@ const IndexPage = () => {
 }
 
 export default IndexPage
+
+// Media type radio buttons
+// <Flex
+//     sx={
+//         {
+//             // justifyContent: 'center'
+//             // flexDirection: 'row'
+//         }
+//     }>
+//     <Box>
+//         <Label>
+//             <Radio
+//                 name='screenshots'
+//                 value={
+//                     mediaType === 'screenshots'
+//                         ? 'true'
+//                         : 'false'
+//                 }
+//                 onChange={() =>
+//                     setMediaType('screenshots')
+//                 }/>
+//             Screenshots
+//         </Label>
+//         <Label>
+//             <Radio
+//                 name='clips'
+//                 value={
+//                     mediaType === 'clips'
+//                         ? 'true'
+//                         : 'false'
+//                 }
+//                 onChange={() =>
+//                     setMediaType('clips')
+//                 }/>
+//             Clips
+//         </Label>
+//     </Box>
+// </Flex>
