@@ -22,8 +22,7 @@ const BackButton = props => (
                             color: 'secondary'
                         }
                     }}
-                    {...props}
-                />
+                    {...props}/>
             )
         }}
     </Location>

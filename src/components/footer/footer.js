@@ -16,7 +16,7 @@ export const Footer = () => {
                 sx={{
                     p: 3
                 }}>
-                <Text variant='body' sx={{ color: 'secondary', py: 1 }}>
+                <Text variant='body' sx={{ color: 'primary', py: 1 }}>
                     &lt;{author}/&gt;
                 </Text>
             </Box>

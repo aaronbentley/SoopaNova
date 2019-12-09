@@ -13,6 +13,7 @@ export default {
         highlight: '#e0e',
         // highlight: '#d2ae6b',
         muted: '#f6f6ff',
+        grey: '#888888',
         modes: {
             light: {
                 text: '#1d2424',
@@ -26,7 +27,7 @@ export default {
         moonospace: 'Menlo, monospace'
     },
     fontWeights: {
-        fine: 100,
+        fine: 900,
         body: 400,
         heading: 600,
         bold: 700,
@@ -173,6 +174,9 @@ export default {
             bg: 'primary',
             '&:hover': {
                 bg: darken('primary', 0.075)
+            },
+            ':focus': {
+                outline: 'none'
             }
         },
         secondary: {
@@ -194,9 +198,10 @@ export default {
                 },
                 ':disabled': {
                     cursor: 'not-allowed',
-                    color: 'muted',
+                    // color: 'muted',
                     background: 'transparent',
-                    opacity: 0.4
+                    opacity: 0.4,
+                    color: 'text'
                 }
             },
             secondary: {
@@ -211,5 +216,21 @@ export default {
     },
     spinner: {
         color: 'primary'
+    },
+    alerts: {
+        primary: {
+            color: 'background',
+            bg: 'primary',
+            borderLeftColor: 'secondary',
+            borderLeftWidth: ({ space }) => space[2],
+            borderLeftStyle: 'solid',
+            fontFamily: 'body',
+            fontWeight: 'fine',
+            fontSize: 5
+        },
+        muted: {
+            color: 'text',
+            bg: 'muted'
+        }
     }
 }

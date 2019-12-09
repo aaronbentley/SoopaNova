@@ -11,6 +11,7 @@ import {
 } from '@theme-ui/components'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
+import DropdownButton from '../../components/dropdown-button/dropdown-button'
 import Layout from '../../components/layout/layout'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
@@ -63,27 +64,28 @@ const Screenshots = ({ location: { state } }) => {
                     }}>
                     {titleName}
                 </Heading>
-                <Box>
-                    <Button
+                <Flex
+                    sx={{
+                        my: [2, 0]
+                    }}>
+                    <DropdownButton
+                        // onClick={() => {
+                        //     window.open(imageSrc, '_blank')
+                        // }}
                         sx={{
                             mr: 2,
-                            mt: 2,
-                            fontSize: 3,
+                            fontSize: 4,
                             variant: 'buttons.outline.primary'
-                        }}
-                        onClick={() => {
-                            window.open(imageSrc, '_blank')
-                        }}>
-                        Export to...
-                    </Button>
+                        }}/>
                     <Button
+                        onClick={() => alert('It\'s on my TODO list 📝')}
                         sx={{
-                            fontSize: 3,
+                            fontSize: 4,
                             variant: 'buttons.outline.secondary'
                         }}>
-                        Post to...
+                        Post...
                     </Button>
-                </Box>
+                </Flex>
             </Flex>
             <Text variant='body' sx={{ mb: 2 }}>
                 {resolutionWidth}px x {resolutionHeight}px
