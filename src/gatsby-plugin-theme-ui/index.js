@@ -10,8 +10,9 @@ export default {
         primary: '#ca50b7',
         secondary: '#28c0e1',
         // secondary: '#64c0d0',
-        highlight: '#e0e',
+        // highlight: '#e0e',
         // highlight: '#d2ae6b',
+        highlight: '#f0953f',
         muted: '#f6f6ff',
         grey: '#888888',
         modes: {
@@ -148,6 +149,20 @@ export default {
     links: {
         logo: {
             textDecoration: 'none'
+        },
+        dropdown: {
+            fontFamily: 'body',
+            fontWeight: 'fine',
+            cursor: 'pointer',
+            display: 'flex',
+            py: 2,
+            ':hover': {
+                color: 'white'
+            },
+            ':disabled': {
+                opacity: 0.4,
+                cursor: 'not-allowed'
+            }
         }
     },
     forms: {

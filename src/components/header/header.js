@@ -16,12 +16,13 @@ import ThemeToggleButton from '../theme-toggle-button/theme-toggle-button'
 export const Header = () => {
     const { title } = useSiteMetadata()
     return (
-        <Headroom sx={{ m: 0, px: 2, py: 0 }}>
+        <Headroom sx={{ m: 0, p: 0 }}>
             <Box as='header'>
                 <Container>
                     <Flex
                         sx={{
-                            py: 2,
+                            py: 3,
+                            px: 3,
                             justifyContent: 'space-between'
                         }}>
                         <Box

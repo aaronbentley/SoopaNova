@@ -9,10 +9,10 @@ import {
     faChevronRight
 } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button, Flex, Text } from '@theme-ui/components'
+import { Box, Button, Flex, Link } from '@theme-ui/components'
 import { useRef, useState } from 'react'
 import { jsx } from 'theme-ui'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { useOnClickOutside } from '../../hooks/use-on-click-outside'
 
 const DropDownMenu = () => (
     <Flex
@@ -20,59 +20,55 @@ const DropDownMenu = () => (
             flexDirection: 'column',
             position: 'absolute',
             zIndex: 9999,
-            width: '100%',
-            mt: 0
+            width: '100%'
         }}>
-        <Box sx={{ p: 2, bg: 'primary', borderRadius: 2 }}>
-            <Text
+        <Box sx={{ p: 2, mr: 2, bg: 'primary', borderRadius: 2 }}>
+            <Link
                 // onClick={() => {
                 //     // window.open(imageSrc, '_blank')
 
                 // }}
                 sx={{
-                    variant: 'text.body',
+                    variant: 'links.dropdown',
                     color: 'background',
-                    py: 2,
-                    opacity: 0.4
+                    py: 2
                 }}>
                 Device
-            </Text>
-            <Text
+            </Link>
+            <Link
+                disabled={'disabled'}
                 sx={{
-                    variant: 'text.body',
+                    variant: 'links.dropdown',
                     color: 'background',
-                    py: 2,
-                    opacity: 0.4
+                    py: 2
                 }}>
                 OneDrive
-            </Text>
-            <Text
+            </Link>
+            <Link
                 sx={{
-                    variant: 'text.body',
+                    variant: 'links.dropdown',
                     color: 'background',
-                    py: 2,
-                    opacity: 0.4
+                    py: 2
                 }}>
                 iCloud
-            </Text>
-            <Text
+            </Link>
+            <Link
+                as='a'
                 sx={{
-                    variant: 'text.body',
+                    variant: 'links.dropdown',
                     color: 'background',
-                    py: 2,
-                    opacity: 0.4
+                    py: 2
                 }}>
                 Google Drive
-            </Text>
-            <Text
+            </Link>
+            <Link
                 sx={{
-                    variant: 'text.body',
+                    variant: 'links.dropdown',
                     color: 'background',
-                    py: 2,
-                    opacity: 0.4
+                    py: 2
                 }}>
                 DropBox
-            </Text>
+            </Link>
         </Box>
     </Flex>
 )
