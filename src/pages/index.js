@@ -123,7 +123,8 @@ const IndexPage = () => {
                                 placeholder='Gamertag'
                                 value={gamertag}
                                 onChange={e => setGamertag(e.target.value)}
-                                sx={{ mb: 3 }}/>
+                                sx={{ mb: 3 }}
+                            />
                             <Flex
                                 sx={{
                                     justifyContent: 'center'
@@ -162,7 +163,8 @@ const IndexPage = () => {
                                     }}>
                                     <Card
                                         onClick={() =>
-                                            navigate('/app/screenshot', {
+                                            navigate('/app/screenshot/', {
+                                                // navigate('/screenshot', {
                                                 state: item
                                             })
                                         }
@@ -190,7 +192,8 @@ const IndexPage = () => {
                                                     maxWidth: '100%',
                                                     mb: 2
                                                 }}
-                                                loader={<Spinner />}/>
+                                                loader={<Spinner />}
+                                            />
                                             <Box
                                                 sx={{
                                                     px: 3

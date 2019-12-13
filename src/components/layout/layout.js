@@ -1,10 +1,12 @@
 import { Box } from '@theme-ui/components'
 import React from 'react'
 import { Footer } from '../footer/footer'
+// import GlobalStyles from '../global-styles/global-styles'
 import { Header } from '../header/header'
 
 const Layout = ({ children }) => (
     <React.Fragment>
+        {/* <GlobalStyles /> */}
         <Box
             sx={{
                 display: 'flex',

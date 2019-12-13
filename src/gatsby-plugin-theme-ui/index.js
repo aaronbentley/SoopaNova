@@ -1,24 +1,37 @@
 import { darken } from '@theme-ui/color'
 
 export default {
+    useCustomProperties: true,
+    useColorSchemeMediaQuery: true,
     initialColorMode: 'system',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
-        // text: '#fff',
         text: '#E2DBDB',
         background: '#1d2424',
         primary: '#ca50b7',
         secondary: '#28c0e1',
-        // secondary: '#64c0d0',
-        // highlight: '#e0e',
-        // highlight: '#d2ae6b',
         highlight: '#f0953f',
         muted: '#f6f6ff',
         grey: '#888888',
         modes: {
             light: {
+                primary: '#f0953f',
+                secondary: '#ca50b7',
                 text: '#1d2424',
                 background: '#E2DBDB'
+            },
+            tribute: {
+                primary: '#b088ff',
+                secondary: '#eb88ff',
+                highlight: '#574b70',
+                background: '#1c1f2e'
+            },
+            frozen: {
+                primary: '#28c0e1',
+                secondary: '#55d8f6',
+                highlight: '#F47DA5',
+                background: '#f6f6ff',
+                text: '#1d2424'
             }
         }
     },
@@ -28,7 +41,7 @@ export default {
         moonospace: 'Menlo, monospace'
     },
     fontWeights: {
-        fine: 900,
+        fine: 200,
         body: 400,
         heading: 600,
         bold: 700,
@@ -43,6 +56,7 @@ export default {
     radii: [0, 2, 4, 6, 8, 10, 12, 24],
     borders: [1, 2, 4, 6, 8, 10, 12],
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
+    zIndices: [0, 1, 2, 3, 4, 5],
     sizes: {
         container: '1200px',
         header: {
@@ -149,20 +163,6 @@ export default {
     links: {
         logo: {
             textDecoration: 'none'
-        },
-        dropdown: {
-            fontFamily: 'body',
-            fontWeight: 'fine',
-            cursor: 'pointer',
-            display: 'flex',
-            py: 2,
-            ':hover': {
-                color: 'white'
-            },
-            ':disabled': {
-                opacity: 0.4,
-                cursor: 'not-allowed'
-            }
         }
     },
     forms: {
@@ -170,12 +170,14 @@ export default {
         input: {
             color: 'primary',
             textAlign: 'center',
-            borderColor: 'highlight',
+            borderColor: 'primary',
+            borderWidth: 2,
             p: 3,
             fontWeight: 'body',
-            backgroundColor: 'muted',
+            backgroundColor: 'background',
             '&::placeholder': {
-                color: 'primary'
+                color: 'primary',
+                opacity: 0.5
             }
         },
         radio: {
@@ -226,6 +228,23 @@ export default {
                     bg: 'secondary',
                     color: 'background'
                 }
+            }
+        },
+        dropdown: {
+            fontFamily: 'body',
+            fontWeight: 'fine',
+            cursor: 'pointer',
+            display: 'flex',
+            width: '100%',
+            px: 1,
+            py: 2,
+            borderRadius: 3,
+            ':hover': {
+                color: 'white'
+            },
+            ':disabled': {
+                opacity: 0.4,
+                cursor: 'not-allowed'
             }
         }
     },

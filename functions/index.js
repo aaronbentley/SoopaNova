@@ -7,6 +7,8 @@ const xla = require('async-xbox-live-api')
  * init function to sutup xbox live interface
  */
 const init = async () => {
+    // xla.username = await functions.config().xbox.user
+    // xla.password = await functions.config().xbox.pass
     xla.username = functions.config().xbox.user
     xla.password = functions.config().xbox.pass
 }

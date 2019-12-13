@@ -30,7 +30,7 @@ export const Header = () => {
                                 alignSelf: 'center',
                                 minWidth: 'header.button'
                             }}>
-                            <BackButton sx={{ fontSize: 5 }} />
+                            <BackButton sx={{ fontSize: 3 }} />
                         </Box>
                         <Box
                             sx={{
@@ -51,7 +51,7 @@ export const Header = () => {
                                 alignSelf: 'center',
                                 minWidth: 'header.button'
                             }}>
-                            <ThemeToggleButton sx={{ fontSize: 5 }} />
+                            <ThemeToggleButton sx={{ fontSize: 3 }} />
                         </Box>
                     </Flex>
                 </Container>

@@ -1,111 +1,110 @@
 /** @jsx jsx */
+// import { Router } from '@reach/router'
+// import {
+//     Box,
+//     Button,
+//     Container,
+//     Flex,
+//     Heading,
+//     Spinner,
+//     Text
+// } from '@theme-ui/components'
+// import Image from 'react-image'
+// import { jsx } from 'theme-ui'
+// import DropdownButton from '../../components/dropdown-button/dropdown-button'
+// import Layout from '../../components/layout/layout'
+// import { formatMegabytes } from '../../utils/data-utils'
+// import { formatDate } from '../../utils/date-utils'
+
+// const Screenshot = ({ location: { state } }) => {
+//     // console.log(state)
+
+//     const {
+//         // screenshotId = '',
+//         resolutionHeight = '',
+//         resolutionWidth = '',
+//         titleName = '',
+//         screenshotUris: [{ uri: imageSrc = '', fileSize = 0 }],
+//         // type = '',
+//         dateTaken = ''
+//     } = state
+
+//     return (
+//         <Container>
+//             <Box
+//                 sx={{
+//                     p: 3,
+//                     m: 0,
+//                     background: ({ colors }) =>
+//                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
+//                     borderRadius: 3
+//                 }}>
+//                 <Image
+//                     src={imageSrc}
+//                     sx={{
+//                         maxWidth: '100%'
+//                     }}
+//                     loader={
+//                         <Flex sx={{ justifyContent: 'center', p: 3 }}>
+//                             <Spinner />
+//                         </Flex>
+//                     }/>
+//             </Box>
+//             <Flex
+//                 sx={{
+//                     alignItems: 'center',
+//                     my: 3,
+//                     justifyContent: 'space-between',
+//                     flexWrap: 'wrap'
+//                 }}>
+//                 <Heading
+//                     as='h2'
+//                     sx={{
+//                         fontSize: 6
+//                     }}>
+//                     {titleName}
+//                 </Heading>
+//                 <Flex
+//                     sx={{
+//                         my: [2, 0]
+//                     }}>
+//                     <DropdownButton downloadURL={imageSrc} />
+//                     <Button
+//                         onClick={() => alert('It\'s on my TODO list 📝')}
+//                         sx={{
+//                             fontSize: 4,
+//                             variant: 'buttons.outline.secondary'
+//                         }}>
+//                         Post...
+//                     </Button>
+//                 </Flex>
+//             </Flex>
+//             <Text variant='body' sx={{ mb: 2 }}>
+//                 {resolutionWidth}px x {resolutionHeight}px
+//             </Text>
+//             <Text variant='body' sx={{ mb: 2 }}>
+//                 {formatMegabytes(fileSize)}
+//             </Text>
+//             <Text variant='body' sx={{ mb: 2 }}>
+//                 {formatDate(dateTaken)}
+//             </Text>
+//         </Container>
+//     )
+// }
+
+// const Clip = () => <Heading>Clips</Heading>
+
 import { Router } from '@reach/router'
-import {
-    Box,
-    Button,
-    Container,
-    Flex,
-    Heading,
-    Spinner,
-    Text
-} from '@theme-ui/components'
-import Image from 'react-image'
 import { jsx } from 'theme-ui'
-import DropdownButton from '../../components/dropdown-button/dropdown-button'
 import Layout from '../../components/layout/layout'
-import { formatMegabytes } from '../../utils/data-utils'
-import { formatDate } from '../../utils/date-utils'
-
-const Screenshots = ({ location: { state } }) => {
-    // console.log(state)
-
-    const {
-        // screenshotId = '',
-        resolutionHeight = '',
-        resolutionWidth = '',
-        titleName = '',
-        screenshotUris: [{ uri: imageSrc = '', fileSize = 0 }],
-        // type = '',
-        dateTaken = ''
-    } = state
-
-    return (
-        <Container>
-            <Box
-                sx={{
-                    p: 3,
-                    m: 0,
-                    background: ({ colors }) =>
-                        `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
-                    borderRadius: 3
-                }}>
-                <Image
-                    src={imageSrc}
-                    sx={{
-                        maxWidth: '100%'
-                    }}
-                    loader={
-                        <Flex sx={{ justifyContent: 'center', p: 3 }}>
-                            <Spinner />
-                        </Flex>
-                    }/>
-            </Box>
-            <Flex
-                sx={{
-                    alignItems: 'center',
-                    my: 3,
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap'
-                }}>
-                <Heading
-                    as='h2'
-                    sx={{
-                        fontSize: 6
-                    }}>
-                    {titleName}
-                </Heading>
-                <Flex
-                    sx={{
-                        my: [2, 0]
-                    }}>
-                    <DropdownButton
-                        // onClick={() => {
-                        //     window.open(imageSrc, '_blank')
-                        // }}
-                        sx={{
-                            mr: 2,
-                            fontSize: 4,
-                            variant: 'buttons.outline.primary'
-                        }}/>
-                    <Button
-                        onClick={() => alert('It\'s on my TODO list 📝')}
-                        sx={{
-                            fontSize: 4,
-                            variant: 'buttons.outline.secondary'
-                        }}>
-                        Post...
-                    </Button>
-                </Flex>
-            </Flex>
-            <Text variant='body' sx={{ mb: 2 }}>
-                {resolutionWidth}px x {resolutionHeight}px
-            </Text>
-            <Text variant='body' sx={{ mb: 2 }}>
-                {formatMegabytes(fileSize)}
-            </Text>
-            <Text variant='body' sx={{ mb: 2 }}>
-                {formatDate(dateTaken)}
-            </Text>
-        </Container>
-    )
-}
-const Clips = () => <Heading>Clips</Heading>
+import Clip from './clip'
+import Screenshot from './screenshot'
 
 const App = () => (
     <Layout>
         <Router>
-            <Screenshots path='app/screenshot' />
-            <Clips path='app/clip' />
+            <Screenshot path='/app/screenshot/' />
+            <Clip path='/app/clip/' />
         </Router>
     </Layout>
 )

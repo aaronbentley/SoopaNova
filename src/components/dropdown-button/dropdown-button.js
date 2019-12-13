@@ -5,75 +5,24 @@
  * @export DropdownButton
  */
 import {
+    faApple,
+    faDropbox,
+    faGoogleDrive,
+    faMicrosoft
+} from '@fortawesome/free-brands-svg-icons'
+import {
     faChevronDown,
-    faChevronRight
-} from '@fortawesome/pro-regular-svg-icons'
+    faChevronRight,
+    faFileDownload
+} from '@fortawesome/pro-duotone-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button, Flex, Link } from '@theme-ui/components'
+import { Box, Button, Flex } from '@theme-ui/components'
 import { useRef, useState } from 'react'
 import { jsx } from 'theme-ui'
 import { useOnClickOutside } from '../../hooks/use-on-click-outside'
 
-const DropDownMenu = () => (
-    <Flex
-        sx={{
-            flexDirection: 'column',
-            position: 'absolute',
-            zIndex: 9999,
-            width: '100%'
-        }}>
-        <Box sx={{ p: 2, mr: 2, bg: 'primary', borderRadius: 2 }}>
-            <Link
-                // onClick={() => {
-                //     // window.open(imageSrc, '_blank')
-
-                // }}
-                sx={{
-                    variant: 'links.dropdown',
-                    color: 'background',
-                    py: 2
-                }}>
-                Device
-            </Link>
-            <Link
-                disabled={'disabled'}
-                sx={{
-                    variant: 'links.dropdown',
-                    color: 'background',
-                    py: 2
-                }}>
-                OneDrive
-            </Link>
-            <Link
-                sx={{
-                    variant: 'links.dropdown',
-                    color: 'background',
-                    py: 2
-                }}>
-                iCloud
-            </Link>
-            <Link
-                as='a'
-                sx={{
-                    variant: 'links.dropdown',
-                    color: 'background',
-                    py: 2
-                }}>
-                Google Drive
-            </Link>
-            <Link
-                sx={{
-                    variant: 'links.dropdown',
-                    color: 'background',
-                    py: 2
-                }}>
-                DropBox
-            </Link>
-        </Box>
-    </Flex>
-)
-
 const DropdownButton = props => {
+    const { downloadURL = '' } = props
     const ref = useRef()
     const [menuOpen, setMenuOpen] = useState(false)
     useOnClickOutside(ref, () => setMenuOpen(false))
@@ -86,8 +35,11 @@ const DropdownButton = props => {
                     setMenuOpen(!menuOpen)
                 }}
                 sx={{
+                    mr: 2,
+                    fontSize: 4,
+                    variant: 'buttons.outline.primary',
                     backgroundColor: menuOpen ? 'primary' : 'transparent',
-                    color: menuOpen ? 'background' : 'inherit'
+                    color: menuOpen ? 'background' : 'primary'
                 }}
                 {...props}>
                 Export to
@@ -98,7 +50,82 @@ const DropdownButton = props => {
                     fixedWidth
                     icon={menuOpen ? faChevronDown : faChevronRight}/>
             </Button>
-            {menuOpen && <DropDownMenu />}
+            {menuOpen && (
+                <Flex
+                    ref={ref}
+                    sx={{
+                        flexDirection: 'column',
+                        position: 'absolute',
+                        zIndex: 9999,
+                        width: '100%'
+                    }}>
+                    <Box sx={{ p: 2, mr: 2, bg: 'primary', borderRadius: 3 }}>
+                        <Button
+                            onClick={() => {
+                                console.log(downloadURL)
+                                window.open(downloadURL, '_blank')
+                            }}
+                            sx={{
+                                variant: 'buttons.dropdown',
+                                color: 'background'
+                            }}>
+                            <FontAwesomeIcon
+                                sx={{ mr: 2 }}
+                                icon={faFileDownload}
+                                fixedWidth/>
+                            Device
+                        </Button>
+                        <Button
+                            disabled={true}
+                            sx={{
+                                variant: 'buttons.dropdown',
+                                color: 'background'
+                            }}>
+                            <FontAwesomeIcon
+                                sx={{ mr: 2 }}
+                                icon={faMicrosoft}
+                                fixedWidth/>
+                            OneDrive
+                        </Button>
+                        <Button
+                            disabled={true}
+                            sx={{
+                                variant: 'buttons.dropdown',
+                                color: 'background'
+                            }}>
+                            <FontAwesomeIcon
+                                sx={{ mr: 2 }}
+                                icon={faApple}
+                                fixedWidth/>
+                            iCloud
+                        </Button>
+                        <Button
+                            disabled={true}
+                            sx={{
+                                variant: 'buttons.dropdown',
+                                color: 'background'
+                            }}>
+                            <FontAwesomeIcon
+                                sx={{ mr: 2 }}
+                                icon={faGoogleDrive}
+                                fixedWidth/>
+                            Google Drive
+                        </Button>
+                        <Button
+                            disabled={true}
+                            sx={{
+                                variant: 'buttons.dropdown',
+                                color: 'background'
+                            }}>
+                            <FontAwesomeIcon
+                                sx={{ mr: 2 }}
+                                icon={faDropbox}
+                                fixedWidth/>
+                            DropBox
+                        </Button>
+                    </Box>
+                </Flex>
+            )}
         </Box>
     )
 }
