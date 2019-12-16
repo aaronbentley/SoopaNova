@@ -168,7 +168,6 @@ const IndexPage = () => {
                                             navigate(
                                                 `/app/screenshot/${item.screenshotId}`,
                                                 {
-                                                    // navigate('/screenshot', {
                                                     state: item
                                                 }
                                             )

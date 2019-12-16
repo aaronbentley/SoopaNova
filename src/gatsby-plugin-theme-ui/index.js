@@ -164,6 +164,18 @@ export default {
     links: {
         logo: {
             textDecoration: 'none'
+        },
+        footer: {
+            textDecoration: 'none',
+            color: 'primary',
+            fontFamily: 'body',
+            fontWeight: 'fine',
+            '&:hover': {
+                color: darken('primary', 0.075)
+            }
+        },
+        '404': {
+            variant: 'buttons.outline.primary'
         }
     },
     forms: {
@@ -190,8 +202,10 @@ export default {
             color: 'background',
             fontWeight: 'fine',
             bg: 'primary',
+            transition: ({ durations }) =>
+                `background-color ${durations[1]} ease`,
             '&:hover': {
-                bg: darken('primary', 0.075)
+                backgroundColor: darken('primary', 0.075)
             },
             ':focus': {
                 outline: 'none'
@@ -211,12 +225,13 @@ export default {
                 bg: 'transparent',
                 boxShadow: 'inset 0 0 0 1px',
                 fontWeight: 'fine',
+                transition: ({ durations }) =>
+                    `background-color ${durations[1]} ease`,
                 '&:hover': {
                     color: 'background'
                 },
                 ':disabled': {
                     cursor: 'not-allowed',
-                    // color: 'muted',
                     background: 'transparent',
                     opacity: 0.4,
                     color: 'text'

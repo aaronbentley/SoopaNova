@@ -1,7 +1,8 @@
 /** @jsx jsx */
-import { Box, Flex, Text } from '@theme-ui/components'
+import { Box, Flex } from '@theme-ui/components'
 import { jsx } from 'theme-ui'
 import { useSiteMetadata } from '../../hooks/use-site-metadata'
+import Link from '../link/link'
 
 export const Footer = () => {
     const { author } = useSiteMetadata()
@@ -16,9 +17,12 @@ export const Footer = () => {
                 sx={{
                     p: 3
                 }}>
-                <Text variant='body' sx={{ color: 'primary', py: 1 }}>
+                <Link
+                    target='_blank'
+                    to={`https://twitter.com/${author}`}
+                    sx={{ variant: 'links.footer', py: 1 }}>
                     &lt;{author}/&gt;
-                </Text>
+                </Link>
             </Box>
         </Flex>
     )

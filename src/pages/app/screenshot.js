@@ -15,7 +15,7 @@ import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
 
 const Screenshot = ({ location: { state } }) => {
-    console.log(state)
+    // console.log(state)
     const {
         // screenshotId = '',
         resolutionHeight = '',
