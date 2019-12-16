@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { Router } from '@reach/router'
 import { jsx } from 'theme-ui'
+import Clip from '../components/app/clip'
+import Screenshot from '../components/app/screenshot'
 import Layout from '../components/layout/layout'
-import Clip from './app/clip'
-import Screenshot from './app/screenshot'
 
 const App = () => (
     <Layout>

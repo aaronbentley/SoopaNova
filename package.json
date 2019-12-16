@@ -50,7 +50,6 @@
     "eslint-config-react-app": "^5.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
-    "gh-pages": "^2.1.1",
     "prettier": "^1.19.1"
   },
   "keywords": [
@@ -58,11 +57,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
     "dev": "node --nolazy --inspect-brk node_modules/.bin/gatsby develop -H 0.0.0.0 -o",
-    "build": "gatsby build",
     "build-serve": "gatsby build && gatsby serve -H 0.0.0.0 -o",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+    "build-stage": "gatsby build &&  firebase serve --only hosting --host 0.0.0.0",
+    "deploy": "gatsby build && firebase deploy --only hosting"
   },
   "repository": {
     "type": "git",
