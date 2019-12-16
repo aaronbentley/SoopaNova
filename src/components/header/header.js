@@ -30,7 +30,7 @@ export const Header = () => {
                                 alignSelf: 'center',
                                 minWidth: 'header.button'
                             }}>
-                            <BackButton sx={{ fontSize: 3 }} />
+                            <BackButton sx={{ fontSize: 5 }} />
                         </Box>
                         <Box
                             sx={{

@@ -4,9 +4,10 @@
  *
  * @export ThemeToggleButton
  */
-import { faPencilPaintbrush } from '@fortawesome/pro-duotone-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Flex } from '@theme-ui/components'
+// import { faPencilPaintbrush } from '@fortawesome/pro-duotone-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button, Flex } from '@theme-ui/components'
+import capitalize from 'capitalize'
 import { jsx, useColorMode, useThemeUI } from 'theme-ui'
 
 const ThemeToggleButton = props => {
@@ -25,20 +26,26 @@ const ThemeToggleButton = props => {
         <Flex
             sx={{
                 justifyContent: 'flex-end',
-                alignItems: 'center'
+                alignItems: 'center',
+                position: 'relative'
             }}>
-            {/* <Text
+            <Button
                 onClick={() => {
                     const index = colorModeKeys.indexOf(colorMode)
                     const next =
                         colorModeKeys[(index + 1) % colorModeKeys.length]
                     setColorMode(next)
                 }}
-                sx={{ variant: 'text.body', color: 'primary' }}
+                sx={{
+                    variant: 'buttons.naked',
+                    color: 'primary',
+                    fontSize: 0,
+                    position: 'absolute'
+                }}
                 {...props}>
                 {capitalize(colorMode)}
-            </Text> */}
-            <FontAwesomeIcon
+            </Button>
+            {/* <FontAwesomeIcon
                 onClick={() => {
                     const index = colorModeKeys.indexOf(colorMode)
                     const next =
@@ -55,7 +62,7 @@ const ThemeToggleButton = props => {
                 }}
                 icon={faPencilPaintbrush}
                 {...props}
-            />
+            /> */}
         </Flex>
     )
 }

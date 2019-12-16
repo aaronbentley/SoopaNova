@@ -162,12 +162,17 @@ const IndexPage = () => {
                                         width: ['100%', '50%', '33%', '25%']
                                     }}>
                                     <Card
-                                        onClick={() =>
-                                            navigate('/app/screenshot/', {
-                                                // navigate('/screenshot', {
-                                                state: item
-                                            })
-                                        }
+                                        onClick={() => {
+                                            console.log(item)
+
+                                            navigate(
+                                                `/app/screenshot/${item.screenshotId}`,
+                                                {
+                                                    // navigate('/screenshot', {
+                                                    state: item
+                                                }
+                                            )
+                                        }}
                                         sx={{
                                             // p: 0,
                                             // m: 3,

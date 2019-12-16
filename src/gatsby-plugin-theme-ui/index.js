@@ -3,7 +3,8 @@ import { darken } from '@theme-ui/color'
 export default {
     useCustomProperties: true,
     useColorSchemeMediaQuery: true,
-    initialColorMode: 'system',
+    // initialColorMode: 'system',
+    initialColorMode: 'dark',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
         text: '#E2DBDB',
@@ -26,11 +27,11 @@ export default {
                 highlight: '#574b70',
                 background: '#1c1f2e'
             },
-            frozen: {
+            elsa: {
                 primary: '#28c0e1',
                 secondary: '#55d8f6',
                 highlight: '#F47DA5',
-                background: '#f6f6ff',
+                background: '#e5e5ff',
                 text: '#1d2424'
             }
         }
@@ -228,6 +229,14 @@ export default {
                     bg: 'secondary',
                     color: 'background'
                 }
+            }
+        },
+        naked: {
+            variant: 'buttons.outline.primary',
+            boxShadow: 'none',
+            '&:hover': {
+                background: 'transparent',
+                boxShadow: 'inset 0 0 0 1px'
             }
         },
         dropdown: {

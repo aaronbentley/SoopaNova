@@ -11,7 +11,6 @@ import {
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import DropdownButton from '../../components/dropdown-button/dropdown-button'
-import Layout from '../../components/layout/layout'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
 
@@ -28,67 +27,65 @@ const Screenshot = ({ location: { state } }) => {
     } = state
 
     return (
-        <Layout>
-            <Container>
-                <Box
+        <Container>
+            <Box
+                sx={{
+                    p: 3,
+                    m: 0,
+                    background: ({ colors }) =>
+                        `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
+                    borderRadius: 3
+                }}>
+                <Image
+                    src={imageSrc}
                     sx={{
-                        p: 3,
-                        m: 0,
-                        background: ({ colors }) =>
-                            `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
-                        borderRadius: 3
+                        maxWidth: '100%'
+                    }}
+                    loader={
+                        <Flex sx={{ justifyContent: 'center', p: 3 }}>
+                            <Spinner />
+                        </Flex>
+                    }/>
+            </Box>
+            <Flex
+                sx={{
+                    alignItems: 'center',
+                    my: 3,
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap'
+                }}>
+                <Heading
+                    as='h2'
+                    sx={{
+                        fontSize: 6
                     }}>
-                    <Image
-                        src={imageSrc}
-                        sx={{
-                            maxWidth: '100%'
-                        }}
-                        loader={
-                            <Flex sx={{ justifyContent: 'center', p: 3 }}>
-                                <Spinner />
-                            </Flex>
-                        }/>
-                </Box>
+                    {titleName}
+                </Heading>
                 <Flex
                     sx={{
-                        alignItems: 'center',
-                        my: 3,
-                        justifyContent: 'space-between',
-                        flexWrap: 'wrap'
+                        my: [2, 0]
                     }}>
-                    <Heading
-                        as='h2'
+                    <DropdownButton downloadURL={imageSrc} />
+                    <Button
+                        onClick={() => alert('It\'s on my TODO list 📝')}
                         sx={{
-                            fontSize: 6
+                            fontSize: 4,
+                            variant: 'buttons.outline.secondary'
                         }}>
-                        {titleName}
-                    </Heading>
-                    <Flex
-                        sx={{
-                            my: [2, 0]
-                        }}>
-                        <DropdownButton downloadURL={imageSrc} />
-                        <Button
-                            onClick={() => alert('It\'s on my TODO list 📝')}
-                            sx={{
-                                fontSize: 4,
-                                variant: 'buttons.outline.secondary'
-                            }}>
-                            Post...
-                        </Button>
-                    </Flex>
+                        Post...
+                    </Button>
                 </Flex>
-                <Text sx={{ variant: 'text.body', mb: 2 }}>
-                    {resolutionWidth}px x {resolutionHeight}px
-                </Text>
-                <Text sx={{ variant: 'text.body', mb: 2 }}>
-                    {formatMegabytes(fileSize)}
-                </Text>
-                <Text sx={{ variant: 'text.body', mb: 2 }}>
-                    {formatDate(dateTaken)}
-                </Text>
-            </Container>
-        </Layout>
+            </Flex>
+            <Text sx={{ variant: 'text.body', mb: 2 }}>
+                {resolutionWidth}px x {resolutionHeight}px
+            </Text>
+            <Text sx={{ variant: 'text.body', mb: 2 }}>
+                {formatMegabytes(fileSize)}
+            </Text>
+            <Text sx={{ variant: 'text.body', mb: 2 }}>
+                {formatDate(dateTaken)}
+            </Text>
+        </Container>
     )
 }
 

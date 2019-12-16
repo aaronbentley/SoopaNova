@@ -2,7 +2,8 @@ module.exports = {
     pathPrefix: '/stacks',
     siteMetadata: {
         // title: 'Stacks.io',
-        title: 'N0V4',
+        // title: '🦄👩🏻‍🎤 Lexi  👩🏻‍🎤🦄',
+        title: 'Nova',
         description: 'Do more with your stuff',
         author: '@aaronbentley'
     },
