@@ -48,7 +48,8 @@ const DropdownButton = props => {
                         fontSize: 2
                     }}
                     fixedWidth
-                    icon={menuOpen ? faChevronDown : faChevronRight}/>
+                    icon={menuOpen ? faChevronDown : faChevronRight}
+                />
             </Button>
             {menuOpen && (
                 <Flex
@@ -59,7 +60,7 @@ const DropdownButton = props => {
                         zIndex: 9999,
                         width: '100%'
                     }}>
-                    <Box sx={{ p: 2, mr: 2, bg: 'primary', borderRadius: 3 }}>
+                    <Box sx={{ p: 1, mr: 2, bg: 'primary', borderRadius: 3 }}>
                         <Button
                             onClick={() => {
                                 console.log(downloadURL)
@@ -72,7 +73,8 @@ const DropdownButton = props => {
                             <FontAwesomeIcon
                                 sx={{ mr: 2 }}
                                 icon={faFileDownload}
-                                fixedWidth/>
+                                fixedWidth
+                            />
                             Device
                         </Button>
                         <Button
@@ -84,7 +86,8 @@ const DropdownButton = props => {
                             <FontAwesomeIcon
                                 sx={{ mr: 2 }}
                                 icon={faMicrosoft}
-                                fixedWidth/>
+                                fixedWidth
+                            />
                             OneDrive
                         </Button>
                         <Button
@@ -96,7 +99,8 @@ const DropdownButton = props => {
                             <FontAwesomeIcon
                                 sx={{ mr: 2 }}
                                 icon={faApple}
-                                fixedWidth/>
+                                fixedWidth
+                            />
                             iCloud
                         </Button>
                         <Button
@@ -108,7 +112,8 @@ const DropdownButton = props => {
                             <FontAwesomeIcon
                                 sx={{ mr: 2 }}
                                 icon={faGoogleDrive}
-                                fixedWidth/>
+                                fixedWidth
+                            />
                             Google Drive
                         </Button>
                         <Button
@@ -120,7 +125,8 @@ const DropdownButton = props => {
                             <FontAwesomeIcon
                                 sx={{ mr: 2 }}
                                 icon={faDropbox}
-                                fixedWidth/>
+                                fixedWidth
+                            />
                             DropBox
                         </Button>
                     </Box>

@@ -1,14 +1,5 @@
 /** @jsx jsx */
-import {
-    Box,
-    Button,
-    Card,
-    Flex,
-    Heading,
-    Input,
-    Label,
-    Spinner
-} from '@theme-ui/components'
+import { Box, Button, Card, Close, Flex, Heading, Input, Label, Radio, Spinner } from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useFirebase } from 'gatsby-plugin-firebase'
 import React, { useState } from 'react'
@@ -23,6 +14,10 @@ const IndexPage = () => {
         'gamertagLocalStorage',
         ''
     )
+    const [mediaTypeLocalStorage, setmediaTypeLocalStorage] = useLocalStorage(
+        'mediaTypeLocalStorage',
+        ''
+    )
     const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
         'mediaLocalStorage',
         []
@@ -32,13 +27,17 @@ const IndexPage = () => {
         // console.log('👩🏻‍🎤', gamertagLocalStorage)
         return gamertagLocalStorage || ''
     }
+    const mediaTypeInitialState = () => {
+        // console.log('🖼', mediaTypeLocalStorage)
+        return mediaTypeLocalStorage || 'screenshots'
+    }
     const resultsInitialState = () => {
-        // console.log('🌠', mediaLocalStorage)
+        // console.log('🍬', mediaLocalStorage)
         return mediaLocalStorage || []
     }
 
     const [gamertag, setGamertag] = useState(gamertagInitialState)
-    // const [mediaType, setMediaType] = useState('screenshots')
+    const [mediaType, setMediaType] = useState(mediaTypeInitialState)
     const [query, setQuery] = useState('')
     const [results, setResults] = useState(resultsInitialState)
     const [loading, setLoading] = useState(false)
@@ -50,36 +49,40 @@ const IndexPage = () => {
                 setResults([])
                 setLoading(true)
 
-                //#region getClips
-                // const getClips = firebase.functions().httpsCallable('getClips')
-                // const { data } = await getClips({
-                //     gamertag
-                // })
-                // // console.log(data)
-                // const { gameClips: clips = [] } = data
-                // console.log(clips)
-                // setResults(clips)
-                //#endregion
-
-                const getScreenshots = firebase
-                    .functions()
-                    .httpsCallable('getScreenshots')
-                const { data } = await getScreenshots({
-                    gamertag
-                })
-                const { screenshots = [] } = data
-                console.log(screenshots)
-                setLoading(false)
-                setResults(screenshots)
-
-                setmediaLocalStorage(screenshots)
+                if (mediaType === 'screenshots') {
+                    const getScreenshots = firebase
+                        .functions()
+                        .httpsCallable('getScreenshots')
+                    const { data } = await getScreenshots({
+                        gamertag
+                    })
+                    console.log(data)
+                    const { screenshots = [] } = data
+                    console.log(screenshots)
+                    setResults(screenshots)
+                    setmediaLocalStorage(screenshots)
+                } else if (mediaType === 'clips') {
+                    const getClips = firebase
+                        .functions()
+                        .httpsCallable('getClips')
+                    const { data } = await getClips({
+                        gamertag
+                    })
+                    console.log(data)
+                    const { gameClips: clips = [] } = data
+                    console.log(clips)
+                    setResults(clips)
+                    setmediaLocalStorage(clips)
+                }
                 setGamertagLocalStorage(gamertag)
+                setmediaTypeLocalStorage(mediaType)
+                setLoading(false)
             }
             if (query !== '') {
                 fetchData()
             }
         },
-        [query]
+        [query, mediaType]
     )
 
     return (
@@ -97,9 +100,10 @@ const IndexPage = () => {
                             width: ['100%', '55%']
                         }}>
                         <Heading
-                            as='h1'
+                            as='h2'
                             sx={{
                                 mb: 3,
+                                fontSize: 5,
                                 textAlign: 'center'
                             }}>
                             Find your Xbox media
@@ -118,13 +122,58 @@ const IndexPage = () => {
                                 }}>
                                 Gamertag
                             </Label>
-                            <Input
-                                name='gamertag'
-                                placeholder='Gamertag'
-                                value={gamertag}
-                                onChange={e => setGamertag(e.target.value)}
-                                sx={{ mb: 3 }}
-                            />
+                            <Box sx={{ mb: 3, position: 'relative' }}>
+                                <Input
+                                    name='gamertag'
+                                    placeholder='Gamertag'
+                                    value={gamertag}
+                                    onChange={e => setGamertag(e.target.value)}/>
+                                {gamertag !== '' && (
+                                    <Close
+                                        type='button'
+                                        onClick={() => {
+                                            setGamertag('')
+                                            setQuery('')
+                                            setResults([])
+                                            setGamertagLocalStorage('')
+                                            setmediaLocalStorage([])
+                                        }}
+                                        sx={{
+                                            position: 'absolute',
+                                            color: 'primary',
+                                            right: 2,
+                                            top: '20%',
+                                            borderRadius: 8
+                                        }}/>
+                                )}
+                            </Box>
+                            <Flex
+                                sx={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <Label>
+                                    <Radio
+                                        name='mediaType'
+                                        onChange={() =>
+                                            setMediaType('screenshots')
+                                        }
+                                        value={mediaType === 'screenshots'}
+                                        // defaultChecked={true}
+                                        defaultChecked={
+                                            mediaType === 'screenshots'
+                                        }/>
+                                    Screenshots
+                                </Label>
+                                <Label>
+                                    <Radio
+                                        onChange={() => setMediaType('clips')}
+                                        name='mediaType'
+                                        value={mediaType === 'clips'}
+                                        defaultChecked={mediaType === 'clips'}/>
+                                    Clips
+                                </Label>
+                            </Flex>
                             <Flex
                                 sx={{
                                     justifyContent: 'center'
@@ -134,7 +183,7 @@ const IndexPage = () => {
                                     sx={{
                                         variant: 'buttons.outline.primary',
                                         mt: 3,
-                                        mb: 4,
+                                        mb: 2,
                                         fontSize: 3
                                     }}
                                     type='submit'>
@@ -163,20 +212,24 @@ const IndexPage = () => {
                                     }}>
                                     <Card
                                         onClick={() => {
-                                            console.log(item)
-
-                                            navigate(
-                                                `/app/screenshot/${item.screenshotId}`,
-                                                {
-                                                    state: item
-                                                }
-                                            )
+                                            // console.log(item)
+                                            if (mediaType === 'screenshots') {
+                                                navigate(
+                                                    `/app/screenshot/${item.screenshotId}`,
+                                                    {
+                                                        state: item
+                                                    }
+                                                )
+                                            } else if (mediaType === 'clips') {
+                                                navigate(
+                                                    `/app/clip/${item.gameClipId}`,
+                                                    {
+                                                        state: item
+                                                    }
+                                                )
+                                            }
                                         }}
                                         sx={{
-                                            // p: 0,
-                                            // m: 3,
-                                            // backgroundColor: 'primary',
-                                            //borderRadius: 2,
                                             cursor: 'pointer',
                                             p: 1,
                                             m: 3,
@@ -196,8 +249,7 @@ const IndexPage = () => {
                                                     maxWidth: '100%',
                                                     mb: 2
                                                 }}
-                                                loader={<Spinner />}
-                                            />
+                                                loader={<Spinner />}/>
                                             <Box
                                                 sx={{
                                                     px: 3
@@ -223,41 +275,3 @@ const IndexPage = () => {
 }
 
 export default IndexPage
-
-// Media type radio buttons
-// <Flex
-//     sx={
-//         {
-//             // justifyContent: 'center'
-//             // flexDirection: 'row'
-//         }
-//     }>
-//     <Box>
-//         <Label>
-//             <Radio
-//                 name='screenshots'
-//                 value={
-//                     mediaType === 'screenshots'
-//                         ? 'true'
-//                         : 'false'
-//                 }
-//                 onChange={() =>
-//                     setMediaType('screenshots')
-//                 }/>
-//             Screenshots
-//         </Label>
-//         <Label>
-//             <Radio
-//                 name='clips'
-//                 value={
-//                     mediaType === 'clips'
-//                         ? 'true'
-//                         : 'false'
-//                 }
-//                 onChange={() =>
-//                     setMediaType('clips')
-//                 }/>
-//             Clips
-//         </Label>
-//     </Box>
-// </Flex>

@@ -10,9 +10,9 @@ import {
 } from '@theme-ui/components'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
-import DropdownButton from '../../components/dropdown-button/dropdown-button'
-import { formatMegabytes } from '../../utils/data-utils'
-import { formatDate } from '../../utils/date-utils'
+import DropdownButton from '../components/dropdown-button/dropdown-button'
+import { formatMegabytes } from '../utils/data-utils'
+import { formatDate } from '../utils/date-utils'
 
 const Screenshot = ({ location: { state } }) => {
     // console.log(state)
@@ -45,7 +45,8 @@ const Screenshot = ({ location: { state } }) => {
                         <Flex sx={{ justifyContent: 'center', p: 3 }}>
                             <Spinner />
                         </Flex>
-                    }/>
+                    }
+                />
             </Box>
             <Flex
                 sx={{
@@ -67,7 +68,7 @@ const Screenshot = ({ location: { state } }) => {
                     }}>
                     <DropdownButton downloadURL={imageSrc} />
                     <Button
-                        onClick={() => alert('It\'s on my TODO list 📝')}
+                        onClick={() => alert("It's on my TODO list 📝")}
                         sx={{
                             fontSize: 4,
                             variant: 'buttons.outline.secondary'

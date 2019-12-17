@@ -54,7 +54,7 @@ export default {
     },
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96, 128, 256],
-    radii: [0, 2, 4, 6, 8, 10, 12, 24],
+    radii: [0, 2, 4, 6, 8, 10, 12, 24, 99],
     borders: [1, 2, 4, 6, 8, 10, 12],
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
     zIndices: [0, 1, 2, 3, 4, 5],
@@ -179,8 +179,19 @@ export default {
         }
     },
     forms: {
-        label: {},
+        label: {
+            fontFamily: 'body',
+            lineHeight: 'body',
+            fontWeight: 'fine',
+            width: 'auto',
+            px: 3,
+            svg: {
+                marginTop: 1
+            }
+        },
         input: {
+            caretColor: ({ colors }) => colors.primary,
+            // backgroundClip: 'padding-box',
             color: 'primary',
             textAlign: 'center',
             borderColor: 'primary',
@@ -190,7 +201,10 @@ export default {
             backgroundColor: 'background',
             '&::placeholder': {
                 color: 'primary',
-                opacity: 0.5
+                opacity: 0.6
+            },
+            ':focus': {
+                outline: 'none'
             }
         },
         radio: {
