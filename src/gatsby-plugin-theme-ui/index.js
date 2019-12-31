@@ -3,8 +3,8 @@ import { darken } from '@theme-ui/color'
 export default {
     useCustomProperties: true,
     useColorSchemeMediaQuery: true,
-    initialColorMode: 'system',
-    // initialColorMode: 'dark',
+    // initialColorMode: 'system',
+    initialColorMode: 'dark',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
         text: '#E2DBDB',
