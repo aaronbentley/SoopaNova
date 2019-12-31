@@ -1,5 +1,16 @@
 /** @jsx jsx */
-import { Box, Button, Card, Close, Flex, Heading, Input, Label, Radio, Spinner } from '@theme-ui/components'
+import {
+    Box,
+    Button,
+    Card,
+    Close,
+    Flex,
+    Heading,
+    Input,
+    Label,
+    Radio,
+    Spinner
+} from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useFirebase } from 'gatsby-plugin-firebase'
 import React, { useState } from 'react'
@@ -9,6 +20,7 @@ import Layout from '../components/layout/layout'
 import { useLocalStorage } from '../hooks/use-local-storage'
 
 const IndexPage = () => {
+    //TODO: load/save query from localstorage too!!!!!!!!!
     // Load saved data from local storage on page load
     const [gamertagLocalStorage, setGamertagLocalStorage] = useLocalStorage(
         'gamertagLocalStorage',
@@ -127,7 +139,8 @@ const IndexPage = () => {
                                     name='gamertag'
                                     placeholder='Gamertag'
                                     value={gamertag}
-                                    onChange={e => setGamertag(e.target.value)}/>
+                                    onChange={e => setGamertag(e.target.value)}
+                                />
                                 {gamertag !== '' && (
                                     <Close
                                         type='button'
@@ -144,7 +157,8 @@ const IndexPage = () => {
                                             right: 2,
                                             top: '20%',
                                             borderRadius: 8
-                                        }}/>
+                                        }}
+                                    />
                                 )}
                             </Box>
                             <Flex
@@ -162,7 +176,8 @@ const IndexPage = () => {
                                         // defaultChecked={true}
                                         defaultChecked={
                                             mediaType === 'screenshots'
-                                        }/>
+                                        }
+                                    />
                                     Screenshots
                                 </Label>
                                 <Label>
@@ -170,7 +185,8 @@ const IndexPage = () => {
                                         onChange={() => setMediaType('clips')}
                                         name='mediaType'
                                         value={mediaType === 'clips'}
-                                        defaultChecked={mediaType === 'clips'}/>
+                                        defaultChecked={mediaType === 'clips'}
+                                    />
                                     Clips
                                 </Label>
                             </Flex>
@@ -204,8 +220,11 @@ const IndexPage = () => {
                     }}>
                     {results !== [] &&
                         results.map(item => {
+                            // const ref = useRef()
+                            // const onScreen = useOnScreen(ref, '-300px')
                             return (
                                 <Box
+                                    // ref={ref}
                                     key={item.screenshotId || item.gameClipId}
                                     sx={{
                                         width: ['100%', '50%', '33%', '25%']
@@ -249,7 +268,8 @@ const IndexPage = () => {
                                                     maxWidth: '100%',
                                                     mb: 2
                                                 }}
-                                                loader={<Spinner />}/>
+                                                loader={<Spinner />}
+                                            />
                                             <Box
                                                 sx={{
                                                     px: 3

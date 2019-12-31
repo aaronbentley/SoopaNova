@@ -36,7 +36,10 @@ export const Header = () => {
                             sx={{
                                 alignSelf: 'center'
                             }}>
-                            <ThemeUILink variant='logo' as={Link} to='/'>
+                            <ThemeUILink
+                                sx={{ variant: 'links.logo' }}
+                                as={Link}
+                                to='/'>
                                 <Heading
                                     as='h1'
                                     sx={{

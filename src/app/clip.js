@@ -35,6 +35,7 @@ const Clip = ({ location: { state } }) => {
                 }}>
                 <ReactPlayer
                     playing
+                    muted
                     controls
                     pip
                     sx={{

@@ -3,8 +3,8 @@ import { darken } from '@theme-ui/color'
 export default {
     useCustomProperties: true,
     useColorSchemeMediaQuery: true,
-    // initialColorMode: 'system',
-    initialColorMode: 'dark',
+    initialColorMode: 'system',
+    // initialColorMode: 'dark',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
         text: '#E2DBDB',
@@ -59,7 +59,7 @@ export default {
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
     zIndices: [0, 1, 2, 3, 4, 5],
     sizes: {
-        container: '1200px',
+        container: '1400px',
         header: {
             button: '36px'
         }

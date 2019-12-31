@@ -28,7 +28,8 @@
             "off",
             {
                 "selfClosing": "line-aligned",
-                "nonEmpty": "after-props"
+                "nonEmpty": "after-props",
+                "jsxBracketSameLine": true
             }
         ],
         "indent": [
