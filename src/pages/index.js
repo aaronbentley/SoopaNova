@@ -2,7 +2,6 @@
 import {
     Box,
     Button,
-    Card,
     Close,
     Flex,
     Heading,
@@ -11,13 +10,13 @@ import {
     Radio,
     Spinner
 } from '@theme-ui/components'
-import { navigate } from 'gatsby'
 import { useFirebase } from 'gatsby-plugin-firebase'
 import React, { useState } from 'react'
-import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
+import Thumbnail from '../components/thumbnail/thumbnail'
 import { useLocalStorage } from '../hooks/use-local-storage'
+// import {useOnScreen} from '../hooks/use-on-screen'
 
 const IndexPage = () => {
     //TODO: load/save query from localstorage too!!!!!!!!!
@@ -173,7 +172,6 @@ const IndexPage = () => {
                                             setMediaType('screenshots')
                                         }
                                         value={mediaType === 'screenshots'}
-                                        // defaultChecked={true}
                                         defaultChecked={
                                             mediaType === 'screenshots'
                                         }
@@ -220,72 +218,11 @@ const IndexPage = () => {
                     }}>
                     {results !== [] &&
                         results.map(item => {
-                            // const ref = useRef()
-                            // const onScreen = useOnScreen(ref, '-300px')
                             return (
-                                <Box
-                                    // ref={ref}
+                                <Thumbnail
+                                    item={item}
                                     key={item.screenshotId || item.gameClipId}
-                                    sx={{
-                                        width: ['100%', '50%', '33%', '25%']
-                                    }}>
-                                    <Card
-                                        onClick={() => {
-                                            // console.log(item)
-                                            if (mediaType === 'screenshots') {
-                                                navigate(
-                                                    `/app/screenshot/${item.screenshotId}`,
-                                                    {
-                                                        state: item
-                                                    }
-                                                )
-                                            } else if (mediaType === 'clips') {
-                                                navigate(
-                                                    `/app/clip/${item.gameClipId}`,
-                                                    {
-                                                        state: item
-                                                    }
-                                                )
-                                            }
-                                        }}
-                                        sx={{
-                                            cursor: 'pointer',
-                                            p: 1,
-                                            m: 3,
-                                            background: ({ colors }) =>
-                                                `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
-                                            borderRadius: 2
-                                        }}>
-                                        <Flex
-                                            sx={{
-                                                flexDirection: 'column',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}>
-                                            <Image
-                                                src={item.thumbnails[0].uri}
-                                                sx={{
-                                                    maxWidth: '100%',
-                                                    mb: 2
-                                                }}
-                                                loader={<Spinner />}
-                                            />
-                                            <Box
-                                                sx={{
-                                                    px: 3
-                                                }}>
-                                                <Heading
-                                                    as='h3'
-                                                    sx={{
-                                                        color: 'background',
-                                                        mb: 2
-                                                    }}>
-                                                    {item.titleName}
-                                                </Heading>
-                                            </Box>
-                                        </Flex>
-                                    </Card>
-                                </Box>
+                                />
                             )
                         })}
                 </Flex>

@@ -1,30 +1,32 @@
 /** @jsx jsx */
+/**
+ * Stacks.io Screenshot
+ *
+ * @export Screenshot
+ */
 import {
     Box,
     Button,
     Container,
     Flex,
     Heading,
-    Spinner,
     Text
 } from '@theme-ui/components'
-import Image from 'react-image'
+import FilePlayer from 'react-player/lib/players/FilePlayer'
 import { jsx } from 'theme-ui'
-import DropdownButton from '../components/dropdown-button/dropdown-button'
-import { formatMegabytes } from '../utils/data-utils'
-import { formatDate } from '../utils/date-utils'
+import { formatMegabytes } from '../../utils/data-utils'
+import { formatDate } from '../../utils/date-utils'
+import DropdownButton from '../dropdown-button/dropdown-button'
 
-const Screenshot = ({ location: { state } }) => {
-    // console.log(state)
+const Clip = props => {
+    console.log(props)
     const {
-        // screenshotId = '',
-        resolutionHeight = '',
-        resolutionWidth = '',
         titleName = '',
-        screenshotUris: [{ uri: imageSrc = '', fileSize = 0 }],
-        // type = '',
-        dateTaken = ''
-    } = state
+        gameClipUris: [{ uri: movieSrc = '', fileSize = 0 }],
+        // thumbnails: [{ fileSize: movieFileSize = 0, uri: movieThumbSrc = '' }],
+        dateRecorded = '',
+        durationInSeconds = 0
+    } = props
 
     return (
         <Container>
@@ -36,16 +38,17 @@ const Screenshot = ({ location: { state } }) => {
                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
                     borderRadius: 3
                 }}>
-                <Image
-                    src={imageSrc}
+                <FilePlayer
+                    playing
+                    muted
+                    controls
+                    pip
                     sx={{
                         maxWidth: '100%'
                     }}
-                    loader={
-                        <Flex sx={{ justifyContent: 'center', p: 3 }}>
-                            <Spinner />
-                        </Flex>
-                    }
+                    width='100%'
+                    height='100%'
+                    url={movieSrc}
                 />
             </Box>
             <Flex
@@ -66,8 +69,9 @@ const Screenshot = ({ location: { state } }) => {
                     sx={{
                         my: [2, 0]
                     }}>
-                    <DropdownButton downloadURL={imageSrc} />
+                    <DropdownButton downloadURL={movieSrc} />
                     <Button
+                        // eslint-disable-next-line quotes
                         onClick={() => alert("It's on my TODO list 📝")}
                         sx={{
                             fontSize: 4,
@@ -78,16 +82,16 @@ const Screenshot = ({ location: { state } }) => {
                 </Flex>
             </Flex>
             <Text sx={{ variant: 'text.body', mb: 2 }}>
-                {resolutionWidth}px x {resolutionHeight}px
+                {durationInSeconds}s
             </Text>
             <Text sx={{ variant: 'text.body', mb: 2 }}>
                 {formatMegabytes(fileSize)}
             </Text>
             <Text sx={{ variant: 'text.body', mb: 2 }}>
-                {formatDate(dateTaken)}
+                {formatDate(dateRecorded)}
             </Text>
         </Container>
     )
 }
 
-export default Screenshot
+export default Clip

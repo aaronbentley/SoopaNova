@@ -29,7 +29,8 @@
             {
                 "selfClosing": "line-aligned",
                 "nonEmpty": "after-props",
-                "jsxBracketSameLine": true
+                "jsxBracketSameLine": true,
+                "quoteProps": "as-needed"
             }
         ],
         "indent": [
@@ -52,6 +53,10 @@
             "warn",
             "after-props"
         ],
+        // "react/jsx-closing-bracket-location": [
+        //     "warn",
+        //     "after-props"
+        // ],
         "jsx-quotes": [
             "warn",
             "prefer-single"
