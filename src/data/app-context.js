@@ -45,7 +45,8 @@ const useApp = () => {
     return [useAppState(), useAppDispatch()]
 }
 
-export { AppProvider, useAppState, useAppDispatch, useApp }
+// export { AppProvider, useAppState, useAppDispatch, useApp }
+export { AppProvider, useApp }
 
 AppProvider.propTypes = {
     children: PropTypes.node.isRequired
