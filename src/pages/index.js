@@ -11,54 +11,64 @@ import {
     Spinner
 } from '@theme-ui/components'
 import { useFirebase } from 'gatsby-plugin-firebase'
-import React, { useState } from 'react'
+import React from 'react'
 import { jsx } from 'theme-ui'
 import Layout from '../components/layout/layout'
 import Thumbnail from '../components/thumbnail/thumbnail'
-import { useLocalStorage } from '../hooks/use-local-storage'
-// import {useOnScreen} from '../hooks/use-on-screen'
+import { useApp } from '../data/app-context'
 
 const IndexPage = () => {
     //TODO: load/save query from localstorage too!!!!!!!!!
     // Load saved data from local storage on page load
-    const [gamertagLocalStorage, setGamertagLocalStorage] = useLocalStorage(
-        'gamertagLocalStorage',
-        ''
-    )
-    const [mediaTypeLocalStorage, setmediaTypeLocalStorage] = useLocalStorage(
-        'mediaTypeLocalStorage',
-        ''
-    )
-    const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
-        'mediaLocalStorage',
-        []
-    )
+    // const [gamertagLocalStorage, setGamertagLocalStorage] = useLocalStorage(
+    //     'gamertagLocalStorage',
+    //     ''
+    // )
+    // const [mediaTypeLocalStorage, setmediaTypeLocalStorage] = useLocalStorage(
+    //     'mediaTypeLocalStorage',
+    //     ''
+    // )
+    // const [mediaLocalStorage, setmediaLocalStorage] = useLocalStorage(
+    //     'mediaLocalStorage',
+    //     []
+    // )
 
-    const gamertagInitialState = () => {
-        // console.log('👩🏻‍🎤', gamertagLocalStorage)
-        return gamertagLocalStorage || ''
-    }
-    const mediaTypeInitialState = () => {
-        // console.log('🖼', mediaTypeLocalStorage)
-        return mediaTypeLocalStorage || 'screenshots'
-    }
-    const resultsInitialState = () => {
-        // console.log('🍬', mediaLocalStorage)
-        return mediaLocalStorage || []
-    }
+    // const gamertagInitialState = () => {
+    //     // console.log('👩🏻‍🎤', gamertagLocalStorage)
+    //     return gamertagLocalStorage || ''
+    // }
+    // const mediaTypeInitialState = () => {
+    //     // console.log('🖼', mediaTypeLocalStorage)
+    //     return mediaTypeLocalStorage || 'screenshots'
+    // }
+    // const resultsInitialState = () => {
+    //     // console.log('🍬', mediaLocalStorage)
+    //     return mediaLocalStorage || []
+    // }
 
-    const [gamertag, setGamertag] = useState(gamertagInitialState)
-    const [mediaType, setMediaType] = useState(mediaTypeInitialState)
-    const [query, setQuery] = useState('')
-    const [results, setResults] = useState(resultsInitialState)
-    const [loading, setLoading] = useState(false)
+    // const [gamertag, setGamertag] = useState(gamertagInitialState)
+    // const [mediaType, setMediaType] = useState(mediaTypeInitialState)
+    // const [query, setQuery] = useState('')
+    // const [results, setResults] = useState(resultsInitialState)
+    // const [loading, setLoading] = useState(false)
+
+    const [state, dispatch] = useApp()
+    const { gamertag, mediaType, query, results, loading } = state
+    // console.log('TCL: IndexPage -> state', state)
+    // console.log('TCL: IndexPage -> dispatch', dispatch)
 
     useFirebase(
         firebase => {
             async function fetchData() {
                 console.log('🔥')
-                setResults([])
-                setLoading(true)
+                // setResults([])
+                // setLoading(true)
+                dispatch({
+                    type: 'reset'
+                })
+                dispatch({
+                    type: 'toggleLoading'
+                })
 
                 if (mediaType === 'screenshots') {
                     const getScreenshots = firebase
@@ -70,8 +80,11 @@ const IndexPage = () => {
                     console.log(data)
                     const { screenshots = [] } = data
                     console.log(screenshots)
-                    setResults(screenshots)
-                    setmediaLocalStorage(screenshots)
+                    // setResults(screenshots)
+
+                    dispatch({ type: 'setResults', payload: screenshots })
+
+                    // setmediaLocalStorage(screenshots)
                 } else if (mediaType === 'clips') {
                     const getClips = firebase
                         .functions()
@@ -82,12 +95,18 @@ const IndexPage = () => {
                     console.log(data)
                     const { gameClips: clips = [] } = data
                     console.log(clips)
-                    setResults(clips)
-                    setmediaLocalStorage(clips)
+                    // setResults(clips)
+
+                    dispatch({ type: 'setResults', payload: clips })
+
+                    // setmediaLocalStorage(clips)
                 }
-                setGamertagLocalStorage(gamertag)
-                setmediaTypeLocalStorage(mediaType)
-                setLoading(false)
+                // setGamertagLocalStorage(gamertag)
+                // setmediaTypeLocalStorage(mediaType)
+                // setLoading(false)
+                dispatch({
+                    type: 'toggleLoading'
+                })
             }
             if (query !== '') {
                 fetchData()
@@ -123,7 +142,10 @@ const IndexPage = () => {
                             as='form'
                             onSubmit={e => {
                                 e.preventDefault()
-                                setQuery(gamertag)
+                                dispatch({
+                                    type: 'setQuery',
+                                    payload: gamertag
+                                })
                             }}>
                             <Label
                                 htmlFor='gamertag'
@@ -138,17 +160,20 @@ const IndexPage = () => {
                                     name='gamertag'
                                     placeholder='Gamertag'
                                     value={gamertag}
-                                    onChange={e => setGamertag(e.target.value)}
+                                    onChange={e =>
+                                        dispatch({
+                                            type: 'setGamertag',
+                                            payload: e.target.value
+                                        })
+                                    }
                                 />
                                 {gamertag !== '' && (
                                     <Close
                                         type='button'
                                         onClick={() => {
-                                            setGamertag('')
-                                            setQuery('')
-                                            setResults([])
-                                            setGamertagLocalStorage('')
-                                            setmediaLocalStorage([])
+                                            dispatch({
+                                                type: 'reset'
+                                            })
                                         }}
                                         sx={{
                                             position: 'absolute',
@@ -169,7 +194,10 @@ const IndexPage = () => {
                                     <Radio
                                         name='mediaType'
                                         onChange={() =>
-                                            setMediaType('screenshots')
+                                            dispatch({
+                                                type: 'setMediaType',
+                                                payload: 'screenshots'
+                                            })
                                         }
                                         value={mediaType === 'screenshots'}
                                         defaultChecked={
@@ -180,7 +208,12 @@ const IndexPage = () => {
                                 </Label>
                                 <Label>
                                     <Radio
-                                        onChange={() => setMediaType('clips')}
+                                        onChange={() =>
+                                            dispatch({
+                                                type: 'setMediaType',
+                                                payload: 'clips'
+                                            })
+                                        }
                                         name='mediaType'
                                         value={mediaType === 'clips'}
                                         defaultChecked={mediaType === 'clips'}

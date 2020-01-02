@@ -5,52 +5,47 @@
  */
 
 import PropTypes from 'prop-types'
-// import React, { createContext, useCallback, useContext, useState } from 'react'
-import React, { createContext } from 'react'
+import React, { createContext, useContext, useReducer } from 'react'
+import { initialState } from './initial-state'
+import { reducer } from './reducer'
 
-const defaultAppContext = false
+// Create contexts
+const AppStateContext = createContext()
+const AppDispatchContext = createContext()
 
-const AppContext = createContext(defaultAppContext)
-
-export const AppProvider = ({ children }) => {
-    // const [menuOpenState, setMenuOpenState] = useState(defaultAppContext)
+const AppProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
-        <AppContext.Provider
-            value={{
-                foo: 'bar'
-                // menuOpenState,
-                // setMenuOpenState,
-                // stateChangeHandler: newState => setMenuOpenState(newState)
-            }}>
-            {children}
-        </AppContext.Provider>
+        <AppStateContext.Provider value={state}>
+            <AppDispatchContext.Provider value={dispatch}>
+                {children}
+            </AppDispatchContext.Provider>
+        </AppStateContext.Provider>
     )
 }
 
-// const useApp = () => {
-//     const context = useContext(AppContext)
+const useAppState = () => {
+    const context = useContext(AppStateContext)
+    if (!context) {
+        throw new Error('useAppState must be used within an AppProvider')
+    }
+    return context
+}
 
-//     if (!context) {
-//         throw new Error('useApp must be used within an AppProvider')
-//     }
+const useAppDispatch = () => {
+    const context = useContext(AppDispatchContext)
+    if (!context) {
+        throw new Error('useAppDispatch must be used within an AppProvider')
+    }
+    return context
+}
 
-//     // const { menuOpenState, setMenuOpenState, stateChangeHandler } = context
-//     const { foo } = context
+const useApp = () => {
+    return [useAppState(), useAppDispatch()]
+}
 
-//     // const toggleMenu = useCallback(() => {
-//     //     setMenuOpenState(!menuOpenState)
-//     // }, [menuOpenState, setMenuOpenState])
-
-//     return {
-//         // menuOpenState,
-//         // toggleMenu,
-//         // stateChangeHandler
-//         foo
-//     }
-// }
-
-// export { AppProvider, useApp }
+export { AppProvider, useAppState, useAppDispatch, useApp }
 
 AppProvider.propTypes = {
     children: PropTypes.node.isRequired
