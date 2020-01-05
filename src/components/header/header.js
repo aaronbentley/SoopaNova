@@ -16,7 +16,14 @@ import ThemeToggleButton from '../theme-toggle-button/theme-toggle-button'
 export const Header = () => {
     const { title } = useSiteMetadata()
     return (
-        <Headroom sx={{ m: 0, p: 0 }}>
+        <Headroom
+            sx={{
+                m: 0,
+                p: 0,
+                '& div.headroom': {
+                    backgroundColor: 'background'
+                }
+            }}>
             <Box as='header'>
                 <Container>
                     <Flex
