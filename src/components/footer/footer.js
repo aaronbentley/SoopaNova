@@ -19,6 +19,7 @@ export const Footer = () => {
                 }}>
                 <Link
                     target='_blank'
+                    rel='noopener'
                     to={`https://twitter.com/${author}`}
                     sx={{ variant: 'links.footer', py: 1 }}>
                     &lt;{author}/&gt;

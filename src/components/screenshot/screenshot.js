@@ -20,7 +20,6 @@ import { formatDate } from '../../utils/date-utils'
 import DropdownButton from '../dropdown-button/dropdown-button'
 
 const Screenshot = props => {
-    // console.log(props)
     const {
         resolutionHeight = '',
         resolutionWidth = '',

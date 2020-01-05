@@ -4,7 +4,8 @@ module.exports = {
         // title: 'Stacks.io',
         // title: '🦄👩🏻‍🎤 Lexi  👩🏻‍🎤🦄',
         title: 'Nova',
-        description: 'Do more with your stuff',
+        // description: 'Do more with your stuff',
+        description: 'Do more with your Xbox media',
         author: '@aaronbentley'
     },
     plugins: [
