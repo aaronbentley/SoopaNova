@@ -77,6 +77,7 @@ const IndexPage = () => {
                 }
             }
 
+            // TODO: Fire on mediaTypeChange (query is reset to '' on setResults)
             if (query !== '') {
                 fetchData()
             }

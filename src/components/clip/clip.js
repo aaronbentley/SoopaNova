@@ -19,7 +19,6 @@ import { formatDate } from '../../utils/date-utils'
 import DropdownButton from '../dropdown-button/dropdown-button'
 
 const Clip = props => {
-    console.log(props)
     const {
         titleName = '',
         gameClipUris: [{ uri: movieSrc = '', fileSize = 0 }],

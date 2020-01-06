@@ -29,7 +29,7 @@ exports.getScreenshots = functions.https.onCall(async (data, context) => {
         }
         await init()
         const screenshots = await xla.getScreenshotsForGamer(gamertag)
-        // console.log(screenshots)
+        console.log(screenshots)
         return screenshots
     } catch (error) {
         console.log(error)

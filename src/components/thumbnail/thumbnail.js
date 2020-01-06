@@ -9,6 +9,7 @@ import { navigate } from 'gatsby'
 import { useRef } from 'react'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
+import LazyPlaceholderSVG from '../../assets/lazy-placeholder.svg'
 import { useOnScreen } from '../../hooks/use-on-screen'
 
 const Thumbnail = ({ item }) => {
@@ -28,20 +29,9 @@ const Thumbnail = ({ item }) => {
             <Card
                 onClick={() => {
                     // console.log(item)
-
                     navigate(`/app/media/${id}`, {
                         state: item
                     })
-
-                    // if (mediaType === 'screenshots') {
-                    //     navigate(`/app/screenshot/${item.screenshotId}`, {
-                    //         state: item
-                    //     })
-                    // } else if (mediaType === 'clips') {
-                    //     navigate(`/app/clip/${item.gameClipId}`, {
-                    //         state: item
-                    //     })
-                    // }
                 }}
                 sx={{
                     cursor: 'pointer',
@@ -61,7 +51,7 @@ const Thumbnail = ({ item }) => {
                         src={
                             onScreen
                                 ? item.thumbnails[0].uri
-                                : 'https://via.placeholder.com/208x116'
+                                : LazyPlaceholderSVG
                         }
                         sx={{
                             maxWidth: '100%',

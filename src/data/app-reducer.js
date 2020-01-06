@@ -1,10 +1,18 @@
-export const reducer = (state, action) => {
+/* eslint-disable indent */
+/**
+ * Stacks.io App Reducer
+ *
+ * @export AppReducer
+ */
+
+export const AppReducer = (state, action) => {
     switch (action.type) {
         case 'reset': {
             return {
                 ...state,
                 results: [],
-                query: ''
+                query: '',
+                gamertag: ''
             }
         }
         case 'toggleLoading': {
@@ -31,7 +39,8 @@ export const reducer = (state, action) => {
         case 'setResults': {
             return {
                 ...state,
-                results: action.payload
+                results: action.payload,
+                query: ''
             }
         }
         default: {

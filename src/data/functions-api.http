@@ -1,0 +1,18 @@
+// @gamertag = 'Cheeky Squeezes'
+@gamertag = 'BARTSKI'
+
+POST http://localhost:5000/stacks-io-dev/us-central1/getScreenshots
+content-type: application/json
+
+{
+    "gamertag": {{gamertag}}
+}
+
+###
+
+POST http://localhost:5000/stacks-io-dev/us-central1/getClips
+content-type: application/json
+
+{
+    "gamertag": {{gamertag}}
+}

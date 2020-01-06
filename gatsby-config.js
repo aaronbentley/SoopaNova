@@ -1,3 +1,5 @@
+// const path = require('path')
+
 module.exports = {
     pathPrefix: '/stacks',
     siteMetadata: {
@@ -37,6 +39,15 @@ module.exports = {
         'gatsby-transformer-sharp',
         'gatsby-plugin-sharp',
         'gatsby-plugin-theme-ui',
+        // {
+        //     resolve: 'gatsby-plugin-react-svg',
+        //     options: {
+        //         rule: {
+        //             // include: /assets/ // See below to configure properly
+        //             include: path.resolve(__dirname, 'src/assets')
+        //         }
+        //     }
+        // },
         {
             resolve: 'gatsby-plugin-manifest',
             options: {

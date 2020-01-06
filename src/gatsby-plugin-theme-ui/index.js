@@ -58,6 +58,7 @@ export default {
     borders: [1, 2, 4, 6, 8, 10, 12],
     durations: ['0.15s', '0.30s', '0.45s', '1s'],
     zIndices: [0, 1, 2, 3, 4, 5],
+    scales: [1, 1.07, 1.15, 1.3, 1.6],
     sizes: {
         container: '1400px',
         header: {
