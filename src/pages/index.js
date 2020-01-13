@@ -227,7 +227,8 @@ const IndexPage = () => {
                 )}
                 <Flex
                     sx={{
-                        flexWrap: 'wrap'
+                        flexWrap: 'wrap',
+                        p: 0
                     }}>
                     {results !== [] &&
                         results.map(item => {

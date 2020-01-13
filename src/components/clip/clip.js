@@ -4,16 +4,11 @@
  *
  * @export Screenshot
  */
-import {
-    Box,
-    Button,
-    Container,
-    Flex,
-    Heading,
-    Text
-} from '@theme-ui/components'
+import { Box, Flex, Heading, Text } from '@theme-ui/components'
+import React from 'react'
 import FilePlayer from 'react-player/lib/players/FilePlayer'
 import { jsx } from 'theme-ui'
+import { useApp } from '../../data/app-context'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
 import DropdownButton from '../dropdown-button/dropdown-button'
@@ -27,11 +22,16 @@ const Clip = props => {
         durationInSeconds = 0
     } = props
 
+    const [state] = useApp()
+    const { gamertag = '' } = state
+
     return (
-        <Container>
+        <React.Fragment>
             <Box
                 sx={{
-                    p: 3,
+                    pt: 2,
+                    px: 2,
+                    pb: 1,
                     m: 0,
                     background: ({ colors }) =>
                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
@@ -69,7 +69,7 @@ const Clip = props => {
                         my: [2, 0]
                     }}>
                     <DropdownButton downloadURL={movieSrc} />
-                    <Button
+                    {/* <Button
                         // eslint-disable-next-line quotes
                         onClick={() => alert("It's on my TODO list 📝")}
                         sx={{
@@ -78,8 +78,12 @@ const Clip = props => {
                         }}>
                         Post...
                     </Button>
+                    */}
                 </Flex>
             </Flex>
+            <Text sx={{ variant: 'text.body', mb: 2 }}>
+                Created by {gamertag}
+            </Text>
             <Text sx={{ variant: 'text.body', mb: 2 }}>
                 {durationInSeconds}s
             </Text>
@@ -89,7 +93,7 @@ const Clip = props => {
             <Text sx={{ variant: 'text.body', mb: 2 }}>
                 {formatDate(dateRecorded)}
             </Text>
-        </Container>
+        </React.Fragment>
     )
 }
 

@@ -4,13 +4,14 @@
  *
  * @export Thumbnail
  */
-import { Box, Card, Flex, Heading, Spinner } from '@theme-ui/components'
+import { Box, Card, Flex, Heading } from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useRef } from 'react'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
 import LazyPlaceholderSVG from '../../assets/lazy-placeholder.svg'
 import { useOnScreen } from '../../hooks/use-on-screen'
+import { AspectRatioLoader } from '../aspect-ratio-loader/aspect-ratio-loader'
 
 const Thumbnail = ({ item }) => {
     // console.log('TCL: item', item)
@@ -36,7 +37,7 @@ const Thumbnail = ({ item }) => {
                 sx={{
                     cursor: 'pointer',
                     p: 1,
-                    m: 3,
+                    m: 2,
                     background: ({ colors }) =>
                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
                     borderRadius: 2
@@ -57,11 +58,11 @@ const Thumbnail = ({ item }) => {
                             maxWidth: '100%',
                             mb: 2
                         }}
-                        loader={<Spinner />}
+                        loader={<AspectRatioLoader />}
                     />
                     <Box
                         sx={{
-                            px: 3
+                            px: 1
                         }}>
                         <Heading
                             as='h3'

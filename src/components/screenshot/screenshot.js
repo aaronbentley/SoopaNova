@@ -4,19 +4,14 @@
  *
  * @export Screenshot
  */
-import {
-    Box,
-    Button,
-    Container,
-    Flex,
-    Heading,
-    Spinner,
-    Text
-} from '@theme-ui/components'
+import { Box, Flex, Heading, Text } from '@theme-ui/components'
+import React from 'react'
 import Image from 'react-image'
 import { jsx } from 'theme-ui'
+import { useApp } from '../../data/app-context'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
+import { AspectRatioLoader } from '../aspect-ratio-loader/aspect-ratio-loader'
 import DropdownButton from '../dropdown-button/dropdown-button'
 
 const Screenshot = props => {
@@ -28,11 +23,16 @@ const Screenshot = props => {
         dateTaken = ''
     } = props
 
+    const [state] = useApp()
+    const { gamertag = '' } = state
+
     return (
-        <Container>
+        <React.Fragment>
             <Box
                 sx={{
-                    p: 3,
+                    pt: 2,
+                    px: 2,
+                    pb: 1,
                     m: 0,
                     background: ({ colors }) =>
                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
@@ -41,13 +41,10 @@ const Screenshot = props => {
                 <Image
                     src={imageSrc}
                     sx={{
-                        maxWidth: '100%'
+                        m: 0,
+                        width: '100%'
                     }}
-                    loader={
-                        <Flex sx={{ justifyContent: 'center', p: 3 }}>
-                            <Spinner />
-                        </Flex>
-                    }
+                    loader={<AspectRatioLoader />}
                 />
             </Box>
             <Flex
@@ -69,7 +66,7 @@ const Screenshot = props => {
                         my: [2, 0]
                     }}>
                     <DropdownButton downloadURL={imageSrc} />
-                    <Button
+                    {/* <Button
                         // eslint-disable-next-line quotes
                         onClick={() => alert("It's on my TODO list 📝")}
                         sx={{
@@ -77,9 +74,12 @@ const Screenshot = props => {
                             variant: 'buttons.outline.secondary'
                         }}>
                         Post...
-                    </Button>
+                    </Button> */}
                 </Flex>
             </Flex>
+            <Text sx={{ variant: 'text.body', mb: 2 }}>
+                Created by {gamertag}
+            </Text>
             <Text sx={{ variant: 'text.body', mb: 2 }}>
                 {resolutionWidth}px x {resolutionHeight}px
             </Text>
@@ -89,7 +89,7 @@ const Screenshot = props => {
             <Text sx={{ variant: 'text.body', mb: 2 }}>
                 {formatDate(dateTaken)}
             </Text>
-        </Container>
+        </React.Fragment>
     )
 }
 

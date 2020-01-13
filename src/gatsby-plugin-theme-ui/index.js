@@ -3,7 +3,6 @@ import { darken } from '@theme-ui/color'
 export default {
     useCustomProperties: true,
     useColorSchemeMediaQuery: true,
-    // initialColorMode: 'system',
     initialColorMode: 'dark',
     breakpoints: ['40em', '52em', '64em'],
     colors: {
@@ -14,6 +13,7 @@ export default {
         highlight: '#f0953f',
         muted: '#f6f6ff',
         grey: '#888888',
+        black: '#333333',
         modes: {
             light: {
                 primary: '#f0953f',
@@ -60,7 +60,6 @@ export default {
     zIndices: [0, 1, 2, 3, 4, 5],
     scales: [1, 1.07, 1.15, 1.3, 1.6],
     sizes: {
-        container: '1400px',
         header: {
             button: '36px'
         }
@@ -151,6 +150,11 @@ export default {
         }
     },
     // variants
+    layout: {
+        container: {
+            maxWidth: '1600px'
+        }
+    },
     text: {
         heading: {
             color: 'primary',
@@ -192,7 +196,6 @@ export default {
         },
         input: {
             caretColor: ({ colors }) => colors.primary,
-            // backgroundClip: 'padding-box',
             color: 'primary',
             textAlign: 'center',
             borderColor: 'primary',

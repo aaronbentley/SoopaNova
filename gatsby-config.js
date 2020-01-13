@@ -3,10 +3,10 @@
 module.exports = {
     pathPrefix: '/stacks',
     siteMetadata: {
-        // title: 'Stacks.io',
         // title: '🦄👩🏻‍🎤 Lexi  👩🏻‍🎤🦄',
+        // title: '🧚‍♀️👩🏻‍🎤 Maddi  👩🏻‍🎤🧚‍♀️',
         title: 'Nova',
-        // description: 'Do more with your stuff',
+        // title: 'Stacks.io',
         description: 'Do more with your Xbox media',
         author: '@aaronbentley'
     },

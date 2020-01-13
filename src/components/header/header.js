@@ -22,14 +22,16 @@ export const Header = () => {
                 p: 0,
                 '& div.headroom': {
                     backgroundColor: 'background'
+                },
+                '& div.headroom--pinned': {
+                    boxShadow: '0 8px 6px -6px rgba(0, 0, 0, 0.6)'
                 }
             }}>
             <Box as='header'>
                 <Container>
                     <Flex
                         sx={{
-                            py: 3,
-                            px: 3,
+                            p: 3,
                             justifyContent: 'space-between'
                         }}>
                         <Box
