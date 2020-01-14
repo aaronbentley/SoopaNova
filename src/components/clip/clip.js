@@ -29,13 +29,13 @@ const Clip = props => {
         <React.Fragment>
             <Box
                 sx={{
-                    pt: 2,
-                    px: 2,
-                    pb: 1,
+                    pt: 1,
+                    px: 1,
+                    pb: 0,
                     m: 0,
                     background: ({ colors }) =>
                         `linear-gradient(to bottom, ${colors.primary}, ${colors.secondary})`,
-                    borderRadius: 3
+                    borderRadius: 2
                 }}>
                 <FilePlayer
                     playing
