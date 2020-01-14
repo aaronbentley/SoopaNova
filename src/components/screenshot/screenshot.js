@@ -11,7 +11,8 @@ import { jsx } from 'theme-ui'
 import { useApp } from '../../data/app-context'
 import { formatMegabytes } from '../../utils/data-utils'
 import { formatDate } from '../../utils/date-utils'
-import { AspectRatioLoader } from '../aspect-ratio-loader/aspect-ratio-loader'
+import { AspectRatioSpinnerLoader } from '../aspect-ratio-spinner-loader/aspect-ratio-spinner-loader'
+// import { AspectRatioLoader } from '../aspect-ratio-loader/aspect-ratio-loader'
 import DropdownButton from '../dropdown-button/dropdown-button'
 
 const Screenshot = props => {
@@ -44,7 +45,7 @@ const Screenshot = props => {
                         m: 0,
                         width: '100%'
                     }}
-                    loader={<AspectRatioLoader />}
+                    loader={<AspectRatioSpinnerLoader />}
                 />
             </Box>
             <Flex

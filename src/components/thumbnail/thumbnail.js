@@ -8,15 +8,21 @@ import { Box, Card, Flex, Heading } from '@theme-ui/components'
 import { navigate } from 'gatsby'
 import { useRef } from 'react'
 import Image from 'react-image'
-import { jsx } from 'theme-ui'
+import { jsx, useThemeUI } from 'theme-ui'
 import LazyPlaceholderSVG from '../../assets/lazy-placeholder.svg'
 import { useOnScreen } from '../../hooks/use-on-screen'
-import { AspectRatioLoader } from '../aspect-ratio-loader/aspect-ratio-loader'
+import { AspectRatioImageLoader } from '../aspect-ratio-image-loader/aspect-ratio-image-loader'
 
 const Thumbnail = ({ item }) => {
-    // console.log('TCL: item', item)
+    // Get space theme scale values
+    const context = useThemeUI()
+    const {
+        theme: { space = [] }
+    } = context
+
+    // Flip spaces scale value to negative
     const ref = useRef()
-    const onScreen = useOnScreen(ref, '-50px')
+    const onScreen = useOnScreen(ref, `${-Math.abs(space[2])}px`)
 
     // Get unique id depending on media type
     const id = item.screenshotId || item.gameClipId
@@ -29,7 +35,6 @@ const Thumbnail = ({ item }) => {
             }}>
             <Card
                 onClick={() => {
-                    // console.log(item)
                     navigate(`/app/media/${id}`, {
                         state: item
                     })
@@ -58,7 +63,8 @@ const Thumbnail = ({ item }) => {
                             maxWidth: '100%',
                             mb: 2
                         }}
-                        loader={<AspectRatioLoader />}
+                        decode={false}
+                        loader={<AspectRatioImageLoader />}
                     />
                     <Box
                         sx={{

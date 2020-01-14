@@ -18,6 +18,7 @@ export default {
             light: {
                 primary: '#f0953f',
                 secondary: '#ca50b7',
+                highlight: '#28c0e1',
                 text: '#1d2424',
                 background: '#E2DBDB'
             },

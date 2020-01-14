@@ -18,6 +18,8 @@ module.exports = {
                 features: {
                     auth: false,
                     functions: true,
+                    analytics: true,
+                    performance: true,
                     database: false,
                     firestore: false,
                     storage: false,
