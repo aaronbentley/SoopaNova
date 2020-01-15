@@ -52,7 +52,7 @@ export const Header = () => {
                                 <Heading
                                     as='h1'
                                     sx={{
-                                        fontSize: [6, 7, 8]
+                                        fontSize: [5, 6, 7]
                                     }}>
                                     {title}
                                 </Heading>

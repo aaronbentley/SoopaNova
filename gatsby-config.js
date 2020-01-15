@@ -5,8 +5,7 @@ module.exports = {
     siteMetadata: {
         // title: '🦄👩🏻‍🎤 Lexi  👩🏻‍🎤🦄',
         // title: '🧚‍♀️👩🏻‍🎤 Maddi  👩🏻‍🎤🧚‍♀️',
-        title: 'Nova',
-        // title: 'Stacks.io',
+        title: 'SoopaNova',
         description: 'Do more with your Xbox media',
         author: '@aaronbentley'
     },
@@ -41,15 +40,6 @@ module.exports = {
         'gatsby-transformer-sharp',
         'gatsby-plugin-sharp',
         'gatsby-plugin-theme-ui',
-        // {
-        //     resolve: 'gatsby-plugin-react-svg',
-        //     options: {
-        //         rule: {
-        //             // include: /assets/ // See below to configure properly
-        //             include: path.resolve(__dirname, 'src/assets')
-        //         }
-        //     }
-        // },
         {
             resolve: 'gatsby-plugin-manifest',
             options: {
