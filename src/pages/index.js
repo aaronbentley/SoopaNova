@@ -35,6 +35,10 @@ const IndexPage = () => {
     // console.log('TCL: IndexPage -> state', state)
     // console.log('TCL: IndexPage -> dispatch', dispatch)
 
+    useFirebase(firebase => {
+        firebase.analytics().logEvent('index_visit')
+    }, [])
+
     useFirebase(
         firebase => {
             async function fetchData() {
@@ -53,8 +57,7 @@ const IndexPage = () => {
                         const { data } = await getScreenshots({
                             gamertag
                         })
-                        console.log('🦄: fetchData -> data', data)
-
+                        // console.log('🦄: fetchData -> data', data)
                         const { screenshots = [] } = data
                         // console.log('🦄: fetchData -> screenshots', screenshots)
 
@@ -81,7 +84,7 @@ const IndexPage = () => {
                         const { data } = await getClips({
                             gamertag
                         })
-                        console.log('🦄: fetchData -> data', data)
+                        // console.log('🦄: fetchData -> data', data)
 
                         const { gameClips: clips = [] } = data
                         // console.log('🦄: fetchData -> clips', clips)
@@ -112,7 +115,7 @@ const IndexPage = () => {
                 }
             }
 
-            // TODO: Fire on mediaTypeChange (query is reset to '' on setResults)
+            // TODO: Fire on mediaTypeChange (query is reset to '' on setResults)?
             if (query !== '') {
                 fetchData()
             }
