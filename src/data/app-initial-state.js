@@ -8,5 +8,7 @@ export const initialState = {
     mediaType: 'screenshots',
     query: '',
     results: [],
-    loading: false
+    loading: false,
+    error: false,
+    errorMessage: ''
 }

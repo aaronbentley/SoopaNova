@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import {
+    Alert,
     Box,
     Button,
     Close,
@@ -22,7 +23,15 @@ import { useSiteMetadata } from '../hooks/use-site-metadata'
 const IndexPage = () => {
     const { description } = useSiteMetadata()
     const [state, dispatch] = useApp()
-    const { gamertag, mediaType, query, results, loading } = state
+    const {
+        gamertag,
+        mediaType,
+        query,
+        results,
+        loading,
+        error,
+        errorMessage
+    } = state
     // console.log('TCL: IndexPage -> state', state)
     // console.log('TCL: IndexPage -> dispatch', dispatch)
 
@@ -44,9 +53,22 @@ const IndexPage = () => {
                         const { data } = await getScreenshots({
                             gamertag
                         })
-                        // console.log(data)
+                        console.log('🦄: fetchData -> data', data)
+
                         const { screenshots = [] } = data
-                        // console.log(screenshots)
+                        // console.log('🦄: fetchData -> screenshots', screenshots)
+
+                        // Check for empties
+                        if (!screenshots.length) {
+                            dispatch({
+                                type: 'setError',
+                                payload: {
+                                    error: true,
+                                    errorMessage: '😱 No Screenshots Found'
+                                }
+                            })
+                            return
+                        }
 
                         dispatch({
                             type: 'setResults',
@@ -59,9 +81,22 @@ const IndexPage = () => {
                         const { data } = await getClips({
                             gamertag
                         })
-                        // console.log(data)
+                        console.log('🦄: fetchData -> data', data)
+
                         const { gameClips: clips = [] } = data
-                        // console.log(clips)
+                        // console.log('🦄: fetchData -> clips', clips)
+
+                        // Check for empties
+                        if (!clips.length) {
+                            dispatch({
+                                type: 'setError',
+                                payload: {
+                                    error: true,
+                                    errorMessage: '😱 No Clips Found'
+                                }
+                            })
+                            return
+                        }
 
                         dispatch({
                             type: 'setResults',
@@ -216,6 +251,23 @@ const IndexPage = () => {
                         </Box>
                     </Box>
                 </Flex>
+                {error && (
+                    <Flex
+                        sx={{
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                        <Alert
+                            variant='error'
+                            sx={{
+                                margin: 2
+                            }}>
+                            {errorMessage}
+                        </Alert>
+                    </Flex>
+                )}
+
                 {loading && (
                     <Flex
                         sx={{

@@ -4,15 +4,14 @@
  *
  * @export AppReducer
  */
+import { initialState } from './app-initial-state'
 
 export const AppReducer = (state, action) => {
     switch (action.type) {
         case 'reset': {
             return {
                 ...state,
-                results: [],
-                query: '',
-                gamertag: ''
+                ...initialState
             }
         }
         case 'toggleLoading': {
@@ -21,13 +20,17 @@ export const AppReducer = (state, action) => {
         case 'setGamertag': {
             return {
                 ...state,
-                gamertag: action.payload
+                gamertag: action.payload,
+                error: false,
+                errorMessage: ''
             }
         }
         case 'setMediaType': {
             return {
                 ...state,
-                mediaType: action.payload
+                mediaType: action.payload,
+                error: false,
+                errorMessage: ''
             }
         }
         case 'setQuery': {
@@ -40,7 +43,17 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 results: action.payload,
+                // Reset to avoid void api calss on <- goinng back from media
                 query: ''
+                // error: false,
+                // errorMessage: ''
+            }
+        }
+        case 'setError': {
+            return {
+                ...state,
+                error: action.payload.error,
+                errorMessage: action.payload.errorMessage
             }
         }
         default: {

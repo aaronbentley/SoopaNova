@@ -14,6 +14,7 @@ export default {
         muted: '#f6f6ff',
         grey: '#888888',
         black: '#333333',
+        error: '#ff0033',
         modes: {
             light: {
                 primary: '#f0953f',
@@ -65,6 +66,7 @@ export default {
             button: '36px'
         }
     },
+    // Base Styles (Markdown)
     styles: {
         root: {
             fontFamily: 'body',
@@ -295,19 +297,26 @@ export default {
         color: 'primary'
     },
     alerts: {
-        primary: {
-            color: 'background',
-            bg: 'primary',
-            borderLeftColor: 'secondary',
-            borderLeftWidth: ({ space }) => space[2],
-            borderLeftStyle: 'solid',
+        base: {
+            color: 'text',
             fontFamily: 'body',
             fontWeight: 'fine',
-            fontSize: 5
+            px: 3,
+            py: 2,
+            fontSize: 4
         },
-        muted: {
-            color: 'text',
-            bg: 'muted'
+        primary: {
+            variant: 'alerts.base',
+            bg: 'primary'
+        },
+        secondary: {
+            variant: 'alerts.base',
+            bg: 'secondary'
+        },
+        error: {
+            variant: 'alerts.base',
+            color: 'muted',
+            bg: 'error'
         }
     }
 }
