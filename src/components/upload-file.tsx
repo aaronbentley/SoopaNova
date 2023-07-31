@@ -4,7 +4,6 @@ import { cn, formatBytes } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { UploadCloud, X } from 'lucide-react'
 import { default as NextImage } from 'next/image'
-import Script from 'next/script'
 import React from 'react'
 import {
     useDropzone,
@@ -45,7 +44,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    // console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
+    console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
 
     /**
      * Handle image metadata
@@ -119,6 +118,30 @@ const UploadFile = ({ className }: { className?: string }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const orderPrints = async () => {
+        const baseAPI = 'https://store.canvaspop.com/api/push/image'
+
+        const formData = new FormData()
+
+        formData.append('image', files[0].preview)
+        // formData.append('image', files[0].path)
+
+        const response = await fetch(baseAPI, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'CP-Authorization': 'basic',
+                'CP-ApiKey': process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!
+            },
+            body: formData
+        })
+        console.log(
+            '🦄 ~ file: upload-file.tsx:133 ~ orderPrints ~ response:',
+            response
+        )
+    }
+
     return (
         <>
             <div className='container mx-auto flex justify-center'>
@@ -180,7 +203,11 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     )}
                                 </div>
                             </div>
-                            <Button data-cp-url={files[0].preview}>
+                            <Button
+                                // data-cp-url={files[0].preview}
+                                onClick={() => {
+                                    orderPrints()
+                                }}>
                                 Order prints
                             </Button>
                         </div>
@@ -239,7 +266,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     </div>
                 )}
             </div>
-            <div
+            {/* <div
                 id='cp-store-root'
                 data-cp-settings={JSON.stringify({
                     access_key: process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!,
@@ -251,7 +278,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 data-cp-url='https://store.canvaspop.com'
                 src='https://store.canvaspop.com/static/js/cpopstore.js'
                 strategy='lazyOnload'
-            />
+            /> */}
         </>
     )
 }
