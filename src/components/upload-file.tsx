@@ -125,30 +125,38 @@ const UploadFile = ({ className }: { className?: string }) => {
         if (!files) return
 
         /**
-         * Get the file
+         * Get the image file
          */
         const file = files[0]
 
         if (file) {
-            const baseAPI = 'https://store.canvaspop.com/api/push/image'
+            // const baseAPI = 'https://store.canvaspop.com/api/push/image'
 
             const formData = new FormData()
+            formData.append('image', file.preview)
 
-            formData.append('image', files[0].preview)
-            // formData.append('image', files[0].path)
+            //     const response = await fetch(baseAPI, {
+            //         method: 'POST',
+            //         mode: 'no-cors',
+            //         headers: {
+            //             'Content-Type': 'multipart/form-data',
+            //             'CP-Authorization': 'basic',
+            //             'CP-ApiKey': process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!
+            //         },
+            //         body: formData
+            //     })
+            //     console.log(
+            //         '🦄 ~ file: upload-file.tsx:133 ~ orderPrints ~ response:',
+            //         response
+            //     )
+            // }
 
-            const response = await fetch(baseAPI, {
+            const response = await fetch('/api/canvaspop/image', {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'CP-Authorization': 'basic',
-                    'CP-ApiKey': process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!
-                },
                 body: formData
             })
             console.log(
-                '🦄 ~ file: upload-file.tsx:133 ~ orderPrints ~ response:',
+                '🦄 ~ file: upload-file.tsx:160 ~ orderPrints ~ response:',
                 response
             )
         }
