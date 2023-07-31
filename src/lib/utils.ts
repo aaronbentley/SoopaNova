@@ -39,3 +39,17 @@ export const formatBytes = (
 //         return toast('Something went wrong, please try again later.')
 //     }
 // }
+
+export const getImageDimensions = async (file: File) => {
+    return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => {
+            resolve({
+                width: img.width,
+                height: img.height
+            })
+        }
+        img.onerror = reject
+        img.src = URL.createObjectURL(file)
+    })
+}
