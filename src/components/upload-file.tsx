@@ -45,7 +45,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
+    // console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
 
     /**
      * Handle image metadata
@@ -242,7 +242,7 @@ const UploadFile = ({ className }: { className?: string }) => {
             <div
                 id='cp-store-root'
                 data-cp-settings={JSON.stringify({
-                    access_key: process.env.NEXT_PUBLIC_CANVASPOP_ACESS_KEY!,
+                    access_key: process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!,
                     modal: false
                 })}
             />
