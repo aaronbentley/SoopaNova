@@ -44,7 +44,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
+    // console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
 
     /**
      * Handle image metadata
@@ -130,33 +130,22 @@ const UploadFile = ({ className }: { className?: string }) => {
         const file = files[0]
 
         if (file) {
-            // const baseAPI = 'https://store.canvaspop.com/api/push/image'
+            /**
+             * 1 Save file to /tmp/ store
+             * 2 Get the URL
+             * 3 Send the url to api route
+             * 4 Push image to CanvasPop
+             */
 
             const formData = new FormData()
-            formData.append('image', file.preview)
-
-            //     const response = await fetch(baseAPI, {
-            //         method: 'POST',
-            //         mode: 'no-cors',
-            //         headers: {
-            //             'Content-Type': 'multipart/form-data',
-            //             'CP-Authorization': 'basic',
-            //             'CP-ApiKey': process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!
-            //         },
-            //         body: formData
-            //     })
-            //     console.log(
-            //         '🦄 ~ file: upload-file.tsx:133 ~ orderPrints ~ response:',
-            //         response
-            //     )
-            // }
+            formData.append('file', file)
 
             const response = await fetch('/api/canvaspop/image', {
                 method: 'POST',
                 body: formData
             })
             console.log(
-                '🦄 ~ file: upload-file.tsx:160 ~ orderPrints ~ response:',
+                '🦄 ~ file: upload-file.tsx:142 ~ orderPrints ~ response:',
                 response
             )
         }
