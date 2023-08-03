@@ -54,7 +54,7 @@ export const POST = async (request: NextRequest) => {
                 body: canvasPopData
             }
         )
-        // console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
+        console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
 
         const json = await response.json()
         console.log('🦄 ~ file: route.ts:64 ~ POST ~ json:', json)
@@ -69,15 +69,4 @@ export const POST = async (request: NextRequest) => {
         console.error('🦄 ~ file: route.ts ~ POST ~ error:', error)
         return NextResponse.json({ message: error }, { status: 500 })
     }
-
-    // const bytes = await file.arrayBuffer()
-    // const buffer = Buffer.from(bytes)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // const path = `/tmp/${file.name}`
-    // await writeFile(path, buffer)
-    // console.log(`open ${path} to see the uploaded file`)
-
-    // return NextResponse.json({ success: true })
 }
