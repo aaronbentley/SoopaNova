@@ -6,16 +6,17 @@ export const POST = async (request: NextRequest) => {
      */
     const data = await request.formData()
     const file: File | null = data.get('file') as unknown as File
-    console.log('🦄 ~ file: route.ts:10 ~ POST ~ file:', file)
+
+    console.log(
+        '🦄 ~ file: route.ts:10 ~ POST ~ instanceoffile:',
+        file instanceof File
+    )
 
     /**
      * If no file, return error
      */
     if (!file) {
-        return NextResponse.json(
-            { error: 'No image file found.' },
-            { status: 500 }
-        )
+        return NextResponse.json({ message: 'No image file.' }, { status: 500 })
     }
 
     // const bytes = await file.arrayBuffer()
@@ -37,30 +38,40 @@ export const POST = async (request: NextRequest) => {
         canvasPopData.append('image', file, file.name)
 
         console.log(
-            '🦄 ~ file: route.ts:26 ~ POST ~ canvasPopData:',
+            '🦄 ~ file: route.ts:38 ~ POST ~ canvasPopData:',
             canvasPopData
         )
 
+        /**
+         * POST formData to CanvasPop API
+         */
         const response = await fetch(
             'https://store.canvaspop.com/api/push/image',
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'CP-Authorization': 'basic',
                     'CP-ApiKey': process.env.CANVASPOP_ACCESS_KEY!
+                    // 'Content-Type': 'multipart/form-data'
+                    // Accept: 'multipart/form-data',
+                    // 'Access-Control-Allow-Origin': process.env.APP_URL!,
+                    // 'Access-Control-Allow-Methods': 'POST'
+                    // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
                 },
+                // credentials: 'omit',
                 body: canvasPopData
             }
         )
         console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
 
         // handle the error
-        if (!response.ok) throw new Error(await response.text())
+        if (!response.ok)
+            // throw new Error(`${response.status}: ${response.statusText}`)
+            throw new Error(await response.text())
 
-        return NextResponse.json({ success: true }, { status: 200 })
+        return NextResponse.json({ message: 'success' }, { status: 200 })
     } catch (error) {
-        console.log('🦄 ~ file: route.ts:55 ~ POST ~ error:', error)
+        console.error('🦄 ~ file: route.ts ~ POST ~ error:', error)
         return NextResponse.json({ message: error }, { status: 500 })
     }
 

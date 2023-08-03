@@ -2,7 +2,7 @@
 
 import { cn, formatBytes } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
-import { UploadCloud, X } from 'lucide-react'
+import { Loader2, UploadCloud, X } from 'lucide-react'
 import { default as NextImage } from 'next/image'
 import React from 'react'
 import {
@@ -24,7 +24,9 @@ const UploadFile = ({ className }: { className?: string }) => {
      * Define dropzone config
      */
     const accept = {
-        'image/*': []
+        // 'image/*': []
+        'image/jpeg': [],
+        'image/png': []
     }
     const maxSize = 1024 * 1024 * 100
     const maxFiles = 1
@@ -44,7 +46,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    // console.log('🦄 ~ file: upload-file.tsx:47 ~ UploadFile ~ files:', files)
+    // console.log('🦄 ~ file: upload-file.tsx ~ UploadFile ~ files:', files)
 
     /**
      * Handle image metadata
@@ -59,28 +61,20 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     const onDrop = React.useCallback(
         (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
-            setIsUploading(true)
+            // setIsUploading(true)
 
-            setFiles(
-                acceptedFiles.map((file) =>
-                    Object.assign(file, {
-                        preview: URL.createObjectURL(file)
-                    })
+            if (acceptedFiles.length !== 0) {
+                setFiles(
+                    acceptedFiles.map((file) =>
+                        Object.assign(file, {
+                            preview: URL.createObjectURL(file)
+                        })
+                    )
                 )
-            )
+            }
 
             if (rejectedFiles.length > 0) {
                 rejectedFiles.forEach(({ errors }) => {
-                    if (errors[0]?.code === 'file-too-large') {
-                        toast({
-                            variant: 'destructive',
-                            title: "It's too big!",
-                            description: `File is too large. Max size is ${formatBytes(
-                                maxSize
-                            )}`
-                        })
-                        return
-                    }
                     errors[0]?.message &&
                         toast({
                             variant: 'destructive',
@@ -90,9 +84,9 @@ const UploadFile = ({ className }: { className?: string }) => {
                 })
             }
 
-            setIsUploading(false)
+            // setIsUploading(false)
         },
-        [maxSize, toast]
+        [toast]
     )
 
     /**
@@ -127,27 +121,41 @@ const UploadFile = ({ className }: { className?: string }) => {
         /**
          * Get the image file
          */
-        const file = files[0]
+        const file = (files[0] as File) || null
 
         if (file) {
-            /**
-             * 1 Save file to /tmp/ store
-             * 2 Get the URL
-             * 3 Send the url to api route
-             * 4 Push image to CanvasPop
-             */
+            try {
+                setIsUploading(true)
+                /**
+                 * Compose formData and append 'file' to it
+                 */
 
-            const formData = new FormData()
-            formData.append('file', file)
+                const formData = new FormData()
+                formData.append('file', file)
 
-            const response = await fetch('/api/canvaspop/image', {
-                method: 'POST',
-                body: formData
-            })
-            console.log(
-                '🦄 ~ file: upload-file.tsx:142 ~ orderPrints ~ response:',
-                response
-            )
+                /**
+                 * Send the file to api route handler
+                 */
+                const response = await fetch('/api/canvaspop/image', {
+                    method: 'POST',
+                    // headers: {
+                    //     'Content-Type': 'multipart/form-data'
+                    // },
+                    body: formData
+                })
+
+                if (!response.ok)
+                    throw new Error(
+                        `${response.status}: ${response.statusText}`
+                    )
+            } catch (error) {
+                console.error(
+                    '🦄 ~ file: upload-file.tsx:144 ~ orderPrints ~ error:',
+                    error
+                )
+            } finally {
+                setIsUploading(false)
+            }
         }
     }
 
@@ -157,10 +165,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                 {files && (
                     <div className='flex flex-col gap-y-12'>
                         <div
-                            data-image-loading={isUploading}
+                            // data-image-loading={isUploading}
                             className={cn(
-                                'relative aspect-video h-[540px] bg-indigo-700 animate-none',
-                                '[&[data-image-loading=true]]:animate-pulse'
+                                'relative aspect-video h-[540px] bg-indigo-700 animate-none'
+                                // '[&[data-image-loading=true]]:animate-pulse'
                             )}>
                             <NextImage
                                 src={files[0].preview}
@@ -213,11 +221,14 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 </div>
                             </div>
                             <Button
-                                // data-cp-url={files[0].preview}
+                                disabled={isUploading}
                                 onClick={() => {
                                     orderPrints()
                                 }}>
-                                Order prints
+                                {isUploading && (
+                                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                )}
+                                Order Prints
                             </Button>
                         </div>
                     </div>
@@ -275,19 +286,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                     </div>
                 )}
             </div>
-            {/* <div
-                id='cp-store-root'
-                data-cp-settings={JSON.stringify({
-                    access_key: process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY!,
-                    modal: false
-                })}
-            />
-            <Script
-                id='canvaspop-jssdk'
-                data-cp-url='https://store.canvaspop.com'
-                src='https://store.canvaspop.com/static/js/cpopstore.js'
-                strategy='lazyOnload'
-            /> */}
         </>
     )
 }
