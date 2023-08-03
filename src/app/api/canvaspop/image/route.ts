@@ -58,7 +58,10 @@ export const POST = async (request: NextRequest) => {
                 body: canvasPopData
             }
         )
-        console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
+        // console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
+
+        const json = await response.json()
+        console.log('🦄 ~ file: route.ts:64 ~ POST ~ json:', json)
 
         // handle the error
         if (!response.ok)
