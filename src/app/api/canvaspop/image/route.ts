@@ -2,17 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const POST = async (request: NextRequest) => {
     /**
-     * Get form data from request body
+     * Get form data from request body as payload
      */
-    const data = await request.formData()
-    const file: File | null = data.get('file') as unknown as File
+    const payload = await request.formData()
+    // const file: File | null = data.get('file') as unknown as File
 
     /**
-     * If no file, return error
+     * If no payload (formData) return error
      */
-    if (!file) {
-        console.error('🦄 ~ file: route.ts:14 ~ POST ~ file:', file)
-        return NextResponse.json({ message: 'No image file.' }, { status: 500 })
+    if (!payload) {
+        return NextResponse.json(
+            { message: 'No payload formData.' },
+            { status: 500 }
+        )
     }
 
     /**
@@ -20,13 +22,7 @@ export const POST = async (request: NextRequest) => {
      */
     try {
         /**
-         * Create a new FormData object
-         */
-        const canvasPopData = new FormData()
-        canvasPopData.append('image', file, file.name)
-
-        /**
-         * POST formData to CanvasPop API
+         * POST payload to CanvasPop API
          */
         const response = await fetch(
             'https://store.canvaspop.com/api/push/image',
@@ -36,22 +32,33 @@ export const POST = async (request: NextRequest) => {
                     'CP-Authorization': 'basic',
                     'CP-ApiKey': process.env.CANVASPOP_ACCESS_KEY!
                 },
-                // credentials: 'omit',
-                // body: canvasPopData
-                body: data
+                body: payload
             }
         )
-        // console.log('🦄 ~ file: route.ts ~ POST ~ response:', response)
 
-        const json = await response.json()
-        console.log('🦄 ~ file: route.ts:64 ~ POST ~ json:', json)
-
-        // handle the error
-        if (!response.ok)
+        /**
+         * Throw error if response is not ok
+         */
+        if (!response.ok) {
             // throw new Error(`${response.status}: ${response.statusText}`)
-            throw new Error(await response.text())
+            throw new Error('Error uploading image to CanvasPop API')
+        }
 
-        return NextResponse.json({ message: 'success' }, { status: 200 })
+        /**
+         * Get api response data as JSON
+         */
+        const json = await response.json()
+
+        /**
+         * Return response
+         */
+        return NextResponse.json(
+            {
+                message: 'success',
+                data: json
+            },
+            { status: 200 }
+        )
     } catch (error) {
         console.error('🦄 ~ file: route.ts ~ POST ~ error:', error)
         return NextResponse.json({ message: error }, { status: 500 })

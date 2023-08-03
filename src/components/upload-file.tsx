@@ -131,23 +131,28 @@ const UploadFile = ({ className }: { className?: string }) => {
                  */
 
                 const formData = new FormData()
-                formData.append('file', file)
+                formData.append('image', file)
 
                 /**
                  * Send the file to api route handler
                  */
                 const response = await fetch('/api/canvaspop/image', {
                     method: 'POST',
-                    // headers: {
-                    //     'Content-Type': 'multipart/form-data'
-                    // },
                     body: formData
                 })
 
-                if (!response.ok)
-                    throw new Error(
-                        `${response.status}: ${response.statusText}`
-                    )
+                if (!response.ok) {
+                    throw new Error('Error uploading payload to API route')
+                }
+
+                /**
+                 * Get api response data as JSON
+                 */
+                const json = await response.json()
+                console.log(
+                    '🦄 ~ file: upload-file.tsx:152 ~ orderPrints ~ json:',
+                    json
+                )
             } catch (error) {
                 console.error(
                     '🦄 ~ file: upload-file.tsx:144 ~ orderPrints ~ error:',
