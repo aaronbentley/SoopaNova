@@ -46,15 +46,15 @@ export const POST = async (request: NextRequest) => {
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'CP-Authorization': 'basic',
                     'CP-ApiKey': process.env.CANVASPOP_ACCESS_KEY!
+                    // 'Content-Type': 'multipart/form-data'
                 },
                 // credentials: 'omit',
                 body: canvasPopData
             }
         )
-        console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
+        // console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
 
         const json = await response.json()
         console.log('🦄 ~ file: route.ts:64 ~ POST ~ json:', json)
