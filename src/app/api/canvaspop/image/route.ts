@@ -15,28 +15,15 @@ export const POST = async (request: NextRequest) => {
         return NextResponse.json({ message: 'No image file.' }, { status: 500 })
     }
 
-    // const bytes = await file.arrayBuffer()
-    // console.log('🦄 ~ file: route.ts:23 ~ POST ~ bytes:', bytes)
-    // const buffer = Buffer.from(bytes)
-    // console.log('🦄 ~ file: route.ts:25 ~ POST ~ buffer:', buffer)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // const path = `/tmp/${file.name}`
-    // const foof = await writeFile(path, buffer)
-    // console.log(`open ${path} to see the uploaded file`)
-
+    /**
+     * Upload file to CanvasPop API
+     */
     try {
         /**
          * Create a new FormData object
          */
         const canvasPopData = new FormData()
         canvasPopData.append('image', file, file.name)
-
-        console.log(
-            '🦄 ~ file: route.ts:38 ~ POST ~ canvasPopData:',
-            canvasPopData
-        )
 
         /**
          * POST formData to CanvasPop API
@@ -48,13 +35,13 @@ export const POST = async (request: NextRequest) => {
                 headers: {
                     'CP-Authorization': 'basic',
                     'CP-ApiKey': process.env.CANVASPOP_ACCESS_KEY!
-                    // 'Content-Type': 'multipart/form-data'
                 },
                 // credentials: 'omit',
-                body: canvasPopData
+                // body: canvasPopData
+                body: data
             }
         )
-        console.log('🦄 ~ file: route.ts:42 ~ POST ~ response:', response)
+        // console.log('🦄 ~ file: route.ts ~ POST ~ response:', response)
 
         const json = await response.json()
         console.log('🦄 ~ file: route.ts:64 ~ POST ~ json:', json)
