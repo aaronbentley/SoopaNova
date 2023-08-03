@@ -139,6 +139,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                     method: 'POST',
                     body: formData
                 })
+                console.log(
+                    '🦄 ~ file: upload-file.tsx:142 ~ orderPrints ~ response:',
+                    response
+                )
 
                 if (!response.ok) {
                     throw new Error('Error uploading payload to API route')
