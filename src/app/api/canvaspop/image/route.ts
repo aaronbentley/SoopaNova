@@ -1,4 +1,3 @@
-import { File } from 'buffer'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const POST = async (request: NextRequest) => {
@@ -12,6 +11,7 @@ export const POST = async (request: NextRequest) => {
      * If no file, return error
      */
     if (!file) {
+        console.error('🦄 ~ file: route.ts:14 ~ POST ~ file:', file)
         return NextResponse.json({ message: 'No image file.' }, { status: 500 })
     }
 
