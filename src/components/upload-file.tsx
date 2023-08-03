@@ -24,7 +24,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      * Define dropzone config
      */
     const accept = {
-        // 'image/*': []
         'image/jpeg': [],
         'image/png': []
     }
@@ -63,7 +62,7 @@ const UploadFile = ({ className }: { className?: string }) => {
         (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
             // setIsUploading(true)
 
-            if (acceptedFiles.length !== 0) {
+            if (acceptedFiles.length) {
                 setFiles(
                     acceptedFiles.map((file) =>
                         Object.assign(file, {
@@ -73,7 +72,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 )
             }
 
-            if (rejectedFiles.length > 0) {
+            if (rejectedFiles.length) {
                 rejectedFiles.forEach(({ errors }) => {
                     errors[0]?.message &&
                         toast({

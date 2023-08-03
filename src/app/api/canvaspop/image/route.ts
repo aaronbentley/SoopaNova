@@ -12,8 +12,11 @@ export const POST = async (request: NextRequest) => {
      */
     if (!payload) {
         return NextResponse.json(
-            { message: 'No payload formData.' },
-            { status: 500 }
+            {
+                message: 'error',
+                data: 'No payload formData.'
+            },
+            { status: 422 }
         )
     }
 
@@ -40,7 +43,6 @@ export const POST = async (request: NextRequest) => {
          * Throw error if response is not ok
          */
         if (!response.ok) {
-            // throw new Error(`${response.status}: ${response.statusText}`)
             throw new Error('Error uploading image to CanvasPop API')
         }
 
@@ -50,7 +52,7 @@ export const POST = async (request: NextRequest) => {
         const json = await response.json()
 
         /**
-         * Return response
+         * Return response, with API response data
          */
         return NextResponse.json(
             {
@@ -60,7 +62,12 @@ export const POST = async (request: NextRequest) => {
             { status: 200 }
         )
     } catch (error) {
-        console.error('🦄 ~ file: route.ts ~ POST ~ error:', error)
-        return NextResponse.json({ message: error }, { status: 500 })
+        return NextResponse.json(
+            {
+                message: 'error',
+                data: error
+            },
+            { status: 500 }
+        )
     }
 }
