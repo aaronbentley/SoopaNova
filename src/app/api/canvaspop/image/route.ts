@@ -1,3 +1,4 @@
+import { File } from 'buffer'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const POST = async (request: NextRequest) => {
@@ -6,11 +7,6 @@ export const POST = async (request: NextRequest) => {
      */
     const data = await request.formData()
     const file: File | null = data.get('file') as unknown as File
-
-    console.log(
-        '🦄 ~ file: route.ts:10 ~ POST ~ instanceoffile:',
-        file instanceof File
-    )
 
     /**
      * If no file, return error
