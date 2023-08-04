@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx'
+import { format, fromUnixTime } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
 
 export const cn = (...inputs: ClassValue[]) => {
@@ -21,6 +22,22 @@ export const formatBytes = (
     }`
 }
 
+export const getAspectRatio = (width: number, height: number) => {
+    const gcd = (a: number, b: number): number => {
+        if (b === 0) return a
+        return gcd(b, a % b)
+    }
+
+    const divisor = gcd(width, height)
+    return `${width / divisor}:${height / divisor}`
+}
+
+export const getDateFromUnixTimestamp = (timestamp: number) => {
+    if (!timestamp) throw new Error('Timestamp is required')
+    const fileDate = fromUnixTime(timestamp / 1000)
+    return format(fileDate, 'dd MMM yyyy')
+}
+
 // export function isArrayOfFile(files: unknown): files is File[] {
 //     const isArray = Array.isArray(files)
 //     if (!isArray) return false
@@ -40,16 +57,16 @@ export const formatBytes = (
 //     }
 // }
 
-export const getImageDimensions = async (file: File) => {
-    return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.onload = () => {
-            resolve({
-                width: img.width,
-                height: img.height
-            })
-        }
-        img.onerror = reject
-        img.src = URL.createObjectURL(file)
-    })
-}
+// export const getImageDimensions = async (file: File) => {
+//     return new Promise((resolve, reject) => {
+//         const img = new Image()
+//         img.onload = () => {
+//             resolve({
+//                 width: img.width,
+//                 height: img.height
+//             })
+//         }
+//         img.onerror = reject
+//         img.src = URL.createObjectURL(file)
+//     })
+// }

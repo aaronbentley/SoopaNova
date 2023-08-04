@@ -1,23 +1,34 @@
 'use client'
 
-import { cn, formatBytes } from '@/lib/utils'
+import { storage } from '@/firebase/config'
+import {
+    cn,
+    formatBytes,
+    getAspectRatio,
+    getDateFromUnixTimestamp
+} from '@/lib/utils'
 import { FileWithPreview } from '@/types'
-import { Loader2, UploadCloud, X } from 'lucide-react'
+import { getDownloadURL, ref } from 'firebase/storage'
+import { Loader2, ShoppingCart, UploadCloud } from 'lucide-react'
 import { default as NextImage } from 'next/image'
-import Script from 'next/script'
 import React from 'react'
 import {
     useDropzone,
     type FileRejection,
     type FileWithPath
 } from 'react-dropzone'
+import { useUploadFile } from 'react-firebase-hooks/storage'
 import { Button } from './ui/button'
+import { Progress } from './ui/progress'
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger
-} from './ui/tooltip'
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle
+} from './ui/sheet'
+import { Table, TableBody, TableCell, TableHead, TableRow } from './ui/table'
 import { useToast } from './ui/use-toast'
 
 const UploadFile = ({ className }: { className?: string }) => {
@@ -28,7 +39,7 @@ const UploadFile = ({ className }: { className?: string }) => {
         'image/jpeg': [],
         'image/png': []
     }
-    const maxSize = 1024 * 1024 * 100
+    const maxSize = 1024 * 1024 * 50
     const maxFiles = 1
     const disabled = false
 
@@ -38,15 +49,29 @@ const UploadFile = ({ className }: { className?: string }) => {
     const { toast } = useToast()
 
     /**
-     * Manage uploading state
-     */
-    const [isUploading, setIsUploading] = React.useState(false)
-
-    /**
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    // console.log('🦄 ~ file: upload-file.tsx ~ UploadFile ~ files:', files)
+
+    /**
+     * Handle Firebase uploads
+     */
+    const [uploadFile, uploading, snapshot, uploadError] = useUploadFile()
+
+    /**
+     * Handle Upload progress
+     */
+    const [uploadProgress, setUploadProgress] = React.useState(0)
+
+    /**
+     * Handle download URL
+     */
+    // const [downloadUrl, loading, downloadError] = useDownloadURL()
+
+    /**
+     * Handle Sheet state
+     */
+    const [sheetOpen, setSheetOpen] = React.useState(false)
 
     /**
      * Handle image metadata
@@ -54,7 +79,25 @@ const UploadFile = ({ className }: { className?: string }) => {
     const [imageMeta = null, setImageMeta] = React.useState<{
         width: number
         height: number
+        aspectRatio: string
     } | null>(null)
+
+    /**
+     * Handle upload progress
+     */
+    React.useEffect(() => {
+        if (!snapshot) return
+        console.log(
+            '🦄 ~ file: upload-file.tsx ~ UploadFile ~ snapshot:',
+            snapshot
+        )
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        setUploadProgress(progress)
+
+        return () => {
+            setUploadProgress(0)
+        }
+    }, [snapshot])
 
     /**
      * Handle dropzone file upload
@@ -71,6 +114,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                         })
                     )
                 )
+
+                setSheetOpen(true)
             }
 
             if (rejectedFiles.length) {
@@ -119,43 +164,39 @@ const UploadFile = ({ className }: { className?: string }) => {
         if (!files) return
 
         /**
-         * Get the image file
+         * Pluck the image file from the array
          */
         const file = (files[0] as File) || null
 
         if (file) {
             try {
-                setIsUploading(true)
                 /**
-                 * Compose formData and append 'file' to it
+                 * Get Firebase Storage reference
                  */
-
-                const formData = new FormData()
-                formData.append('image', file)
+                const storageRef = ref(storage, file.name)
 
                 /**
-                 * Send the file to api route handler
+                 * Upload file to Firebase Storage
                  */
-                const response = await fetch('/api/canvaspop/image', {
-                    method: 'POST',
-                    body: formData
+                const result = await uploadFile(storageRef, file, {
+                    customMetadata: {
+                        width: imageMeta?.width.toString() || '',
+                        height: imageMeta?.height.toString() || '',
+                        aspectRatio: imageMeta?.aspectRatio || ''
+                    }
                 })
                 console.log(
-                    '🦄 ~ file: upload-file.tsx:142 ~ orderPrints ~ response:',
-                    response
+                    '🦄 ~ file: upload-file.tsx:151 ~ orderPrints ~ result:',
+                    result
                 )
 
-                if (!response.ok) {
-                    throw new Error('Error uploading payload to API route')
-                }
-
                 /**
-                 * Get api response data as JSON
+                 * Get download url
                  */
-                const json = await response.json()
+                const downloadUrl = await getDownloadURL(storageRef)
                 console.log(
-                    '🦄 ~ file: upload-file.tsx:152 ~ orderPrints ~ json:',
-                    json
+                    '🦄 ~ file: upload-file.tsx:192 ~ orderPrints ~ downloadUrl:',
+                    downloadUrl
                 )
             } catch (error) {
                 console.error(
@@ -163,7 +204,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     error
                 )
             } finally {
-                setIsUploading(false)
+                // setIsUploading(uploading)
             }
         }
     }
@@ -171,91 +212,19 @@ const UploadFile = ({ className }: { className?: string }) => {
     return (
         <>
             <div className='container mx-auto flex justify-center'>
-                {files && (
-                    <div className='flex flex-col gap-y-12'>
-                        <div
-                            // data-image-loading={isUploading}
-                            className={cn(
-                                'relative aspect-video h-[540px] bg-indigo-700 animate-none'
-                                // '[&[data-image-loading=true]]:animate-pulse'
-                            )}>
-                            <NextImage
-                                src={files[0].preview}
-                                alt={files[0].name}
-                                className={cn(
-                                    'object-contain object-center shadow-xl shadow-indigo-500/25'
-                                )}
-                                fill={true}
-                                onLoadingComplete={({
-                                    naturalWidth,
-                                    naturalHeight
-                                }) =>
-                                    setImageMeta({
-                                        width: naturalWidth,
-                                        height: naturalHeight
-                                    })
-                                }
-                            />
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant='destructive'
-                                            size='icon'
-                                            className='absolute top-2 right-2'
-                                            onClick={() => setFiles(null)}>
-                                            <X />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Clear image</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
-                        <div className='flex justify-between items-center gap-x-8'>
-                            <div>
-                                <p className='text-xl font-extrabold text-slate-400'>
-                                    {files[0].name}
-                                </p>
-                                <div className='flex gap-x-2 items-center'>
-                                    <small className='text-sm text-slate-600 font-bold'>
-                                        {formatBytes(files[0].size)}
-                                    </small>
-                                    {imageMeta?.width && imageMeta?.height && (
-                                        <small className='text-sm text-slate-600'>
-                                            {imageMeta.width}x{imageMeta.height}
-                                        </small>
-                                    )}
-                                </div>
-                            </div>
-                            <Button
-                                disabled={isUploading}
-                                data-cp-url={files[0].preview}
-                                onClick={() => {
-                                    // orderPrints()
-                                }}>
-                                {isUploading && (
-                                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                                )}
-                                Order Prints
-                            </Button>
-                        </div>
-                    </div>
-                )}
                 {!files && (
                     <div className='w-96'>
                         <div
                             {...getRootProps()}
                             className={cn(
-                                'group min-w-full relative grid h-48 w-full cursor-pointer place-items-center rounded-lg border-2 border-dashed border-slate-400/25 px-5 py-2.5 text-center transition hover:bg-slate-700/25',
-                                'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                                isDragActive && 'border-indigo-400',
+                                'group min-w-full relative grid h-48 w-full cursor-pointer place-items-center rounded-lg border-2 border-dashed border-neutral-400/25 px-5 py-2.5 text-center transition',
+                                'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:border-fuchsia-400 transition-all duration-200',
+                                isDragActive && 'border-fuchsia-400',
                                 disabled && 'pointer-events-none opacity-60',
                                 className
                             )}>
                             <input {...getInputProps()} />
-                            {isUploading ? (
+                            {uploading ? (
                                 <div className='group grid w-full place-items-center gap-1 sm:px-10'>
                                     <UploadCloud
                                         className='h-9 w-9 animate-pulse text-muted-foreground'
@@ -267,26 +236,25 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     <UploadCloud
                                         className={cn(
                                             'h-8 w-8',
-                                            isDragActive &&
-                                                'animate-bounce text-indigo-400'
+                                            'animate-bounce text-fuchsia-400'
                                         )}
                                         aria-hidden='true'
                                     />
-                                    <p className='text-base font-medium text-indigo-400'>
-                                        Drop the file here
+                                    <p className='text-base font-medium text-fuchsia-400'>
+                                        Drop file here
                                     </p>
                                 </div>
                             ) : (
                                 <div className='grid place-items-center gap-1 sm:px-5'>
                                     <UploadCloud
-                                        className='h-8 w-8 text-slate-400'
+                                        className='h-8 w-8 text-neutral-400 duration-200 group-hover:text-fuchsia-400'
                                         aria-hidden='true'
                                     />
-                                    <p className='mt-2 text-base font-medium text-slate-400'>
+                                    <p className='mt-2 text-base font-medium text-neutral-400 transition-colors duration-200 group-hover:text-fuchsia-400'>
                                         Drag {`'n'`} drop here, or click to
                                         select file
                                     </p>
-                                    <small className='text-sm text-slate-600'>
+                                    <small className='text-sm text-neutral-500'>
                                         Please upload file with size less than{' '}
                                         {formatBytes(maxSize)}
                                     </small>
@@ -295,16 +263,153 @@ const UploadFile = ({ className }: { className?: string }) => {
                         </div>
                     </div>
                 )}
+
+                <Sheet
+                    open={sheetOpen}
+                    onOpenChange={(open) => {
+                        if (!open) {
+                            setFiles(null)
+                        }
+                        setSheetOpen(open)
+                    }}>
+                    {files && (
+                        <SheetContent
+                            side='bottom'
+                            // forceMount
+                            className='h-screen flex flex-col gap-y-12 border-none container mx-auto'>
+                            <SheetHeader>
+                                <SheetTitle className='font-extrabold'>
+                                    Media
+                                </SheetTitle>
+                                <SheetDescription>
+                                    How we lookin&apos;?
+                                </SheetDescription>
+                            </SheetHeader>
+                            <div className='grid md:grid-cols-4 gap-12'>
+                                <div className='md:col-span-1'>
+                                    <Table>
+                                        <TableBody>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>Filename</TableHead>
+                                                <TableCell>
+                                                    {files[0].name}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>Width</TableHead>
+                                                <TableCell>
+                                                    {`${imageMeta?.width} px`}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>Height</TableHead>
+                                                <TableCell>
+                                                    {`${imageMeta?.height} px`}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>
+                                                    Aspect ratio
+                                                </TableHead>
+                                                <TableCell>
+                                                    {imageMeta?.aspectRatio}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>Size</TableHead>
+                                                <TableCell>
+                                                    {formatBytes(files[0].size)}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>Format</TableHead>
+                                                <TableCell>
+                                                    {files[0].type}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow className='border-neutral-400/25'>
+                                                <TableHead>
+                                                    Created at
+                                                </TableHead>
+                                                <TableCell>
+                                                    {getDateFromUnixTimestamp(
+                                                        files[0].lastModified
+                                                    )}
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </div>
+
+                                <div className='md:col-span-3'>
+                                    <div
+                                        className={cn(
+                                            ['relative', 'aspect-video']
+                                            // uploading && ['animate-pulse']
+                                        )}>
+                                        {snapshot && (
+                                            <div className='absolute inset-0 z-20 flex flex-col justify-end px-4 pb-4'>
+                                                <Progress
+                                                    value={uploadProgress}
+                                                />
+                                            </div>
+                                        )}
+                                        <NextImage
+                                            src={files[0].preview}
+                                            alt={files[0].name}
+                                            className={cn(
+                                                [
+                                                    'z-10',
+                                                    'object-contain',
+                                                    'object-center'
+                                                ],
+                                                uploading && ['opacity-75']
+                                            )}
+                                            fill={true}
+                                            priority={true}
+                                            onLoadingComplete={({
+                                                naturalWidth,
+                                                naturalHeight
+                                            }) =>
+                                                setImageMeta({
+                                                    width: naturalWidth,
+                                                    height: naturalHeight,
+                                                    aspectRatio: getAspectRatio(
+                                                        naturalWidth,
+                                                        naturalHeight
+                                                    )
+                                                })
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <SheetFooter>
+                                <Button
+                                    variant='ghost'
+                                    onClick={() => {
+                                        setFiles(null)
+                                        setSheetOpen(false)
+                                    }}>
+                                    Cancel
+                                </Button>
+                                <Button
+                                    disabled={uploading}
+                                    onClick={() => {
+                                        orderPrints()
+                                    }}>
+                                    {uploading ? (
+                                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                    ) : (
+                                        <ShoppingCart className='mr-2 h-4 w-4' />
+                                    )}
+                                    Order Prints
+                                </Button>
+                            </SheetFooter>
+                        </SheetContent>
+                    )}
+                </Sheet>
             </div>
-            <div
-                id='cp-store-root'
-                data-cp-settings={`{ "access_key": "${process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY}" }`}></div>
-            <Script
-                id='canvaspop-jssdk'
-                data-cp-url='https://store.canvaspop.com'
-                src='https://store.canvaspop.com/static/js/cpopstore.js'
-                strategy='afterInteractive'
-            />
         </>
     )
 }
