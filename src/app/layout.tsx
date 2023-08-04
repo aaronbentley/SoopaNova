@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Nunito_Sans } from 'next/font/google'
 import './globals.css'
 
-const inter = Nunito_Sans({ subsets: ['latin'] })
+const nunitoSans = Nunito_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: 'SoopaNova',
@@ -15,7 +15,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <html
             lang='en'
             className='dark'>
-            <body className={inter.className}>
+            <body className={nunitoSans.className}>
                 {children}
                 <Toaster />
             </body>

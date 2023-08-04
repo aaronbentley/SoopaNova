@@ -4,6 +4,7 @@ import { cn, formatBytes } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { Loader2, UploadCloud, X } from 'lucide-react'
 import { default as NextImage } from 'next/image'
+import Script from 'next/script'
 import React from 'react'
 import {
     useDropzone,
@@ -230,8 +231,9 @@ const UploadFile = ({ className }: { className?: string }) => {
                             </div>
                             <Button
                                 disabled={isUploading}
+                                data-cp-url={files[0].preview}
                                 onClick={() => {
-                                    orderPrints()
+                                    // orderPrints()
                                 }}>
                                 {isUploading && (
                                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />
@@ -294,6 +296,15 @@ const UploadFile = ({ className }: { className?: string }) => {
                     </div>
                 )}
             </div>
+            <div
+                id='cp-store-root'
+                data-cp-settings={`{ "access_key": "${process.env.NEXT_PUBLIC_CANVASPOP_ACCESS_KEY}" }`}></div>
+            <Script
+                id='canvaspop-jssdk'
+                data-cp-url='https://store.canvaspop.com'
+                src='https://store.canvaspop.com/static/js/cpopstore.js'
+                strategy='afterInteractive'
+            />
         </>
     )
 }
