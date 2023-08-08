@@ -18,6 +18,7 @@ import {
     type FileWithPath
 } from 'react-dropzone'
 import { useUploadFile } from 'react-firebase-hooks/storage'
+import { v4 as uuidv4 } from 'uuid'
 import { Button } from './ui/button'
 import { Progress } from './ui/progress'
 import {
@@ -52,6 +53,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
+    // console.log('🦄 ~ file: upload-file.tsx:55 ~ UploadFile ~ files:', files)
 
     /**
      * Handle Firebase uploads
@@ -62,11 +64,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      * Handle Upload progress
      */
     const [uploadProgress, setUploadProgress] = React.useState(0)
-
-    /**
-     * Handle download URL
-     */
-    // const [downloadUrl, loading, downloadError] = useDownloadURL()
 
     /**
      * Handle Sheet state
@@ -87,10 +84,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     React.useEffect(() => {
         if (!snapshot) return
-        console.log(
-            '🦄 ~ file: upload-file.tsx ~ UploadFile ~ snapshot:',
-            snapshot
-        )
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         setUploadProgress(progress)
 
@@ -104,8 +97,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     const onDrop = React.useCallback(
         (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
-            // setIsUploading(true)
-
             if (acceptedFiles.length) {
                 setFiles(
                     acceptedFiles.map((file) =>
@@ -128,8 +119,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                         })
                 })
             }
-
-            // setIsUploading(false)
         },
         [toast]
     )
@@ -173,36 +162,91 @@ const UploadFile = ({ className }: { className?: string }) => {
                 /**
                  * Get Firebase Storage reference
                  */
-                const storageRef = ref(storage, file.name)
+                const storageRef = ref(storage, `${uuidv4()}--${file.name}`)
 
                 /**
                  * Upload file to Firebase Storage
                  */
-                const result = await uploadFile(storageRef, file, {
-                    customMetadata: {
-                        width: imageMeta?.width.toString() || '',
-                        height: imageMeta?.height.toString() || '',
-                        aspectRatio: imageMeta?.aspectRatio || ''
+                const firebaseStorageResponse = await uploadFile(
+                    storageRef,
+                    file,
+                    {
+                        customMetadata: {
+                            width: imageMeta?.width.toString() || '',
+                            height: imageMeta?.height.toString() || '',
+                            aspectRatio: imageMeta?.aspectRatio || ''
+                        }
                     }
-                })
+                )
+
+                if (!firebaseStorageResponse) {
+                    throw new Error('Error uploading image to Firebase Storage')
+                }
+
                 console.log(
-                    '🦄 ~ file: upload-file.tsx:151 ~ orderPrints ~ result:',
-                    result
+                    '🦄 ~ file: upload-file.tsx:151 ~ orderPrints ~ firebaseStorageResponse:',
+                    firebaseStorageResponse
                 )
 
                 /**
-                 * Get download url
+                 * Get file download url
                  */
-                const downloadUrl = await getDownloadURL(storageRef)
+                const fileDownloadUrl = await getDownloadURL(
+                    firebaseStorageResponse.ref
+                )
+                // console.log(
+                //     '🦄 ~ file: upload-file.tsx:192 ~ orderPrints ~ fileDownloadUrl:',
+                //     fileDownloadUrl
+                // )
+
+                /**
+                 * Initiate upload to CanvasPop Push API (API route handler)
+                 */
+                const pushImageResponse = await fetch(
+                    '/api/canvaspop/push-image',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            imageUrl: fileDownloadUrl
+                        })
+                    }
+                )
+
+                /**
+                 * Get Push Image response data as json
+                 */
+                const pushImageResponseJson = await pushImageResponse.json()
+
+                const {
+                    data: { image_token, message }
+                } = pushImageResponseJson
                 console.log(
-                    '🦄 ~ file: upload-file.tsx:192 ~ orderPrints ~ downloadUrl:',
-                    downloadUrl
+                    '🦄 ~ file: upload-file.tsx:210 ~ orderPrints ~ image_token:',
+                    image_token
+                )
+                console.info(
+                    'CART URL:',
+                    `https://store.canvaspop.com/loader/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
+                )
+
+                window?.open(
+                    `https://store.canvaspop.com/loader/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`,
+                    '_blank'
                 )
             } catch (error) {
                 console.error(
                     '🦄 ~ file: upload-file.tsx:144 ~ orderPrints ~ error:',
                     error
                 )
+
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: 'Something went wrong. Please try again.'
+                })
             } finally {
                 // setIsUploading(uploading)
             }
@@ -266,7 +310,7 @@ const UploadFile = ({ className }: { className?: string }) => {
 
                 <Sheet
                     open={sheetOpen}
-                    onOpenChange={(open) => {
+                    onOpenChange={async (open) => {
                         if (!open) {
                             setFiles(null)
                         }
