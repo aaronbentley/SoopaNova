@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 export const POST = async (request: NextRequest) => {
     /**
      * Get form data from request body
