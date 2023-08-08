@@ -83,11 +83,10 @@ export const POST = async (request: NextRequest) => {
      * Get CanvasPop Push API response data as json
      */
     const canvasPopPushResponseJson = await canvasPopPushResponse.json()
-    console.log(
-        '🦄 ~ file: route.ts:60 ~ POST ~ canvasPopPushResponseJson:',
-        canvasPopPushResponseJson
-    )
 
+    /**
+     * Return response
+     */
     return NextResponse.json(
         {
             message: 'success',
