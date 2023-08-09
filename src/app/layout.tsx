@@ -30,7 +30,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     'dark:bg-neutral-950',
                     'text-neutral-950',
                     'dark:text-neutral-50',
-                    'bg-none',
                     'font-sans',
                     'antialiased'
                 ])}>

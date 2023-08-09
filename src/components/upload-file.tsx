@@ -260,7 +260,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
                 )
 
-                console.info('CART URL:', canvasPopCartUrl.href)
+                // console.info('CART URL:', canvasPopCartUrl.href)
 
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
