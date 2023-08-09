@@ -43,7 +43,9 @@ const CanvasPopCart = ({ src = null }: CanvasPopCartProps) => {
                         'z-30',
                         'flex',
                         'items-center',
-                        'justify-center'
+                        'justify-center',
+                        'bg-neutral-50',
+                        'dark:bg-neutral-950'
                     ])}>
                     <Loader2 className='h-12 w-12 animate-spin' />
                 </div>
