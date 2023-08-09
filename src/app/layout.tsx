@@ -3,6 +3,7 @@ import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -46,6 +47,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                     <Toaster />
                 </ThemeProvider>
+                <Analytics />
             </body>
         </html>
     )
