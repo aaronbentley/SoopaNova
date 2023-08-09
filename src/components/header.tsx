@@ -3,7 +3,7 @@ import Link from 'next/link'
 import ModeToggle from './mode-toggle'
 
 const Header = () => (
-    <header className='sticky top-0 z-50 w-full'>
+    <header className='sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800'>
         <div className='container flex items-center'>
             <div className='flex justify-between w-full py-4'>
                 <Link
@@ -12,7 +12,7 @@ const Header = () => (
                     <span
                         className={cn([
                             'font-extrabold',
-                            'text-4xl',
+                            'text-2xl',
                             'tracking-tight'
                         ])}>
                         {process.env.NEXT_PUBLIC_APP_TITLE!}

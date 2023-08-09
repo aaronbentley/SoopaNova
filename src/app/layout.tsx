@@ -1,4 +1,5 @@
 import Header from '@/components/header'
+import TailwindIndicator from '@/components/tailwind-indicator'
 import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { fontSans } from '@/lib/fonts'
@@ -29,8 +30,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     'min-h-screen',
                     'bg-neutral-50',
                     'dark:bg-neutral-950',
-                    'text-neutral-950',
-                    'dark:text-neutral-50',
+                    'text-neutral-900',
+                    'dark:text-neutral-100',
                     'font-sans',
                     'antialiased'
                 ])}>
@@ -41,11 +42,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     disableTransitionOnChange>
                     <div className='relative flex min-h-screen flex-col'>
                         <Header />
-                        <div className='flex-1 flex min-h-max flex-col items-center justify-center'>
+                        <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4'>
                             {children}
                         </div>
                     </div>
                     <Toaster />
+                    <TailwindIndicator />
                 </ThemeProvider>
                 <Analytics />
             </body>

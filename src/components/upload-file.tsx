@@ -282,216 +282,221 @@ const UploadFile = ({ className }: { className?: string }) => {
     }
 
     return (
-        <>
-            <div className='container mx-auto flex justify-center'>
-                {!files && (
-                    <div className='w-96'>
-                        <div
-                            {...getRootProps()}
-                            className={cn(
-                                [
-                                    'group',
-                                    'min-w-full',
-                                    'relative',
-                                    'grid',
-                                    'h-48',
-                                    'w-full',
-                                    'cursor-pointer',
-                                    'place-items-center',
-                                    'rounded-lg',
-                                    'border-2',
-                                    'border-dashed',
-                                    'border-neutral-400/75',
-                                    'dark:border-neutral-400/25',
-                                    'px-5',
-                                    'py-2.5',
-                                    'text-center',
-                                    'transition',
-                                    'ring-offset-background',
-                                    'focus-visible:outline-none',
-                                    'focus-visible:ring-2',
-                                    'focus-visible:ring-ring',
-                                    'focus-visible:ring-offset-2',
-                                    'hover:border-fuchsia-500',
-                                    'hover:dark:border-fuchsia-300',
-                                    'transition-all',
-                                    'duration-200'
-                                ],
-                                isDragActive && [
-                                    'border-fuchsia-500',
-                                    'dark:border-fuchsia-300'
-                                ],
-                                disabled && [
-                                    'pointer-events-none',
-                                    'opacity-60'
-                                ],
-                                className
-                            )}>
-                            <input {...getInputProps()} />
-                            {uploading ? (
-                                <div className='group grid w-full place-items-center gap-1 sm:px-10'>
-                                    <UploadCloud
-                                        className='h-9 w-9 animate-pulse'
-                                        aria-hidden='true'
-                                    />
-                                </div>
-                            ) : isDragActive ? (
-                                <div className='grid place-items-center gap-2 sm:px-5'>
-                                    <UploadCloud
-                                        className={cn(
-                                            'h-8 w-8',
-                                            'animate-bounce text-fuchsia-500 dark:text-fuchsia-300'
-                                        )}
-                                        aria-hidden='true'
-                                    />
-                                    <p className='text-base font-medium text-fuchsia-500 dark:text-fuchsia-300'>
-                                        Drop it like it&apos;s hot
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className='grid place-items-center gap-1 sm:px-5'>
-                                    <UploadCloud
-                                        className='h-8 w-8 text-neutral-400 duration-200 group-hover:text-fuchsia-500 group-hover:dark:text-fuchsia-300'
-                                        aria-hidden='true'
-                                    />
-                                    <p className='mt-2 text-base font-medium text-neutral-500 dark:text-neutral-400 transition-colors duration-200 group-hover:text-fuchsia-500 group-hover:dark:text-fuchsia-300'>
-                                        Drag {`'n'`} drop here, or click to
-                                        select file
-                                    </p>
-                                    <small className='text-sm text-neutral-400 dark:text-neutral-500'>
-                                        Please upload file with size less than{' '}
-                                        {formatBytes(maxSize)}
-                                    </small>
-                                </div>
+        <div
+            className={cn(
+                ['container', 'mx-auto', 'flex', 'justify-center'],
+                className
+            )}>
+            {!files && (
+                <div className='w-96'>
+                    <div
+                        {...getRootProps()}
+                        className={cn(
+                            [
+                                'group',
+                                'min-w-full',
+                                'relative',
+                                'grid',
+                                'h-48',
+                                'w-full',
+                                'cursor-pointer',
+                                'place-items-center',
+                                'rounded-lg',
+                                'border-2',
+                                // 'border-4',
+                                'border-dashed',
+                                'border-neutral-300',
+                                'dark:border-neutral-700',
+                                'px-5',
+                                'py-2.5',
+                                'text-center',
+                                'transition',
+                                'ring-offset-background',
+                                'focus-visible:outline-none',
+                                'focus-visible:ring-2',
+                                'focus-visible:ring-ring',
+                                'focus-visible:ring-offset-2',
+                                'hover:border-pink-500',
+                                'hover:dark:border-pink-500',
+                                'transition-all',
+                                'duration-200'
+                            ],
+                            isDragActive && [
+                                'border-pink-500',
+                                'dark:border-pink-500'
+                            ],
+                            disabled && ['pointer-events-none', 'opacity-60'],
+                            className
+                        )}>
+                        <input {...getInputProps()} />
+                        {uploading ? (
+                            <div className='group grid w-full place-items-center gap-1 sm:px-10'>
+                                <UploadCloud
+                                    className='h-9 w-9 animate-pulse'
+                                    aria-hidden='true'
+                                />
+                            </div>
+                        ) : isDragActive ? (
+                            <div className='grid place-items-center gap-2 sm:px-5'>
+                                <UploadCloud
+                                    className={cn([
+                                        'h-8',
+                                        'w-8',
+                                        'origin-bottom',
+                                        'animate-bounce',
+                                        'text-pink-500'
+                                    ])}
+                                    aria-hidden='true'
+                                />
+                                <p className='text-base font-medium text-pink-500'>
+                                    Drop it like it&apos;s hot
+                                </p>
+                            </div>
+                        ) : (
+                            <div className='grid place-items-center gap-1 sm:px-5'>
+                                <UploadCloud
+                                    className={cn([
+                                        'h-8',
+                                        'w-8',
+                                        'text-neutral-400',
+                                        'duration-200',
+                                        'origin-bottom',
+                                        'group-hover:text-pink-500',
+                                        'group-hover:animate-bounce'
+                                    ])}
+                                    aria-hidden='true'
+                                />
+                                <p className='mt-2 text-base font-medium text-neutral-500 dark:text-neutral-400 transition-colors duration-200 group-hover:text-pink-500'>
+                                    Drag {`'n'`} drop here, or click to select
+                                    file
+                                </p>
+                                <small className='text-sm text-neutral-400 dark:text-neutral-600'>
+                                    Please upload file with size less than{' '}
+                                    {formatBytes(maxSize)}
+                                </small>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+            <Sheet
+                open={mediaSheetOpen}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setFiles(null)
+                    }
+                    setMediaSheetOpen(open)
+                }}>
+                <SheetContent
+                    side='top'
+                    className='h-fit flex flex-col gap-y-6 border-none container mx-auto'>
+                    <SheetHeader>
+                        <SheetTitle className='font-extrabold'>
+                            Media
+                        </SheetTitle>
+                        <SheetDescription>
+                            How we lookin&apos;?
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className='grid md:grid-cols-4 gap-12'>
+                        <div className='md:col-span-1'>
+                            {files && (
+                                <ImageMetadata
+                                    file={files[0]}
+                                    imageMeta={imageMeta}
+                                />
                             )}
                         </div>
-                    </div>
-                )}
-                <Sheet
-                    open={mediaSheetOpen}
-                    onOpenChange={(open) => {
-                        if (!open) {
-                            setFiles(null)
-                        }
-                        setMediaSheetOpen(open)
-                    }}>
-                    <SheetContent
-                        side='top'
-                        className='h-fit flex flex-col gap-y-6 border-none container mx-auto'>
-                        <SheetHeader>
-                            <SheetTitle className='font-extrabold'>
-                                Media
-                            </SheetTitle>
-                            <SheetDescription>
-                                How we lookin&apos;?
-                            </SheetDescription>
-                        </SheetHeader>
-                        <div className='grid md:grid-cols-4 gap-12'>
-                            <div className='md:col-span-1'>
+
+                        <div className='md:col-span-3'>
+                            <div className={cn(['relative', 'aspect-video'])}>
+                                {snapshot && (
+                                    <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
+                                        <Progress value={uploadProgress} />
+                                    </div>
+                                )}
+                                {createPrintOptions && (
+                                    <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
+                                        <Loader2 className='h-12 w-12 animate-spin' />
+                                        <p>Creating Print Order</p>
+                                    </div>
+                                )}
                                 {files && (
-                                    <ImageMetadata
-                                        file={files[0]}
-                                        imageMeta={imageMeta}
+                                    <NextImage
+                                        src={files[0].preview}
+                                        alt={files[0].name}
+                                        className={cn(
+                                            [
+                                                'z-10',
+                                                'object-contain',
+                                                'object-center'
+                                            ],
+                                            uploading && ['opacity-75'],
+                                            createPrintOptions && ['opacity-75']
+                                        )}
+                                        fill={true}
+                                        priority={true}
+                                        onLoadingComplete={({
+                                            naturalWidth,
+                                            naturalHeight
+                                        }) =>
+                                            setImageMeta({
+                                                width: naturalWidth,
+                                                height: naturalHeight,
+                                                aspectRatio: getAspectRatio(
+                                                    naturalWidth,
+                                                    naturalHeight
+                                                )
+                                            })
+                                        }
                                     />
                                 )}
                             </div>
-
-                            <div className='md:col-span-3'>
-                                <div
-                                    className={cn([
-                                        'relative',
-                                        'aspect-video'
-                                    ])}>
-                                    {snapshot && (
-                                        <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
-                                            <Progress value={uploadProgress} />
-                                        </div>
-                                    )}
-                                    {createPrintOptions && (
-                                        <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                            <Loader2 className='h-12 w-12 animate-spin' />
-                                            <p>Creating Print Order</p>
-                                        </div>
-                                    )}
-                                    {files && (
-                                        <NextImage
-                                            src={files[0].preview}
-                                            alt={files[0].name}
-                                            className={cn(
-                                                [
-                                                    'z-10',
-                                                    'object-contain',
-                                                    'object-center'
-                                                ],
-                                                uploading && ['opacity-75'],
-                                                createPrintOptions && [
-                                                    'opacity-75'
-                                                ]
-                                            )}
-                                            fill={true}
-                                            priority={true}
-                                            onLoadingComplete={({
-                                                naturalWidth,
-                                                naturalHeight
-                                            }) =>
-                                                setImageMeta({
-                                                    width: naturalWidth,
-                                                    height: naturalHeight,
-                                                    aspectRatio: getAspectRatio(
-                                                        naturalWidth,
-                                                        naturalHeight
-                                                    )
-                                                })
-                                            }
-                                        />
-                                    )}
-                                </div>
-                            </div>
                         </div>
-                        <SheetFooter>
-                            <Button
-                                variant='ghost'
-                                onClick={() => {
-                                    setFiles(null)
-                                    setMediaSheetOpen(false)
-                                }}>
-                                Cancel
-                            </Button>
-                            <Button
-                                disabled={uploading || createPrintOptions}
-                                onClick={() => {
-                                    createPrintOrder()
-                                }}>
-                                {uploading || createPrintOptions ? (
-                                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                                ) : (
-                                    <ShoppingCart className='mr-2 h-4 w-4' />
-                                )}
-                                Order Prints
-                            </Button>
-                        </SheetFooter>
-                    </SheetContent>
-                </Sheet>
-                <Sheet
-                    open={printSheetOpen}
-                    onOpenChange={(open) => setPrintSheetOpen(open)}>
-                    <SheetContent
-                        side='bottom'
-                        className='h-screen flex flex-col gap-y-6 border-none container mx-auto'>
-                        <SheetHeader>
-                            <SheetTitle className='font-extrabold'>
-                                Print Order
-                            </SheetTitle>
-                            <SheetDescription>
-                                Choose from a Poster, Canvas, or Framed Print,
-                                then choose your size and quantity.
-                            </SheetDescription>
-                        </SheetHeader>
-                        {printOrderUrl && <CanvasPopCart src={printOrderUrl} />}
-                    </SheetContent>
-                </Sheet>
-            </div>
-        </>
+                    </div>
+                    <SheetFooter>
+                        <Button
+                            variant='ghost'
+                            onClick={() => {
+                                setFiles(null)
+                                setMediaSheetOpen(false)
+                            }}>
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={uploading || createPrintOptions}
+                            onClick={() => {
+                                createPrintOrder()
+                            }}>
+                            {uploading || createPrintOptions ? (
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                            ) : (
+                                <ShoppingCart className='mr-2 h-4 w-4' />
+                            )}
+                            Order Prints
+                        </Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+            <Sheet
+                open={printSheetOpen}
+                onOpenChange={(open) => setPrintSheetOpen(open)}>
+                <SheetContent
+                    side='bottom'
+                    className='h-screen flex flex-col gap-y-6 border-none container mx-auto'>
+                    <SheetHeader>
+                        <SheetTitle className='font-extrabold'>
+                            Print Order
+                        </SheetTitle>
+                        <SheetDescription>
+                            Choose from a Poster, Canvas, or Framed Print, then
+                            choose your size and quantity.
+                        </SheetDescription>
+                    </SheetHeader>
+                    {printOrderUrl && <CanvasPopCart src={printOrderUrl} />}
+                </SheetContent>
+            </Sheet>
+        </div>
     )
 }
 
