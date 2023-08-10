@@ -34,7 +34,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     'text-neutral-900',
                     'dark:text-neutral-100',
                     'font-sans',
-                    'antialiased'
+                    'antialiased',
+                    'scroll-pt-20'
                 ])}>
                 <ThemeProvider
                     attribute='class'
