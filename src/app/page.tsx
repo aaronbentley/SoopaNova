@@ -95,7 +95,6 @@ const Frontpage = () => {
                 <h2 className='text-2xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
                     Customise Your Prints
                 </h2>
-
                 <p className='text-xl text-neutral-500 dark:text-neutral-500 max-w-[500px]'>
                     Make something awesome - make it your own.
                 </p>
