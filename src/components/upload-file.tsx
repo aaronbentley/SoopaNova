@@ -4,7 +4,7 @@ import { storage } from '@/firebase/config'
 import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { getDownloadURL, ref } from 'firebase/storage'
-import { Loader2, ShoppingCart, UploadCloud } from 'lucide-react'
+import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
 import { default as NextImage } from 'next/image'
 import React from 'react'
 import {
@@ -465,13 +465,14 @@ const UploadFile = ({ className }: { className?: string }) => {
                         </Button>
                         <Button
                             disabled={uploading || createPrintOptions}
+                            className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'
                             onClick={() => {
                                 createPrintOrder()
                             }}>
                             {uploading || createPrintOptions ? (
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                             ) : (
-                                <ShoppingCart className='mr-2 h-4 w-4' />
+                                <ShoppingBag className='mr-2 h-4 w-4' />
                             )}
                             Order Prints
                         </Button>

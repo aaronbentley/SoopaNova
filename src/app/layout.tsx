@@ -1,3 +1,4 @@
+import Footer from '@/components/footer'
 import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
 import ThemeProvider from '@/components/theme-provider'
@@ -45,6 +46,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4'>
                             {children}
                         </div>
+                        <Footer />
                     </div>
                     <Toaster />
                     <TailwindIndicator />
