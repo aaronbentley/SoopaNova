@@ -3,6 +3,7 @@ import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
 import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/react'
@@ -42,15 +43,17 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     defaultTheme='system'
                     enableSystem
                     disableTransitionOnChange>
-                    <div className='relative flex min-h-screen flex-col'>
-                        <Header />
-                        <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4'>
-                            {children}
+                    <TooltipProvider>
+                        <div className='relative flex min-h-screen flex-col'>
+                            <Header />
+                            <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4'>
+                                {children}
+                            </div>
+                            <Footer />
                         </div>
-                        <Footer />
-                    </div>
-                    <Toaster />
-                    <TailwindIndicator />
+                        <Toaster />
+                        <TailwindIndicator />
+                    </TooltipProvider>
                 </ThemeProvider>
                 <Analytics />
             </body>
