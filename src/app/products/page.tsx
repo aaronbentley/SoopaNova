@@ -8,8 +8,15 @@ import {
     PageSectionDescription,
     PageSectionHeading
 } from '@/components/page-section'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import roomImage from '../../assets/img/room.jpg'
+
+export const metadata: Metadata = {
+    title: 'Products',
+    description:
+        'Transform your gaming screenshots into mighty-fine artwork for your space.'
+}
 
 const Products = () => {
     return (

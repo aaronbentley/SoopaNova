@@ -8,6 +8,12 @@ import {
     PageSectionDescription,
     PageSectionHeading
 } from '@/components/page-section'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'FAQ',
+    description: 'Got questions? We got answers.'
+}
 
 const Faq = () => {
     return (
