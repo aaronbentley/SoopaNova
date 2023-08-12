@@ -131,8 +131,9 @@ const Frontpage = () => {
                         </CardHeader>
                         <CardContent>
                             <p>
-                                Choose from a Poster, Canvas or Framed Print,
-                                and opt for gallery-quality frames if you wanna.
+                                Choose a Poster, Canvas or Framed Print, and opt
+                                for gallery-quality frames if it takes your
+                                fancy.
                             </p>
                         </CardContent>
                     </Card>

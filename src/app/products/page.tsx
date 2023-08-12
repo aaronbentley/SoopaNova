@@ -66,7 +66,7 @@ const Products = () => {
                         Prints, with premium solid wood frames (choose from
                         black, white, and dark brown coating options), and
                         paired with ultra-low glare plexiglass to ensure your
-                        screenshots look awesome.
+                        prints get all the attention.
                     </PageSectionDescription>
                     <Image
                         src={roomImage}

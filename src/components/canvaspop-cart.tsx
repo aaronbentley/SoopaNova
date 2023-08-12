@@ -47,7 +47,7 @@ const CanvasPopCart = ({ src = null }: CanvasPopCartProps) => {
                         'bg-neutral-50',
                         'dark:bg-neutral-950'
                     ])}>
-                    <Loader2 className='h-12 w-12 animate-spin' />
+                    <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
                 </div>
             )}
             <Script id='canvaspop-events'>

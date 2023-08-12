@@ -371,8 +371,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     file
                                 </p>
                                 <small className='text-sm text-neutral-400 dark:text-neutral-600'>
-                                    Please upload file with size less than{' '}
-                                    {formatBytes(maxSize)}
+                                    Upload your screenshot (max size{' '}
+                                    {formatBytes(maxSize)})
                                 </small>
                             </div>
                         )}
@@ -412,13 +412,18 @@ const UploadFile = ({ className }: { className?: string }) => {
                             <div className={cn(['relative', 'aspect-video'])}>
                                 {snapshot && (
                                     <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
-                                        <Progress value={uploadProgress} />
+                                        <Progress
+                                            value={uploadProgress}
+                                            className='[&>div]:data-[state=indeterminate]:bg-pink-500'
+                                        />
                                     </div>
                                 )}
                                 {createPrintOptions && (
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='h-12 w-12 animate-spin' />
-                                        <p>Creating Print Order</p>
+                                        <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
+                                        <p className='font-extrabold'>
+                                            Creating Print Order
+                                        </p>
                                     </div>
                                 )}
                                 {files && (

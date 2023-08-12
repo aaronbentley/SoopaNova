@@ -13,6 +13,7 @@ const Header = () => (
                         className='mr-6 flex items-center space-x-2'>
                         <span
                             className={cn([
+                                'font-sans',
                                 'font-extrabold',
                                 'text-xl',
                                 'tracking-tight',
