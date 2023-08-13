@@ -7,10 +7,10 @@ Here's hoping I make something cool and ideally - profitable.
 ### Dev
 
 - [x] Next Metadata template
-- [ ] Mobile menu
+- [x] Mobile menu
 - [x] OG image generation
-- [ ] sitemap.xml
-- [ ] robots.txt
+- [x] sitemap.xml
+- [x] robots.txt
 - [ ] Check image resolution
 - [ ] Check image file size
 - [ ] Check image aspect ratio

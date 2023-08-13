@@ -1,11 +1,15 @@
 'use client'
 
+import { cn } from '@/lib/utils'
+
 const ScrollToTarget = ({
     target,
-    children
+    children,
+    className
 }: {
     target: string
     children: React.ReactNode
+    className?: string
 }) => {
     const handleClick = () => {
         const element = document.getElementById(target)
@@ -19,7 +23,13 @@ const ScrollToTarget = ({
         })
     }
 
-    return <div onClick={handleClick}>{children}</div>
+    return (
+        <div
+            className={cn([''], className)}
+            onClick={handleClick}>
+            {children}
+        </div>
+    )
 }
 
 export default ScrollToTarget

@@ -33,12 +33,15 @@ export const generateMetadata = async (): Promise<Metadata> => {
         description: process.env.APP_DESCRIPTION!,
         keywords: [
             process.env.APP_TITLE!,
+            'Prints',
+            'Poster Prints',
+            'Canvas Prints',
+            'Framed Prints',
             'Screenshots',
             'Pixels',
-            'Prints',
-            'Posters',
-            'Canvas Prints',
-            'Framed Prints'
+            'Xbox',
+            'PlayStation',
+            'Steam'
         ],
         themeColor: themeColor,
         authors: [

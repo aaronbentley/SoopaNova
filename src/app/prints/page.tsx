@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         'Transform your gaming screenshots into mighty-fine artwork for your space.'
 }
 
-const Products = () => {
+const Prints = () => {
     return (
         <>
             <div className='container'>
@@ -89,4 +89,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default Prints

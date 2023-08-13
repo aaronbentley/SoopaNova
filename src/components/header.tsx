@@ -1,16 +1,17 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import MainNav from './main-nav'
+import MobileNav from './mobile-nav'
 import ModeToggle from './mode-toggle'
 
 const Header = () => (
     <header className='sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur'>
-        <div className='container flex items-center'>
+        <div className='container px-4 flex items-center'>
             <div className='flex justify-between w-full py-4'>
                 <div className='flex items-center space-x-4'>
                     <Link
                         href='/'
-                        className='mr-6 flex items-center space-x-2'>
+                        className='hidden md:flex md:mr-6 md:items-center md:space-x-2'>
                         <span
                             className={cn([
                                 'font-sans',
@@ -25,6 +26,7 @@ const Header = () => (
                         </span>
                     </Link>
                     <MainNav />
+                    <MobileNav />
                 </div>
                 <ModeToggle />
             </div>
