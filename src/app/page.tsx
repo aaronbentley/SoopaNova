@@ -42,37 +42,37 @@ const Frontpage = () => {
                     variant='secondary'
                     className='flex justify-around py-2 px-4'>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <Gamepad2 className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Play Games</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <BoxSelect className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Capture Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <UploadCloud className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Upload Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <ShoppingBag className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Choose Print Options</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <Package className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Fast Shipping</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             <LucideImage className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Pixel-Perfect Prints</TooltipContent>
