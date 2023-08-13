@@ -14,12 +14,23 @@ const MainNav = () => (
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <Link
-                        href='/prints/'
+                        href='/create/'
                         legacyBehavior
                         passHref>
                         <NavigationMenuLink
                             className={navigationMenuTriggerStyle()}>
-                            Prints
+                            Create
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link
+                        href='/products/'
+                        legacyBehavior
+                        passHref>
+                        <NavigationMenuLink
+                            className={navigationMenuTriggerStyle()}>
+                            Products
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>

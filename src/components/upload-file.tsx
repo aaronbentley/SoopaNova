@@ -370,8 +370,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     file
                                 </p>
                                 <small className='text-sm text-neutral-400 dark:text-neutral-600'>
-                                    Upload your screenshot (max size{' '}
-                                    {formatBytes(maxSize)})
+                                    Maximum file size {formatBytes(maxSize)}
                                 </small>
                             </div>
                         )}
@@ -391,7 +390,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     className='h-fit flex flex-col gap-y-6 border-none container mx-auto'>
                     <SheetHeader>
                         <SheetTitle className='font-extrabold'>
-                            Media
+                            Screenshot Preview
                         </SheetTitle>
                         <SheetDescription>
                             How we lookin&apos;?

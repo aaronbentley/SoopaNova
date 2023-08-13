@@ -43,7 +43,7 @@ const Screenshots = () => {
 
                 <PageSection>
                     <PageSectionHeading>
-                        Get your screenshot files
+                        Download your screenshots
                     </PageSectionHeading>
                     <PageSectionDescription>
                         You&apos;ll need to get your screenshot files before
@@ -107,20 +107,18 @@ const Screenshots = () => {
                         <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                    Phone
+                                    On Your Phone
                                     <Smartphone className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-1 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
                                 </CardTitle>
                                 <CardDescription>Xbox App</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <p>App Store links</p>
-
                                 <div className='flex gap-2 mt-2'>
                                     <Link
                                         href='https://apps.apple.com/app/xbox/id736179781'
                                         className={cn(
                                             buttonVariants({
-                                                variant: 'default'
+                                                variant: 'outline'
                                             })
                                         )}>
                                         App Store
@@ -129,7 +127,7 @@ const Screenshots = () => {
                                         href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
                                         className={cn(
                                             buttonVariants({
-                                                variant: 'default'
+                                                variant: 'outline'
                                             })
                                         )}>
                                         Google Play
@@ -140,11 +138,11 @@ const Screenshots = () => {
                         <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                    PC
+                                    On Your PC
                                     <Laptop2 className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-2 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
                                 </CardTitle>
                                 <CardDescription>
-                                    Xbox app for Windows PC
+                                    Xbox App for Windows
                                 </CardDescription>
                             </CardHeader>
                         </Card>
@@ -160,6 +158,53 @@ const Screenshots = () => {
                     <PageSectionDescription>
                         How to download your PlayStation screenshots.
                     </PageSectionDescription>
+
+                    <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 gap-8 mt-2'>
+                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <CardHeader className='relative'>
+                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    On Your Phone
+                                    <Smartphone className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-1 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
+                                </CardTitle>
+                                <CardDescription>
+                                    PlayStation App
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className='flex gap-2 mt-2'>
+                                    <Link
+                                        href='https://apps.apple.com/app/apple-store/id410896080'
+                                        className={cn(
+                                            buttonVariants({
+                                                variant: 'outline'
+                                            })
+                                        )}>
+                                        App Store
+                                    </Link>
+                                    <Link
+                                        href='https://play.google.com/store/apps/details?id=com.scee.psxandroid'
+                                        className={cn(
+                                            buttonVariants({
+                                                variant: 'outline'
+                                            })
+                                        )}>
+                                        Google Play
+                                    </Link>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <CardHeader className='relative'>
+                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    On Your PC
+                                    <Laptop2 className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-2 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
+                                </CardTitle>
+                                <CardDescription>
+                                    Xbox App for Windows
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </div>
                 </PageSection>
             </div>
 

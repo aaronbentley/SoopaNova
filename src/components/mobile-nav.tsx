@@ -49,9 +49,14 @@ const MobileNav = () => {
                 <ScrollArea className='mt-8 mb-4 h-[calc(100vh-8rem)] pb-10'>
                     <div className='flex flex-col space-y-2'>
                         <MobileLink
-                            href='/prints/'
+                            href='/create/'
                             onOpenChange={setOpen}>
-                            Prints
+                            Create
+                        </MobileLink>
+                        <MobileLink
+                            href='/products/'
+                            onOpenChange={setOpen}>
+                            Products
                         </MobileLink>
                         <MobileLink
                             href='/screenshots/'

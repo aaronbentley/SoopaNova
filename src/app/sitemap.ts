@@ -4,7 +4,14 @@ const sitemap = (): MetadataRoute.Sitemap => {
     /**
      * Create page paths
      */
-    const paths = ['/', '/prints/', '/screenshots/', '/faq/', '/about/']
+    const paths = [
+        '/',
+        '/create/',
+        '/products/',
+        '/screenshots/',
+        '/faq/',
+        '/about/'
+    ]
 
     /**
      * Loop through paths and build sitemap objects
