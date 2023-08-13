@@ -6,21 +6,15 @@ Here's hoping I make something cool and ideally - profitable.
 
 ### Dev
 
-- [x] Next Metadata template
-- [x] Mobile menu
-- [x] OG image generation
-- [x] sitemap.xml
-- [x] robots.txt
 - [ ] Check image resolution
 - [ ] Check image file size
 - [ ] Check image aspect ratio
-- [ ] Build UI
-- [x] Image upload
 
 
 ### Content
 
+- [ ] Frontpage - build sections
 - [ ] Get Started - how to get your screenshot files (Xbox/PS/PC/Switch)
+- [ ] About - what is SoopaNova?
 - [ ] Privacy Policy
 - [ ] Terms of Service
-- [ ] Social networks
