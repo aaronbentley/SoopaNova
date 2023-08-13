@@ -103,31 +103,16 @@ const Frontpage = () => {
                     Make something awesome. Make it your own.
                 </p>
 
-                <div className='grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-2'>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                Upload image
-                                <UploadCloud className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Show your &apos;shot
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                Drop your finest screenshots to get started,
-                                we&apos;ll handle the file uploads for you.
-                            </p>
-                        </CardContent>
-                    </Card>
+                <div className='grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>
                     <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                 Choose type
                                 <Frame className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
-                            <CardDescription>Take your pick</CardDescription>
+                            <CardDescription>
+                                Show your &apos;shot
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <p>
