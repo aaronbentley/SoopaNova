@@ -25,17 +25,6 @@ const MainNav = () => (
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link
-                        href='/products/'
-                        legacyBehavior
-                        passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}>
-                            Products
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link
                         href='/screenshots/'
                         legacyBehavior
                         passHref>

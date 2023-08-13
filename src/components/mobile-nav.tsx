@@ -54,11 +54,6 @@ const MobileNav = () => {
                             Create
                         </MobileLink>
                         <MobileLink
-                            href='/products/'
-                            onOpenChange={setOpen}>
-                            Products
-                        </MobileLink>
-                        <MobileLink
                             href='/screenshots/'
                             onOpenChange={setOpen}>
                             Screenshots
