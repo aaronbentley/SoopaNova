@@ -87,7 +87,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     'font-sans',
                     'antialiased',
                     'min-h-screen',
-                    'scroll-pt-20'
+                    'scroll-pt-24'
                 ])}>
                 <ThemeProvider
                     attribute='class'
