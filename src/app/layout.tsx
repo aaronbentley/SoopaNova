@@ -4,7 +4,6 @@ import TailwindIndicator from '@/components/tailwind-indicator'
 import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { nunitoSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
@@ -62,7 +61,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
             card: 'summary_large_image',
             title: process.env.APP_TITLE!,
             description: process.env.APP_DESCRIPTION!,
-            creator: '@aaronbentley'
+            creator: process.env.APP_SOCIAL_TWITTER!
         }
         // icons: {},
         // manifest: '',
@@ -78,7 +77,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <head />
             <body
                 className={cn([
-                    nunitoSans.variable,
                     'bg-neutral-50',
                     'dark:bg-neutral-950',
                     'text-neutral-900',

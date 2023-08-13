@@ -13,32 +13,30 @@ export const contentType = 'image/svg+xml'
 
 export const debug = process.env.NODE_ENV !== 'production'
 
-/**
- * Nunito Sans custom Font
- */
-const nunitoSans = fetch(
-    new URL('./fonts/nunito-sans-extra-bold.ttf', process.env.APP_URL!)
-).then((res) => res.arrayBuffer())
-
 const iconImage = async () => {
     return new ImageResponse(
         (
-            <div tw='bg-transparent flex flex-col items-center justify-center h-full w-full'>
-                <h1 tw='text-center text-[32rem] mt-[-3rem] -ml-4 text-neutral-900 tracking-tighter leading-none text-pink-500'>
-                    S
-                </h1>
+            <div tw='bg-transparent text-pink-500 flex flex-col items-center justify-center h-full w-full'>
+                <svg
+                    fill='currentColor'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 512 512'>
+                    <path
+                        d='M153.9,482.5c-28.8-11.2-51.3-27.3-67.4-48.4c-16.2-21.1-25.3-46.6-27.2-76.6l-0.3-5.9H170l0.7,3.3
+		c2.2,10.2,7.2,19.1,15.2,26.6c7.9,7.5,18.1,13.4,30.5,17.6c12.4,4.2,26.2,6.4,41.4,6.4c15.9,0,29.5-2.1,40.9-6.4
+		c11.4-4.2,20.3-10,26.6-17.4c6.3-7.4,9.4-16,9.4-25.7v-0.3c0-13.2-5.8-23.5-17.3-30.8c-11.5-7.3-31.1-13.5-58.6-18.7l-48.2-9.4
+		c-46.5-8.7-81.8-24.4-106.1-47.1C80.1,226.9,68,197.5,68,161.4v-0.3c0-30.2,8-56.4,24.1-78.7c16.1-22.3,38.2-39.5,66.3-51.8
+		c28.1-12.3,60.1-18.4,96-18.4c39.3,0,72.8,5.8,100.4,17.4c27.6,11.6,48.9,28,64,49c15.1,21.1,23.3,45.8,24.6,74.3l0.3,6.8H332.6
+		l-0.3-3.6c-1.3-10.4-5.3-19.3-12.1-26.7c-6.7-7.4-15.6-13.1-26.7-17.3c-11.1-4.1-23.8-6.2-38.1-6.2c-14.6,0-26.9,2.1-37.1,6.2
+		c-10.2,4.1-18,9.7-23.3,16.8c-5.3,7.1-8,15-8,23.9v0.3c0,12.6,5.8,22.6,17.3,30c11.5,7.4,29.9,13.5,55.1,18.2l48.2,9.1
+		c33.4,6.3,60.9,15.2,82.4,26.7c21.5,11.5,37.5,26.1,47.9,43.8c10.4,17.7,15.6,39.2,15.6,64.3v0.3c0,31.3-7.8,58.4-23.5,81.5
+		c-15.6,23-38.2,40.8-67.8,53.3c-29.5,12.5-65.1,18.7-106.5,18.7C216.6,499.3,182.6,493.7,153.9,482.5z'
+                    />
+                </svg>
             </div>
         ),
         {
             ...size,
-            fonts: [
-                {
-                    name: 'Nunito Sans',
-                    data: await nunitoSans,
-                    style: 'normal',
-                    weight: 800
-                }
-            ],
             debug
         }
     )
