@@ -303,7 +303,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 'place-items-center',
                                 'rounded-lg',
                                 'border-2',
-                                // 'border-4',
                                 'border-dashed',
                                 'border-neutral-300',
                                 'dark:border-neutral-700',
