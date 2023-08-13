@@ -13,7 +13,7 @@ import Image from 'next/image'
 import roomImage from '../../assets/img/room.jpg'
 
 export const metadata: Metadata = {
-    title: 'Products',
+    title: 'Prints',
     description:
         'Transform your gaming screenshots into mighty-fine artwork for your space.'
 }

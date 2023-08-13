@@ -26,6 +26,13 @@ import {
     ShoppingBag,
     UploadCloud
 } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: {
+        absolute: `${process.env.APP_TITLE!} - From Pixels to Prints`
+    }
+}
 
 const Frontpage = () => {
     return (
