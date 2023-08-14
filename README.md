@@ -18,5 +18,7 @@ Here's hoping I make something cool and preferably, profitable.
 - [ ] Screenshots - how to get your screenshot files (Xbox/PS/PC/Nintendo?)
 - [ ] About - what is SoopaNova?
 - [ ] FAQ - add "how to download screenshots" - link to Screenshots page
+- [ ] Thank you - Navigate to route on completed event.
+- [ ] Not found - 404 page (image error icon)
 - [ ] Privacy Policy
 - [ ] Terms of Service
