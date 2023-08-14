@@ -27,7 +27,7 @@ const Header = () => (
                             'hover:text-neutral-100',
                             'hover:dark:text-neutral-900'
                         ])}>
-                        {process.env.NEXT_PUBLIC_APP_TITLE!}
+                        {process.env.APP_TITLE!}
                     </Link>
                     <MainNav />
                     <MobileNav />

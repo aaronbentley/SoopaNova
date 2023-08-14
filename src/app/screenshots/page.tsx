@@ -31,18 +31,19 @@ const Screenshots = () => {
                 <PageHeader>
                     <PageHeaderHeading>Screenshots</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Here&apos;s how to get your gaming screenshots, ready to
-                        create awesome prints.
+                        Here&apos;s how to download your gaming screenshots,
+                        ready to create awesome prints.
                     </PageHeaderDescription>
                 </PageHeader>
-
+            </div>
+            <div className='container'>
                 <PageSection>
                     <PageSectionHeading>
                         Choose your platform
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        You&apos;ll need to download your screenshot files
-                        before creating your prints. Here&apos;s how to do it
+                        Before creating your prints, you&apos;ll need to
+                        download your screenshot files. Here&apos;s how to do it
                         for the most popular platforms:
                     </PageSectionDescription>
                     <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>

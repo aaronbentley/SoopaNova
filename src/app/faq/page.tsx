@@ -9,6 +9,7 @@ import {
     PageSectionHeading
 } from '@/components/page-section'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'FAQ',
@@ -25,6 +26,23 @@ const Faq = () => {
                         Got questions? We got answers.
                     </PageHeaderDescription>
                 </PageHeader>
+
+                <PageSection className='md:py-10'>
+                    <PageSectionHeading>
+                        How do I download my gaming screenshots?
+                    </PageSectionHeading>
+                    <PageSectionDescription></PageSectionDescription>
+                    <PageSectionDescription>
+                        It depends on the platform you play on. Check out out{' '}
+                        <Link
+                            href='/screenshots/'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            screenshot help guides
+                        </Link>{' '}
+                        to help you get started
+                    </PageSectionDescription>
+                </PageSection>
+
                 <PageSection className='md:py-10'>
                     <PageSectionHeading>
                         What products do you offer?
