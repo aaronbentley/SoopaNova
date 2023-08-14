@@ -23,10 +23,6 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
         <Table>
             <TableBody>
                 <TableRow className='border-neutral-400/25'>
-                    <TableHead>Filename</TableHead>
-                    <TableCell>{file.name}</TableCell>
-                </TableRow>
-                <TableRow className='border-neutral-400/25'>
                     <TableHead>Width</TableHead>
                     <TableCell>
                         {imageMeta?.width &&

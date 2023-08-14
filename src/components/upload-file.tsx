@@ -396,7 +396,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             How we lookin&apos;?
                         </SheetDescription>
                     </SheetHeader>
-                    <div className='grid md:grid-cols-4 gap-12'>
+                    <div className='grid md:grid-cols-4 gap-12 max-w-full'>
                         <div className='md:col-span-1'>
                             {files && (
                                 <ImageMetadata
@@ -407,7 +407,12 @@ const UploadFile = ({ className }: { className?: string }) => {
                         </div>
 
                         <div className='md:col-span-3'>
-                            <div className={cn(['relative', 'aspect-video'])}>
+                            <div
+                                className={cn([
+                                    'relative',
+                                    'aspect-video',
+                                    'max-w-full'
+                                ])}>
                                 {snapshot && (
                                     <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
                                         <Progress

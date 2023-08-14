@@ -11,13 +11,6 @@ import {
     CardTitle
 } from '@/components/ui/card'
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from '@/components/ui/dialog'
-import {
     Tooltip,
     TooltipContent,
     TooltipTrigger
@@ -92,7 +85,9 @@ const Frontpage = () => {
                     moments.
                 </HeroDescription>
 
-                <div className='flex items-center space-x-4 pb-8 pt-4 md:pb-10'>
+                <UploadFile className='mt-2' />
+
+                {/* <div className='flex items-center space-x-4 pb-8 pt-4 md:pb-10'>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button
@@ -110,7 +105,7 @@ const Frontpage = () => {
                             <UploadFile className='my-4' />
                         </DialogContent>
                     </Dialog>
-                </div>
+                </div> */}
 
                 <ScrollToTarget target='customise-your-prints'>
                     <Tooltip>
