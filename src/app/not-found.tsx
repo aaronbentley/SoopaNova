@@ -1,8 +1,4 @@
-import {
-    PageHeader,
-    PageHeaderDescription,
-    PageHeaderHeading
-} from '@/components/page-header'
+import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Metadata } from 'next'
@@ -15,24 +11,23 @@ export const metadata: Metadata = {
 
 const NotFound = () => (
     <>
-        <div className='container'>
-            <PageHeader>
-                <PageHeaderHeading>Not Found</PageHeaderHeading>
-                <PageHeaderDescription>
-                    We couldn&apos;t find the requested resource.
-                </PageHeaderDescription>
-                <Link
-                    href='/'
-                    className={cn(buttonVariants({ variant: 'link' }), [
-                        'px-0',
-                        'mt-4',
-                        'hover:text-pink-500',
-                        'hover:dark:text-pink-500'
-                    ])}>
-                    Return Home
-                </Link>
-            </PageHeader>
-        </div>
+        <Hero className='h-screen sm:h-full'>
+            <HeroHeading>Page Not Found</HeroHeading>
+            <HeroDescription>
+                It appears this side quest has been lost to the void.
+            </HeroDescription>
+            <Link
+                href='/'
+                className={cn(buttonVariants({ variant: 'default' }), [
+                    'mt-4',
+                    'bg-pink-500',
+                    'dark:bg-pink-500',
+                    'hover:bg-pink-500/90',
+                    'hover:dark:bg-pink-500/90'
+                ])}>
+                Respawn
+            </Link>
+        </Hero>
     </>
 )
 
