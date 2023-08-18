@@ -41,6 +41,7 @@ const Create = () => {
                         src={bedroomPoster}
                         alt='Bedroom Poster Print'
                         placeholder='blur'
+                        sizes='(max-width: 1023px) 100vw, (min-width: 1024px) 95vw, (min-width: 1536px) 33vw'
                         className='shadow-neutral-300 dark:shadow-neutral-700 shadow-xl'
                     />
                     <PageSectionHeading>Poster Prints</PageSectionHeading>
@@ -57,6 +58,7 @@ const Create = () => {
                         src={roomCanvas}
                         alt='Room Canvas Print'
                         placeholder='blur'
+                        sizes='(max-width: 1023px) 100vw, (min-width: 1024px) 95vw, (min-width: 1536px) 33vw'
                         className='shadow-neutral-300 dark:shadow-neutral-700 shadow-xl'
                     />
                     <PageSectionHeading>Canvas Prints</PageSectionHeading>
@@ -73,6 +75,7 @@ const Create = () => {
                         src={galleryFrame}
                         alt='Gallery Framed Print'
                         placeholder='blur'
+                        sizes='(max-width: 1023px) 100vw, (min-width: 1024px) 95vw, (min-width: 1536px) 33vw'
                         className='shadow-neutral-300 dark:shadow-neutral-700 shadow-xl'
                     />
                     <PageSectionHeading>Framed Prints</PageSectionHeading>
