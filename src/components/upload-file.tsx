@@ -14,7 +14,7 @@ import {
 } from 'react-dropzone'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { v4 as uuidv4 } from 'uuid'
-import CanvasPopCart from './canvaspop-cart'
+import CanvaspopCart from './canvaspop-cart'
 import ImageMetadata from './image-metadata'
 import { Button } from './ui/button'
 import { Progress } from './ui/progress'
@@ -225,7 +225,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 })
 
                 /**
-                 * Initiate upload to CanvasPop Push API (API route handler)
+                 * Initiate upload to Canvaspop Push API (API route handler)
                  */
                 const pushImageResponse = await fetch(
                     '/api/canvaspop/push-image',
@@ -482,7 +482,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             ) : (
                                 <ShoppingBag className='mr-2 h-4 w-4' />
                             )}
-                            Order Prints
+                            Create Print
                         </Button>
                     </SheetFooter>
                 </SheetContent>
@@ -502,7 +502,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             choose your size and quantity.
                         </SheetDescription>
                     </SheetHeader>
-                    {printOrderUrl && <CanvasPopCart src={printOrderUrl} />}
+                    {printOrderUrl && <CanvaspopCart src={printOrderUrl} />}
                 </SheetContent>
             </Sheet>
         </div>

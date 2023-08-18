@@ -17,7 +17,7 @@ Here's hoping I make something cool and preferably, profitable.
 - [ ] Create - pretty up "upload UI" - add 3x cards for products "Poster Prints", "Canvas Prints" and "Framed Prints"
 - [ ] Screenshots - how to get your screenshot files (Xbox/PS/PC/Nintendo?)
 - [ ] About - what is SoopaNova?
-- [ ] FAQ - add "how to download screenshots" - link to Screenshots page
+- [x] FAQ - add "how to download screenshots" - link to Screenshots page
 - [ ] Thank you - Navigate to route on completed event.
 - [x] Not found - 404 page (image error icon)
 - [ ] Privacy Policy

@@ -97,7 +97,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     <TooltipProvider>
                         <div className='relative flex min-h-screen flex-col'>
                             <Header />
-                            <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4'>
+                            <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
                                 {children}
                             </div>
                             <Footer />

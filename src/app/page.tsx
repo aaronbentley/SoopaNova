@@ -1,3 +1,4 @@
+import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
 import { PageSection } from '@/components/page-section'
 import ScrollToTarget from '@/components/scroll-to-target'
@@ -28,6 +29,7 @@ import {
     UploadCloud
 } from 'lucide-react'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: {
@@ -87,26 +89,6 @@ const Frontpage = () => {
 
                 <UploadFile className='mt-2' />
 
-                {/* <div className='flex items-center space-x-4 pb-8 pt-4 md:pb-10'>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button
-                                size='lg'
-                                className='bg-pink-500 hover:bg-pink-500/90 dark:bg-pink-500 dark:hover:bg-pink-500/90'>
-                                Create Prints
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>
-                                    Upload Your Screenshot
-                                </DialogTitle>
-                            </DialogHeader>
-                            <UploadFile className='my-4' />
-                        </DialogContent>
-                    </Dialog>
-                </div> */}
-
                 <ScrollToTarget target='customise-your-prints'>
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -123,78 +105,11 @@ const Frontpage = () => {
                 </ScrollToTarget>
             </Hero>
 
-            {/* <PageSection
-                id='upload-screenshots'
-                className='w-full flex flex-col items-center gap-8 py-16 md:py-24'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
-                    Upload Screenshots
-                </h2>
-                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
-                    Games are beautiful
-                </p>
-
-                <div className='grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                Choose type
-                                <Frame className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Show your &apos;shot
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                Choose a Poster, Canvas or Framed Print, add
-                                gallery-quality frames if it takes your fancy.
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                Pick size
-                                <Expand className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Go big (or go small)
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                Everything looks better, bigger. Sizes from
-                                8&Prime;x14&Prime; all the way up to
-                                38&Prime;x70&Prime;.
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                You&apos;re done
-                                <ShoppingBag className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Get back to gaming
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                We&apos;ll do the rest, your prints are expertly
-                                crafted by hand and delivered to you in a few
-                                days.
-                            </p>
-                        </CardContent>
-                    </Card>
-                </div>
-            </PageSection> */}
-
             <PageSection
                 id='customise-your-prints'
                 className='w-full flex flex-col items-center gap-8 py-16 md:py-24'>
                 <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
-                    Create Your Prints
+                    Upload Your Screenshots. Create Your Prints.
                 </h2>
                 <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
                     Make something awesome. Make it your own.
@@ -254,6 +169,53 @@ const Frontpage = () => {
                             </p>
                         </CardContent>
                     </Card>
+                </div>
+            </PageSection>
+
+            <PageSection
+                id='screenshot-guides'
+                className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
+                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
+                    Choose Your Platform.
+                </h2>
+                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
+                    Here&apos;s how to download your gaming screenshots.
+                </p>
+
+                <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>
+                    <Link href='/screenshots/xbox/'>
+                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <CardHeader className='relative'>
+                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    Xbox
+                                    <XboxIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                </CardTitle>
+                                <CardDescription>Microsoft</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </Link>
+                    <Link href='/screenshots/playstation/'>
+                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <CardHeader className='relative'>
+                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    PlayStation
+                                    <PlaystationIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                </CardTitle>
+                                <CardDescription>Sony</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </Link>
+                    <Link href='/screenshots/steam/'>
+                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <CardHeader className='relative'>
+                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    Steam
+                                    <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                </CardTitle>
+                                <CardDescription>Valve</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </Link>
                 </div>
             </PageSection>
         </>

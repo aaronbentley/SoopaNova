@@ -4,11 +4,11 @@ import { Loader2 } from 'lucide-react'
 import Script from 'next/script'
 import React from 'react'
 
-interface CanvasPopCartProps {
+interface CanvaspopCartProps {
     src: string | null
 }
 
-const CanvasPopCart = ({ src = null }: CanvasPopCartProps) => {
+const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
     /**
      * Handle iframe content loading state
      */
@@ -55,16 +55,16 @@ const CanvasPopCart = ({ src = null }: CanvasPopCartProps) => {
                     const cartWindow = document.getElementById('canvaspop-cart-iframe').contentWindow;
                     window.addEventListener( 'message', ( event ) => {
                     
-                        // Ignore events outside of CanvasPop Cart
+                        // Ignore events outside of Canvaspop Cart
                         if (event.source !== cartWindow) {
                             return;
                         }
                         
-                        console.log('🦄 ~ file: canvaspop-cart.tsx ~ CanvasPopCart ~ event:', event)
+                        console.log('🦄 ~ file: canvaspop-cart.tsx ~ CanvaspopCart ~ event:', event)
                     }, false );`}
             </Script>
         </div>
     )
 }
 
-export default CanvasPopCart
+export default CanvaspopCart

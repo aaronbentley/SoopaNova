@@ -58,7 +58,7 @@ export const POST = async (request: NextRequest) => {
     payload.append('image', imageResponseBody)
 
     /**
-     * POST payload to CanvasPop Push API
+     * POST payload to Canvaspop Push API
      */
     const canvasPopPushResponse = await fetch(
         process.env.CANVASPOP_IMAGE_PUSH_ENDPOINT!,
@@ -76,11 +76,11 @@ export const POST = async (request: NextRequest) => {
      * Throw error if response is not ok
      */
     if (!canvasPopPushResponse.ok) {
-        throw new Error('Error uploading image to CanvasPop Push API')
+        throw new Error('Error uploading image to Canvaspop Push API')
     }
 
     /**
-     * Get CanvasPop Push API response data as json
+     * Get Canvaspop Push API response data as json
      */
     const canvasPopPushResponseJson = await canvasPopPushResponse.json()
 

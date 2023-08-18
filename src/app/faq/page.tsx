@@ -29,7 +29,7 @@ const Faq = () => {
 
                 <PageSection className='md:py-10'>
                     <PageSectionHeading>
-                        How do I download my gaming screenshots?
+                        How do I download my screenshots?
                     </PageSectionHeading>
                     <PageSectionDescription></PageSectionDescription>
                     <PageSectionDescription>
@@ -37,9 +37,9 @@ const Faq = () => {
                         <Link
                             href='/screenshots/'
                             className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                            screenshot help guides
+                            screenshot guides
                         </Link>{' '}
-                        to help you get started
+                        to help you get started.
                     </PageSectionDescription>
                 </PageSection>
 
