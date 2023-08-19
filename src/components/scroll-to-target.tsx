@@ -25,7 +25,7 @@ const ScrollToTarget = ({
 
     return (
         <div
-            className={cn([''], className)}
+            className={cn(['cursor-pointer'], className)}
             onClick={handleClick}>
             {children}
         </div>
