@@ -84,21 +84,21 @@ const ScreenshotsXbox = () => {
                                 </li>
                                 <li>
                                     Navigate to{' '}
-                                    <em>&ldquo;Profile & system&rdquo;</em>,{' '}
-                                    <em>&ldquo;Settings&rdquo;</em>,{' '}
-                                    <em>&ldquo;Devices & connections&rdquo;</em>
+                                    <em>&lsquo;Profile & system&rsquo;</em>,{' '}
+                                    <em>&lsquo;Settings&rsquo;</em>,{' '}
+                                    <em>&lsquo;Devices & connections&rsquo;</em>
                                     .
                                 </li>
                                 <li>
                                     Select{' '}
-                                    <em>&ldquo;Media preferences&rdquo;</em>,{' '}
-                                    <em>&ldquo;Capture & share&rdquo;</em>.
+                                    <em>&lsquo;Media preferences&rsquo;</em>,{' '}
+                                    <em>&lsquo;Capture & share&rsquo;</em>.
                                 </li>
                                 <li>
                                     Choose{' '}
-                                    <em>&ldquo;Open captures folder&rdquo;</em>,
+                                    <em>&lsquo;Open captures folder&rsquo;</em>,
                                     and select
-                                    <em>&ldquo;On&rdquo;</em> to enable
+                                    <em>&lsquo;On&rsquo;</em> to enable
                                     automatic upload to OneDrive.
                                 </li>
                             </ul>
@@ -117,8 +117,8 @@ const ScreenshotsXbox = () => {
                                 </li>
                                 <li>
                                     Navigate to the{' '}
-                                    <em>&ldquo;Screenshots&rdquo;</em> folder
-                                    under <em>&ldquo;Xbox Game Bar&rdquo;</em>.
+                                    <em>&lsquo;Screenshots&rsquo;</em> folder
+                                    under <em>&lsquo;Xbox Game Bar&rsquo;</em>.
                                 </li>
                             </ul>
                         </li>
@@ -150,9 +150,9 @@ const ScreenshotsXbox = () => {
                                     on your Xbox.{' '}
                                 </li>
                                 <li>
-                                    Open the <em>&ldquo;Screenshots&rdquo;</em>{' '}
+                                    Open the <em>&lsquo;Screenshots&rsquo;</em>{' '}
                                     folder under{' '}
-                                    <em>&ldquo;Xbox Game Bar&rdquo;</em>.
+                                    <em>&lsquo;Xbox Game Bar&rsquo;</em>.
                                 </li>
                             </ul>
                         </li>
@@ -164,7 +164,7 @@ const ScreenshotsXbox = () => {
                 <PageSection id='xbox-app'>
                     <PageSectionHeading>Xbox App</PageSectionHeading>
                     <PageSectionDescription>
-                        The Xbox app provides a direct connection between your
+                        The Xbox App provides a direct connection between your
                         Xbox console, PC, and mobile device.
                     </PageSectionDescription>
 
@@ -185,7 +185,7 @@ const ScreenshotsXbox = () => {
                             <li>Open the Xbox app.</li>
                             <li>
                                 Navigate to the{' '}
-                                <em>&ldquo;Capture & share&rdquo;</em> tab.
+                                <em>&lsquo;Capture & share&rsquo;</em> tab.
                             </li>
                             <li>
                                 All your captured screenshots and game clips
@@ -200,29 +200,13 @@ const ScreenshotsXbox = () => {
                             </li>
                             <li>
                                 On PC: Right-click the screenshot and choose
-                                <em>&ldquo;Save image as...&rdquo;</em>.
+                                <em>&lsquo;Save image as...&rsquo;</em>.
                             </li>
                             <li>
                                 On phone: Tap and hold the screenshot, then
-                                select <em>&ldquo;Save image&rdquo;</em>.
+                                select <em>&lsquo;Save image&rsquo;</em>.
                             </li>
                         </ul>
-                        {/* <li>Download the Xbox app on your phone or PC.</li>
-                        <li>
-                            Sign in to the app with the same account you use on
-                            your Xbox console.
-                        </li>
-                        <li>
-                            At the bottom of the screen, select{' '}
-                            <strong>&ldquo;My Library&rdquo;</strong>, then{' '}
-                            <strong>&ldquo;Captures&rdquo;</strong>.
-                        </li>
-                        <li>Select the screenshot you want to download.</li>
-                        <li>
-                            Select <strong>&ldquo;Share&rdquo;</strong> and
-                            choose a destination, such as your phone&apos;s
-                            camera roll or file system.
-                        </li> */}
                     </ol>
                 </PageSection>
             </div>
@@ -231,111 +215,56 @@ const ScreenshotsXbox = () => {
                 <PageSection id='usb-drive'>
                     <PageSectionHeading>USB</PageSectionHeading>
                     <PageSectionDescription>
-                        How to download your Xbox screenshots using a USB Drive:
+                        If you prefer a wired connection, using a USB storage
+                        device is a straightforward way to transfer screenshots.
                     </PageSectionDescription>
-
                     <ol className='list-decimal list-inside space-y-2'>
-                        <li>Connect a USB drive to your Xbox console.</li>
-                        <li>
-                            Go to{' '}
-                            <strong>&ldquo;Profile & system&rdquo;</strong>,{' '}
-                            <strong>&ldquo;Settings&rdquo;</strong>,{' '}
-                            <strong>&ldquo;System&rdquo;</strong>,{' '}
-                            <strong>&ldquo;Storage&rdquo;</strong>.
+                        <li className='font-extrabold'>Prepare USB Drive:</li>
+                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
+                            <li>
+                                Insert a USB storage device into your
+                                Xbox&apos;s USB port.
+                            </li>
+                            <li>
+                                In the Xbox guide, go to{' '}
+                                <em>&lsquo;Profile & system&rsquo;</em>,
+                                <em>&lsquo;Settings&rsquo;</em>,{' '}
+                                <em>&lsquo;Devices & connections&rsquo;</em>,{' '}
+                                <em>&lsquo;Media Devices&rsquo;</em>.
+                            </li>
+                            <li>
+                                Select your USB drive and choose{' '}
+                                <em>&lsquo;Format storage device&rsquo;</em>,
+                                then follow the prompts.
+                            </li>
+                        </ul>
+                        <li className='font-extrabold'>
+                            Transfer Screenshots:
                         </li>
-                        <li>
-                            Under{' '}
-                            <strong>&ldquo;Capture location&rdquo;</strong>,
-                            select <strong>&ldquo;USB drive&rdquo;</strong>.
-                        </li>
-                        <li>
-                            Your screenshot or game clip will be saved to the
-                            USB drive.
-                        </li>
+                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
+                            <li>
+                                Navigate to{' '}
+                                <em>&lsquo;Profile & system&rsquo;</em>,{' '}
+                                <em>&lsquo;Capture & share&rsquo;</em>,{' '}
+                                <em>&lsquo;Recent captures&rsquo;</em>.
+                            </li>
+                            <li>
+                                Select the screenshots you want to transfer and
+                                choose{' '}
+                                <em>&lsquo;Copy to storage device&rsquo;</em>.
+                            </li>
+                        </ul>
+                        <li className='font-extrabold'>Access on PC:</li>
+                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
+                            <li>Connect the USB drive to your PC.</li>
+                            <li>
+                                Open the USB drive and navigate to the
+                                <em>&lsquo;Screenshots&rsquo;</em> folder.
+                            </li>
+                        </ul>
                     </ol>
                 </PageSection>
             </div>
-
-            {/* <div className='container'>
-                <PageSection>
-                    <PageSectionHeading>Xbox</PageSectionHeading>
-                    <PageSectionDescription>
-                        How to download your Xbox screenshots.
-                    </PageSectionDescription>
-
-                    <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 gap-8 mt-2'>
-                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                            <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                    On Your Phone
-                                    <Smartphone className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-1 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
-                                </CardTitle>
-                                <CardDescription>Xbox App</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>
-                                    The Xbox App for mobile lets you save your
-                                    screenshots to your phone.
-                                </p>
-
-                                <ol className='list-decimal list-inside mt-4'>
-                                    <li>Open the Xbox App</li>
-                                    <li>
-                                        Navigate to the{' '}
-                                        <strong>
-                                            &ldquo;My Library&rdquo;
-                                        </strong>{' '}
-                                        tab
-                                    </li>
-                                    <li>
-                                        Choose the screenshot you want and tap{' '}
-                                        <strong>&ldquo;Save&rdquo;</strong>
-                                    </li>
-                                </ol>
-                            </CardContent>
-                            <CardContent>
-                                <div className='flex gap-2 mt-2'>
-                                    <Link
-                                        href='https://apps.apple.com/app/xbox/id736179781'
-                                        className={cn(
-                                            buttonVariants({
-                                                variant: 'outline'
-                                            })
-                                        )}>
-                                        App Store
-                                    </Link>
-                                    <Link
-                                        href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
-                                        className={cn(
-                                            buttonVariants({
-                                                variant: 'outline'
-                                            })
-                                        )}>
-                                        Google Play
-                                    </Link>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
-                            <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
-                                    On Your PC
-                                    <Laptop2 className='absolute opacity-20 text-neutral-500 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 stroke-2 group-hover:opacity-100 group-hover:text-pink-500 transition-all duration-200' />
-                                </CardTitle>
-                                <CardDescription>
-                                    Xbox App for Windows
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p>
-                                    The Xbox App for Windows lets you save your
-                                    screenshots to your PC.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </PageSection>
-            </div> */}
         </>
     )
 }
