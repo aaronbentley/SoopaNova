@@ -25,7 +25,7 @@ export const PageSectionHeading = ({
     return (
         <h2
             className={cn(
-                'text-2xl font-extrabold tracking-tight md:text-3xl lg:tracking-tighter lg:text-4xl xl:text-5xl',
+                'text-2xl font-extrabold tracking-tight md:text-3xl lg:tracking-[-0.035em] lg:text-4xl xl:text-5xl',
                 className
             )}
             {...props}

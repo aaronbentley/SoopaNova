@@ -108,7 +108,7 @@ const Frontpage = () => {
             <PageSection
                 id='customise-your-prints'
                 className='w-full flex flex-col items-center gap-8 py-16 md:py-24'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
+                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
                     Upload Your Screenshots. Create Your Prints.
                 </h2>
                 <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
@@ -175,7 +175,7 @@ const Frontpage = () => {
             <PageSection
                 id='screenshot-guides'
                 className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl'>
+                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
                     Choose Your Platform.
                 </h2>
                 <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>

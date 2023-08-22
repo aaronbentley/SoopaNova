@@ -27,7 +27,7 @@ export const PageHeaderHeading = ({
     return (
         <h1
             className={cn(
-                'text-3xl font-extrabold tracking-tight md:text-5xl lg:tracking-tighter lg:text-6xl xl:text-7xl',
+                'text-3xl font-extrabold tracking-tight md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl',
                 className
             )}
             {...props}

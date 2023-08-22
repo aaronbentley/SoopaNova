@@ -24,7 +24,7 @@ export const HeroHeading = ({
 }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
         className={cn(
-            'text-3xl font-extrabold tracking-tight sm:text-5xl text-center md:text-6xl lg:tracking-tighter lg:text-7xl xl:text-8xl',
+            'text-3xl font-extrabold tracking-tight sm:text-5xl text-center md:text-6xl lg:tracking-[-0.035em] lg:text-7xl xl:text-8xl',
             className
         )}
         {...props}
