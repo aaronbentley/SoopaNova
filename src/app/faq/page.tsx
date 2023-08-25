@@ -33,7 +33,7 @@ const Faq = () => {
                     </PageSectionHeading>
                     <PageSectionDescription></PageSectionDescription>
                     <PageSectionDescription>
-                        It depends on the platform you play on. Check out out{' '}
+                        It depends on the platform you play on. Check out our{' '}
                         <Link
                             href='/screenshots/'
                             className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
