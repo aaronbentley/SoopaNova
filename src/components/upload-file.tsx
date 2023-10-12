@@ -174,7 +174,8 @@ const UploadFile = ({ className }: { className?: string }) => {
         /**
          * Pluck the image file from the array
          */
-        const file = (files[0] as FileWithPreview) || undefined
+        // const file = (files[0] as FileWithPreview) || undefined
+        const file = (files[0] as FileWithPreview) || null
 
         if (file) {
             try {
