@@ -5,7 +5,7 @@ import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
-import { default as NextImage } from 'next/image'
+import Image from 'next/image'
 import React from 'react'
 import {
     useDropzone,
@@ -52,7 +52,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      *  Manage file in state so we can preview it
      */
     const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-    // console.log('🦄 ~ file: upload-file.tsx:55 ~ UploadFile ~ files:', files)
 
     /**
      * Handle Firebase uploads
@@ -113,7 +112,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     const onDrop = React.useCallback(
         (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
-            if (acceptedFiles.length) {
+            if (acceptedFiles && acceptedFiles.length) {
                 setFiles(
                     acceptedFiles.map((file) =>
                         Object.assign(file, {
@@ -125,7 +124,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 setMediaSheetOpen(true)
             }
 
-            if (rejectedFiles.length) {
+            if (rejectedFiles && rejectedFiles.length) {
                 rejectedFiles.forEach(({ errors }) => {
                     errors[0]?.message &&
                         toast({
@@ -247,7 +246,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                 const pushImageResponseJson = await pushImageResponse.json()
 
                 const {
-                    data: { image_token = undefined, message }
+                    // data: { image_token = undefined, message }
+                    data: { image_token = null, message }
                 } = pushImageResponseJson
 
                 /**
@@ -399,7 +399,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     </SheetHeader>
                     <div className='grid md:grid-cols-4 gap-12 max-w-full'>
                         <div className='md:col-span-1'>
-                            {files && (
+                            {files && files.length && (
                                 <ImageMetadata
                                     file={files[0]}
                                     imageMeta={imageMeta}
@@ -430,8 +430,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                                         </p>
                                     </div>
                                 )}
-                                {files && (
-                                    <NextImage
+                                {files && files.length && (
+                                    <Image
                                         src={files[0].preview}
                                         alt={files[0].name}
                                         className={cn(
