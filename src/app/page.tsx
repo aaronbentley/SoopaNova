@@ -3,7 +3,7 @@ import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
 import { PageSection } from '@/components/page-section'
 import ScrollToTarget from '@/components/scroll-to-target'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
     Card,
     CardContent,
@@ -17,6 +17,7 @@ import {
     TooltipTrigger
 } from '@/components/ui/tooltip'
 import UploadFile from '@/components/upload-file'
+import { cn } from '@/lib/utils'
 import {
     BoxSelect,
     ChevronDown,
@@ -170,6 +171,16 @@ const Frontpage = () => {
                         </CardContent>
                     </Card>
                 </div>
+
+                <Link
+                    href='/create/'
+                    title='Create your prints'
+                    className={cn([
+                        buttonVariants({ variant: 'default' }),
+                        'bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 mt-8'
+                    ])}>
+                    Get Started
+                </Link>
             </PageSection>
 
             <PageSection

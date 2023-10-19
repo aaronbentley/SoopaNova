@@ -28,7 +28,7 @@ const Screenshots = () => {
                     <PageHeaderDescription>
                         Before creating your prints, you&apos;ll need to
                         download your screenshot files. Here&apos;s how to do it
-                        for the most popular platforms:
+                        for popular platforms:
                     </PageHeaderDescription>
 
                     <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 md:mt-24'>
