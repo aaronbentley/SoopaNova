@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import MainNav from './main-nav'
 import MobileNav from './mobile-nav'
@@ -32,6 +33,7 @@ const Header = () => (
                     <MainNav />
                     <MobileNav />
                 </div>
+                <UserButton afterSignOutUrl='/' />
                 <ModeToggle />
             </div>
         </div>

@@ -5,6 +5,7 @@ import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/react'
 import type { Metadata, Viewport } from 'next'
 import resolveConfig from 'tailwindcss/resolveConfig'
@@ -91,42 +92,44 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <html
-            lang='en'
-            className='light'
-            suppressHydrationWarning>
-            <head />
-            <body
-                className={cn([
-                    'bg-neutral-50',
-                    'dark:bg-neutral-950',
-                    'text-neutral-900',
-                    'dark:text-neutral-100',
-                    'font-sans',
-                    'antialiased',
-                    'min-h-screen',
-                    'scroll-pt-24'
-                ])}>
-                <ThemeProvider
-                    attribute='class'
-                    defaultTheme='system'
-                    enableSystem
-                    disableTransitionOnChange>
-                    <TooltipProvider>
-                        <div className='relative flex min-h-screen flex-col'>
-                            <Header />
-                            <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
-                                {children}
+        <ClerkProvider>
+            <html
+                lang='en'
+                className='light'
+                suppressHydrationWarning>
+                <head />
+                <body
+                    className={cn([
+                        'bg-neutral-50',
+                        'dark:bg-neutral-950',
+                        'text-neutral-900',
+                        'dark:text-neutral-100',
+                        'font-sans',
+                        'antialiased',
+                        'min-h-screen',
+                        'scroll-pt-24'
+                    ])}>
+                    <ThemeProvider
+                        attribute='class'
+                        defaultTheme='system'
+                        enableSystem
+                        disableTransitionOnChange>
+                        <TooltipProvider>
+                            <div className='relative flex min-h-screen flex-col'>
+                                <Header />
+                                <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
+                                    {children}
+                                </div>
+                                <Footer />
                             </div>
-                            <Footer />
-                        </div>
-                        <Toaster />
-                        <TailwindIndicator />
-                    </TooltipProvider>
-                </ThemeProvider>
-                <Analytics />
-            </body>
-        </html>
+                            <Toaster />
+                            <TailwindIndicator />
+                        </TooltipProvider>
+                    </ThemeProvider>
+                    <Analytics />
+                </body>
+            </html>
+        </ClerkProvider>
     )
 }
 
