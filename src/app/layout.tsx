@@ -6,10 +6,28 @@ import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/react'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config.js'
 import './globals.css'
+
+// export const generateViewport = async (): Promise<Viewport> => {
+export const generateViewport = (): Viewport => {
+    /**
+     * Resolve Tailwind CSS config
+     */
+    const fullConfig = resolveConfig(tailwindConfig)
+
+    /**
+     * Get color values from Tailwind CSS config
+     */
+    const colors = fullConfig?.theme?.colors
+    // @ts-ignore next-line
+    const themeColor = colors?.pink?.['500']
+    return {
+        themeColor: themeColor
+    }
+}
 
 export const generateMetadata = async (): Promise<Metadata> => {
     /**
@@ -43,7 +61,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
             'PlayStation',
             'Steam'
         ],
-        themeColor: themeColor,
+        // themeColor: themeColor,
         authors: [
             {
                 name: 'Aaron Bentley',
