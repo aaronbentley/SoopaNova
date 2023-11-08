@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
-import { UserButton } from '@clerk/nextjs'
+import { SignUpButton, SignedOut, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import MainNav from './main-nav'
 import MobileNav from './mobile-nav'
 import ModeToggle from './mode-toggle'
-import { buttonVariants } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 
 const Header = () => (
     <header className='sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur'>
@@ -33,8 +33,33 @@ const Header = () => (
                     <MainNav />
                     <MobileNav />
                 </div>
-                <UserButton afterSignOutUrl='/' />
-                <ModeToggle />
+                <div className='flex items-center md:space-x-4'>
+                    <ModeToggle />
+
+                    <SignedOut>
+                        <SignUpButton>
+                            <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
+                                Sign Up
+                            </Button>
+                        </SignUpButton>
+                    </SignedOut>
+
+                    <UserButton
+                        appearance={{
+                            elements: {
+                                userButtonPopoverCard:
+                                    'bg-neutral-100 text-neutral-900 dark:text-neutral-100 dark:bg-neutral-900',
+                                userButtonPopoverActionButtonText:
+                                    'text-neutral-900 dark:text-neutral-100',
+                                userButtonPopoverActionButtonIcon:
+                                    'text-pink-500 dark:text-pink-500',
+                                userButtonPopoverFooter:
+                                    'text-pink-500 dark:text-pink-500'
+                            }
+                        }}
+                        afterSignOutUrl='/'
+                    />
+                </div>
             </div>
         </div>
     </header>
