@@ -48,7 +48,7 @@ const Header = () => (
                         appearance={{
                             elements: {
                                 userButtonPopoverCard:
-                                    'bg-neutral-100 text-neutral-900 dark:text-neutral-100 dark:bg-neutral-900',
+                                    'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
                                 userButtonPopoverActionButtonText:
                                     'text-neutral-900 dark:text-neutral-100',
                                 userButtonPopoverActionButtonIcon:
