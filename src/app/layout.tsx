@@ -115,7 +115,7 @@ const clerkTheme = {
             'font-medium text-neutral-900 dark:text-neutral-100 underline underline-offset-4 transition-colors duration-200 hover:text-pink-500 dark:hover:text-pink-500',
         // navbarButtons: '',
         navbarButton:
-            'text-neutral-900 dark:text-neutral-100 outline-offset-2 outline-2 outline-pink-500 focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
+            'text-neutral-900 dark:text-neutral-100 outline-offset-2 outline-2 outline-pink-500 focus:shadow-[0_0_0_3px_#ec4899] focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
         profileSectionTitleText: 'text-neutral-900 dark:text-neutral-100',
         accordionTriggerButton: 'text-neutral-900 dark:text-neutral-100',
         profileSectionPrimaryButton:
