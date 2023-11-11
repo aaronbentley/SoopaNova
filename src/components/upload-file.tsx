@@ -6,7 +6,7 @@ import { FileWithPreview } from '@/types'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
     useDropzone,
     type FileRejection,
@@ -51,7 +51,7 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      *  Manage file in state so we can preview it
      */
-    const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
+    const [files, setFiles] = useState<FileWithPreview[] | null>(null)
 
     /**
      * Handle Firebase uploads
@@ -61,34 +61,32 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle Upload progress
      */
-    const [uploadProgress, setUploadProgress] = React.useState(0)
+    const [uploadProgress, setUploadProgress] = useState(0)
 
     /**
      * Handle print options progress
      */
-    const [createPrintOptions, setCreatePrintOptions] = React.useState(false)
+    const [createPrintOptions, setCreatePrintOptions] = useState(false)
 
     /**
      * Handle Media Sheet state
      */
-    const [mediaSheetOpen, setMediaSheetOpen] = React.useState(false)
+    const [mediaSheetOpen, setMediaSheetOpen] = useState(false)
 
     /**
      * Handle Print Sheet state
      */
-    const [printSheetOpen, setPrintSheetOpen] = React.useState(false)
+    const [printSheetOpen, setPrintSheetOpen] = useState(false)
 
     /**
      * Handle Print Order Url
      */
-    const [printOrderUrl, setPrintOrderUrl] = React.useState<string | null>(
-        null
-    )
+    const [printOrderUrl, setPrintOrderUrl] = useState<string | null>(null)
 
     /**
      * Handle image metadata
      */
-    const [imageMeta = null, setImageMeta] = React.useState<{
+    const [imageMeta = null, setImageMeta] = useState<{
         width: number
         height: number
         aspectRatio: string
@@ -97,7 +95,7 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle upload progress
      */
-    React.useEffect(() => {
+    useEffect(() => {
         if (!snapshot) return
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         setUploadProgress(progress)
@@ -110,7 +108,7 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle dropzone file upload
      */
-    const onDrop = React.useCallback(
+    const onDrop = useCallback(
         (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
             if (acceptedFiles && acceptedFiles.length) {
                 setFiles(
@@ -153,7 +151,7 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Revoke preview url when component unmounts
      */
-    React.useEffect(() => {
+    useEffect(() => {
         return () => {
             if (!files) return
             files.forEach((file) => URL.revokeObjectURL(file.preview))
@@ -201,6 +199,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                             aspectRatio: imageMeta?.aspectRatio || ''
                         }
                     }
+                )
+                console.log(
+                    '🦄 ~ file: upload-file.tsx:205 ~ createPrintOrder ~ firebaseStorageUploadResponse:',
+                    firebaseStorageUploadResponse
                 )
 
                 /**
@@ -445,10 +447,14 @@ const UploadFile = ({ className }: { className?: string }) => {
                                         )}
                                         fill={true}
                                         priority={true}
-                                        onLoadingComplete={({
-                                            naturalWidth,
-                                            naturalHeight
-                                        }) =>
+                                        onLoad={(e) => {
+                                            const target =
+                                                e.target as HTMLImageElement
+                                            const {
+                                                naturalWidth,
+                                                naturalHeight
+                                            } = target
+
                                             setImageMeta({
                                                 width: naturalWidth,
                                                 height: naturalHeight,
@@ -457,7 +463,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                                     naturalHeight
                                                 )
                                             })
-                                        }
+                                        }}
                                     />
                                 )}
                             </div>
