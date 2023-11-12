@@ -1,8 +1,10 @@
 'use client'
 
-import { storage } from '@/firebase/config'
+import { functions, storage } from '@/firebase/config'
 import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
+import { useAuth } from '@clerk/nextjs'
+import { HttpsCallableResult } from 'firebase/functions'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
 import Image from 'next/image'
@@ -12,6 +14,7 @@ import {
     type FileRejection,
     type FileWithPath
 } from 'react-dropzone'
+import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { v4 as uuidv4 } from 'uuid'
 import CanvaspopCart from './canvaspop-cart'
@@ -29,6 +32,17 @@ import {
 import { useToast } from './ui/use-toast'
 
 const UploadFile = ({ className }: { className?: string }) => {
+    /**
+     * Get Clerk auth userId
+     */
+    const { userId = '' } = useAuth()
+
+    /**
+     * Get Firebase callable cloud function
+     */
+    const [callableModerateImageUrl, callableExecuting, callableError] =
+        useHttpsCallable(functions, 'moderateImageUrl')
+
     /**
      * Define dropzone config
      */
@@ -59,9 +73,14 @@ const UploadFile = ({ className }: { className?: string }) => {
     const [uploadFile, uploading, snapshot, uploadError] = useUploadFile()
 
     /**
-     * Handle Upload progress
+     * Handle upload progress
      */
     const [uploadProgress, setUploadProgress] = useState(0)
+
+    /**
+     * Handle content moderation
+     */
+    const [contentModeration, setContentModeration] = useState(false)
 
     /**
      * Handle print options progress
@@ -171,10 +190,10 @@ const UploadFile = ({ className }: { className?: string }) => {
         /**
          * Pluck the image file from the array
          */
-        // const file = (files[0] as FileWithPreview) || undefined
         const file = (files[0] as FileWithPreview) || null
 
-        if (file) {
+        // Ensure we have a file and userId
+        if (file && userId) {
             try {
                 toast({
                     title: 'Uploading Media',
@@ -184,7 +203,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                 /**
                  * Get Firebase Storage reference
                  */
-                const storageRef = ref(storage, `${uuidv4()}--${file.name}`)
+                const storageRef = ref(
+                    storage,
+                    `${uuidv4()}--${userId}--${file.name}`
+                )
 
                 /**
                  * Upload file to Firebase Storage
@@ -196,13 +218,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                         customMetadata: {
                             width: imageMeta?.width.toString() || '',
                             height: imageMeta?.height.toString() || '',
-                            aspectRatio: imageMeta?.aspectRatio || ''
+                            aspectRatio: imageMeta?.aspectRatio || '',
+                            userId: userId
                         }
                     }
-                )
-                console.log(
-                    '🦄 ~ file: upload-file.tsx:205 ~ createPrintOrder ~ firebaseStorageUploadResponse:',
-                    firebaseStorageUploadResponse
                 )
 
                 /**
@@ -212,6 +231,53 @@ const UploadFile = ({ className }: { className?: string }) => {
                     throw new Error('Error uploading image to Firebase Storage')
                 }
 
+                /**
+                 * Moderate image using Google Vision API for adult content
+                 */
+                const moderateImageUrlResponse = await callableModerateImageUrl(
+                    {
+                        fileRef: firebaseStorageUploadResponse.ref,
+                        fileMetadata: firebaseStorageUploadResponse.metadata
+                    }
+                )
+
+                /**
+                 * Handle moderation error
+                 */
+                if (!moderateImageUrlResponse) {
+                    throw new Error('Error moderating image')
+                }
+
+                const { data: moderationData } =
+                    moderateImageUrlResponse as HttpsCallableResult<{
+                        status: string
+                        message: string
+                        detections: {
+                            adult: string
+                            racy: string
+                            violence: string
+                        }
+                    }>
+
+                /**
+                 * Check for adult content
+                 */
+
+                if (moderationData?.detections?.adult === 'VERY_LIKELY') {
+                    setContentModeration(true)
+                    throw new Error(
+                        'Sorry, we can not print images with adult content.'
+                    )
+                }
+
+                toast({
+                    title: 'Creating Print Order',
+                    description: 'Hold tight Sparky - this may take a moment'
+                })
+
+                /**
+                 * Set print options state
+                 */
                 setCreatePrintOptions(true)
 
                 /**
@@ -220,11 +286,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                 const fileDownloadUrl = await getDownloadURL(
                     firebaseStorageUploadResponse.ref
                 )
-
-                toast({
-                    title: 'Creating Print Order',
-                    description: 'Hold tight Sparky - this may take a moment'
-                })
 
                 /**
                  * Initiate upload to Canvaspop Push API (API route handler)
@@ -248,7 +309,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                 const pushImageResponseJson = await pushImageResponse.json()
 
                 const {
-                    // data: { image_token = undefined, message }
                     data: { image_token = null, message }
                 } = pushImageResponseJson
 
@@ -263,20 +323,18 @@ const UploadFile = ({ className }: { className?: string }) => {
                     `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
                 )
 
-                // console.info('CART URL:', canvasPopCartUrl.href)
-
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
                 setPrintSheetOpen(true)
-
-                // window?.open(canvasPopCartUrl.href, '_blank')
             } catch (error) {
-                console.error('createPrintOrder ~ error:', error)
+                // console.error('createPrintOrder ~ error:', error)
+                let message = 'Something went wrong.'
+                if (error instanceof Error) message = error.message
 
                 toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: 'Something went wrong. Please try again.'
+                    description: message
                 })
             } finally {
                 setCreatePrintOptions(false)
@@ -424,6 +482,14 @@ const UploadFile = ({ className }: { className?: string }) => {
                                         />
                                     </div>
                                 )}
+                                {callableExecuting && (
+                                    <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
+                                        <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
+                                        <p className='font-extrabold'>
+                                            Moderating Image
+                                        </p>
+                                    </div>
+                                )}
                                 {createPrintOptions && (
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
                                         <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
@@ -443,6 +509,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                                                 'object-center'
                                             ],
                                             uploading && ['opacity-75'],
+                                            contentModeration && [
+                                                'blur',
+                                                'opacity-75'
+                                            ],
                                             createPrintOptions && ['opacity-75']
                                         )}
                                         fill={true}
@@ -474,17 +544,24 @@ const UploadFile = ({ className }: { className?: string }) => {
                             variant='ghost'
                             onClick={() => {
                                 setFiles(null)
+                                setContentModeration(false)
                                 setMediaSheetOpen(false)
                             }}>
                             Cancel
                         </Button>
                         <Button
-                            disabled={uploading || createPrintOptions}
+                            disabled={
+                                uploading ||
+                                createPrintOptions ||
+                                contentModeration
+                            }
                             className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'
                             onClick={() => {
                                 createPrintOrder()
                             }}>
-                            {uploading || createPrintOptions ? (
+                            {uploading ||
+                            createPrintOptions ||
+                            callableExecuting ? (
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                             ) : (
                                 <ShoppingBag className='mr-2 h-4 w-4' />

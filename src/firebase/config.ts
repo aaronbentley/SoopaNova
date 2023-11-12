@@ -1,4 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import { getFunctions } from 'firebase/functions'
 import { getStorage } from 'firebase/storage'
 
 /**
@@ -23,3 +25,13 @@ export const app =
  * Export Firebase Storage
  */
 export const storage = getStorage(app)
+
+/**
+ * Export Firebase Firestore
+ */
+export const firestore = getFirestore(app)
+
+/**
+ * Export Firebase Functions
+ */
+export const functions = getFunctions(app)
