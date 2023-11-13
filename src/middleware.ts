@@ -8,7 +8,7 @@ const middleware = authMiddleware({
     // export default authMiddleware({
     // Public routes accessible to all users
     publicRoutes: ['/', '/screenshots(.*)', '/faq/', '/about/'],
-    debug: false
+    debug: true
 })
 
 export default middleware
