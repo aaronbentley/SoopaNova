@@ -7,7 +7,7 @@ import { authMiddleware } from '@clerk/nextjs'
 const middleware = authMiddleware({
     // export default authMiddleware({
     // Public routes accessible to all users
-    publicRoutes: ['/', '/screenshots/(.*)', '/faq/', '/about/'],
+    publicRoutes: ['/', '/screenshots(.*)', '/faq/', '/about/'],
     debug: false
 })
 

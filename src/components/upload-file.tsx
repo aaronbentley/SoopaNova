@@ -322,6 +322,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                 const canvasPopCartUrl = new URL(
                     `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
                 )
+                console.log(
+                    '🦄 ~ file: upload-file.tsx:325 ~ createPrintOrder ~ canvasPopCartUrl:',
+                    canvasPopCartUrl
+                )
 
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
