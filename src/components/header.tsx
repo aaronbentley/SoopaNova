@@ -3,6 +3,7 @@ import {
     ClerkLoaded,
     ClerkLoading,
     SignUpButton,
+    SignedIn,
     SignedOut,
     UserButton
 } from '@clerk/nextjs'
@@ -54,23 +55,24 @@ const Header = () => (
                                 </Button>
                             </SignUpButton>
                         </SignedOut>
+                        <SignedIn>
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        userButtonPopoverCard:
+                                            'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
+                                        userButtonPopoverActionButtonText:
+                                            'text-neutral-900 dark:text-neutral-100',
+                                        userButtonPopoverActionButtonIcon:
+                                            'text-pink-500 dark:text-pink-500',
+                                        userButtonPopoverFooter:
+                                            'text-pink-500 dark:text-pink-500'
+                                    }
+                                }}
+                                afterSignOutUrl='/'
+                            />
+                        </SignedIn>
                     </ClerkLoaded>
-
-                    <UserButton
-                        appearance={{
-                            elements: {
-                                userButtonPopoverCard:
-                                    'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
-                                userButtonPopoverActionButtonText:
-                                    'text-neutral-900 dark:text-neutral-100',
-                                userButtonPopoverActionButtonIcon:
-                                    'text-pink-500 dark:text-pink-500',
-                                userButtonPopoverFooter:
-                                    'text-pink-500 dark:text-pink-500'
-                            }
-                        }}
-                        afterSignOutUrl='/'
-                    />
                 </div>
             </div>
         </div>
