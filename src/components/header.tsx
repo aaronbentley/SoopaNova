@@ -1,5 +1,12 @@
 import { cn } from '@/lib/utils'
-import { SignUpButton, SignedOut, UserButton } from '@clerk/nextjs'
+import {
+    ClerkLoaded,
+    ClerkLoading,
+    SignUpButton,
+    SignedOut,
+    UserButton
+} from '@clerk/nextjs'
+import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import MainNav from './main-nav'
 import MobileNav from './mobile-nav'
@@ -36,13 +43,18 @@ const Header = () => (
                 <div className='flex items-center md:space-x-4'>
                     <ModeToggle />
 
-                    <SignedOut>
-                        <SignUpButton>
-                            <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
-                                Sign Up
-                            </Button>
-                        </SignUpButton>
-                    </SignedOut>
+                    <ClerkLoading>
+                        <Loader2 className='w-8 h-8 animate-spin text-pink-500' />
+                    </ClerkLoading>
+                    <ClerkLoaded>
+                        <SignedOut>
+                            <SignUpButton>
+                                <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
+                                    Sign Up
+                                </Button>
+                            </SignUpButton>
+                        </SignedOut>
+                    </ClerkLoaded>
 
                     <UserButton
                         appearance={{
