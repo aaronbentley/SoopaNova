@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/tooltip'
 import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
+import { SignedIn, auth } from '@clerk/nextjs'
 import {
     BoxSelect,
     ChevronDown,
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
 }
 
 const Frontpage = () => {
+    /**
+     * Get the userId from auth() -- if null, the user is not logged in
+     */
+    const { userId } = auth()
     return (
         <>
             <Hero className='h-screen sm:h-full'>
@@ -88,9 +93,13 @@ const Frontpage = () => {
                     moments.
                 </HeroDescription>
 
-                <UploadFile className='mt-2' />
+                <SignedIn>
+                    <UploadFile className='mt-2' />
+                </SignedIn>
 
-                <ScrollToTarget target='customise-your-prints'>
+                <ScrollToTarget
+                    target='customise-your-prints'
+                    className={cn(!userId && 'mt-8')}>
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button

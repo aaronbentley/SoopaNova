@@ -1,8 +1,8 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
-import Script from 'next/script'
 import React from 'react'
+import CanvasPopCartEventListener from './canvaspop-event-listener'
 
 interface CanvaspopCartProps {
     src: string | null
@@ -50,19 +50,7 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                     <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
                 </div>
             )}
-            <Script id='canvaspop-events'>
-                {`
-                    const cartWindow = document.getElementById('canvaspop-cart-iframe').contentWindow;
-                    window.addEventListener( 'message', ( event ) => {
-                    
-                        // Ignore events outside of Canvaspop Cart
-                        if (event.source !== cartWindow) {
-                            return;
-                        }
-                        
-                        console.log('🦄 ~ file: canvaspop-cart.tsx ~ CanvaspopCart ~ event:', event)
-                    }, false );`}
-            </Script>
+            {isMounted && <CanvasPopCartEventListener />}
         </div>
     )
 }

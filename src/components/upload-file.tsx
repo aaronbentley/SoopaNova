@@ -319,19 +319,21 @@ const UploadFile = ({ className }: { className?: string }) => {
                     throw new Error('No image token found in response')
                 }
 
+                // Build Canvaspop Cart URL
                 const canvasPopCartUrl = new URL(
                     `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
                 )
-                console.log(
-                    '🦄 ~ file: upload-file.tsx:325 ~ createPrintOrder ~ canvasPopCartUrl:',
-                    canvasPopCartUrl
+
+                // Add reference_id query param
+                canvasPopCartUrl.searchParams.append(
+                    'reference_id',
+                    process.env.NEXT_PUBLIC_APP_TITLE!
                 )
 
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
                 setPrintSheetOpen(true)
             } catch (error) {
-                // console.error('createPrintOrder ~ error:', error)
                 let message = 'Something went wrong.'
                 if (error instanceof Error) message = error.message
 
@@ -586,8 +588,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             Print Order
                         </SheetTitle>
                         <SheetDescription>
-                            Choose from a Poster, Canvas, or Framed Print, then
-                            choose your size and quantity.
+                            Make something awesome. Make it your own.
                         </SheetDescription>
                     </SheetHeader>
                     {printOrderUrl && <CanvaspopCart src={printOrderUrl} />}
