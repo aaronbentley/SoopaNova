@@ -490,7 +490,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
                                         <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
                                         <p className='font-extrabold'>
-                                            Moderating Image
+                                            Checking Image
                                         </p>
                                     </div>
                                 )}

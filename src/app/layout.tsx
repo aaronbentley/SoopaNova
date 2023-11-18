@@ -92,7 +92,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const clerkTheme = {
     elements: {
+        page: 'text-neutral-900 dark:text-neutral-100',
         card: 'bg-white border-neutral-200 text-neutral-950 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50',
+        breadcrumbsItem: 'text-neutral-900 dark:text-neutral-100',
+        breadcrumbsItemDivider: 'text-neutral-900 dark:text-neutral-100',
         headerTitle: 'text-neutral-900 dark:text-neutral-100',
         headerSubtitle: 'text-neutral-900 dark:text-neutral-100',
         socialButtonsBlockButton:
@@ -103,7 +106,7 @@ const clerkTheme = {
         dividerLine: 'bg-neutral-100 dark:bg-neutral-800',
         dividerText: 'text-neutral-500 dark:text-neutral-500',
         formFieldInput:
-            'text-neutral-900 dark:text-neutral-100 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-pink-500',
+            'text-neutral-900 dark:text-neutral-100 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-pink-500 accent-pink-500 focus:shadow-[0_0_0_1px_#ec4899]',
         formFieldWarningText: 'text-neutral-900 dark:text-neutral-100',
         formFieldSuccessText: 'text-neutral-900 dark:text-neutral-100',
         formButtonPrimary:
@@ -113,18 +116,25 @@ const clerkTheme = {
         footerActionText: 'text-neutral-900 dark:text-neutral-100',
         footerActionLink:
             'font-medium text-neutral-900 dark:text-neutral-100 underline underline-offset-4 transition-colors duration-200 hover:text-pink-500 dark:hover:text-pink-500',
-        // navbarButtons: '',
         navbarButton:
             'text-neutral-900 dark:text-neutral-100 outline-offset-2 outline-2 outline-pink-500 focus:shadow-[0_0_0_3px_#ec4899] focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
         profileSectionTitleText: 'text-neutral-900 dark:text-neutral-100',
-        accordionTriggerButton: 'text-neutral-900 dark:text-neutral-100',
         profileSectionPrimaryButton:
             'text-pink-500 dark:text-pink-500 hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
         badge: 'text-pink-500 dark:text-pink-500 bg-pink-500/25',
         avatarImageActionsUpload: 'text-pink-500 dark:text-pink-500',
         avatarImageActionsRemove: 'text-neutral-500',
         fileDropAreaButtonPrimary:
-            'text-pink-500 dark:text-pink-500 hover:bg-pink-500/25 dark:hover:bg-pink-500/25'
+            'text-pink-500 dark:text-pink-500 hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
+        profileSectionContent:
+            'text-neutral-900 dark:text-neutral-100 [&.cl-profileSectionContent__danger]:text-red-500 dark:text-red-500',
+        userPreview: 'text-neutral-900 dark:text-neutral-100',
+        userPreviewMainIdentifier: 'text-pink-500 dark:text-pink-500',
+        userPreviewSecondaryIdentifier: 'text-neutral-500',
+        accordionTriggerButton:
+            'text-neutral-900 dark:text-neutral-100 focus:shadow-[0_0_0_3px_#ec4899] focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
+        accordionContent: '[&_p]:text-neutral-900 dark:[&_p]:text-neutral-100',
+        activeDevice: '[&_*]:text-neutral-900 dark:[&_*]:text-neutral-100'
     }
 }
 
