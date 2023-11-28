@@ -559,6 +559,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             disabled={
                                 uploading ||
                                 createPrintOptions ||
+                                callableExecuting ||
                                 contentModeration
                             }
                             className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'
