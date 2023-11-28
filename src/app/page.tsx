@@ -89,8 +89,7 @@ const Frontpage = () => {
                 </Badge>
                 <HeroHeading>From Pixels to Prints</HeroHeading>
                 <HeroDescription>
-                    Print your gaming screenshots and preserve your gaming
-                    moments.
+                    Print your gaming screenshots, preserve your gaming moments.
                 </HeroDescription>
 
                 <SignedIn>
