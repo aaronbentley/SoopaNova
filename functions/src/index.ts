@@ -21,106 +21,23 @@ const visionClient = new vision.ImageAnnotatorClient()
 // Initialize Firebase Admin
 initializeApp()
 
-// Initialize Firestore
-// const firestore = getFirestore()
-
-/**
- * Define firestore contstants
- */
-// const contentModerationCollection = 'content-moderation'
-// const filesCollection = 'files'
-// const documentNameSeparator = '--'
-
-/**
- * Firebase Storage Triggered Function.
- * Use Google Cloud Vison API SafeSearch to moderate images uploaded to Cloud Storage.
- */
-// export const moderateUserImageUpload = onObjectFinalized(async (event) => {
-//     // Storage bucket containing the file
-//     const fileBucket = event.data.bucket
-
-//     // File path in the bucket
-//     const filePath = event.data.name
-
-//     // File content type
-//     const contentType = event.data.contentType
-
-//     // Debug info
-//     logger.log('Cloud Function has executed on Storage upload', {
-//         fileBucket,
-//         filePath,
-//         contentType
-//     })
-
-//     // Exit if this is triggered on a file that is not an image
-//     if (contentType && !contentType.startsWith('image/')) {
-//         return logger.error('Error: file is not an image.')
-//     }
-
-//     try {
-//         // Performs safe search property detection on the remote file
-//         const [result] = await visionClient.safeSearchDetection(
-//             `gs://${fileBucket}/${filePath}`
-//         )
-
-//         // Get Cloud Vision API SafeSearch detections
-//         const detections = result.safeSearchAnnotation
-
-//         // Bail if detections is null or undefined
-//         if (!detections) {
-//             logger.warn('Warning: No detections found.', detections)
-//             return
-//         }
-
-//         logger.info('Cloud Vision SafeSearch Detections:', {
-//             adult: `${detections.adult}`,
-//             racy: `${detections.racy}`,
-//             violence: `${detections.violence}`
-//         })
-
-//         /**
-//          * Write Cloud Vision SafeSearch Detections to Firestore
-//          */
-//         try {
-//             // Get userId from filePath string (pattern: <uuid>--<userId>--<fileName>)
-//             const [uuid, userId, fileName] = filePath.split(
-//                 documentNameSeparator
-//             )
-
-//             // Write to firestore collection
-//             firestore
-//                 .collection(contentModerationCollection)
-//                 .doc(userId)
-//                 .collection(filesCollection)
-//                 .doc(`${uuid}--${fileName}`)
-//                 .set({
-//                     adult: `${detections.adult}`,
-//                     racy: `${detections.racy}`,
-//                     violence: `${detections.violence}`
-//                 })
-//         } catch (error) {
-//             logger.error(
-//                 'Error: Writing Cloud Vision SafeSearch Detections to Firestore',
-//                 error
-//             )
-//         } finally {
-//             logger.info(
-//                 'OK - Saved Cloud Vision SafeSearch file detections to Firestore.'
-//             )
-//         }
-//     } catch (error) {
-//         logger.error('Error: Cloud Vision SafeSearch error', error)
-//     } finally {
-//         logger.info('OK - Cloud Vision SafeSearch completed.')
-//     }
-// })
-
 /**
  * Callable function.
- * Callable function to moderate an image url using Google Cloud Vision API SafeSearch.
+ * Function to moderate an image url using Google Cloud Vision API SafeSearch.
+ *
+ * See CORS settings:
+ * @link https://firebase.google.com/docs/functions/callable?gen=2nd
  */
 export const moderateImageUrl = onCall(
-    // { cors: [/firebase\.com$/, "flutter.com"] }, // https://firebase.google.com/docs/functions/callable?gen=2nd
+    // {
+    //     cors: [
+    //         // /firebase\.com$/,
+    //         // "flutter.com",
+    //         'localhost:3000',
+    //         'soopanova.app',
+    //         'vercel.app'
+    //     ]
+    // },
     async (request) => {
         logger.log('Cloud Function has executed onCall', request)
 
