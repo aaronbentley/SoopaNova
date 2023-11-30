@@ -1,9 +1,10 @@
 'use client'
 
+import { links } from '@/assets/data/links'
 import { cn } from '@/lib/utils'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import { Button } from './ui/button'
 import { navigationMenuTriggerStyle } from './ui/navigation-menu'
@@ -48,26 +49,14 @@ const MobileNav = () => {
                 </MobileLink>
                 <ScrollArea className='mt-8 mb-4 h-[calc(100vh-8rem)] pb-10'>
                     <div className='flex flex-col space-y-2'>
-                        <MobileLink
-                            href='/create/'
-                            onOpenChange={setOpen}>
-                            Create
-                        </MobileLink>
-                        <MobileLink
-                            href='/screenshots/'
-                            onOpenChange={setOpen}>
-                            Screenshots
-                        </MobileLink>
-                        <MobileLink
-                            href='/faq/'
-                            onOpenChange={setOpen}>
-                            FAQ
-                        </MobileLink>
-                        <MobileLink
-                            href='/about/'
-                            onOpenChange={setOpen}>
-                            About
-                        </MobileLink>
+                        {links.map((link, index) => (
+                            <MobileLink
+                                key={index}
+                                href={link.href}
+                                onOpenChange={setOpen}>
+                                {link.label}
+                            </MobileLink>
+                        ))}
                     </div>
                 </ScrollArea>
             </SheetContent>
@@ -91,6 +80,10 @@ const MobileLink = ({
     ...props
 }: MobileLinkProps) => {
     const router = useRouter()
+    const pathname = usePathname()
+
+    const active = pathname === href
+
     return (
         <Link
             href={href}
@@ -98,7 +91,16 @@ const MobileLink = ({
                 router.push(href.toString())
                 onOpenChange?.(false)
             }}
-            className={cn(navigationMenuTriggerStyle(), className)}
+            className={cn(
+                navigationMenuTriggerStyle(),
+                active && [
+                    'text-neutral-50',
+                    'dark:text-neutral-950',
+                    'bg-pink-500',
+                    'dark:bg-pink-500'
+                ],
+                className
+            )}
             {...props}>
             {children}
         </Link>

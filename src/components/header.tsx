@@ -2,7 +2,8 @@ import { cn } from '@/lib/utils'
 import {
     ClerkLoaded,
     ClerkLoading,
-    SignUpButton,
+    // SignUpButton,
+    SignInButton,
     SignedIn,
     SignedOut,
     UserButton
@@ -33,8 +34,8 @@ const Header = () => (
                             'duration-200',
                             'hover:bg-pink-500',
                             'hover:dark:bg-pink-500',
-                            'hover:text-neutral-100',
-                            'hover:dark:text-neutral-900'
+                            'hover:text-neutral-50',
+                            'hover:dark:text-neutral-950'
                         ])}>
                         {process.env.APP_TITLE!}
                     </Link>
@@ -49,28 +50,14 @@ const Header = () => (
                     </ClerkLoading>
                     <ClerkLoaded>
                         <SignedOut>
-                            <SignUpButton>
+                            <SignInButton>
                                 <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
-                                    Sign Up
+                                    Sign In
                                 </Button>
-                            </SignUpButton>
+                            </SignInButton>
                         </SignedOut>
                         <SignedIn>
-                            <UserButton
-                                appearance={{
-                                    elements: {
-                                        userButtonPopoverCard:
-                                            'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
-                                        userButtonPopoverActionButtonText:
-                                            'text-neutral-900 dark:text-neutral-100',
-                                        userButtonPopoverActionButtonIcon:
-                                            'text-pink-500 dark:text-pink-500',
-                                        userButtonPopoverFooter:
-                                            'text-pink-500 dark:text-pink-500'
-                                    }
-                                }}
-                                afterSignOutUrl='/'
-                            />
+                            <UserButton afterSignOutUrl='/' />
                         </SignedIn>
                     </ClerkLoaded>
                 </div>

@@ -30,68 +30,63 @@ export const generateViewport = (): Viewport => {
     }
 }
 
-export const generateMetadata = async (): Promise<Metadata> => {
-    /**
-     * Resolve Tailwind CSS config
-     */
-    const fullConfig = resolveConfig(tailwindConfig)
-
-    /**
-     * Get color values from Tailwind CSS config
-     */
-    const colors = fullConfig?.theme?.colors
-    // @ts-ignore next-line
-    const themeColor = colors?.pink?.['500']
-
-    return {
-        metadataBase: new URL(process.env.APP_URL!),
-        title: {
-            default: process.env.APP_TITLE!,
-            template: `%s - ${process.env.APP_TITLE!}`
-        },
-        description: process.env.APP_DESCRIPTION!,
-        keywords: [
-            process.env.APP_TITLE!,
-            'Prints',
-            'Poster Prints',
-            'Canvas Prints',
-            'Framed Prints',
-            'Screenshots',
-            'Pixels',
-            'Xbox',
-            'PlayStation',
-            'Steam'
-        ],
-        // themeColor: themeColor,
-        authors: [
-            {
-                name: 'Aaron Bentley',
-                url: 'https://twitter.com/aaronbentley'
-            }
-        ],
-        creator: 'Aaron Bentley',
-        openGraph: {
-            type: 'website',
-            locale: 'en_US',
-            url: process.env.APP_URL!,
-            title: process.env.APP_TITLE!,
-            description: process.env.APP_DESCRIPTION!,
-            siteName: process.env.APP_TITLE!
-            // images: []
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: process.env.APP_TITLE!,
-            description: process.env.APP_DESCRIPTION!,
-            creator: process.env.APP_SOCIAL_TWITTER!
+export const generateMetadata = async (): Promise<Metadata> => ({
+    metadataBase: new URL(process.env.APP_URL!),
+    title: {
+        default: process.env.APP_TITLE!,
+        template: `%s - ${process.env.APP_TITLE!}`
+    },
+    description: process.env.APP_DESCRIPTION!,
+    keywords: [
+        process.env.APP_TITLE!,
+        'Prints',
+        'Poster Prints',
+        'Canvas Prints',
+        'Framed Prints',
+        'Screenshots',
+        'Pixels',
+        'Xbox',
+        'PlayStation',
+        'Steam'
+    ],
+    // themeColor: themeColor,
+    authors: [
+        {
+            name: 'Aaron Bentley',
+            url: 'https://twitter.com/aaronbentley'
         }
-        // icons: {},
-        // manifest: '',
+    ],
+    creator: 'Aaron Bentley',
+    openGraph: {
+        type: 'website',
+        locale: 'en_US',
+        url: process.env.APP_URL!,
+        title: process.env.APP_TITLE!,
+        description: process.env.APP_DESCRIPTION!,
+        siteName: process.env.APP_TITLE!
+        // images: []
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: process.env.APP_TITLE!,
+        description: process.env.APP_DESCRIPTION!,
+        creator: process.env.APP_SOCIAL_TWITTER!
     }
-}
+    // icons: {},
+    // manifest: '',
+})
 
 const clerkTheme = {
     elements: {
+        userButtonPopoverCard:
+            'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
+        userButtonPopoverActionButton:
+            'hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
+        userButtonPopoverActionButtonText:
+            'text-neutral-900 dark:text-neutral-100',
+        userButtonPopoverActionButtonIcon: 'text-pink-500 dark:text-pink-500',
+        userButtonPopoverFooter:
+            '[&_p]:text-neutral-500 [&_p]:dark:text-neutral-500 [&_svg]:text-neutral-500 [&_svg]:dark:text-neutral-500 [&_svg]:hover:text-pink-500 [&_svg]:dark:hover:text-pink-500 [&_*]:transition-all [&_*]:duration-2000',
         page: 'text-neutral-900 dark:text-neutral-100',
         card: 'bg-white border-neutral-200 text-neutral-950 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50',
         breadcrumbsItem: 'text-neutral-900 dark:text-neutral-100',

@@ -1,6 +1,10 @@
 import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
-import { PageSection } from '@/components/page-section'
+import {
+    PageSection,
+    PageSectionDescription,
+    PageSectionHeading
+} from '@/components/page-section'
 import ScrollToTarget from '@/components/scroll-to-target'
 import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -31,7 +35,11 @@ import {
     UploadCloud
 } from 'lucide-react'
 import { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
+import bedroomPoster from '../assets/img/bedroom-poster.jpg'
+import galleryFrame from '../assets/img/gallery-frame.jpg'
+import roomCanvas from '../assets/img/room-canvas.jpg'
 
 export const metadata: Metadata = {
     title: {
@@ -184,7 +192,7 @@ const Frontpage = () => {
                     href='/create/'
                     title='Create your prints'
                     className={cn([
-                        buttonVariants({ variant: 'default' }),
+                        buttonVariants({ variant: 'default', size: 'lg' }),
                         'bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 mt-8'
                     ])}>
                     Get Started
@@ -235,6 +243,91 @@ const Frontpage = () => {
                             </CardHeader>
                         </Card>
                     </Link>
+                </div>
+            </PageSection>
+
+            <PageSection
+                id='product-types'
+                className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
+                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
+                    Power-up Prints
+                </h2>
+                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
+                    Create mighty-fine artwork for your space.
+                </p>
+
+                <div className='flex flex-col gap-24 mt-12 md:mt-24'>
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                        <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
+                            <PageSectionHeading>
+                                Poster Prints
+                            </PageSectionHeading>
+                            <PageSectionDescription>
+                                Poster Prints are produced using premium 300gsm
+                                matte fine art paper, ideal for high resolution
+                                digital art, this results in extremely crisp and
+                                accurate detail in tonal range for art prints
+                                that make a statement.
+                            </PageSectionDescription>
+                        </div>
+                        <div className='order-1 md:order-2'>
+                            <Image
+                                src={bedroomPoster}
+                                alt='Bedroom Poster Print'
+                                placeholder='blur'
+                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
+                            />
+                        </div>
+                    </div>
+
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                        <div className='flex flex-col justify-center gap-4 order-2'>
+                            <PageSectionHeading>
+                                Canvas Prints
+                            </PageSectionHeading>
+                            <PageSectionDescription>
+                                Canvas Prints are produced using the highest
+                                quality canvas, UV coated and designed to last
+                                with no fading - Canvas printing done right:
+                                museum-quality, expertly crafted, ready to hang.
+                            </PageSectionDescription>
+                        </div>
+                        <div className='order-1'>
+                            <Image
+                                src={roomCanvas}
+                                alt='Room Canvas Print'
+                                placeholder='blur'
+                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
+                            />
+                        </div>
+                    </div>
+
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                        <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
+                            <PageSectionHeading>
+                                Framed Prints
+                            </PageSectionHeading>
+                            <PageSectionDescription>
+                                Our Framed Prints feature all the quality of our
+                                Poster Prints, with premium solid wood frames
+                                (choose from black, white, and dark brown
+                                coating options), and paired with ultra-low
+                                glare plexiglass to ensure your prints get all
+                                the attention.
+                            </PageSectionDescription>
+                        </div>
+                        <div className='order-1 md:order-2'>
+                            <Image
+                                src={galleryFrame}
+                                alt='Gallery Framed Print'
+                                placeholder='blur'
+                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
+                            />
+                        </div>
+                    </div>
                 </div>
             </PageSection>
         </>

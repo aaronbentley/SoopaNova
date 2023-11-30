@@ -1,7 +1,7 @@
 import { Copyright, Facebook, Instagram, Twitter } from 'lucide-react'
 
 const Footer = () => (
-    <footer className='py-6 md:px-8 md:pt-12 md:pb-4'>
+    <footer className='py-6 md:px-8 md:pt-12 lg:pt-24 md:pb-4'>
         <div className='container flex flex-col items-center justify-between gap-4 py-4 md:flex-row text-neutral-400 dark:text-neutral-600 text-sm'>
             <div className='flex items-center gap-x-2'>
                 <Copyright className='w-4 h-4' />

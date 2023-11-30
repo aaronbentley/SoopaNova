@@ -23,7 +23,7 @@ const Faq = () => {
                 <PageHeader>
                     <PageHeaderHeading>FAQ</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Got questions? We got answers.
+                        Got questions? Here&apos;s the answers.
                     </PageHeaderDescription>
                 </PageHeader>
 

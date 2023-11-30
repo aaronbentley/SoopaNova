@@ -1,4 +1,5 @@
 'use client'
+import { links } from '@/assets/data/links'
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -6,59 +7,42 @@ import {
     NavigationMenuList,
     navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const MainNav = () => (
-    <div className='hidden md:flex'>
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
-                    <Link
-                        href='/create/'
-                        legacyBehavior
-                        passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}>
-                            Create
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link
-                        href='/screenshots/'
-                        legacyBehavior
-                        passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}>
-                            Screenshots
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link
-                        href='/faq/'
-                        legacyBehavior
-                        passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}>
-                            FAQ
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link
-                        href='/about/'
-                        legacyBehavior
-                        passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}>
-                            About
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu>
-    </div>
-)
+const MainNav = () => {
+    const pathname = usePathname()
+    return (
+        <div className='hidden md:flex'>
+            <NavigationMenu>
+                <NavigationMenuList>
+                    {links.map((link, index) => (
+                        <NavigationMenuItem key={index}>
+                            <Link
+                                href={link.href}
+                                legacyBehavior
+                                passHref>
+                                <NavigationMenuLink
+                                    active={pathname === link.href}
+                                    className={cn(
+                                        navigationMenuTriggerStyle(),
+                                        [
+                                            'data-[active]:text-neutral-50',
+                                            'dark:data-[active]:text-neutral-950',
+                                            'data-[active]:bg-pink-500',
+                                            'dark:data-[active]:bg-pink-500'
+                                        ]
+                                    )}>
+                                    {link.label}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    ))}
+                </NavigationMenuList>
+            </NavigationMenu>
+        </div>
+    )
+}
 
 export default MainNav
