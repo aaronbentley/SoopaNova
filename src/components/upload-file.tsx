@@ -333,6 +333,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
                 setPrintSheetOpen(true)
+
+                // FIXME: reset upload state on successful order and redirect to a thank you page
             } catch (error) {
                 let message = 'Something went wrong.'
                 if (error instanceof Error) message = error.message

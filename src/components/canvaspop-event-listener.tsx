@@ -400,6 +400,8 @@ const CanvasPopCartEventListener = () => {
                                 productPrice
                             })
 
+                            // FIXME: Check createOrderResponse & reset state
+
                             break
                         //#endregion
                     }
