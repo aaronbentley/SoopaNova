@@ -109,10 +109,12 @@ const CanvasPopCartEventListener = () => {
         )
 
         const createOrderResponseJson = await createOrderResponse.json()
-        console.log(
-            '🦄 ~ file: canvaspop-event-listener.tsx:363 ~ listener ~ createOrderResponseJson:',
-            createOrderResponseJson
-        )
+        // console.log(
+        //     '🦄 ~ file: canvaspop-event-listener.tsx:363 ~ listener ~ createOrderResponseJson:',
+        //     createOrderResponseJson
+        // )
+
+        return createOrderResponseJson
     }
 
     /**
@@ -400,7 +402,18 @@ const CanvasPopCartEventListener = () => {
                                 productPrice
                             })
 
+                            console.log(
+                                '🦄 ~ file: canvaspop-event-listener.tsx:404 ~ listener ~ createOrderResponse:',
+                                createOrderResponse
+                            )
+
                             // FIXME: Check createOrderResponse & reset state
+                            setProductType(null)
+                            setProductWidth(null)
+                            setProductHeight(null)
+                            setProductFrame(null)
+                            setProductEdge(null)
+                            setProductPrice(null)
 
                             break
                         //#endregion

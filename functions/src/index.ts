@@ -7,10 +7,8 @@
 
 import vision from '@google-cloud/vision'
 import { initializeApp } from 'firebase-admin/app'
-// import { getFirestore } from 'firebase-admin/firestore'
 import { logger } from 'firebase-functions'
 import { onCall } from 'firebase-functions/v2/https'
-// import { onObjectFinalized } from 'firebase-functions/v2/storage'
 
 /**
  * Initiate Services outside of the function.
@@ -36,7 +34,8 @@ export const moderateImageUrl = onCall(
     //         'localhost:3000',
     //         'soopanova.app',
     //         'vercel.app'
-    //     ]
+    //     ],
+    //     enforceAppCheck: true, // Reject requests with missing or invalid App Check tokens.
     // },
     async (request) => {
         logger.log('Cloud Function has executed onCall', request)
