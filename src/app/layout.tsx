@@ -1,3 +1,5 @@
+import { keywords } from '@/assets/data/keywords'
+import { clerkTheme } from '@/assets/styles/clerk-theme'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
@@ -37,26 +39,14 @@ export const generateMetadata = async (): Promise<Metadata> => ({
         template: `%s - ${process.env.APP_TITLE!}`
     },
     description: process.env.APP_DESCRIPTION!,
-    keywords: [
-        process.env.APP_TITLE!,
-        'Prints',
-        'Poster Prints',
-        'Canvas Prints',
-        'Framed Prints',
-        'Screenshots',
-        'Pixels',
-        'Xbox',
-        'PlayStation',
-        'Steam'
-    ],
-    // themeColor: themeColor,
+    keywords: [process.env.APP_TITLE!, ...keywords],
     authors: [
         {
-            name: 'Aaron Bentley',
-            url: 'https://twitter.com/aaronbentley'
+            name: process.env.APP_COMPANY!,
+            url: process.env.APP_COMPANY_TWITTER!
         }
     ],
-    creator: 'Aaron Bentley',
+    creator: process.env.APP_COMPANY!,
     openGraph: {
         type: 'website',
         locale: 'en_US',
@@ -72,66 +62,8 @@ export const generateMetadata = async (): Promise<Metadata> => ({
         description: process.env.APP_DESCRIPTION!,
         creator: process.env.APP_SOCIAL_TWITTER!
     }
-    // icons: {},
     // manifest: '',
 })
-
-const clerkTheme = {
-    elements: {
-        userButtonPopoverCard:
-            'bg-white text-neutral-950 dark:text-neutral-50 dark:bg-neutral-950',
-        userButtonPopoverActionButton:
-            'hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
-        userButtonPopoverActionButtonText:
-            'text-neutral-900 dark:text-neutral-100',
-        userButtonPopoverActionButtonIcon: 'text-pink-500 dark:text-pink-500',
-        userButtonPopoverFooter:
-            '[&_p]:text-neutral-500 [&_p]:dark:text-neutral-500 [&_svg]:text-neutral-500 [&_svg]:dark:text-neutral-500 [&_svg]:hover:text-pink-500 [&_svg]:dark:hover:text-pink-500 [&_*]:transition-all [&_*]:duration-2000',
-        page: 'text-neutral-900 dark:text-neutral-100',
-        card: 'bg-white border-neutral-200 text-neutral-950 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50',
-        breadcrumbsItem: 'text-neutral-900 dark:text-neutral-100',
-        breadcrumbsItemDivider: 'text-neutral-900 dark:text-neutral-100',
-        headerTitle: 'text-neutral-900 dark:text-neutral-100',
-        headerSubtitle: 'text-neutral-900 dark:text-neutral-100',
-        socialButtonsBlockButton:
-            'text-neutral-900 dark:text-neutral-100 border-neutral-200 dark:border-neutral-800 ',
-        socialButtonsBlockButtonArrow: 'text-pink-500 dark:text-pink-500',
-        formFieldRow: 'text-neutral-900 dark:text-neutral-100',
-        formFieldLabel: 'text-neutral-900 dark:text-neutral-100',
-        dividerLine: 'bg-neutral-100 dark:bg-neutral-800',
-        dividerText: 'text-neutral-500 dark:text-neutral-500',
-        formFieldInput:
-            'text-neutral-900 dark:text-neutral-100 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-pink-500 accent-pink-500 focus:shadow-[0_0_0_1px_#ec4899]',
-        formFieldWarningText: 'text-neutral-900 dark:text-neutral-100',
-        formFieldSuccessText: 'text-neutral-900 dark:text-neutral-100',
-        formButtonPrimary:
-            'bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 capitalize',
-        formButtonReset:
-            'bg-transparent text-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 capitalize',
-        footerActionText: 'text-neutral-900 dark:text-neutral-100',
-        footerActionLink:
-            'font-medium text-neutral-900 dark:text-neutral-100 underline underline-offset-4 transition-colors duration-200 hover:text-pink-500 dark:hover:text-pink-500',
-        navbarButton:
-            'text-neutral-900 dark:text-neutral-100 outline-offset-2 outline-2 outline-pink-500 focus:shadow-[0_0_0_3px_#ec4899] focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
-        profileSectionTitleText: 'text-neutral-900 dark:text-neutral-100',
-        profileSectionPrimaryButton:
-            'text-pink-500 dark:text-pink-500 hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
-        badge: 'text-pink-500 dark:text-pink-500 bg-pink-500/25',
-        avatarImageActionsUpload: 'text-pink-500 dark:text-pink-500',
-        avatarImageActionsRemove: 'text-neutral-500',
-        fileDropAreaButtonPrimary:
-            'text-pink-500 dark:text-pink-500 hover:bg-pink-500/25 dark:hover:bg-pink-500/25',
-        profileSectionContent:
-            'text-neutral-900 dark:text-neutral-100 [&.cl-profileSectionContent__danger]:text-red-500 dark:text-red-500',
-        userPreview: 'text-neutral-900 dark:text-neutral-100',
-        userPreviewMainIdentifier: 'text-pink-500 dark:text-pink-500',
-        userPreviewSecondaryIdentifier: 'text-neutral-500',
-        accordionTriggerButton:
-            'text-neutral-900 dark:text-neutral-100 focus:shadow-[0_0_0_3px_#ec4899] focus:[&.cl-active]:shadow-[0_0_0_3px_#ec4899]',
-        accordionContent: '[&_p]:text-neutral-900 dark:[&_p]:text-neutral-100',
-        activeDevice: '[&_*]:text-neutral-900 dark:[&_*]:text-neutral-100'
-    }
-}
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
