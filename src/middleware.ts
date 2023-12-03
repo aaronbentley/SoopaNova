@@ -8,7 +8,7 @@ const middleware = authMiddleware({
     // export default authMiddleware({
     // Public routes accessible to all users
     publicRoutes: ['/', '/screenshots(.*)', '/faq/', '/about/'],
-    ignoredRoutes: ['/opengraph-image/'],
+    ignoredRoutes: ['/opengraph-image/', '/icon/'],
     debug: false
 })
 
