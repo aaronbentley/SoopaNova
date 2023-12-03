@@ -83,7 +83,8 @@ const getOrders = async () => {
                 productHeight: doc.data().productHeight,
                 productType: doc.data().productType,
                 productFrame: doc.data().productFrame,
-                ProductEdge: doc.data().ProductEdge
+                ProductEdge: doc.data().ProductEdge,
+                createdAt: doc.data().createdAt.toDate()
             })
         })
 
@@ -129,6 +130,7 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
                                 <TableHead className='w-[100px]'>
                                     Order ID
                                 </TableHead>
+                                <TableHead>Date</TableHead>
                                 <TableHead>Type</TableHead>
                                 <TableHead>Size</TableHead>
                                 <TableHead>Frame</TableHead>
@@ -143,6 +145,7 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
                                 {orders.map((order, index) => {
                                     // Get order data properties
                                     const id: string = order.id
+                                    const createdAt: Date = order.createdAt
                                     const productPrice: number =
                                         order.productPrice
                                     const productWidth: number =
@@ -161,7 +164,10 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
                                             key={index}
                                             className='border-neutral-400/25'>
                                             <TableCell className='font-medium'>
-                                                {order.id}
+                                                {id}
+                                            </TableCell>
+                                            <TableCell className='text-neutral-500'>
+                                                {createdAt.toLocaleDateString()}
                                             </TableCell>
                                             <TableCell className='text-neutral-500'>
                                                 {productType
