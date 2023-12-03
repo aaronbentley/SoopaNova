@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
-import React from 'react'
+import { useRef, useState } from 'react'
 import CanvasPopCartEventListener from './canvaspop-event-listener'
 
 interface CanvaspopCartProps {
@@ -12,8 +12,8 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
     /**
      * Handle iframe content loading state
      */
-    const [isMounted, setIsMounted] = React.useState(false)
-    const iframeRef = React.useRef(null)
+    const [isMounted, setIsMounted] = useState(false)
+    const iframeRef = useRef(null)
 
     /**
      * Bail if no src is provided

@@ -27,7 +27,7 @@ const Faq = () => {
                     </PageHeaderDescription>
                 </PageHeader>
 
-                <PageSection className='md:py-10'>
+                <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
                         How do I download my screenshots?
                     </PageSectionHeading>

@@ -15,5 +15,9 @@ const middleware = authMiddleware({
 export default middleware
 
 export const config = {
-    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
+    matcher: [
+        // '/',
+        '/((?!.+\\.[\\w]+$|_next).*)',
+        '/(api|trpc)(.*)'
+    ]
 }

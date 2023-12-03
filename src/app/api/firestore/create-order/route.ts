@@ -1,37 +1,7 @@
+import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs'
 import * as admin from 'firebase-admin'
 import { NextRequest, NextResponse } from 'next/server'
-
-type ProductType =
-    // Poster
-    | 'PO'
-    // Canvas
-    | 'S'
-    // Framed Print
-    | 'FP'
-    // Default
-    | null
-
-type ProductFrame =
-    // Canvas
-    | '075DW'
-    | '150DW'
-    // Canvas & Framed Print
-    | 'BF'
-    | 'WF'
-    // Framed Print
-    | 'EF'
-    // Default
-    | null
-type ProductEdge =
-    // Canvas
-    | 'WB'
-    | 'BB'
-    // Framed Print
-    | 'NOMA'
-    | '250MA'
-    // Default
-    | null
 
 /**
  * Initialize Firebase Admin SDK
@@ -51,7 +21,7 @@ if (!admin.apps.length) {
 }
 
 /**
- * Initialize Firestore and Auth
+ * Initialize Firestore
  */
 const firestore = admin.firestore()
 
@@ -60,7 +30,7 @@ export const POST = async (request: NextRequest) => {
      * Get form data from request body
      */
     const data = await request.json()
-    console.log('🦄 ~ file: route.ts:8 ~ POST ~ data:', data)
+    // console.log('🦄 ~ file: route.ts:8 ~ POST ~ data:', data)
 
     /**
      * Bail if no data
@@ -160,7 +130,7 @@ export const POST = async (request: NextRequest) => {
     }
 
     /**
-     * TODO: Save order to firestore
+     * Save order to firestore
      */
     try {
         await firestore
@@ -187,6 +157,7 @@ export const POST = async (request: NextRequest) => {
      */
     return NextResponse.json(
         {
+            ok: true,
             message: 'success',
             data: {
                 productType,

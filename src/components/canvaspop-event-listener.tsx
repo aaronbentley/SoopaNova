@@ -1,3 +1,4 @@
+'use client'
 /**
  * Canvaspop Cart Window Event Listener
  *
@@ -5,62 +6,10 @@
  *
  * This script listens for events from the Canvaspop Cart window.
  */
+import { ProductEdge, ProductFrame, ProductType } from '@/types'
+import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-// Create slug value lookup maps
-// const productTypeSlugs = {
-//     PO: 'poster',
-//     S: 'canvas',
-//     FP: 'framed print'
-// }
-
-// const productFrameSlugs = {
-//     WF: 'white frame',
-//     EF: 'espresso frame',
-//     BF: 'black frame',
-//     '075DW': '0.75" depth', // Canvas depth
-//     '150DW': '1.5" depth' // Canvas depth
-// }
-
-// const productEdgeSlugs = {
-//     NOMA: 'no mat',
-//     '250MA': '2" mat'
-// }
-
-/**
- * Create product attribute types
- */
-//#region Product attribute types
-type ProductType =
-    // Poster
-    | 'PO'
-    // Canvas
-    | 'S'
-    // Framed Print
-    | 'FP'
-    // Default
-    | null
-type ProductFrame =
-    // Canvas
-    | '075DW'
-    | '150DW'
-    // Canvas & Framed Print
-    | 'BF'
-    | 'WF'
-    // Framed Print
-    | 'EF'
-    // Default
-    | null
-type ProductEdge =
-    // Canvas
-    | 'WB'
-    | 'BB'
-    // Framed Print
-    | 'NOMA'
-    | '250MA'
-    // Default
-    | null
-//#endregion
 
 const CanvasPopCartEventListener = () => {
     // Create state for handling event data to monitor
@@ -70,6 +19,16 @@ const CanvasPopCartEventListener = () => {
     const [productFrame, setProductFrame] = useState<ProductFrame>(null)
     const [productEdge, setProductEdge] = useState<ProductEdge>(null)
     const [productPrice, setProductPrice] = useState<number | null>(null)
+
+    // Get the router
+    const router = useRouter()
+
+    // Get the user
+    const { user } = useUser()
+    console.log(
+        '🦄 ~ file: canvaspop-event-listener.tsx:28 ~ CanvasPopCartEventListener ~ user:',
+        user
+    )
 
     /**
      * Call route handler to create the order in firestore db
@@ -103,10 +62,10 @@ const CanvasPopCartEventListener = () => {
                 productPrice
             })
         })
-        console.log(
-            '🦄 ~ file: canvaspop-event-listener.tsx:360 ~ listener ~ createOrderResponse:',
-            createOrderResponse
-        )
+        // console.log(
+        //     '🦄 ~ file: canvaspop-event-listener.tsx:360 ~ listener ~ createOrderResponse:',
+        //     createOrderResponse
+        // )
 
         const createOrderResponseJson = await createOrderResponse.json()
         // console.log(
@@ -145,6 +104,9 @@ const CanvasPopCartEventListener = () => {
                 ) {
                     return
                 }
+
+                // Bail if the user is not logged in
+                if (!user) return null
 
                 try {
                     // Debug
@@ -408,12 +370,20 @@ const CanvasPopCartEventListener = () => {
                             )
 
                             // FIXME: Check createOrderResponse & reset state
-                            setProductType(null)
-                            setProductWidth(null)
-                            setProductHeight(null)
-                            setProductFrame(null)
-                            setProductEdge(null)
-                            setProductPrice(null)
+
+                            if (createOrderResponse.ok === true) {
+                                setProductType(null)
+                                setProductWidth(null)
+                                setProductHeight(null)
+                                setProductFrame(null)
+                                setProductEdge(null)
+                                setProductPrice(null)
+
+                                // FIXME: Redirect to order confirmation page
+                                setTimeout(() => {
+                                    router.push(`/orders/${user.id}/`)
+                                }, 3000)
+                            }
 
                             break
                         //#endregion
@@ -436,7 +406,9 @@ const CanvasPopCartEventListener = () => {
         productHeight,
         productPrice,
         productType,
-        productWidth
+        productWidth,
+        router,
+        user
     ])
 
     // Debug
