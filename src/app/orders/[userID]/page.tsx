@@ -10,6 +10,7 @@ import {
 } from '@/components/page-header'
 import { PageSection } from '@/components/page-section'
 import { TableSkeleton } from '@/components/skeletons'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
     Table,
     TableBody,
@@ -24,7 +25,9 @@ import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs'
 import * as admin from 'firebase-admin'
 import { DocumentData } from 'firebase/firestore'
+import { Info } from 'lucide-react'
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { Suspense } from 'react'
 
 // export const dynamic = 'force-dynamic'
@@ -108,6 +111,33 @@ const OrdersTable = async () => {
      */
     const orders = await getOrders()
 
+    /**
+     * Show alert if no orders
+     */
+    if (!orders?.length) {
+        return (
+            <div className='w-full flex justify-center items-center'>
+                <Alert className='w-max'>
+                    <Info className='h-4 w-4' />
+                    <AlertTitle>No Print Orders Yet!</AlertTitle>
+                    <AlertDescription>
+                        Go{' '}
+                        <Link
+                            href='/create/'
+                            title='Create your first Print Order'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            create your first print order
+                        </Link>{' '}
+                        to get started.
+                    </AlertDescription>
+                </Alert>
+            </div>
+        )
+    }
+
+    /**
+     * Return orders table
+     */
     return (
         <Table>
             <TableCaption>A list of your Print Orders.</TableCaption>

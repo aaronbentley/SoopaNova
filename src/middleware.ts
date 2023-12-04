@@ -7,7 +7,13 @@ import { authMiddleware } from '@clerk/nextjs'
 const middleware = authMiddleware({
     // export default authMiddleware({
     // Public routes accessible to all users
-    publicRoutes: ['/', '/screenshots(.*)', '/faq/', '/about/'],
+    publicRoutes: [
+        '/',
+        '/screenshots(.*)',
+        '/faq/',
+        '/about/',
+        '/not-found(.*)'
+    ],
     ignoredRoutes: ['/opengraph-image/', '/icon/'],
     debug: false
 })
@@ -15,9 +21,5 @@ const middleware = authMiddleware({
 export default middleware
 
 export const config = {
-    matcher: [
-        // '/',
-        '/((?!.+\\.[\\w]+$|_next).*)',
-        '/(api|trpc)(.*)'
-    ]
+    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
 }
