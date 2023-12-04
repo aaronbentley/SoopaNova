@@ -134,9 +134,9 @@ export const POST = async (request: NextRequest) => {
      */
     try {
         await firestore
-            .collection('orders')
+            .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
             .doc(userId)
-            .collection('order')
+            .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
             .add({
                 productType,
                 productWidth,

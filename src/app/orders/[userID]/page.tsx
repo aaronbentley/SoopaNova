@@ -76,10 +76,11 @@ const getOrders = async () => {
         // Get orders from firestore
         const orders: DocumentData[] = []
         const snapshot = await firestore
-            .collection('orders')
+            .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
             .doc(userId)
-            .collection('order')
+            .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
             .orderBy('createdAt', 'desc')
+            .limit(20)
             .get()
 
         // Add doc data properties to orders array
@@ -140,7 +141,7 @@ const OrdersTable = async () => {
      */
     return (
         <Table>
-            <TableCaption>A list of your Print Orders.</TableCaption>
+            <TableCaption>A list of your recent Print Orders.</TableCaption>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-[100px]'>Order ID</TableHead>
