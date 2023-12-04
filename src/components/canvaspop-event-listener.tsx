@@ -25,10 +25,6 @@ const CanvasPopCartEventListener = () => {
 
     // Get the user
     const { user } = useUser()
-    console.log(
-        '🦄 ~ file: canvaspop-event-listener.tsx:28 ~ CanvasPopCartEventListener ~ user:',
-        user
-    )
 
     /**
      * Call route handler to create the order in firestore db
@@ -182,7 +178,10 @@ const CanvasPopCartEventListener = () => {
                         //#region User action events
                         // User changed product option from drop down menu
                         case 'userChangedProduct':
-                            console.info('⭐️ userChangedProduct', eventArgs)
+                            // console.info('⭐️ userChangedProduct', eventArgs)
+
+                            // Update the product type
+                            setProductType(eventArgs.slug)
 
                             // Reset product attribues to default according to product type
                             switch (eventArgs.slug) {
@@ -203,13 +202,11 @@ const CanvasPopCartEventListener = () => {
                                     break
                             }
 
-                            // Update the product type
-                            setProductType(eventArgs.slug)
                             break
 
                         // User changed product size option from drop down menu
                         case 'userChangedSize':
-                            console.info('⭐️ userChangedSize', eventArgs)
+                            // console.info('⭐️ userChangedSize', eventArgs)
 
                             // Update the product width and height
                             setProductWidth(eventArgs.width)
@@ -218,7 +215,7 @@ const CanvasPopCartEventListener = () => {
 
                         // User changed frame option from drop down menu
                         case 'userChangedFrame':
-                            console.info('⭐️ userChangedFrame', eventArgs)
+                            // console.info('⭐️ userChangedFrame', eventArgs)
 
                             // Update the product frame
                             setProductFrame(eventArgs.slug)
@@ -226,7 +223,7 @@ const CanvasPopCartEventListener = () => {
 
                         // User changed edge option from drop down menu
                         case 'userChangedEdge':
-                            console.info('⭐️ userChangedEdge', eventArgs)
+                            // console.info('⭐️ userChangedEdge', eventArgs)
 
                             // Update the product edge
                             setProductEdge(eventArgs.slug)
@@ -234,25 +231,33 @@ const CanvasPopCartEventListener = () => {
 
                         // User clicked continue from initial cart page
                         case 'userClickedCartContinue':
-                            console.info(
-                                '⭐️ userClickedCartContinue',
-                                eventArgs
-                            )
+                            // console.info( '⭐️ userClickedCartContinue', eventArgs )
 
-                            // Update all product data
+                            /**
+                             * Deduce the product type from the frame and edge options as if a user returns to the cart page from the checkout page, the default product type [from last session] is not sent in the event data.
+                             */
+                            switch (true) {
+                                // Set product type to 'poster' if no frame or edge is present
+                                case eventArgs.frame === null &&
+                                    eventArgs.edge === null:
+                                    setProductType('PO')
+                                    break
+                                // Set product type to 'framed print' if the edge value is one of 'NOMA' or '250MA'
+                                case ['NOMA', '250MA'].includes(eventArgs.edge):
+                                    setProductType('FP')
+                                    break
+                                // Set product type to 'canvas' if previous conditions are not met
+                                default:
+                                    setProductType('S')
+                                    break
+                            }
+
+                            // Update remaining product data attributes
                             setProductWidth(eventArgs.width)
                             setProductHeight(eventArgs.height)
                             setProductFrame(eventArgs.frame)
                             setProductEdge(eventArgs.edge)
                             setProductPrice(eventArgs.price)
-
-                            // Update the product type to 'poster' if no frame or edge is present
-                            if (
-                                eventArgs.frame === null &&
-                                eventArgs.edge === null
-                            ) {
-                                setProductType('PO')
-                            }
 
                             break
 
@@ -412,14 +417,14 @@ const CanvasPopCartEventListener = () => {
     ])
 
     // Debug
-    console.info('📘 State:', {
-        type: productType,
-        width: productWidth,
-        height: productHeight,
-        frame: productFrame,
-        edge: productEdge,
-        price: productPrice
-    })
+    // console.info('📘 State:', {
+    //     type: productType,
+    //     width: productWidth,
+    //     height: productHeight,
+    //     frame: productFrame,
+    //     edge: productEdge,
+    //     price: productPrice
+    // })
 
     return null
 }

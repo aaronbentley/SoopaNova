@@ -582,7 +582,13 @@ const UploadFile = ({ className }: { className?: string }) => {
             </Sheet>
             <Sheet
                 open={printSheetOpen}
-                onOpenChange={(open) => setPrintSheetOpen(open)}>
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setFiles(null)
+                    }
+                    setMediaSheetOpen(open)
+                    setPrintSheetOpen(open)
+                }}>
                 <SheetContent
                     side='bottom'
                     className='h-screen flex flex-col gap-y-6 border-none container mx-auto'>

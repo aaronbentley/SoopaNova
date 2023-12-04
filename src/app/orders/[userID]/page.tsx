@@ -9,6 +9,7 @@ import {
     PageHeaderHeading
 } from '@/components/page-header'
 import { PageSection } from '@/components/page-section'
+import { TableSkeleton } from '@/components/skeletons'
 import {
     Table,
     TableBody,
@@ -24,6 +25,7 @@ import { auth } from '@clerk/nextjs'
 import * as admin from 'firebase-admin'
 import { DocumentData } from 'firebase/firestore'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 // export const dynamic = 'force-dynamic'
 
@@ -54,9 +56,12 @@ if (!admin.apps.length) {
  */
 const firestore = admin.firestore()
 
+/**
+ * Get orders from firestore
+ */
 const getOrders = async () => {
     /**
-     * Get the userId from auth() -- if null, the user is not logged in
+     * Get the userId from auth()
      */
     const { userId } = auth()
 
@@ -65,7 +70,7 @@ const getOrders = async () => {
     }
 
     try {
-        //
+        // Get orders from firestore
         const orders: DocumentData[] = []
         const snapshot = await firestore
             .collection('orders')
@@ -94,19 +99,91 @@ const getOrders = async () => {
     }
 }
 
-const Orders = async ({ params }: { params: { userID: string } }) => {
+/**
+ * Create a table of orders
+ */
+const OrdersTable = async () => {
     /**
      * Get the orders from firestore
      */
     const orders = await getOrders()
-    // console.log('🦄 ~ file: page.tsx:38 ~ Orders ~ orders:', orders)
 
+    return (
+        <Table>
+            <TableCaption>A list of your Print Orders.</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className='w-[100px]'>Order ID</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Size</TableHead>
+                    <TableHead>Frame</TableHead>
+                    <TableHead>Edge</TableHead>
+                    <TableHead className='text-right'>Total</TableHead>
+                </TableRow>
+            </TableHeader>
+            {orders && (
+                <TableBody>
+                    {orders.map((order, index) => {
+                        // Get order data properties
+                        const id: string = order.id
+                        const createdAt: Date = order.createdAt
+                        const productPrice: number = order.productPrice
+                        const productWidth: number = order.productWidth
+                        const productHeight: number = order.productHeight
+                        const productType: ProductType = order.productType
+                        const productFrame: ProductFrame = order.productFrame
+                        const productEdge: ProductEdge = order.ProductEdge
+
+                        return (
+                            <TableRow
+                                key={index}
+                                className='border-neutral-400/25'>
+                                <TableCell className='font-medium'>
+                                    {id}
+                                </TableCell>
+                                <TableCell className='text-neutral-500'>
+                                    {createdAt.toLocaleDateString()}
+                                </TableCell>
+                                <TableCell className='text-neutral-500'>
+                                    {productType
+                                        ? productTypeSlugs[productType]
+                                        : '-'}
+                                </TableCell>
+                                <TableCell className='text-neutral-500'>
+                                    {`${productWidth}" x ${productHeight}"`}
+                                </TableCell>
+                                <TableCell className='text-neutral-500'>
+                                    {productFrame
+                                        ? productFrameSlugs[productFrame]
+                                        : '-'}
+                                </TableCell>
+                                <TableCell className='text-neutral-500'>
+                                    {productEdge
+                                        ? productEdgeSlugs[productEdge]
+                                        : '-'}
+                                </TableCell>
+                                <TableCell className='text-right text-neutral-500'>
+                                    {formatCurrency(productPrice)}
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+            )}
+        </Table>
+    )
+}
+
+const Orders = async ({ params }: { params: { userID: string } }) => {
     /**
-     * Get the sessionClaims from auth()
+     * Get sessionClaims from auth()
      */
     const { sessionClaims } = auth()
 
-    // Get session claims tokens with fallbacks
+    /**
+     * Get custom sessionClaims tokens with fallbacks
+     */
     const fullName = sessionClaims?.fullName || ''
     const primaryEmail = sessionClaims?.primaryEmail || ''
 
@@ -121,89 +198,9 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
                 </PageHeader>
 
                 <PageSection>
-                    <Table>
-                        <TableCaption>
-                            A list of your Print Orders.
-                        </TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className='w-[100px]'>
-                                    Order ID
-                                </TableHead>
-                                <TableHead>Date</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Size</TableHead>
-                                <TableHead>Frame</TableHead>
-                                <TableHead>Edge</TableHead>
-                                <TableHead className='text-right'>
-                                    Total
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        {orders && (
-                            <TableBody>
-                                {orders.map((order, index) => {
-                                    // Get order data properties
-                                    const id: string = order.id
-                                    const createdAt: Date = order.createdAt
-                                    const productPrice: number =
-                                        order.productPrice
-                                    const productWidth: number =
-                                        order.productWidth
-                                    const productHeight: number =
-                                        order.productHeight
-                                    const productType: ProductType =
-                                        order.productType
-                                    const productFrame: ProductFrame =
-                                        order.productFrame
-                                    const productEdge: ProductEdge =
-                                        order.ProductEdge
-
-                                    return (
-                                        <TableRow
-                                            key={index}
-                                            className='border-neutral-400/25'>
-                                            <TableCell className='font-medium'>
-                                                {id}
-                                            </TableCell>
-                                            <TableCell className='text-neutral-500'>
-                                                {createdAt.toLocaleDateString()}
-                                            </TableCell>
-                                            <TableCell className='text-neutral-500'>
-                                                {productType
-                                                    ? productTypeSlugs[
-                                                          productType
-                                                      ]
-                                                    : '-'}
-                                            </TableCell>
-                                            <TableCell className='text-neutral-500'>
-                                                {`${order.productWidth}" x ${order.productHeight}"`}
-                                            </TableCell>
-                                            <TableCell className='text-neutral-500'>
-                                                {productFrame
-                                                    ? productFrameSlugs[
-                                                          productFrame
-                                                      ]
-                                                    : '-'}
-                                            </TableCell>
-                                            <TableCell className='text-neutral-500'>
-                                                {productEdge
-                                                    ? productEdgeSlugs[
-                                                          productEdge
-                                                      ]
-                                                    : '-'}
-                                            </TableCell>
-                                            <TableCell className='text-right text-neutral-500'>
-                                                {formatCurrency(
-                                                    order.productPrice
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        )}
-                    </Table>
+                    <Suspense fallback={<TableSkeleton />}>
+                        <OrdersTable />
+                    </Suspense>
                 </PageSection>
             </div>
         </>

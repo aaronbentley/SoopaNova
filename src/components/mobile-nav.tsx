@@ -2,17 +2,22 @@
 
 import { links } from '@/assets/data/links'
 import { cn } from '@/lib/utils'
+import { SignedIn, useAuth } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { navigationMenuTriggerStyle } from './ui/navigation-menu'
 import { ScrollArea } from './ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
 const MobileNav = () => {
-    const [open, setOpen] = React.useState(false)
+    // Get the auth state
+    const { userId } = useAuth()
+
+    // Handle menu state
+    const [open, setOpen] = useState(false)
 
     return (
         <Sheet
@@ -29,7 +34,7 @@ const MobileNav = () => {
             </SheetTrigger>
             <SheetContent
                 side='left'
-                className='pr-0 pl-8'>
+                className='pr-0 pl-8 border-pink-500/25'>
                 <MobileLink
                     href='/'
                     className='flex items-center'
@@ -57,6 +62,13 @@ const MobileNav = () => {
                                 {link.label}
                             </MobileLink>
                         ))}
+                        <SignedIn>
+                            <MobileLink
+                                href={`/orders/${userId}/`}
+                                onOpenChange={setOpen}>
+                                Orders
+                            </MobileLink>
+                        </SignedIn>
                     </div>
                 </ScrollArea>
             </SheetContent>
