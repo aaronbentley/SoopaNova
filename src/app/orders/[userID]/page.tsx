@@ -30,12 +30,17 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-// export const dynamic = 'force-dynamic'
-
-export const metadata: Metadata = {
+export const generateMetadata = async ({
+    params
+}: {
+    params: { userID: string }
+}): Promise<Metadata> => ({
     title: 'Orders',
-    description: 'Print Orders.'
-}
+    description: 'Print Orders.',
+    openGraph: {
+        url: `/orders/${params.userID}/`
+    }
+})
 
 /**
  * Initialize Firebase Admin SDK

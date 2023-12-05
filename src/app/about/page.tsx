@@ -5,10 +5,13 @@ import {
 } from '@/components/page-header'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
+export const generateMetadata = async (): Promise<Metadata> => ({
     title: 'About',
-    description: 'Let me tell you a story.'
-}
+    description: 'Let me tell you a story.',
+    openGraph: {
+        url: '/about/'
+    }
+})
 
 const About = () => {
     return (

@@ -4,7 +4,8 @@ const robots = (): MetadataRoute.Robots => {
     return {
         rules: {
             userAgent: '*',
-            allow: '/'
+            allow: '/',
+            disallow: '/orders/'
         },
         sitemap: `${process.env.APP_URL!}/sitemap.xml`
     }

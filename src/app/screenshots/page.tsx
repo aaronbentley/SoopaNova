@@ -13,11 +13,14 @@ import {
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+export const generateMetadata = async (): Promise<Metadata> => ({
     title: 'Screenshots',
     description:
-        "Here's how to get your gaming screenshots, ready to create awesome prints."
-}
+        "Here's how to get your gaming screenshots, ready to create awesome prints.",
+    openGraph: {
+        url: '/screenshots/'
+    }
+})
 
 const Screenshots = () => {
     return (

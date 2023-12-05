@@ -6,11 +6,14 @@ import {
 import UploadFile from '@/components/upload-file'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-    title: 'Create Prints',
+export const generateMetadata = async (): Promise<Metadata> => ({
+    title: 'Create',
     description:
-        'Transform your gaming screenshots into mighty-fine artwork for your space.'
-}
+        'Transform your gaming screenshots into mighty-fine artwork for your space.',
+    openGraph: {
+        url: '/create/'
+    }
+})
 
 const Create = () => {
     return (
