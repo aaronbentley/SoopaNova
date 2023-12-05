@@ -219,6 +219,16 @@ const CanvasPopCartEventListener = () => {
 
                             // Update the product frame
                             setProductFrame(eventArgs.slug)
+
+                            /**
+                             * Remove the edge option if the frame selection is:
+                             * 'BF' (black wood)
+                             * 'WF' (white wood)
+                             */
+                            if (['BF', 'WF'].includes(eventArgs.slug)) {
+                                setProductEdge(null)
+                            }
+
                             break
 
                         // User changed edge option from drop down menu
@@ -417,14 +427,14 @@ const CanvasPopCartEventListener = () => {
     ])
 
     // Debug
-    // console.info('📘 State:', {
-    //     type: productType,
-    //     width: productWidth,
-    //     height: productHeight,
-    //     frame: productFrame,
-    //     edge: productEdge,
-    //     price: productPrice
-    // })
+    console.info('📘 State:', {
+        type: productType,
+        width: productWidth,
+        height: productHeight,
+        frame: productFrame,
+        edge: productEdge,
+        price: productPrice
+    })
 
     return null
 }

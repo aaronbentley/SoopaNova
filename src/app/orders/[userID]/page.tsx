@@ -97,7 +97,7 @@ const getOrders = async () => {
                 productHeight: doc.data().productHeight,
                 productType: doc.data().productType,
                 productFrame: doc.data().productFrame,
-                ProductEdge: doc.data().ProductEdge,
+                productEdge: doc.data().productEdge,
                 createdAt: doc.data().createdAt.toDate()
             })
         })
@@ -169,7 +169,7 @@ const OrdersTable = async () => {
                         const productHeight: number = order.productHeight
                         const productType: ProductType = order.productType
                         const productFrame: ProductFrame = order.productFrame
-                        const productEdge: ProductEdge = order.ProductEdge
+                        const productEdge: ProductEdge = order.productEdge
 
                         return (
                             <TableRow
