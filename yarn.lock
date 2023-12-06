@@ -24,10 +24,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@clerk/backend@0.34.2":
-  version "0.34.2"
-  resolved "https://registry.yarnpkg.com/@clerk/backend/-/backend-0.34.2.tgz#5a66526dc60bfdc7017bef8d346a824b056d7425"
-  integrity sha512-ouulkcT6kfbAPw3w0vbkl758KzQ2y9UUnuhRJ5dY3SPGNjJnpes1BNETLnA1O3llZVV5yYexluhee4XmFcwV3A==
+"@clerk/backend@0.34.3":
+  version "0.34.3"
+  resolved "https://registry.yarnpkg.com/@clerk/backend/-/backend-0.34.3.tgz#cc5c28c221a1cdfe15a927908c3642a7274101af"
+  integrity sha512-0QZuWl02PR+g9jx87uEib0ZcEYfZOcn3/dob5zV0T7N/ELfC+R7Ir0EXUWyzlnz3R8lqDGKP4vYsbrFAGIdguw==
   dependencies:
     "@clerk/shared" "1.1.1"
     "@clerk/types" "3.58.0"
@@ -48,12 +48,12 @@
     "@clerk/types" "3.58.0"
     tslib "2.4.1"
 
-"@clerk/clerk-sdk-node@4.12.22":
-  version "4.12.22"
-  resolved "https://registry.yarnpkg.com/@clerk/clerk-sdk-node/-/clerk-sdk-node-4.12.22.tgz#d584427848764952cbd010bed06114fa969d217f"
-  integrity sha512-O1PWDzmECO8VoGEZG8m2QYkJzDDMiUqTGsn73u3ki1V2bX24BeFokSKlsLgklgpVXUhSeKp8A8wBrDOOY2Qpew==
+"@clerk/clerk-sdk-node@4.12.23":
+  version "4.12.23"
+  resolved "https://registry.yarnpkg.com/@clerk/clerk-sdk-node/-/clerk-sdk-node-4.12.23.tgz#286f5c30f2042366701975ec48724397603f930a"
+  integrity sha512-i+BC+cWOASHxlemZp8yPpEEA0pp9iDaM4ejnn2tOyuMgFNAPRhXpE2f7mF6EuyTQ/ST3ZoxUsq7zAL1B4XE5Nw==
   dependencies:
-    "@clerk/backend" "0.34.2"
+    "@clerk/backend" "0.34.3"
     "@clerk/shared" "1.1.1"
     "@clerk/types" "3.58.0"
     "@types/cookies" "0.7.7"
@@ -63,14 +63,14 @@
     snakecase-keys "3.2.1"
     tslib "2.4.1"
 
-"@clerk/nextjs@^4.27.3":
-  version "4.27.3"
-  resolved "https://registry.yarnpkg.com/@clerk/nextjs/-/nextjs-4.27.3.tgz#cdcc807ffbf78b673974daf7ec1ed3c879548ab0"
-  integrity sha512-AbOr1t+xwKexzdenOP06NQlYZSL40yHPVffznB53OhZgrrOvl+xPeprcA0RkamB18wunGWUuu7vjvQmhk7Ktcw==
+"@clerk/nextjs@^4.27.4":
+  version "4.27.4"
+  resolved "https://registry.yarnpkg.com/@clerk/nextjs/-/nextjs-4.27.4.tgz#5503241a4a085a761080cc02ebf9165a08e98152"
+  integrity sha512-ZMygMDjSAapx2S/HKMTrm80EtzQfR4rYNAq/8/a0pnjAgYIm1Bi+ero5hbNOO5Fo66mfy98fXNCAkqxwkKIodw==
   dependencies:
-    "@clerk/backend" "0.34.2"
+    "@clerk/backend" "0.34.3"
     "@clerk/clerk-react" "4.28.2"
-    "@clerk/clerk-sdk-node" "4.12.22"
+    "@clerk/clerk-sdk-node" "4.12.23"
     "@clerk/shared" "1.1.1"
     "@clerk/types" "3.58.0"
     path-to-regexp "6.2.1"
@@ -163,12 +163,12 @@
     "@firebase/util" "1.9.3"
     tslib "^2.1.0"
 
-"@firebase/app-check-compat@0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@firebase/app-check-compat/-/app-check-compat-0.3.7.tgz#e150f61d653a0f2043a34dcb995616a717161839"
-  integrity sha512-cW682AxsyP1G+Z0/P7pO/WT2CzYlNxoNe5QejVarW2o5ZxeWSSPAiVEwpEpQR/bUlUmdeWThYTMvBWaopdBsqw==
+"@firebase/app-check-compat@0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@firebase/app-check-compat/-/app-check-compat-0.3.8.tgz#b71d324c27d49f2a9cab7c5aeab84e1350bd87a9"
+  integrity sha512-EaETtChR4UgMokJFw+r6jfcIyCTUZSe0a6ivF37D9MxlG9G3wzK1COyXgxoX96GzXmDPc2aubX4PxCrdVHhrnA==
   dependencies:
-    "@firebase/app-check" "0.8.0"
+    "@firebase/app-check" "0.8.1"
     "@firebase/app-check-types" "0.5.0"
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -185,22 +185,22 @@
   resolved "https://registry.yarnpkg.com/@firebase/app-check-types/-/app-check-types-0.5.0.tgz#1b02826213d7ce6a1cf773c329b46ea1c67064f4"
   integrity sha512-uwSUj32Mlubybw7tedRzR24RP8M8JUVR3NPiMk3/Z4bCmgEKTlQBwMXrehDAZ2wF+TsBq0SN1c6ema71U/JPyQ==
 
-"@firebase/app-check@0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@firebase/app-check/-/app-check-0.8.0.tgz#b531ec40900af9c3cf1ec63de9094a0ddd733d6a"
-  integrity sha512-dRDnhkcaC2FspMiRK/Vbp+PfsOAEP6ZElGm9iGFJ9fDqHoPs0HOPn7dwpJ51lCFi1+2/7n5pRPGhqF/F03I97g==
+"@firebase/app-check@0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@firebase/app-check/-/app-check-0.8.1.tgz#df335c896552d76783b06a6be0fc2ff1bc423f03"
+  integrity sha512-zi3vbM5tb/eGRWyiqf+1DXbxFu9Q07dnm46rweodgUpH9B8svxYkHfNwYWx7F5mjHU70SQDuaojH1We5ws9OKA==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
     "@firebase/util" "1.9.3"
     tslib "^2.1.0"
 
-"@firebase/app-compat@0.2.24":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@firebase/app-compat/-/app-compat-0.2.24.tgz#be9e6cb3e8bcfa48d657d155a6c069c9153ce29d"
-  integrity sha512-+l+vvxXGfPtb1oRQaqbNJWq/QWuC2n2njI/XLNMu2lu5sSLbdDOXHzidr6fbaLOOpESo4Gnagimp5dSnGQnaVg==
+"@firebase/app-compat@0.2.25":
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/@firebase/app-compat/-/app-compat-0.2.25.tgz#214bfd602994966ed765247ba8f6948b9eb0985e"
+  integrity sha512-B/JtCp1FsTuzlh1tIGQpYM2AXps21/zlzpFsk5LRsROOTRhBcR2N45AyaONPFD06C0yS0Tw19foxADzHyOSC3A==
   dependencies:
-    "@firebase/app" "0.9.24"
+    "@firebase/app" "0.9.25"
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
     "@firebase/util" "1.9.3"
@@ -211,10 +211,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.9.0.tgz#35b5c568341e9e263b29b3d2ba0e9cfc9ec7f01e"
   integrity sha512-AeweANOIo0Mb8GiYm3xhTEBVCmPwTYAu9Hcd2qSkLuga/6+j9b1Jskl5bpiSQWy9eJ/j5pavxj6eYogmnuzm+Q==
 
-"@firebase/app@0.9.24":
-  version "0.9.24"
-  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.9.24.tgz#1a2aaf8bbf297b228e943b988397a1435f9474f5"
-  integrity sha512-hka/F1zNZ1mNE1cEj0uP6WNltuTZNldHkyqNLYCvfkXT4Ly+pChuUheRl0qccDWFLws9HyVXCNTtlfMmR+iq4w==
+"@firebase/app@0.9.25":
+  version "0.9.25"
+  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.9.25.tgz#411607c9d11f2d2d66c9b1a0de2ffa6d1232261c"
+  integrity sha512-fX22gL5USXhOK21Hlh3oTeOzQZ6th6S2JrjXNEpBARmwzuUkqmVGVdsOCIFYIsLpK0dQE3o8xZnLrRg5wnzZ/g==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -222,12 +222,12 @@
     idb "7.1.1"
     tslib "^2.1.0"
 
-"@firebase/auth-compat@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.5.0.tgz#d94fcc250974758ff95c3a2d36d6b3a57e982823"
-  integrity sha512-jinbExdXRIDHEcNRQiQbz3qykWl7mvIXKNNLbbBqv04LWrsflhDgX54axfy3RIrZhiD8nD1btwSzJrZkt8jL8A==
+"@firebase/auth-compat@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.5.1.tgz#2a8a3ce05520bfa1e73f8c2caa1c9eb81d2df25e"
+  integrity sha512-rgDZnrDoekRvtzXVji8Z61wxxkof6pTkjYEkybILrjM8tGP9tx4xa9qGpF4ax3AzF+rKr7mIa9NnoXEK4UNqmQ==
   dependencies:
-    "@firebase/auth" "1.5.0"
+    "@firebase/auth" "1.5.1"
     "@firebase/auth-types" "0.12.0"
     "@firebase/component" "0.6.4"
     "@firebase/util" "1.9.3"
@@ -244,10 +244,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.12.0.tgz#f28e1b68ac3b208ad02a15854c585be6da3e8e79"
   integrity sha512-pPwaZt+SPOshK8xNoiQlK5XIrS97kFYc3Rc7xmy373QsOJ9MmqXxLaYssP5Kcds4wd2qK//amx/c+A8O2fVeZA==
 
-"@firebase/auth@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-1.5.0.tgz#324c721ee4bf656c489d50833b371ffae296a732"
-  integrity sha512-GWkG0j/vy7MVK8qN5DLToJ/UdaP7cjJ2ksHeb8oqWZe5KoJJVqz2+Wg2fqH/hLRIXarj6KQH0ZvEOXGvFXFHmA==
+"@firebase/auth@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-1.5.1.tgz#214718a45cbdf6bdbe5086e92a70d1a0fea61962"
+  integrity sha512-sVi7rq2YneLGJFqHa5S6nDfCHix9yuVV3RLhj/pWPlB4a36ofXal4E6PJwpeMc8uLjWEr1aovYN1jkXWNB6Avw==
   dependencies:
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -263,13 +263,13 @@
     "@firebase/util" "1.9.3"
     tslib "^2.1.0"
 
-"@firebase/database-compat@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@firebase/database-compat/-/database-compat-1.0.1.tgz#ab0acbbfb0031080cc16504cef6d00c95cf27ff1"
-  integrity sha512-ky82yLIboLxtAIWyW/52a6HLMVTzD2kpZlEilVDok73pNPLjkJYowj8iaIWK5nTy7+6Gxt7d00zfjL6zckGdXQ==
+"@firebase/database-compat@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@firebase/database-compat/-/database-compat-1.0.2.tgz#be6e91fcac6cb392fb7f9285e065c115c810ae5f"
+  integrity sha512-09ryJnXDvuycsxn8aXBzLhBTuCos3HEnCOBWY6hosxfYlNCGnLvG8YMlbSAt5eNhf7/00B095AEfDsdrrLjxqA==
   dependencies:
     "@firebase/component" "0.6.4"
-    "@firebase/database" "1.0.1"
+    "@firebase/database" "1.0.2"
     "@firebase/database-types" "1.0.0"
     "@firebase/logger" "0.4.0"
     "@firebase/util" "1.9.3"
@@ -315,11 +315,12 @@
     faye-websocket "0.11.4"
     tslib "^2.1.0"
 
-"@firebase/database@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-1.0.1.tgz#28830f1d0c05ec2f7014658a3165129cec891bcb"
-  integrity sha512-VAhF7gYwunW4Lw/+RQZvW8dlsf2r0YYqV9W0Gi2Mz8+0TGg1mBJWoUtsHfOr8kPJXhcLsC4eP/z3x6L/Fvjk/A==
+"@firebase/database@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@firebase/database/-/database-1.0.2.tgz#2d13768f7920715065cc8c65d96cc38179008c13"
+  integrity sha512-8X6NBJgUQzDz0xQVaCISoOLINKat594N2eBbMR3Mu/MH/ei4WM+aAMlsNzngF22eljXu1SILP5G3evkyvsG3Ng==
   dependencies:
+    "@firebase/app-check-interop-types" "0.3.0"
     "@firebase/auth-interop-types" "0.2.1"
     "@firebase/component" "0.6.4"
     "@firebase/logger" "0.4.0"
@@ -703,10 +704,10 @@
   dependencies:
     lodash "^4.17.21"
 
-"@next/env@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/env/-/env-14.0.4-canary.41.tgz#29f40c9a58d8da46d04012c3d8e6c38ca6d8542a"
-  integrity sha512-q5ia0tB65XxTZNDuKkAT19sZSXLa2yHXWdxyqlLBAy0UXuECycxLzOXFD3Ix5L5qNygmj+R5U6mrySxqBMMp1w==
+"@next/env@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/env/-/env-14.0.4-canary.44.tgz#6ffc78e54b898a57b3626410ee34432e638a07dc"
+  integrity sha512-+s8hbw62BhlDP1gXgdEuZaIUXmA2rBtxPzm3PCAgP4ICk7Z+r3FLS536nWVLvnxfDjEg70cebSWEMp8wnRRSvw==
 
 "@next/eslint-plugin-next@14.0.3":
   version "14.0.3"
@@ -715,50 +716,50 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-darwin-arm64@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.0.4-canary.41.tgz#83ed8e26e6a25d675e5ad69838323870f88dc734"
-  integrity sha512-K5nKQB/iVisfJwg2KuJSvnAqLbfhqr/WYUxvz0wSHrVTkBl9G0EDw0d5yDdInZVmH6dIZQA7V9EHcuk9XycO4Q==
+"@next/swc-darwin-arm64@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.0.4-canary.44.tgz#eb55367cb55d3375d837d9f07176888e99fe59d6"
+  integrity sha512-isTnz0JasRST+uJIA8xFofpfn+QyBgtfn3IrFmPYqhw8B65AhAUlssWoCpDCF3K0V0zBNjKOkEx5uE/sznSu8g==
 
-"@next/swc-darwin-x64@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-14.0.4-canary.41.tgz#6b7c54e33e9b1d5725f1088cf4558a474d5241fb"
-  integrity sha512-WR/ijMN2r+/ayrNi/ubOXlx1F8++QqjcwlLxXcP1gA9UxQ1sgYT+q6Cddnd63YUFS5ha1cuVOnCxbY1e01DAVQ==
+"@next/swc-darwin-x64@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-14.0.4-canary.44.tgz#113f6872cf1b0e934aded919c2962053c97afade"
+  integrity sha512-J9TCAPaI//XTmAyw/AGxH40BwxvJYD8C6Ddz1kENVmOhu5qJSPnl8KJzKeToFxjE2dpbtXX9OYdu3Uh4zLo/cQ==
 
-"@next/swc-linux-arm64-gnu@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.0.4-canary.41.tgz#0ee85966718b075dfcf5b5ae751413b5c5f27173"
-  integrity sha512-TAVAJn4dI8SqA1/Qn8d6PRq4xA/j8BI8BQNoosWRtCJoHUo6oKul7B4HELmC9kN2A+N4ZwTVpaCM9IELiR8New==
+"@next/swc-linux-arm64-gnu@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.0.4-canary.44.tgz#ce3c3549b09cc32b4b7b5d5f69b11c6264cbb2f5"
+  integrity sha512-qWTrm8FEiTJlLsLX2s+WzhlpwyKc/QLfKUD1kFzeQ2381v5MFOgcHZFMdQQBaw8OZMssUoYqm/HuHcsNn5IQWw==
 
-"@next/swc-linux-arm64-musl@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.0.4-canary.41.tgz#e426e55477808495f16b9af8fb8a1aaec9d7e749"
-  integrity sha512-K9IKJzj+g4RmFLXq4Jbth6ZDU/dk6Bs36EVkgTxjYEWSPOhhBwIn8WPOKVsEt2WQqBiOgK9gfqtNKrK4DaAHKw==
+"@next/swc-linux-arm64-musl@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.0.4-canary.44.tgz#56b5c6cfff8e61eeb5ff1d6390397bc917d503f5"
+  integrity sha512-wBFmv9u7dktWJaa8NMa7f/4Znoa1yRVEWfGzXoCthEV3CH2r2+nOaCFtjtXn+QNyHeaw/qlK4z5IAXcE+DYPUg==
 
-"@next/swc-linux-x64-gnu@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.0.4-canary.41.tgz#7d51818988bce82c258857e2b7f9085426e269a0"
-  integrity sha512-oJuwTgwjgHoTKV1L5ZSUUUhcx6kW1A0M4rur+qZV0ZVHf16VRSaYJ03JUg3c2KnPCehrpDok13PdaJDRVza+1A==
+"@next/swc-linux-x64-gnu@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.0.4-canary.44.tgz#43f6ca87fa7a515b4f273aa55c80db2dee9c88b9"
+  integrity sha512-MeONYwB2xHPARJ7A87ZzaKQdAj5QpqQgWEt2voo58kPG00BkaSVIuyur+JkM+VutI4pWBGcoFYXdHnGWpf/dNQ==
 
-"@next/swc-linux-x64-musl@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.0.4-canary.41.tgz#3cd63e5cf28f54172a505d684ae4e0667855b6ae"
-  integrity sha512-dXVWe7y0Cir369sCuH+NfssejFlnQM4RPCkOrxK+/HoNSt/muhGQ+sR4ybhc/T5LbOSSlwzhqpMVXy4IzsXEUQ==
+"@next/swc-linux-x64-musl@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.0.4-canary.44.tgz#6fd6cf59086191e5a7c6ce7e7ee1cd693507c4dd"
+  integrity sha512-V7v+AzKyHhNJf42wY5zU2spEkiXzSgAwY47ra3mD494o6CcUScBlfUHP5i/k+6YLcnz+hG6I9ntiy/axIyW0sg==
 
-"@next/swc-win32-arm64-msvc@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.0.4-canary.41.tgz#c168017e6a0a5d7bf2d7ca965a78e602841df79e"
-  integrity sha512-YKfhpyAtHjnj+eJyy/bqopz8wliJbG/J6B8GIZI9BL6h+6OB/BTpmrsPy/wqhqMsS3jZAHfYAVGlpgHBFfl0Ng==
+"@next/swc-win32-arm64-msvc@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.0.4-canary.44.tgz#b2f3fb90be10321a106e3648263a9f93cba8c331"
+  integrity sha512-FSlkV8yUqyyQ5qSK8p3r3SMcdZbR7XARzoUL/SUWbModrboZORCtjqPgR/HgHw0Sy5kfvKM6riCVF3WcZRI7lg==
 
-"@next/swc-win32-ia32-msvc@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.0.4-canary.41.tgz#10de991c271c5b5df16a0704ca2cba3a0c4f69aa"
-  integrity sha512-W9MhZYVIPsIruoUfiAuzuIU6XbTiupopy9iy1q3exhhNx1w7eNbgxcXa6T1vLqIP6oD3lLb8XjZKGOU4QwlcVQ==
+"@next/swc-win32-ia32-msvc@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.0.4-canary.44.tgz#4436b793f1363693fd29fa9b1609bd91827ceafa"
+  integrity sha512-f50SbHSOgPe45h+OjtLM9U1KL+cnel7vL4ApC7ooSan720loJpqeBElosS+N9eiFkDYQVHbaWpuPQfC/IpFpIw==
 
-"@next/swc-win32-x64-msvc@14.0.4-canary.41":
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.0.4-canary.41.tgz#34940a9f5a276271d786bf99f154e19a20d261e5"
-  integrity sha512-M6IsKZsw2KdasiZKxVsc7Bw33VYUZwg2jbuWMwe9J6q0cRS1WNXVYhMKVcPm52EOIAy6FjjSQI6RhZ7RPJ0v6Q==
+"@next/swc-win32-x64-msvc@14.0.4-canary.44":
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.0.4-canary.44.tgz#835738887fba971c5541251605f1d575b119175a"
+  integrity sha512-ZWPAxzrmoaYx8ZF6oSxIVRZc261wgkqXydRJjoerRP8Bi/dUMIERHP3gtXwa9IWBpwcGIyVfwSCDhuyoWEAjLQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2635,22 +2636,22 @@ firebase-admin@^11.11.1:
     "@google-cloud/firestore" "^6.8.0"
     "@google-cloud/storage" "^6.9.5"
 
-firebase@^10.7.0:
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.7.0.tgz#429f397694088c92070338db1fb439943fb9f2e4"
-  integrity sha512-t6ZwJQhmq0m7kSssVeu5a1DdmZ0YEBWgNFtpmcvU3PiffWdGVlri6yaX/BK5i4cRtGuQjVPPAEmB90TCpLF5GQ==
+firebase@^10.7.1:
+  version "10.7.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.7.1.tgz#71fa17a10146f388746ecc216a3e1e477a7bf9b5"
+  integrity sha512-Mlt7y7zQ43FtKp4SCyYie3tnrOL3UMF2XXiV4ZXMrC0d0wtcOYmABuybhkJpJCKILpdekxr39wjnaai0DZlWFg==
   dependencies:
     "@firebase/analytics" "0.10.0"
     "@firebase/analytics-compat" "0.2.6"
-    "@firebase/app" "0.9.24"
-    "@firebase/app-check" "0.8.0"
-    "@firebase/app-check-compat" "0.3.7"
-    "@firebase/app-compat" "0.2.24"
+    "@firebase/app" "0.9.25"
+    "@firebase/app-check" "0.8.1"
+    "@firebase/app-check-compat" "0.3.8"
+    "@firebase/app-compat" "0.2.25"
     "@firebase/app-types" "0.9.0"
-    "@firebase/auth" "1.5.0"
-    "@firebase/auth-compat" "0.5.0"
-    "@firebase/database" "1.0.1"
-    "@firebase/database-compat" "1.0.1"
+    "@firebase/auth" "1.5.1"
+    "@firebase/auth-compat" "0.5.1"
+    "@firebase/database" "1.0.2"
+    "@firebase/database-compat" "1.0.2"
     "@firebase/firestore" "4.4.0"
     "@firebase/firestore-compat" "0.3.23"
     "@firebase/functions" "0.11.0"
@@ -3743,12 +3744,12 @@ next-themes@^0.2.1:
   resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.2.1.tgz#0c9f128e847979daf6c67f70b38e6b6567856e45"
   integrity sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==
 
-next@14.0.4-canary.41:
-  version "14.0.4-canary.41"
-  resolved "https://registry.yarnpkg.com/next/-/next-14.0.4-canary.41.tgz#1824157898286fb0ccc940ec7d9fa0fc7ec9c464"
-  integrity sha512-djYxNpleE80oldK1j5MLDMWESVQZjbPDQNW3JvH9poYeyV5YhRZRomySqXUO/cgnwH52QVn4V7rJlssb0C+lAQ==
+next@14.0.4-canary.44:
+  version "14.0.4-canary.44"
+  resolved "https://registry.yarnpkg.com/next/-/next-14.0.4-canary.44.tgz#e47a3799964e4e9cc301290f9cfa8e94a2ee73c9"
+  integrity sha512-FhUW9ldHXs/bJ72PP54zmJavDC3aAuJQPUkhLeCgBydLdBGrcRIeTOs2Tesuy3K/HkrSyy4iiFEQl7LxWQpfVA==
   dependencies:
-    "@next/env" "14.0.4-canary.41"
+    "@next/env" "14.0.4-canary.44"
     "@swc/helpers" "0.5.2"
     busboy "1.6.0"
     caniuse-lite "^1.0.30001406"
@@ -3757,15 +3758,15 @@ next@14.0.4-canary.41:
     styled-jsx "5.1.1"
     watchpack "2.4.0"
   optionalDependencies:
-    "@next/swc-darwin-arm64" "14.0.4-canary.41"
-    "@next/swc-darwin-x64" "14.0.4-canary.41"
-    "@next/swc-linux-arm64-gnu" "14.0.4-canary.41"
-    "@next/swc-linux-arm64-musl" "14.0.4-canary.41"
-    "@next/swc-linux-x64-gnu" "14.0.4-canary.41"
-    "@next/swc-linux-x64-musl" "14.0.4-canary.41"
-    "@next/swc-win32-arm64-msvc" "14.0.4-canary.41"
-    "@next/swc-win32-ia32-msvc" "14.0.4-canary.41"
-    "@next/swc-win32-x64-msvc" "14.0.4-canary.41"
+    "@next/swc-darwin-arm64" "14.0.4-canary.44"
+    "@next/swc-darwin-x64" "14.0.4-canary.44"
+    "@next/swc-linux-arm64-gnu" "14.0.4-canary.44"
+    "@next/swc-linux-arm64-musl" "14.0.4-canary.44"
+    "@next/swc-linux-x64-gnu" "14.0.4-canary.44"
+    "@next/swc-linux-x64-musl" "14.0.4-canary.44"
+    "@next/swc-win32-arm64-msvc" "14.0.4-canary.44"
+    "@next/swc-win32-ia32-msvc" "14.0.4-canary.44"
+    "@next/swc-win32-x64-msvc" "14.0.4-canary.44"
 
 no-case@^3.0.4:
   version "3.0.4"

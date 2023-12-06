@@ -4,21 +4,27 @@ import { authMiddleware } from '@clerk/nextjs'
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 
-const middleware = authMiddleware({
-    // export default authMiddleware({
+// const middleware = authMiddleware({
+export default authMiddleware({
     // Public routes accessible to all users
     publicRoutes: [
         '/',
         '/screenshots(.*)',
         '/faq/',
         '/about/',
-        '/not-found(.*)'
+        // '/not-found(.*)',
+        '/not-found/'
     ],
-    ignoredRoutes: ['/opengraph-image/', '/icon/'],
+    // Ignored routes - no auth is actioned
+    ignoredRoutes: [
+        '/opengraph-image/',
+        '/icon/'
+        // '/not-found/'
+    ],
     debug: false
 })
 
-export default middleware
+// export default middleware
 
 export const config = {
     matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']

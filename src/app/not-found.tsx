@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: "We couldn't find the requested resource."
 }
 
-const NotFound = () => (
+const NotFound = async () => (
     <>
         <Hero className='h-screen sm:h-full'>
             <HeroHeading>Page Not Found</HeroHeading>
