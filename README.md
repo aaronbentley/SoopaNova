@@ -4,6 +4,13 @@ Here's hoping I make something cool and preferably, profitable.
 
 ## Todosies
 
+### Branding
+
+- [ ] Opengraph image - use Geist Sans font
+- [ ] icon - use Geist Sans font
+- [ ] favicon - use Geist Sans font
+- [ ] Social media assets
+
 ### Dev
 
 - [ ] Check image resolution
@@ -13,8 +20,7 @@ Here's hoping I make something cool and preferably, profitable.
 
 ### Content
 
-- [ ] Frontpage - add frontpage section "Download your screenshots" 3 cards
-- [ ] Create - pretty up "upload UI" - add 3x cards for products "Poster Prints", "Canvas Prints" and "Framed Prints"
+- [x] Frontpage - add frontpage section "Download your screenshots" 3 cards
 - [ ] Screenshots - how to get your screenshot files (Xbox/PS/PC/Nintendo?)
 - [ ] About - what is SoopaNova?
 - [x] FAQ - add "how to download screenshots" - link to Screenshots page
