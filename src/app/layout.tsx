@@ -9,6 +9,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import resolveConfig from 'tailwindcss/resolveConfig'
@@ -107,6 +108,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         </TooltipProvider>
                     </ThemeProvider>
                     <Analytics />
+                    <SpeedInsights />
                 </body>
             </html>
         </ClerkProvider>
