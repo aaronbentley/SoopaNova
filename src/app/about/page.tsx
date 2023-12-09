@@ -7,7 +7,7 @@ import { Metadata } from 'next'
 
 export const generateMetadata = async (): Promise<Metadata> => ({
     title: 'About',
-    description: 'Let me tell you a story.',
+    description: 'Wanna hear a story?',
     openGraph: {
         url: '/about/'
     }
@@ -20,7 +20,7 @@ const About = () => {
                 <PageHeader>
                     <PageHeaderHeading>About</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Let me tell you a story.
+                        Wanna hear a story?
                     </PageHeaderDescription>
                 </PageHeader>
             </div>

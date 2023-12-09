@@ -9,23 +9,29 @@ export default authMiddleware({
     // Public routes accessible to all users
     publicRoutes: [
         '/',
-        '/screenshots(.*)',
-        '/faq/',
-        '/about/',
-        // '/not-found(.*)',
-        '/not-found/'
+        '/screenshots/(.*)',
+        '/faq',
+        '/about',
+        '/not-found',
+        '/opengraph-image',
+        '/icon'
     ],
     // Ignored routes - no auth is actioned
-    ignoredRoutes: [
-        '/opengraph-image/',
-        '/icon/'
-        // '/not-found/'
-    ],
+    // ignoredRoutes: [
+    //     '/opengraph-image',
+    //     '/icon'
+    //     // '/not-found/'
+    // ],
     debug: false
 })
 
 // export default middleware
 
 export const config = {
-    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
+    matcher: [
+        // '/',
+        '/',
+        '/((?!.+\\.[\\w]+$|_next).*)',
+        '/(api|trpc)(.*)'
+    ]
 }
