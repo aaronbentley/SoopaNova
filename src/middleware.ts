@@ -17,21 +17,12 @@ export default authMiddleware({
         '/icon'
     ],
     // Ignored routes - no auth is actioned
-    // ignoredRoutes: [
-    //     '/opengraph-image',
-    //     '/icon'
-    //     // '/not-found/'
-    // ],
+    // ignoredRoutes: ['/not-found'],
     debug: false
 })
 
 // export default middleware
 
 export const config = {
-    matcher: [
-        // '/',
-        '/',
-        '/((?!.+\\.[\\w]+$|_next).*)',
-        '/(api|trpc)(.*)'
-    ]
+    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
 }
