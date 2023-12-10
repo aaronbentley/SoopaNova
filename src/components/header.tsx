@@ -2,7 +2,6 @@ import { cn } from '@/lib/utils'
 import {
     ClerkLoaded,
     ClerkLoading,
-    // SignUpButton,
     SignInButton,
     SignedIn,
     SignedOut,

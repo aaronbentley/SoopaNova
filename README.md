@@ -6,10 +6,10 @@ Here's hoping I make something cool and preferably, profitable.
 
 ### Branding
 
-- [ ] Opengraph image - use Geist Sans font
-- [ ] icon - use Geist Sans font
-- [ ] favicon - use Geist Sans font
-- [ ] Social media assets
+- [x] Opengraph image - use Geist Sans font
+- [x] icon - use Geist Sans font
+- [x] favicon - use Geist Sans font
+- [x] Social media assets
 
 ### Dev
 

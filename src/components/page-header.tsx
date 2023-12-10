@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import Balance from 'react-wrap-balancer'
+import { Typography } from './typography'
 import { Separator } from './ui/separator'
 
 export const PageHeader = ({
@@ -25,11 +26,8 @@ export const PageHeaderHeading = ({
     ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) => {
     return (
-        <h1
-            className={cn(
-                'text-3xl font-extrabold tracking-tight md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl',
-                className
-            )}
+        <Typography
+            variant='h1'
             {...props}
         />
     )
@@ -40,12 +38,13 @@ export const PageHeaderDescription = ({
     ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) => {
     return (
-        <Balance
-            className={cn(
-                'max-w-[750px] text-lg text-neutral-500 dark:text-neutral-500 sm:text-2xl',
-                className
-            )}
-            {...props}
-        />
+        <Typography
+            asChild
+            variant='lead'>
+            <Balance
+                className={cn('max-w-[750px]', className)}
+                {...props}
+            />
+        </Typography>
     )
 }

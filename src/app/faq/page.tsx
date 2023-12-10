@@ -34,7 +34,6 @@ const Faq = () => {
                     <PageSectionHeading>
                         How do I download my screenshots?
                     </PageSectionHeading>
-                    <PageSectionDescription></PageSectionDescription>
                     <PageSectionDescription>
                         It depends on the platform you play on. Check out our{' '}
                         <Link

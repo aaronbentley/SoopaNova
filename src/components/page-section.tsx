@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Balancer } from 'react-wrap-balancer'
+import { Typography } from './typography'
 
 export const PageSection = ({
     className,
@@ -23,11 +24,9 @@ export const PageSectionHeading = ({
     ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) => {
     return (
-        <h2
-            className={cn(
-                'text-2xl font-extrabold tracking-tight md:text-3xl lg:tracking-[-0.035em] lg:text-4xl xl:text-5xl',
-                className
-            )}
+        <Typography
+            variant='h2'
+            className={cn(className)}
             {...props}
         />
     )
@@ -38,12 +37,13 @@ export const PageSectionDescription = ({
     ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) => {
     return (
-        <Balancer
-            className={cn(
-                'max-w-[750px] w-2/3 text-lg text-neutral-500 dark:text-neutral-500 flex flex-col gap-y-6',
-                className
-            )}
-            {...props}
-        />
+        <Typography
+            asChild
+            variant='p'>
+            <Balancer
+                className={cn('', className)}
+                {...props}
+            />
+        </Typography>
     )
 }
