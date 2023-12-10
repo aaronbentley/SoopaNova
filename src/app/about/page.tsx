@@ -3,6 +3,8 @@ import {
     PageHeaderDescription,
     PageHeaderHeading
 } from '@/components/page-header'
+import { PageSection, PageSectionHeading } from '@/components/page-section'
+import { Typography } from '@/components/typography'
 import { Metadata } from 'next'
 
 export const generateMetadata = async (): Promise<Metadata> => ({
@@ -37,26 +39,89 @@ const About = () => {
                     <PageHeaderDescription>
                         Wanna hear a story?
                     </PageHeaderDescription>
+                    {/* <PageHeaderDescription>
+                        A worthy side quest
+                    </PageHeaderDescription> */}
                 </PageHeader>
             </div>
 
-            {/* <PageSection className='md:py-10 w-full'>
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>Mission Objective</PageSectionHeading>
+                <Typography variant='p'>
+                    To transform your virtual adventures into physical prints
+                    that you can touch, hang, and share.
+                </Typography>
+                <Typography variant='p'>
+                    To power-up your favourite video game screenshots into
+                    mighty-fine artwork for your space, so you can display your
+                    victories, scenic views, and crazy in-game moments IRL.
+                </Typography>
+                <Typography variant='p'>
+                    We&apos;re here to make sure those memories last.
+                </Typography>
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
                 <PageSectionHeading>
-                    How do I download my screenshots?
+                    Outline your company story
                 </PageSectionHeading>
-                <Typography variant='p'>
-                    I love coding, I love video games, I love art - therefore
-                    SoopaNova was forged.
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[Outline your company story]]
                 </Typography>
-                <Typography variant='p'>
-                    I love coding, I love video games, I love art - therefore
-                    SoopaNova was forged.
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>
+                    Reveal how you&apos;ve evolved
+                </PageSectionHeading>
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[Reveal how you&apos;ve evolved]]
                 </Typography>
-                <PageSectionDescription>
-                    I love coding, I love video games, I love art - therefore
-                    SoopaNova was forged.
-                </PageSectionDescription>
-            </PageSection> */}
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>
+                    State your &ldquo;aha!&rdquo; moment
+                </PageSectionHeading>
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[State your &ldquo;aha!&rdquo; moment]]
+                </Typography>
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>Explain whom you serve</PageSectionHeading>
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[Explain whom you serve]]
+                </Typography>
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>
+                    Explain what you&apos;re offering them
+                </PageSectionHeading>
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[Explain what you&apos;re offering them]]
+                </Typography>
+            </PageSection>
+
+            <PageSection className='md:py-10 w-full'>
+                <PageSectionHeading>Describe your values</PageSectionHeading>
+                <Typography
+                    variant='p'
+                    className='italic'>
+                    [[Describe your values]]
+                </Typography>
+            </PageSection>
         </>
     )
 }

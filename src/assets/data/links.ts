@@ -8,11 +8,11 @@ export const links = [
         label: 'Screenshots'
     },
     {
-        href: '/faq/',
-        label: 'FAQ'
-    },
-    {
         href: '/about/',
         label: 'About'
+    },
+    {
+        href: '/faq/',
+        label: 'FAQ'
     }
 ]
