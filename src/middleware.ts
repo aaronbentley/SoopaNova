@@ -14,10 +14,9 @@ export default authMiddleware({
         '/about',
         '/not-found',
         '/opengraph-image',
-        '/icon'
+        '/icon',
+        '/_vercel(.*)'
     ],
-    // Ignored routes - no auth is actioned
-    // ignoredRoutes: ['/not-found'],
     debug: false
 })
 
