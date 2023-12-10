@@ -54,7 +54,7 @@ const Frontpage = () => {
     const { userId } = auth()
     return (
         <>
-            <Hero className='h-screen sm:h-full'>
+            <Hero className='h-screen md:h-full'>
                 <Badge
                     variant='secondary'
                     className='flex justify-around py-2 px-4'>
@@ -132,7 +132,7 @@ const Frontpage = () => {
                     Make something awesome. Make it your own.
                 </p>
 
-                <div className='grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>
+                <div className='grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
                     <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
@@ -209,7 +209,7 @@ const Frontpage = () => {
                     Here&apos;s how to download your gaming screenshots.
                 </p>
 
-                <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2'>
+                <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
                     <Link href='/screenshots/xbox/'>
                         <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                             <CardHeader className='relative'>

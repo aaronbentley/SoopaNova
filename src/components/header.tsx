@@ -18,12 +18,12 @@ const Header = () => (
     <header className='sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur'>
         <div className='container px-4 flex items-center'>
             <div className='flex justify-between w-full py-4'>
-                <div className='flex items-center md:space-x-4'>
+                <div className='flex flex-row-reverse md:flex-row items-center md:space-x-4'>
                     <Link
                         href='/'
                         className={cn(buttonVariants({ variant: 'ghost' }), [
-                            'hidden',
-                            'md:flex',
+                            // 'hidden',
+                            // 'md:flex',
                             'md:mr-6',
                             'font-sans',
                             'font-extrabold',

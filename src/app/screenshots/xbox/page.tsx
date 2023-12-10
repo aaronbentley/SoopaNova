@@ -33,7 +33,7 @@ const ScreenshotsXbox = () => {
                         How to download your Xbox screenshots, ready to create
                         awesome prints.
                     </PageHeaderDescription>
-                    <div className='w-full grid md:grid-flow-dense sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 md:mt-24'>
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <ScrollToTarget target='onedrive'>
                             <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
                                 <CardHeader className='relative'>

@@ -75,6 +75,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 className={cn([
                     // 'light',
                     'dark',
+                    'scroll-pt-20',
                     GeistSans.variable
                 ])}
                 suppressHydrationWarning>
@@ -87,8 +88,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         'dark:text-neutral-100',
                         'font-sans',
                         'antialiased',
-                        'min-h-screen',
-                        'scroll-pt-24'
+                        'min-h-screen'
                     ])}>
                     <ThemeProvider
                         attribute='class'
