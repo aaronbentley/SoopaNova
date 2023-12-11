@@ -21,8 +21,8 @@ const headingBaseClasses = [
 const typographyVariants = cva(
     [
         // Default classes go here
-        'text-neutral-500',
-        'dark:text-neutral-500'
+        // 'text-neutral-500',
+        // 'dark:text-neutral-500',
     ],
     {
         variants: {
@@ -72,7 +72,11 @@ const typographyVariants = cva(
                 p: 'max-w-[750px] w-2/3 text-lg flex flex-col gap-y-6',
                 lead: 'text-lg text-neutral-500 dark:text-neutral-500 sm:text-xl md:text-2xl',
                 blockquote: 'mt-6 border-l-2 pl-6 italic',
-                ul: 'my-6 ml-6 list-disc [&>li]:mt-2'
+                // ul: 'my-6 ml-6 list-disc [&>li]:mt-2',
+                ul: 'list-disc list-inside ps-4 space-y-2 mt-2 ',
+                ol: 'list-decimal list-inside space-y-8',
+                li: '',
+                em: 'italic'
             }
         },
         defaultVariants: {
@@ -96,7 +100,10 @@ const variantElementMap: Record<
     p: 'p',
     lead: 'p',
     blockquote: 'blockquote',
-    ul: 'ul'
+    ul: 'ul',
+    ol: 'ol',
+    li: 'li',
+    em: 'em'
 }
 
 export interface TypographyProps

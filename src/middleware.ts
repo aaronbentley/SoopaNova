@@ -14,8 +14,7 @@ export default authMiddleware({
         '/about',
         '/not-found',
         '/opengraph-image',
-        '/icon',
-        '/_vercel(.*)'
+        '/icon'
     ],
     debug: false
 })
@@ -23,5 +22,5 @@ export default authMiddleware({
 // export default middleware
 
 export const config = {
-    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
+    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc|_vercel)(.*)']
 }

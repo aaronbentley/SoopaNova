@@ -10,6 +10,7 @@ import {
     PageSectionHeading
 } from '@/components/page-section'
 import ScrollToTarget from '@/components/scroll-to-target'
+import { Typography } from '@/components/typography'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Info, UsbIcon } from 'lucide-react'
@@ -69,63 +70,82 @@ const ScreenshotsPlaystation = () => {
                         PlayStation screenshots.
                     </PageSectionDescription>
 
-                    <ol className='list-decimal list-inside space-y-2'>
-                        <li className='font-extrabold'>
+                    <Typography variant='ol'>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
                             Install the PlayStation App:
-                        </li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Download the PlayStation App from your
-                                device&apos;s app store (
-                                <a
-                                    href='https://apps.apple.com/us/app/playstation-app/id410896080'
-                                    title='View PlayStation App on the App Store'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    App Store
-                                </a>
-                                ,{' '}
-                                <a
-                                    href='https://play.google.com/store/apps/details?id=com.scee.psxandroid'
-                                    title='View PlayStation App on the Google Play Store'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Google Play Store
-                                </a>
-                                ).
-                            </li>
-                            <li>
-                                Sign in with your PlayStation Network (PSN)
-                                account.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Download the PlayStation App from your
+                                    device&apos;s app store (
+                                    <a
+                                        href='https://apps.apple.com/us/app/playstation-app/id410896080'
+                                        title='View PlayStation App on the App Store'
+                                        target='_blank'
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        App Store
+                                    </a>
+                                    ,{' '}
+                                    <a
+                                        href='https://play.google.com/store/apps/details?id=com.scee.psxandroid'
+                                        title='View PlayStation App on the Google Play Store'
+                                        target='_blank'
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        Google Play Store
+                                    </a>
+                                    ).
+                                </Typography>
+                                <Typography variant='li'>
+                                    Sign in with your PlayStation Network (PSN)
+                                    account.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
                             Connect your console:
-                        </li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Ensure that your PlayStation console and your
-                                device are connected to the same Wi-Fi network.
-                            </li>
-                            <li>
-                                Open the PlayStation App and tap the{' '}
-                                <em>&lsquo;Connect to PS4/PS5</em>&rsquo;
-                                option.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>Access Screenshots:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                In the PlayStation App, select{' '}
-                                <em>&lsquo;Library</em>&rsquo; from the menu
-                                bar.
-                            </li>
-                            <li>
-                                All your captured screenshots will be available
-                                here.
-                            </li>
-                        </ul>
-                    </ol>
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Ensure that your PlayStation console and
+                                    your device are connected to the same Wi-Fi
+                                    network.
+                                </Typography>
+                                <Typography variant='li'>
+                                    Open the PlayStation App and tap the{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Connect to PS4/PS5
+                                    </Typography>
+                                    &rsquo; option.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Access Screenshots:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    In the PlayStation App, select{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Library
+                                    </Typography>
+                                    &rsquo; from the menu bar.
+                                </Typography>
+                                <Typography variant='li'>
+                                    All your captured screenshots will be
+                                    available here.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                    </Typography>
 
                     <Alert className='w-max'>
                         <Info className='h-4 w-4' />
@@ -156,35 +176,53 @@ const ScreenshotsPlaystation = () => {
                         If you prefer a wired connection, using a USB drive is a
                         straightforward way to transfer screenshots.
                     </PageSectionDescription>
-                    <ol className='list-decimal list-inside space-y-2'>
-                        <li className='font-extrabold'>Prepare USB Drive:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Insert a compatible USB stick into one of your
-                                PlayStation&rsquo;s USB ports.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>Copy Screenshots:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Navigate to the{' '}
-                                <em>&lsquo;Capture Gallery&rsquo;</em> under the
-                                system&rsquo;s capture settings.
-                            </li>
-                            <li>
-                                Find the screenshots you want to transfer and
-                                press the <em>&lsquo;Options&rsquo;</em> button
-                                on your controller.
-                            </li>
-                            <li>
-                                Choose{' '}
-                                <em>
-                                    &lsquo;Copy to USB Storage Device&rsquo;
-                                </em>{' '}
-                                and follow the on-screen prompts.
-                            </li>
-                        </ul>
-                    </ol>
+
+                    <Typography variant='ol'>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Prepare USB Drive:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Insert a compatible USB stick into one of
+                                    your PlayStation&rsquo;s USB ports.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Copy Screenshots:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Navigate to the{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Capture Gallery&rsquo;
+                                    </Typography>{' '}
+                                    under the system&rsquo;s capture settings.
+                                </Typography>
+                                <Typography variant='li'>
+                                    Find the screenshots you want to transfer
+                                    and press the{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Options&rsquo;
+                                    </Typography>{' '}
+                                    button on your controller.
+                                </Typography>
+                                <Typography variant='li'>
+                                    Choose{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Copy to USB Storage Device&rsquo;
+                                    </Typography>{' '}
+                                    and follow the on-screen prompts.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                    </Typography>
                 </PageSection>
             </div>
         </>

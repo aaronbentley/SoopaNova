@@ -10,6 +10,7 @@ import {
     PageSectionHeading
 } from '@/components/page-section'
 import ScrollToTarget from '@/components/scroll-to-target'
+import { Typography } from '@/components/typography'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { UsbIcon } from 'lucide-react'
 import { Metadata } from 'next'
@@ -77,58 +78,94 @@ const ScreenshotsXbox = () => {
                         convenient option to transfer screenshots.
                     </PageSectionDescription>
 
-                    <ol className='list-decimal list-inside space-y-8'>
-                        <li className='font-extrabold'>
+                    <Typography variant='ol'>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
                             Enable OneDrive on Xbox:
-                            <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                                <li>
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
                                     Press the Xbox button on your controller to
                                     open the guide.
-                                </li>
-                                <li>
+                                </Typography>
+                                <Typography variant='li'>
                                     Navigate to{' '}
-                                    <em>&lsquo;Profile & system&rsquo;</em>,{' '}
-                                    <em>&lsquo;Settings&rsquo;</em>,{' '}
-                                    <em>&lsquo;Devices & connections&rsquo;</em>
+                                    <Typography variant='em'>
+                                        &lsquo;Profile & system&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Settings&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Devices & connections&rsquo;
+                                    </Typography>
                                     .
-                                </li>
-                                <li>
+                                </Typography>
+                                <Typography variant='li'>
                                     Select{' '}
-                                    <em>&lsquo;Media preferences&rsquo;</em>,{' '}
-                                    <em>&lsquo;Capture & share&rsquo;</em>.
-                                </li>
-                                <li>
+                                    <Typography variant='em'>
+                                        &lsquo;Media preferences&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Capture & share&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                                <Typography variant='li'>
                                     Choose{' '}
-                                    <em>&lsquo;Open captures folder&rsquo;</em>,
-                                    and select
-                                    <em>&lsquo;On&rsquo;</em> to enable
-                                    automatic upload to OneDrive.
-                                </li>
-                            </ul>
-                        </li>
-                        <li className='font-extrabold'>
+                                    <Typography variant='em'>
+                                        &lsquo;Open captures folder&rsquo;
+                                    </Typography>
+                                    , and select
+                                    <Typography variant='em'>
+                                        &lsquo;On&rsquo;
+                                    </Typography>{' '}
+                                    to enable automatic upload to OneDrive.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
                             Access Screenshots on PC:
-                            <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                                <li>
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
                                     On your PC, ensure you&apos;re signed in to
                                     the same Microsoft account used on your
                                     Xbox.
-                                </li>
-                                <li>
+                                </Typography>
+                                <Typography variant='li'>
                                     Visit the OneDrive website or open the
                                     OneDrive app.
-                                </li>
-                                <li>
+                                </Typography>
+                                <Typography variant='li'>
                                     Navigate to the{' '}
-                                    <em>&lsquo;Screenshots&rsquo;</em> folder
-                                    under <em>&lsquo;Xbox Game Bar&rsquo;</em>.
-                                </li>
-                            </ul>
-                        </li>
-                        <li className='font-extrabold'>
+                                    <Typography variant='em'>
+                                        &lsquo;Screenshots&rsquo;
+                                    </Typography>{' '}
+                                    folder under{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Xbox Game Bar&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
                             Access Screenshots on Phone:
-                            <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                                <li>
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
                                     Download the OneDrive app from your
                                     device&apos;s app store (
                                     <a
@@ -147,19 +184,25 @@ const ScreenshotsXbox = () => {
                                         Google Play Store
                                     </a>
                                     ).
-                                </li>
-                                <li>
+                                </Typography>
+                                <Typography variant='li'>
                                     Sign in with the same Microsoft account used
                                     on your Xbox.{' '}
-                                </li>
-                                <li>
-                                    Open the <em>&lsquo;Screenshots&rsquo;</em>{' '}
+                                </Typography>
+                                <Typography variant='li'>
+                                    Open the{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Screenshots&rsquo;
+                                    </Typography>{' '}
                                     folder under{' '}
-                                    <em>&lsquo;Xbox Game Bar&rsquo;</em>.
-                                </li>
-                            </ul>
-                        </li>
-                    </ol>
+                                    <Typography variant='em'>
+                                        &lsquo;Xbox Game Bar&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                    </Typography>
                 </PageSection>
             </div>
 
@@ -171,66 +214,96 @@ const ScreenshotsXbox = () => {
                         Xbox console, PC, and mobile device.
                     </PageSectionDescription>
 
-                    <ol className='list-decimal list-inside space-y-2'>
-                        <li className='font-extrabold'>Install Xbox App:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Download the Xbox app from the{' '}
-                                <a
-                                    href='https://apps.microsoft.com/detail/xbox/9MV0B5HZVK9Z'
-                                    title='View Xbox App on the Microsoft Store'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    {' '}
-                                    Microsoft Store (PC)
-                                </a>{' '}
-                                or your device&apos;s app store (
-                                <a
-                                    href='https://apps.apple.com/app/xbox/id736179781'
-                                    title='View Xbox App on the App Store'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    App Store
-                                </a>
-                                ,{' '}
-                                <a
-                                    href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
-                                    title='View Xbox App on the Google Play Store'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Google Play Store
-                                </a>
-                                ).
-                            </li>
-                            <li>
-                                Sign in with the Microsoft account linked to
-                                your Xbox.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>Access Screenshots:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>Open the Xbox app.</li>
-                            <li>
-                                Navigate to the{' '}
-                                <em>&lsquo;Capture & share&rsquo;</em> tab.
-                            </li>
-                            <li>
-                                All your captured screenshots and game clips
-                                will be available here.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>Sharing and Saving:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                On PC: Right-click the screenshot and choose
-                                <em>&lsquo;Save image as...&rsquo;</em>.
-                            </li>
-                            <li>
-                                On phone: Tap and hold the screenshot, then
-                                select <em>&lsquo;Save image&rsquo;</em>.
-                            </li>
-                        </ul>
-                    </ol>
+                    <Typography variant='ol'>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Install Xbox App:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Download the Xbox app from the{' '}
+                                    <a
+                                        href='https://apps.microsoft.com/detail/xbox/9MV0B5HZVK9Z'
+                                        title='View Xbox App on the Microsoft Store'
+                                        target='_blank'
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        {' '}
+                                        Microsoft Store (PC)
+                                    </a>{' '}
+                                    or your device&apos;s app store (
+                                    <a
+                                        href='https://apps.apple.com/app/xbox/id736179781'
+                                        title='View Xbox App on the App Store'
+                                        target='_blank'
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        App Store
+                                    </a>
+                                    ,{' '}
+                                    <a
+                                        href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
+                                        title='View Xbox App on the Google Play Store'
+                                        target='_blank'
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        Google Play Store
+                                    </a>
+                                    ).
+                                </Typography>
+                                <Typography variant='li'>
+                                    Sign in with the Microsoft account linked to
+                                    your Xbox.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Access Screenshots:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Open the Xbox app.
+                                </Typography>
+                                <Typography variant='li'>
+                                    Navigate to the{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Capture & share&rsquo;
+                                    </Typography>{' '}
+                                    tab.
+                                </Typography>
+                                <Typography variant='li'>
+                                    All your captured screenshots and game clips
+                                    will be available here.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Sharing and Saving:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    On PC: Right-click the screenshot and choose
+                                    <Typography variant='em'>
+                                        &lsquo;Save image as...&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                                <Typography variant='li'>
+                                    On phone: Tap and hold the screenshot, then
+                                    select{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Save image&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                    </Typography>
                 </PageSection>
             </div>
 
@@ -241,41 +314,80 @@ const ScreenshotsXbox = () => {
                         If you prefer a wired connection, using a USB drive is a
                         straightforward way to transfer screenshots.
                     </PageSectionDescription>
-                    <ol className='list-decimal list-inside space-y-2'>
-                        <li className='font-extrabold'>Prepare USB Drive:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Insert a USB storage device into your
-                                Xbox&apos;s USB port.
-                            </li>
-                            <li>
-                                In the Xbox guide, go to{' '}
-                                <em>&lsquo;Profile & system&rsquo;</em>,
-                                <em>&lsquo;Settings&rsquo;</em>,{' '}
-                                <em>&lsquo;Devices & connections&rsquo;</em>,{' '}
-                                <em>&lsquo;Media Devices&rsquo;</em>.
-                            </li>
-                            <li>
-                                Select your USB drive and choose{' '}
-                                <em>&lsquo;Format storage device&rsquo;</em>,
-                                then follow the prompts.
-                            </li>
-                        </ul>
-                        <li className='font-extrabold'>Copy Screenshots:</li>
-                        <ul className='list-disc list-inside ps-4 space-y-2 mt-2 font-normal'>
-                            <li>
-                                Navigate to{' '}
-                                <em>&lsquo;Profile & system&rsquo;</em>,{' '}
-                                <em>&lsquo;Capture & share&rsquo;</em>,{' '}
-                                <em>&lsquo;Recent captures&rsquo;</em>.
-                            </li>
-                            <li>
-                                Select the screenshots you want to transfer and
-                                choose{' '}
-                                <em>&lsquo;Copy to storage device&rsquo;</em>.
-                            </li>
-                        </ul>
-                    </ol>
+
+                    <Typography variant='ol'>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Prepare USB Drive:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Insert a USB storage device into your
+                                    Xbox&apos;s USB port.
+                                </Typography>
+                                <Typography variant='li'>
+                                    In the Xbox guide, go to{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Profile & system&rsquo;
+                                    </Typography>
+                                    ,
+                                    <Typography variant='em'>
+                                        &lsquo;Settings&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Devices & connections&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Media Devices&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                                <Typography variant='li'>
+                                    Select your USB drive and choose{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Format storage device&rsquo;
+                                    </Typography>
+                                    , then follow the prompts.
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                        <Typography
+                            variant='li'
+                            className='font-extrabold'>
+                            Copy Screenshots:
+                            <Typography
+                                variant='ul'
+                                className='font-normal'>
+                                <Typography variant='li'>
+                                    Navigate to{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Profile & system&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Capture & share&rsquo;
+                                    </Typography>
+                                    ,{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Recent captures&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                                <Typography variant='li'>
+                                    Select the screenshots you want to transfer
+                                    and choose{' '}
+                                    <Typography variant='em'>
+                                        &lsquo;Copy to storage device&rsquo;
+                                    </Typography>
+                                    .
+                                </Typography>
+                            </Typography>
+                        </Typography>
+                    </Typography>
                 </PageSection>
             </div>
         </>
