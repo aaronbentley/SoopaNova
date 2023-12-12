@@ -12,7 +12,9 @@ const sitemap = (): MetadataRoute.Sitemap => {
         '/screenshots/playstation',
         '/screenshots/steam',
         '/faq/',
-        '/about/'
+        '/about/',
+        '/privacy/',
+        '/terms/'
     ]
 
     /**

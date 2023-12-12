@@ -14,7 +14,9 @@ export default authMiddleware({
         '/about',
         '/not-found',
         '/opengraph-image',
-        '/icon'
+        '/icon',
+        '/terms',
+        '/privacy'
     ],
     debug: false
 })
