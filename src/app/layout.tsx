@@ -63,11 +63,8 @@ export const generateMetadata = async (): Promise<Metadata> => ({
         title: process.env.APP_TITLE!,
         description: process.env.APP_DESCRIPTION!,
         creator: process.env.APP_SOCIAL_TWITTER!
-    },
-    // manifest: '',
-    other: {
-        'fb:app_id': process.env.APP_SOCIAL_FACEBOOK_APP_ID!
     }
+    // manifest: '',
 })
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
