@@ -166,9 +166,7 @@ const Privacy = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>
-                        Updates to this Privacy Policy
-                    </PageSectionHeading>
+                    <PageSectionHeading>Updates</PageSectionHeading>
                     <PageSectionDescription>
                         We may update this Privacy Policy periodically. Any
                         changes will be posted on this page, and the date of the
