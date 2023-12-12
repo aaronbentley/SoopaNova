@@ -5,7 +5,14 @@ const robots = (): MetadataRoute.Robots => {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/orders/'
+            disallow: [
+                '/sign-in/',
+                '/sign-up/',
+                '/orders/',
+                '/icon/',
+                '/opengraph-image',
+                '/favicon.ico'
+            ]
         },
         sitemap: `${process.env.APP_URL!}/sitemap.xml`
     }
