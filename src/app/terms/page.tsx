@@ -26,7 +26,9 @@ const Terms = () => {
                 <PageHeader>
                     <PageHeaderHeading>Terms</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Here&apos;s our Terms of Service
+                        Our Terms of Service outline the conditions and
+                        guidelines governing users&apos; access and utilization
+                        of the SoopaNova website and services.
                     </PageHeaderDescription>
                 </PageHeader>
 
