@@ -49,17 +49,25 @@ const Privacy = () => {
                     <PageSectionHeading>
                         Information We Collect
                     </PageSectionHeading>
-                    <Typography
-                        variant='h4'
-                        as='h3'>
-                        Personal Information
-                    </Typography>
                     <PageSectionDescription>
                         When you sign up for an account or use our services, we
                         may collect personal information, such as your name,
                         email address, and other details necessary for account
                         creation and authentication.
                     </PageSectionDescription>
+                    <Typography variant='h3'>Personal Information</Typography>
+
+                    <PageSectionDescription>
+                        We may collect information about how you interact with
+                        our website, including your IP address, browser type,
+                        operating system, and pages visited.
+                    </PageSectionDescription>
+                    <PageSectionDescription>
+                        This data helps us improve our services and provide a
+                        better user experience.
+                    </PageSectionDescription>
+
+                    <Typography variant='h3'>Services</Typography>
                     <PageSectionDescription>
                         We use Clerk for authentication services, and you can
                         refer to{' '}
@@ -74,14 +82,18 @@ const Privacy = () => {
                         your data.
                     </PageSectionDescription>
 
-                    <Typography variant='h3'>Personal Information</Typography>
-
                     <PageSectionDescription>
-                        We may collect information about how you interact with
-                        our website, including your IP address, browser type,
-                        operating system, and pages visited. This data helps us
-                        improve our services and provide a better user
-                        experience.
+                        We use Canvaspop for print fulfillment services, and you
+                        can refer to{' '}
+                        <a
+                            href='https://www.canvaspop.com/privacy-policy'
+                            title='View Canvaspop Privacy Policy'
+                            target='_blank'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            Canvaspop&apos;s
+                        </a>{' '}
+                        Privacy Policy for more information on how they handle
+                        your data.
                     </PageSectionDescription>
 
                     <Typography variant='h3'>Cookies</Typography>
@@ -134,9 +146,8 @@ const Privacy = () => {
                     </PageSectionDescription>
                     <PageSectionDescription>
                         However, we may share your information with trusted
-                        third parties, including Clerk for authentication
-                        purposes and service providers assisting us in
-                        delivering our services.
+                        third parties where necessary for business operations,
+                        authentication purposes and order fulfillment.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -206,9 +217,6 @@ const Privacy = () => {
                                 </a>
                             </Typography>
                         </Typography>
-                    </PageSectionDescription>
-                    <PageSectionDescription>
-                        Now go play somevideo games!
                     </PageSectionDescription>
                 </PageSection>
 
