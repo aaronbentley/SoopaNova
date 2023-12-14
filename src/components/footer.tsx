@@ -1,5 +1,6 @@
 import { Copyright, Facebook, Instagram, Twitter } from 'lucide-react'
 import Link from 'next/link'
+import { Threads } from './icons'
 
 const Footer = () => (
     <footer className='py-6 md:px-8 md:pt-12 lg:pt-24 md:pb-4'>
@@ -41,6 +42,14 @@ const Footer = () => (
                         target='_blank'
                         className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
                         <Instagram className='w-4 h-4' />
+                    </a>
+                    <a
+                        title='Threads'
+                        aria-label='Threads'
+                        href={process.env.APP_SOCIAL_THREADS!}
+                        target='_blank'
+                        className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
+                        <Threads className='w-4 h-4' />
                     </a>
                     <a
                         title='Facebook'
