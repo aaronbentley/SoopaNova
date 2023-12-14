@@ -69,7 +69,15 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <ClerkProvider appearance={clerkTheme}>
+        <ClerkProvider
+            appearance={{
+                ...clerkTheme,
+                layout: {
+                    termsPageUrl: '/terms/',
+                    privacyPageUrl: '/privacy/',
+                    showOptionalFields: true
+                }
+            }}>
             <html
                 lang='en'
                 className={cn([

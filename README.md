@@ -26,5 +26,5 @@ Here's hoping I make something cool and preferably, profitable.
 - [x] FAQ - add "how to download screenshots" - link to Screenshots page
 - [ ] Thank you - Navigate to route on completed event.
 - [x] Not found - 404 page (image error icon)
-- [ ] Privacy Policy
-- [ ] Terms of Service
+- [x] Privacy Policy
+- [x] Terms of Service

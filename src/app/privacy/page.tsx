@@ -31,6 +31,7 @@ const Privacy = () => {
                         information is shared, and privacy rights.
                     </PageHeaderDescription>
                 </PageHeader>
+
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Context</PageSectionHeading>
                     <PageSectionDescription>
@@ -45,6 +46,7 @@ const Privacy = () => {
                         a moment to review the following information.
                     </PageSectionDescription>
                 </PageSection>
+
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
                         Information We Collect
@@ -115,9 +117,7 @@ const Privacy = () => {
                     </PageSectionHeading>
                     <PageSectionDescription>
                         We use your personal information to:
-                        <Typography
-                            variant='ul'
-                            className='font-normal'>
+                        <Typography variant='ul'>
                             <Typography variant='li'>
                                 Provide and improve our services
                             </Typography>
@@ -177,7 +177,7 @@ const Privacy = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Updates</PageSectionHeading>
+                    <PageSectionHeading>Policy Updates</PageSectionHeading>
                     <PageSectionDescription>
                         We may update this Privacy Policy periodically. Any
                         changes will be posted on this page, and the date of the
@@ -195,9 +195,7 @@ const Privacy = () => {
                         If you have any questions or concerns about this Privacy
                         Policy or our data practices, please contact us via DM
                         on:
-                        <Typography
-                            variant='ul'
-                            className='font-normal'>
+                        <Typography variant='ul'>
                             <Typography variant='li'>
                                 <a
                                     href={process.env.APP_SOCIAL_TWITTER!}

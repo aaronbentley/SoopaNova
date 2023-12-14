@@ -181,6 +181,14 @@ export const clerkTheme = {
             'hover:text-pink-500',
             'dark:hover:text-pink-500'
         ].join(' '),
+        footerPagesLink: [
+            ...mutedTypography,
+            'underline-offset-4',
+            'transition-colors',
+            'duration-200',
+            'hover:text-pink-500',
+            'dark:hover:text-pink-500'
+        ].join(' '),
         //#endregion
 
         //#region Navbar
