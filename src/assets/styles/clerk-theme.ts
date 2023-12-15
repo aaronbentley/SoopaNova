@@ -187,7 +187,8 @@ export const clerkTheme = {
             'transition-colors',
             'duration-200',
             'hover:text-pink-500',
-            'dark:hover:text-pink-500'
+            'dark:hover:text-pink-500',
+            'focus:shadow-none'
         ].join(' '),
         //#endregion
 

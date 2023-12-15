@@ -43,11 +43,8 @@ const Terms = () => {
                     </PageSectionDescription>
                     <PageSectionDescription>
                         By accessing or using the Service, you agree to be bound
-                        by these Terms.
-                    </PageSectionDescription>
-                    <PageSectionDescription>
-                        If you do not agree to these Terms, please do not use
-                        the Service.
+                        by these Terms. If you do not agree to these Terms,
+                        please do not use the Service.
                     </PageSectionDescription>
                 </PageSection>
 

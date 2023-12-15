@@ -54,7 +54,7 @@ const Frontpage = () => {
     const { userId } = auth()
     return (
         <>
-            <Hero className='h-screen md:h-full'>
+            <Hero className='h-screen md:h-full pt-16 md:pt-0'>
                 <Badge
                     variant='secondary'
                     className='flex justify-around py-2 px-4'>
