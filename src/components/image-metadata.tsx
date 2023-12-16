@@ -1,6 +1,8 @@
-import { formatBytes, getDateFromUnixTimestamp } from '@/lib/utils'
+import { cn, formatBytes, getDateFromUnixTimestamp } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
+import { AlertTriangle } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableRow } from './ui/table'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 interface ImageMetadataProps {
     file: FileWithPreview | null
@@ -17,6 +19,15 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
      */
     if (!file) return null
 
+    /**
+     * Define minimum image dimensions
+     */
+    const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
+    const imageMinHeight = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!)
+
+    /**
+     * Format image dimensions
+     */
     const formatImageDimension = (dimension: number) => `${dimension} px`
 
     return (
@@ -24,16 +35,62 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
             <TableBody>
                 <TableRow className='border-neutral-400/25'>
                     <TableHead>Width</TableHead>
-                    <TableCell>
+                    <TableCell
+                        className={cn([
+                            'flex',
+                            'items-center',
+                            'gap-2',
+                            imageMeta?.width &&
+                                imageMeta?.width < imageMinWidth && [
+                                    'text-red-500',
+                                    'dark:text-red-900'
+                                ]
+                        ])}>
                         {imageMeta?.width &&
                             formatImageDimension(imageMeta?.width)}
+
+                        {imageMeta?.width &&
+                            imageMeta?.width < imageMinWidth && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <AlertTriangle className='w-4 h-4' />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Screenshot too small - minimum width{' '}
+                                        {imageMinWidth}px
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                     </TableCell>
                 </TableRow>
                 <TableRow className='border-neutral-400/25'>
                     <TableHead>Height</TableHead>
-                    <TableCell>
+                    <TableCell
+                        className={cn([
+                            'flex',
+                            'items-center',
+                            'gap-2',
+                            imageMeta?.height &&
+                                imageMeta?.height < imageMinHeight && [
+                                    'text-red-500',
+                                    'dark:text-red-900'
+                                ]
+                        ])}>
                         {imageMeta?.height &&
                             formatImageDimension(imageMeta?.height)}
+
+                        {imageMeta?.height &&
+                            imageMeta?.height < imageMinHeight && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <AlertTriangle className='w-4 h-4' />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Screenshot too small - minimum height{' '}
+                                        {imageMinHeight}px
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                     </TableCell>
                 </TableRow>
                 <TableRow className='border-neutral-400/25'>

@@ -58,6 +58,12 @@ const UploadFile = ({ className }: { className?: string }) => {
     const disabled = false
 
     /**
+     * Define minimum image dimensions
+     */
+    const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
+    const imageMinHeight = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!)
+
+    /**
      * Initialize toast
      */
     const { toast } = useToast()
@@ -110,6 +116,11 @@ const UploadFile = ({ className }: { className?: string }) => {
         height: number
         aspectRatio: string
     } | null>(null)
+
+    /**
+     * Handle image dimension error
+     */
+    const [imageDimensionsError, setImageDimensionsError] = useState(false)
 
     /**
      * Handle upload progress
@@ -177,6 +188,32 @@ const UploadFile = ({ className }: { className?: string }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    /**
+     * Handle image onLoad
+     */
+    const onLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        const target = e.target as HTMLImageElement
+        const { naturalWidth, naturalHeight } = target
+
+        // Check image dimensions
+        if (naturalWidth < imageMinWidth || naturalHeight < imageMinHeight) {
+            // Set image dimensions error
+            setImageDimensionsError(true)
+
+            toast({
+                variant: 'destructive',
+                title: 'Screenshot too small!',
+                description: `Minimum dimensions are ${imageMinWidth}px width and minimum ${imageMinHeight}px height.`
+            })
+        }
+
+        setImageMeta({
+            width: naturalWidth,
+            height: naturalHeight,
+            aspectRatio: getAspectRatio(naturalWidth, naturalHeight)
+        })
+    }
 
     /**
      * Create print order
@@ -451,6 +488,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 onOpenChange={(open) => {
                     if (!open) {
                         setFiles(null)
+                        setImageDimensionsError(false)
                     }
                     setMediaSheetOpen(open)
                 }}>
@@ -494,7 +532,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
                                         <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
                                         <p className='font-extrabold'>
-                                            Checking Image
+                                            Moderating Image
                                         </p>
                                     </div>
                                 )}
@@ -523,25 +561,9 @@ const UploadFile = ({ className }: { className?: string }) => {
                                             ],
                                             createPrintOptions && ['opacity-75']
                                         )}
+                                        onLoad={onLoad}
                                         fill={true}
                                         priority={true}
-                                        onLoad={(e) => {
-                                            const target =
-                                                e.target as HTMLImageElement
-                                            const {
-                                                naturalWidth,
-                                                naturalHeight
-                                            } = target
-
-                                            setImageMeta({
-                                                width: naturalWidth,
-                                                height: naturalHeight,
-                                                aspectRatio: getAspectRatio(
-                                                    naturalWidth,
-                                                    naturalHeight
-                                                )
-                                            })
-                                        }}
                                     />
                                 )}
                             </div>
@@ -554,6 +576,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 setFiles(null)
                                 setContentModeration(false)
                                 setMediaSheetOpen(false)
+                                setImageDimensionsError(false)
                             }}>
                             Cancel
                         </Button>
@@ -562,7 +585,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 uploading ||
                                 createPrintOptions ||
                                 callableExecuting ||
-                                contentModeration
+                                contentModeration ||
+                                imageDimensionsError
                             }
                             className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'
                             onClick={() => {
@@ -585,6 +609,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 onOpenChange={(open) => {
                     if (!open) {
                         setFiles(null)
+                        setImageDimensionsError(false)
                     }
                     setMediaSheetOpen(open)
                     setPrintSheetOpen(open)
