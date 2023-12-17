@@ -39,9 +39,9 @@ export const PageSectionDescription = ({
     return (
         <Typography
             asChild
-            variant='p'
             className='text-neutral-500 dark:text-neutral-500'>
             <Balancer
+                as='p'
                 className={cn('', className)}
                 {...props}
             />

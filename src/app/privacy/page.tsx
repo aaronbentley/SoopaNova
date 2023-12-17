@@ -117,23 +117,24 @@ const Privacy = () => {
                     </PageSectionHeading>
                     <PageSectionDescription>
                         We use your personal information to:
-                        <Typography variant='ul'>
-                            <Typography variant='li'>
-                                Provide and improve our services
-                            </Typography>
-                            <Typography variant='li'>
-                                Communicate with you about your account and our
-                                services
-                            </Typography>
-                            <Typography variant='li'>
-                                Customize your experience on our website
-                            </Typography>
-                            <Typography variant='li'>
-                                Analyze and enhance our website&apos;s
-                                performance
-                            </Typography>
-                        </Typography>
                     </PageSectionDescription>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        <Typography variant='li'>
+                            Provide and improve our services
+                        </Typography>
+                        <Typography variant='li'>
+                            Communicate with you about your account and our
+                            services
+                        </Typography>
+                        <Typography variant='li'>
+                            Customize your experience on our website
+                        </Typography>
+                        <Typography variant='li'>
+                            Analyze and enhance our website&apos;s performance
+                        </Typography>
+                    </Typography>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
@@ -195,27 +196,29 @@ const Privacy = () => {
                         If you have any questions or concerns about this Privacy
                         Policy or our data practices, please contact us via DM
                         on:
-                        <Typography variant='ul'>
-                            <Typography variant='li'>
-                                <a
-                                    href={process.env.APP_SOCIAL_TWITTER!}
-                                    title='DM us on Twitter'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Twitter
-                                </a>
-                            </Typography>
-                            <Typography variant='li'>
-                                <a
-                                    href={process.env.APP_SOCIAL_INSTAGRAM!}
-                                    title='DM os on Instagram'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Instagram
-                                </a>
-                            </Typography>
-                        </Typography>
                     </PageSectionDescription>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        <Typography variant='li'>
+                            <a
+                                href={process.env.APP_SOCIAL_TWITTER!}
+                                title='DM us on Twitter'
+                                target='_blank'
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                Twitter
+                            </a>
+                        </Typography>
+                        <Typography variant='li'>
+                            <a
+                                href={process.env.APP_SOCIAL_INSTAGRAM!}
+                                title='DM os on Instagram'
+                                target='_blank'
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                Instagram
+                            </a>
+                        </Typography>
+                    </Typography>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>

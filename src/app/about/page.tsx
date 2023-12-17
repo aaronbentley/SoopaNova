@@ -3,7 +3,11 @@ import {
     PageHeaderDescription,
     PageHeaderHeading
 } from '@/components/page-header'
-import { PageSection, PageSectionHeading } from '@/components/page-section'
+import {
+    PageSection,
+    PageSectionDescription,
+    PageSectionHeading
+} from '@/components/page-section'
 import { Typography } from '@/components/typography'
 import { Metadata } from 'next'
 
@@ -47,18 +51,14 @@ const About = () => {
 
             <PageSection className='md:py-10 w-full'>
                 <PageSectionHeading>Mission Objective</PageSectionHeading>
-                <Typography variant='p'>
-                    To transform your virtual adventures into physical prints
-                    that you can touch, hang, and share.
-                </Typography>
-                <Typography variant='p'>
+                <PageSectionDescription>
                     To power-up your favourite video game screenshots into
                     mighty-fine artwork for your space, so you can display your
                     victories, scenic views, and crazy in-game moments IRL.
-                </Typography>
-                <Typography variant='p'>
+                </PageSectionDescription>
+                <PageSectionDescription>
                     We&apos;re here to make sure those memories last.
-                </Typography>
+                </PageSectionDescription>
             </PageSection>
 
             <PageSection className='md:py-10 w-full'>

@@ -42,6 +42,7 @@ export const PageHeaderDescription = ({
             asChild
             variant='lead'>
             <Balance
+                as='p'
                 className={cn('max-w-[750px]', className)}
                 {...props}
             />

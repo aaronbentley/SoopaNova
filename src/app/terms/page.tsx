@@ -96,33 +96,34 @@ const Terms = () => {
                     <PageSectionHeading>Prohibited Conduct</PageSectionHeading>
                     <PageSectionDescription>
                         You agree not to:
-                        <Typography variant='ul'>
-                            <Typography variant='li'>
-                                Violate any applicable laws or regulations
-                            </Typography>
-                            <Typography variant='li'>
-                                Infringe on any third-party rights
-                            </Typography>
-                            <Typography variant='li'>
-                                Attempt to gain unauthorized access to the
-                                Service
-                            </Typography>
-                            <Typography variant='li'>
-                                Engage in any activity that interferes with or
-                                disrupts the Service
-                            </Typography>
-                            <Typography variant='li'>
-                                Impersonate any person or entity
-                            </Typography>
-                            <Typography variant='li'>
-                                Engage in any form of automated data collection
-                            </Typography>
-                            <Typography variant='li'>
-                                Use the Service for any illegal or unauthorized
-                                purpose
-                            </Typography>
-                        </Typography>
                     </PageSectionDescription>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        <Typography variant='li'>
+                            Violate any applicable laws or regulations
+                        </Typography>
+                        <Typography variant='li'>
+                            Infringe on any third-party rights
+                        </Typography>
+                        <Typography variant='li'>
+                            Attempt to gain unauthorized access to the Service
+                        </Typography>
+                        <Typography variant='li'>
+                            Engage in any activity that interferes with or
+                            disrupts the Service
+                        </Typography>
+                        <Typography variant='li'>
+                            Impersonate any person or entity
+                        </Typography>
+                        <Typography variant='li'>
+                            Engage in any form of automated data collection
+                        </Typography>
+                        <Typography variant='li'>
+                            Use the Service for any illegal or unauthorized
+                            purpose
+                        </Typography>
+                    </Typography>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
@@ -161,27 +162,29 @@ const Terms = () => {
                     <PageSectionDescription>
                         If you have any questions or concerns regarding these
                         Terms, please contact us via DM on:
-                        <Typography variant='ul'>
-                            <Typography variant='li'>
-                                <a
-                                    href={process.env.APP_SOCIAL_TWITTER!}
-                                    title='DM us on Twitter'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Twitter
-                                </a>
-                            </Typography>
-                            <Typography variant='li'>
-                                <a
-                                    href={process.env.APP_SOCIAL_INSTAGRAM!}
-                                    title='DM os on Instagram'
-                                    target='_blank'
-                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
-                                    Instagram
-                                </a>
-                            </Typography>
-                        </Typography>
                     </PageSectionDescription>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        <Typography variant='li'>
+                            <a
+                                href={process.env.APP_SOCIAL_TWITTER!}
+                                title='DM us on Twitter'
+                                target='_blank'
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                Twitter
+                            </a>
+                        </Typography>
+                        <Typography variant='li'>
+                            <a
+                                href={process.env.APP_SOCIAL_INSTAGRAM!}
+                                title='DM os on Instagram'
+                                target='_blank'
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                Instagram
+                            </a>
+                        </Typography>
+                    </Typography>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>

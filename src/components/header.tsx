@@ -22,8 +22,6 @@ const Header = () => (
                     <Link
                         href='/'
                         className={cn(buttonVariants({ variant: 'ghost' }), [
-                            // 'hidden',
-                            // 'md:flex',
                             'md:mr-6',
                             'font-sans',
                             'font-extrabold',

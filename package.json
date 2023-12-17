@@ -33,7 +33,7 @@
         "firebase-admin": "^12.0.0",
         "geist": "^1.2.0",
         "lucide-react": "^0.298.0",
-        "next": "v14.0.4",
+        "next": "v14.0.5-canary.16",
         "next-themes": "^0.2.1",
         "postcss": "8.4.32",
         "react": "18.2.0",
