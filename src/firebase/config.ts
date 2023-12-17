@@ -1,5 +1,5 @@
 import { getApps, initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+// import { getFirestore } from 'firebase/firestore'
 import { getFunctions } from 'firebase/functions'
 import { getStorage } from 'firebase/storage'
 
@@ -29,7 +29,7 @@ export const storage = getStorage(app)
 /**
  * Export Firebase Firestore
  */
-export const firestore = getFirestore(app)
+// export const firestore = getFirestore(app)
 
 /**
  * Export Firebase Functions

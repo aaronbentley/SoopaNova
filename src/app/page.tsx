@@ -43,13 +43,13 @@ import roomCanvas from '../assets/img/room-canvas.jpg'
 
 export const metadata: Metadata = {
     title: {
-        absolute: `${process.env.APP_TITLE!} - From Pixels to Prints`
+        absolute: `${process.env.APP_TITLE!} - ${process.env.APP_STRAPLINE!}`
     }
 }
 
 const Frontpage = () => {
     /**
-     * Get the userId from auth() -- if null, the user is not logged in
+     * Get the userId from auth()
      */
     const { userId } = auth()
     return (

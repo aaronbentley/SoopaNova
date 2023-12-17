@@ -10,14 +10,11 @@ import {
 } from '@/components/page-section'
 import { Metadata } from 'next'
 
-export const generateMetadata = async (): Promise<Metadata> => ({
+export const metadata: Metadata = {
     title: 'Steam Screenshots',
     description:
-        'How to get your Steam screenshots, ready to create awesome prints.',
-    openGraph: {
-        url: '/screenshots/steam/'
-    }
-})
+        'How to download your Steam screenshots, ready to create awesome prints.'
+}
 
 const ScreenshotsSteam = () => {
     return (

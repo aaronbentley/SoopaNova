@@ -15,14 +15,11 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { UsbIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
-export const generateMetadata = async (): Promise<Metadata> => ({
+export const metadata: Metadata = {
     title: 'Xbox Screenshots',
     description:
-        'How to get your Xbox screenshots, ready to create awesome prints.',
-    openGraph: {
-        url: '/screenshots/xbox/'
-    }
-})
+        'How to download your Xbox screenshots, ready to create awesome prints.'
+}
 
 const ScreenshotsXbox = () => {
     return (

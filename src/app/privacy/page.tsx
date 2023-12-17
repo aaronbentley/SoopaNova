@@ -11,13 +11,10 @@ import {
 import { Typography } from '@/components/typography'
 import { Metadata } from 'next'
 
-export const generateMetadata = async (): Promise<Metadata> => ({
+export const metadata: Metadata = {
     title: 'Privacy',
-    description: 'Privacy Policy',
-    openGraph: {
-        url: '/privacy/'
-    }
-})
+    description: 'Privacy Policy'
+}
 
 const Privacy = () => {
     return (

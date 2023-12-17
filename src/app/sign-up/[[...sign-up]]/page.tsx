@@ -1,13 +1,10 @@
 import { SignUp as ClerkSignUp } from '@clerk/nextjs'
 import { Metadata } from 'next'
 
-export const generateMetadata = async (): Promise<Metadata> => ({
+export const metadata: Metadata = {
     title: 'Sign up',
-    description: `Sign up to ${process.env.APP_TITLE!}.`,
-    openGraph: {
-        url: '/sign-up/'
-    }
-})
+    description: `Sign up to ${process.env.APP_TITLE!}.`
+}
 
 const SignUp = () => (
     <div className='container flex justify-center py-24'>

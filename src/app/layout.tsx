@@ -15,7 +15,8 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config.js'
-import './globals.css'
+// import './globals.css'
+import '@/assets/styles/globals.css'
 
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
@@ -28,7 +29,6 @@ export const generateViewport = (): Viewport => {
      * Get color values from Tailwind CSS config
      */
     const colors = fullConfig?.theme?.colors
-    // @ts-ignore next-line
     const themeColor = colors?.pink?.['500']
     return {
         themeColor: themeColor
@@ -43,29 +43,25 @@ export const generateMetadata = async (): Promise<Metadata> => ({
     },
     description: process.env.APP_DESCRIPTION!,
     keywords: [process.env.APP_TITLE!, ...keywords],
-    authors: [
-        {
-            name: process.env.APP_COMPANY!,
-            url: process.env.APP_COMPANY_TWITTER!
-        }
-    ],
-    creator: process.env.APP_COMPANY!,
     openGraph: {
         type: 'website',
         locale: 'en_US',
         url: process.env.APP_URL!,
-        title: process.env.APP_TITLE!,
-        description: process.env.APP_DESCRIPTION!,
         siteName: process.env.APP_TITLE!
-        // images: []
     },
     twitter: {
         card: 'summary_large_image',
         title: process.env.APP_TITLE!,
         description: process.env.APP_DESCRIPTION!,
         creator: process.env.APP_SOCIAL_TWITTER!
-    }
-    // manifest: '',
+    },
+    authors: [
+        {
+            name: process.env.APP_COMPANY!,
+            url: process.env.APP_COMPANY_TWITTER!
+        }
+    ],
+    creator: process.env.APP_COMPANY!
 })
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

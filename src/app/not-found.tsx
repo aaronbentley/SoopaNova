@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'Not Found',
-    description: "We couldn't find the requested resource."
+    description: 'It appears this side quest has been lost to the void.'
 }
 
 const NotFound = async () => (
