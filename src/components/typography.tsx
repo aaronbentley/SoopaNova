@@ -69,7 +69,8 @@ const typographyVariants = cva(['text-lg'], {
             ul: 'list-disc list-inside ps-4 space-y-2 mt-2 ',
             ol: 'list-decimal list-inside space-y-8',
             li: '',
-            em: 'italic'
+            em: 'italic',
+            strong: 'font-semibold'
         },
         muted: {
             true: 'text-neutral-500 dark:text-neutral-500'
@@ -99,7 +100,8 @@ const variantElementMap: Record<
     ul: 'ul',
     ol: 'ol',
     li: 'li',
-    em: 'em'
+    em: 'em',
+    strong: 'strong'
 }
 
 export interface TypographyProps

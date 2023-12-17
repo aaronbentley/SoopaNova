@@ -81,12 +81,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             }}>
             <html
                 lang='en'
-                className={cn([
-                    // 'light',
-                    'dark',
-                    'scroll-pt-20',
-                    GeistSans.variable
-                ])}
+                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
                 suppressHydrationWarning>
                 <head />
                 <body

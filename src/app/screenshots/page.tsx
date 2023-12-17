@@ -27,7 +27,7 @@ const Screenshots = () => {
         <>
             <div className='container'>
                 <PageHeader>
-                    <PageHeaderHeading>Choose Your Platform.</PageHeaderHeading>
+                    <PageHeaderHeading>Choose Your Platform</PageHeaderHeading>
                     <PageHeaderDescription>
                         Before creating your prints, you&apos;ll need to
                         download your screenshot files. Here&apos;s how to do it
