@@ -8,10 +8,10 @@ const robots = (): MetadataRoute.Robots => {
             disallow: [
                 '/sign-in/',
                 '/sign-up/',
-                '/orders/',
-                '/icon/',
-                '/opengraph-image',
-                '/favicon.ico'
+                '/orders/'
+                // '/icon/',
+                // '/opengraph-image',
+                // '/favicon.ico'
             ]
         },
         sitemap: `${process.env.APP_URL!}/sitemap.xml`
