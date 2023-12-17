@@ -46,7 +46,7 @@ export const generateMetadata = async (): Promise<Metadata> => ({
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: process.env.APP_URL!,
+        // url: process.env.APP_URL!,
         siteName: process.env.APP_TITLE!
     },
     twitter: {
