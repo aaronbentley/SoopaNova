@@ -116,16 +116,16 @@ const ScreenshotsPlaystation = () => {
                                 <Typography variant='li'>
                                     Open the PlayStation App and tap the{' '}
                                     <Typography variant='em'>
-                                        &lsquo;Connect to PS4/PS5
+                                        &lsquo;Connect to PS4/PS5&rsquo;
                                     </Typography>
-                                    &rsquo; option.
+                                    option.
                                 </Typography>
                             </Typography>
                         </Typography>
                         <Typography
                             variant='li'
                             className='font-extrabold'>
-                            Access Screenshots:
+                            Access screenshots:
                             <Typography
                                 variant='ul'
                                 className='font-normal'>

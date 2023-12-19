@@ -33,7 +33,8 @@ const About = () => {
                     <PageSectionDescription>Hey,</PageSectionDescription>
 
                     <PageSectionDescription>
-                        I&apos;m Aaron, a software developer from the UK.
+                        I&apos;m Aaron Bentley, a software developer from the
+                        UK.
                     </PageSectionDescription>
 
                     <PageSectionDescription>
@@ -44,10 +45,10 @@ const About = () => {
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Objective</PageSectionHeading>
                     <PageSectionDescription>
-                        To power-up your favourite video game screenshots into
-                        mighty-fine artwork for your space, so you can display
-                        your victories, scenic views, and crazy in-game moments
-                        IRL.
+                        I had an idea to power-up your favourite video game
+                        screenshots into mighty-fine artwork for your space, so
+                        you can display your victories, scenic views, and crazy
+                        in-game moments IRL.
                     </PageSectionDescription>
                     <PageSectionDescription>
                         SoopaNova is here to make sure those memories last.
@@ -122,8 +123,8 @@ const About = () => {
 
                     <PageSectionDescription>
                         Fast forward to 2022, and look how far we&apos;ve come.
-                        4K gaming is the norm, and the image resolution of
-                        screenshot images are pretty damn good.
+                        High-resolution gaming is the norm, and the image
+                        resolution of screenshot images are pretty damn good.
                     </PageSectionDescription>
 
                     <PageSectionDescription>
@@ -143,7 +144,7 @@ const About = () => {
                     <PageSectionDescription>
                         Plus I now had 20+ years of experience in software and
                         web development, so I had the skills to build the app
-                        and supporting systems to make it all work.
+                        and supporting systems to make it happen.
                     </PageSectionDescription>
 
                     <PageSectionDescription>

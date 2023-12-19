@@ -129,7 +129,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-extrabold'>
-                            Access Screenshots on PC:
+                            Access screenshots on PC:
                             <Typography
                                 variant='ul'
                                 className='font-normal'>
@@ -158,7 +158,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-extrabold'>
-                            Access Screenshots on Phone:
+                            Access screenshots on Phone:
                             <Typography
                                 variant='ul'
                                 className='font-normal'>
@@ -256,7 +256,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-extrabold'>
-                            Access Screenshots:
+                            Access screenshots:
                             <Typography
                                 variant='ul'
                                 className='font-normal'>
