@@ -57,40 +57,40 @@ const Frontpage = () => {
             <Hero className='h-screen md:h-full pt-16 md:pt-0'>
                 <Badge
                     variant='secondary'
-                    className='flex justify-around py-2 px-4'>
+                    className='flex justify-around py-2 px-4 gap-2'>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Gamepad2 className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <Gamepad2 className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Play Games</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <BoxSelect className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <BoxSelect className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Capture Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <UploadCloud className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <UploadCloud className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Upload Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <ShoppingBag className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <ShoppingBag className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Choose Print Options</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Package className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <Package className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Fast Shipping</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <LucideImage className='h-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <LucideImage className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Pixel-Perfect Prints</TooltipContent>
                     </Tooltip>
@@ -137,7 +137,7 @@ const Frontpage = () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                 Choose type
-                                <Frame className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
+                                <Frame className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Show your &apos;shot
@@ -154,7 +154,7 @@ const Frontpage = () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                 Pick size
-                                <Expand className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
+                                <Expand className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Go big (or go small)
@@ -172,7 +172,7 @@ const Frontpage = () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                 You&apos;re done
-                                <ShoppingBag className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-10 w-10 sm:h-12 sm:w-12 group-hover:opacity-100 stroke-1' />
+                                <ShoppingBag className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Get back to gaming
@@ -215,7 +215,7 @@ const Frontpage = () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                     Xbox
-                                    <XboxIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                    <XboxIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Microsoft</CardDescription>
                             </CardHeader>
@@ -226,7 +226,7 @@ const Frontpage = () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                     PlayStation
-                                    <PlaystationIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                    <PlaystationIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Sony</CardDescription>
                             </CardHeader>
@@ -237,7 +237,7 @@ const Frontpage = () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                     Steam
-                                    <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-8 w-8 sm:h-10 sm:w-10 group-hover:opacity-100 stroke-1' />
+                                    <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Valve</CardDescription>
                             </CardHeader>

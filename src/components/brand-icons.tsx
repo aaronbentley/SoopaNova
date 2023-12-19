@@ -10,7 +10,7 @@ export const XboxIcon = React.forwardRef<
         viewBox='0 0 512 512'
         ref={ref}
         className={cn(
-            ['h-6, w-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
+            ['size-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
             className
         )}
         {...props}>
@@ -28,7 +28,7 @@ export const PlaystationIcon = React.forwardRef<
         viewBox='0 0 576 512'
         ref={ref}
         className={cn(
-            ['h-6, w-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
+            ['size-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
             className
         )}
         {...props}>
@@ -47,7 +47,7 @@ export const SteamIcon = React.forwardRef<
         viewBox='0 0 496 512'
         ref={ref}
         className={cn(
-            ['h-6, w-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
+            ['size-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
             className
         )}
         {...props}>
@@ -66,7 +66,7 @@ export const OneDriveIcon = React.forwardRef<
         viewBox='-1.1321105886927185 4.72657656030581 34.05693991778303 21.467001054769135'
         ref={ref}
         className={cn(
-            ['h-6, w-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
+            ['size-6', 'fill-neutral-950', 'dark:fill-neutral-50'],
             className
         )}
         {...props}>

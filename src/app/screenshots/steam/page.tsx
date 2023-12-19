@@ -37,7 +37,7 @@ const ScreenshotsSteam = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                         Steam App
-                                        <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 h-7 w-7 group-hover:opacity-100 stroke-1' />
+                                        <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -47,7 +47,7 @@ const ScreenshotsSteam = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
                                         File System
-                                        <PcCaseIcon className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 h-7 w-7 group-hover:opacity-100 stroke-1' />
+                                        <PcCaseIcon className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>

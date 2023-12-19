@@ -39,7 +39,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_TWITTER!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
-                        <Twitter className='w-4 h-4' />
+                        <Twitter className='size-4' />
                     </a>
                     <a
                         title='Instagram'
@@ -47,7 +47,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_INSTAGRAM!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
-                        <Instagram className='w-4 h-4' />
+                        <Instagram className='size-4' />
                     </a>
                     <a
                         title='Threads'
@@ -55,7 +55,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_THREADS!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
-                        <Threads className='w-4 h-4' />
+                        <Threads className='size-4' />
                     </a>
                     <a
                         title='Facebook'
@@ -63,7 +63,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_FACEBOOK!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
-                        <Facebook className='w-4 h-4' />
+                        <Facebook className='size-4' />
                     </a>
                 </div>
             </div>

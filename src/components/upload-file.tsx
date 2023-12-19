@@ -445,8 +445,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             <div className='grid place-items-center gap-2 sm:px-5'>
                                 <UploadCloud
                                     className={cn([
-                                        'h-8',
-                                        'w-8',
+                                        'size-8',
                                         'origin-bottom',
                                         'animate-bounce',
                                         'text-pink-500'
@@ -461,8 +460,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             <div className='grid place-items-center gap-1 sm:px-5'>
                                 <UploadCloud
                                     className={cn([
-                                        'h-8',
-                                        'w-8',
+                                        'size-8',
                                         'text-neutral-400',
                                         'duration-200',
                                         'origin-bottom',
@@ -530,7 +528,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 )}
                                 {callableExecuting && (
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
+                                        <Loader2 className='size-12 animate-spin text-pink-500' />
                                         <p className='font-extrabold'>
                                             Moderating Image
                                         </p>
@@ -538,7 +536,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 )}
                                 {createPrintOptions && (
                                     <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
+                                        <Loader2 className='size-12 animate-spin text-pink-500' />
                                         <p className='font-extrabold'>
                                             Creating Print Order
                                         </p>
@@ -595,9 +593,9 @@ const UploadFile = ({ className }: { className?: string }) => {
                             {uploading ||
                             createPrintOptions ||
                             callableExecuting ? (
-                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                <Loader2 className='mr-2 size-4 animate-spin' />
                             ) : (
-                                <ShoppingBag className='mr-2 h-4 w-4' />
+                                <ShoppingBag className='mr-2 size-4' />
                             )}
                             Create Print
                         </Button>
