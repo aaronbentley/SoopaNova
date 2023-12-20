@@ -15,7 +15,6 @@ import type { Metadata, Viewport } from 'next'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config.js'
 // import './globals.css'
-import { jsonLd } from '@/assets/data/json-ld'
 import '@/assets/styles/globals.css'
 import { Suspense } from 'react'
 
@@ -71,10 +70,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             lang='en'
             className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
             suppressHydrationWarning>
-            <script
-                type='application/ld+json'
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+            {/*
+                <script
+                    type='application/ld+json'
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            */}
             <head />
             <ClerkProvider
                 appearance={{
