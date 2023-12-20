@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { Balancer } from 'react-wrap-balancer'
 import { Typography } from './typography'
 
 export const PageSection = ({
@@ -38,13 +37,12 @@ export const PageSectionDescription = ({
 }: React.HTMLAttributes<HTMLParagraphElement>) => {
     return (
         <Typography
-            asChild
-            className='text-neutral-500 dark:text-neutral-500'>
-            <Balancer
-                as='p'
-                className={cn('', className)}
-                {...props}
-            />
-        </Typography>
+            as='p'
+            className={cn(
+                ['text-neutral-500', 'dark:text-neutral-500', 'text-pretty'],
+                className
+            )}
+            {...props}
+        />
     )
 }

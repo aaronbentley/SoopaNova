@@ -1,6 +1,5 @@
 import { keywords } from '@/assets/data/keywords'
 import { clerkTheme } from '@/assets/styles/clerk-theme'
-import BalancerProvider from '@/components/balancer-provider'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
@@ -17,6 +16,7 @@ import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config.js'
 // import './globals.css'
 import '@/assets/styles/globals.css'
+import { Suspense } from 'react'
 
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
@@ -66,20 +66,20 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <ClerkProvider
-            appearance={{
-                ...clerkTheme,
-                layout: {
-                    termsPageUrl: '/terms/',
-                    privacyPageUrl: '/privacy/',
-                    showOptionalFields: true
-                }
-            }}>
-            <html
-                lang='en'
-                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
-                suppressHydrationWarning>
-                <head />
+        <html
+            lang='en'
+            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+            suppressHydrationWarning>
+            <head />
+            <ClerkProvider
+                appearance={{
+                    ...clerkTheme,
+                    layout: {
+                        termsPageUrl: '/terms/',
+                        privacyPageUrl: '/privacy/',
+                        showOptionalFields: true
+                    }
+                }}>
                 <body
                     className={cn([
                         'bg-neutral-50',
@@ -95,25 +95,23 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         defaultTheme='system'
                         enableSystem
                         disableTransitionOnChange>
-                        <BalancerProvider>
-                            <TooltipProvider>
-                                <div className='relative flex min-h-screen flex-col'>
-                                    <Header />
-                                    <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
-                                        {children}
-                                    </div>
-                                    <Footer />
+                        <TooltipProvider>
+                            <div className='relative flex min-h-screen flex-col'>
+                                <Header />
+                                <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
+                                    <Suspense>{children}</Suspense>
                                 </div>
-                                <Toaster />
-                                <TailwindIndicator />
-                            </TooltipProvider>
-                        </BalancerProvider>
+                                <Footer />
+                            </div>
+                            <Toaster />
+                            <TailwindIndicator />
+                        </TooltipProvider>
                     </ThemeProvider>
                     <Analytics />
                     <SpeedInsights />
                 </body>
-            </html>
-        </ClerkProvider>
+            </ClerkProvider>
+        </html>
     )
 }
 

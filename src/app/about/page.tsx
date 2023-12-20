@@ -23,8 +23,8 @@ const About = () => {
                 <PageHeader>
                     <PageHeaderHeading>About</PageHeaderHeading>
                     <PageHeaderDescription>
-                        TLDR; I love coding, I love video games, I love art -
-                        therefore SoopaNova was forged.
+                        TLDR; I love coding, video games & art - therefore
+                        SoopaNova was forged.
                     </PageHeaderDescription>
                 </PageHeader>
 
@@ -33,8 +33,15 @@ const About = () => {
                     <PageSectionDescription>Hey,</PageSectionDescription>
 
                     <PageSectionDescription>
-                        I&apos;m Aaron Bentley, a software developer from the
-                        UK.
+                        I&apos;m{' '}
+                        <a
+                            href='https://twitter.com/aaronbentley'
+                            title='Visit @aaronbentley on Twitter'
+                            target='_blank'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            Aaron Bentley
+                        </a>
+                        , a software developer from the UK.
                     </PageSectionDescription>
 
                     <PageSectionDescription>

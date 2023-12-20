@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import Balance from 'react-wrap-balancer'
 import { Typography } from './typography'
 import { Separator } from './ui/separator'
 
@@ -39,13 +38,10 @@ export const PageHeaderDescription = ({
 }: React.HTMLAttributes<HTMLParagraphElement>) => {
     return (
         <Typography
-            asChild
-            variant='lead'>
-            <Balance
-                as='p'
-                className={cn('max-w-[750px]', className)}
-                {...props}
-            />
-        </Typography>
+            variant='lead'
+            className={cn(['max-w-[750px]', 'text-balance'], className)}
+            as='p'
+            {...props}
+        />
     )
 }

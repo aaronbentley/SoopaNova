@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { Gamepad2, Image as LucideImage } from 'lucide-react'
-import { Balancer } from 'react-wrap-balancer'
 import { Typography } from './typography'
 
 export const Hero = ({
@@ -26,7 +25,14 @@ export const HeroHeading = ({
     <Typography
         variant='h1'
         className={cn(
-            'text-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8x',
+            [
+                'text-center',
+                'text-3xl',
+                'sm:text-5xl',
+                'md:text-6xl',
+                'lg:text-7xl',
+                'xl:text-8x'
+            ],
             className
         )}
         {...props}
@@ -38,14 +44,18 @@ export const HeroDescription = ({
     ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) => (
     <Typography
-        asChild
-        variant='lead'>
-        <Balancer
-            className={cn(
-                'max-w-[400px] text-center text-lg text-neutral-500 dark:text-neutral-500 sm:text-2xl',
-                className
-            )}
-            {...props}
-        />
-    </Typography>
+        variant='lead'
+        className={cn(
+            [
+                'max-w-[400px]',
+                'text-center',
+                'text-lg',
+                'text-neutral-500',
+                'dark:text-neutral-500',
+                'sm:text-2xl'
+            ],
+            className
+        )}
+        {...props}
+    />
 )

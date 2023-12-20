@@ -43,7 +43,7 @@ const Header = () => (
                     <ModeToggle />
 
                     <ClerkLoading>
-                        <Loader2 className='w-8 h-8 animate-spin text-pink-500' />
+                        <Loader2 className='size-8 animate-spin text-pink-500' />
                     </ClerkLoading>
                     <ClerkLoaded>
                         <SignedOut>
