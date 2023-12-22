@@ -61,7 +61,10 @@ export const generateMetadata = async (): Promise<Metadata> => ({
             url: process.env.APP_COMPANY_TWITTER!
         }
     ],
-    creator: process.env.APP_COMPANY!
+    creator: process.env.APP_COMPANY!,
+    alternates: {
+        canonical: '/'
+    }
 })
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

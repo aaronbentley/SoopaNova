@@ -32,7 +32,10 @@ import { Suspense } from 'react'
 
 export const metadata: Metadata = {
     title: 'Orders',
-    description: 'Print Orders.'
+    description: 'Print Orders.',
+    alternates: {
+        canonical: '/orders/'
+    }
 }
 
 /**

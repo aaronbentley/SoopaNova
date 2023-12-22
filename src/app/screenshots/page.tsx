@@ -16,7 +16,10 @@ import Link from 'next/link'
 export const metadata: Metadata = {
     title: 'Screenshots',
     description:
-        'How to download your gaming screenshots, ready to create awesome prints.'
+        'How to download your gaming screenshots, ready to create awesome prints.',
+    alternates: {
+        canonical: '/screenshots/'
+    }
 }
 
 const Screenshots = () => {

@@ -13,7 +13,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Privacy',
-    description: 'Privacy Policy'
+    description: 'Privacy Policy',
+    alternates: {
+        canonical: '/privacy/'
+    }
 }
 
 const Privacy = () => {

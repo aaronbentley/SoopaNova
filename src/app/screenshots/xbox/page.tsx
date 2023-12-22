@@ -18,7 +18,10 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'Xbox Screenshots',
     description:
-        'How to download your Xbox screenshots, ready to create awesome prints.'
+        'How to download your Xbox screenshots, ready to create awesome prints.',
+    alternates: {
+        canonical: '/screenshots/xbox/'
+    }
 }
 
 const ScreenshotsXbox = () => {

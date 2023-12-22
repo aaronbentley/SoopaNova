@@ -13,7 +13,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'About',
-    description: 'TLDR; I love coding, I love video games, I love art.'
+    description: 'TLDR; I love coding, I love video games, I love art.',
+    alternates: {
+        canonical: '/about/'
+    }
 }
 
 const About = () => {

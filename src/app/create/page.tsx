@@ -9,7 +9,10 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'Create',
     description:
-        'Transform your gaming screenshots into mighty-fine artwork for your space.'
+        'Transform your gaming screenshots into mighty-fine artwork for your space.',
+    alternates: {
+        canonical: '/create/'
+    }
 }
 
 const Create = () => {

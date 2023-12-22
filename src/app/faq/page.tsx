@@ -13,7 +13,10 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'FAQ',
-    description: 'Got questions? We got answers.'
+    description: 'Got questions? We got answers.',
+    alternates: {
+        canonical: '/faq/'
+    }
 }
 
 const Faq = () => {
