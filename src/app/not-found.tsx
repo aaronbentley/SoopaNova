@@ -13,7 +13,7 @@ const NotFound = async () => (
     <>
         <Hero className='h-screen sm:h-full'>
             <HeroHeading>Page Not Found</HeroHeading>
-            <HeroDescription>
+            <HeroDescription className='text-balance'>
                 It appears this side quest has been lost to the void.
             </HeroDescription>
             <Link
