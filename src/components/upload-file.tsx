@@ -16,6 +16,7 @@ import {
 } from 'react-dropzone'
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
+import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
 import CanvaspopCart from './canvaspop-cart'
 import ImageMetadata from './image-metadata'
@@ -29,7 +30,6 @@ import {
     SheetHeader,
     SheetTitle
 } from './ui/sheet'
-import { useToast } from './ui/use-toast'
 
 const UploadFile = ({ className }: { className?: string }) => {
     /**
@@ -62,11 +62,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
     const imageMinHeight = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!)
-
-    /**
-     * Initialize toast
-     */
-    const { toast } = useToast()
 
     /**
      *  Manage file in state so we can preview it
@@ -155,15 +150,13 @@ const UploadFile = ({ className }: { className?: string }) => {
             if (rejectedFiles && rejectedFiles.length) {
                 rejectedFiles.forEach(({ errors }) => {
                     errors[0]?.message &&
-                        toast({
-                            variant: 'destructive',
-                            title: 'Error',
+                        toast.error('Error', {
                             description: errors[0].message
                         })
                 })
             }
         },
-        [toast]
+        []
     )
 
     /**
@@ -201,9 +194,7 @@ const UploadFile = ({ className }: { className?: string }) => {
             // Set image dimensions error
             setImageDimensionsError(true)
 
-            toast({
-                variant: 'destructive',
-                title: 'Screenshot too small!',
+            toast.error('Screenshot too small!', {
                 description: `Minimum dimensions are ${imageMinWidth}px width and minimum ${imageMinHeight}px height.`
             })
         }
@@ -232,8 +223,7 @@ const UploadFile = ({ className }: { className?: string }) => {
         // Ensure we have a file and userId
         if (file && userId) {
             try {
-                toast({
-                    title: 'Uploading Media',
+                const processToast = toast.loading('Uploading Media', {
                     description: 'Preparing print assets'
                 })
 
@@ -264,9 +254,17 @@ const UploadFile = ({ className }: { className?: string }) => {
                 /**
                  * Handle Firebase Storage upload error
                  */
-                if (!firebaseStorageUploadResponse) {
+                if (
+                    !firebaseStorageUploadResponse ||
+                    uploadError !== undefined
+                ) {
                     throw new Error('Error uploading image to Firebase Storage')
                 }
+
+                toast.loading('Moderating Image', {
+                    id: processToast,
+                    description: 'Scanning for spicy pixels'
+                })
 
                 /**
                  * Moderate image using Google Vision API for adult content
@@ -307,8 +305,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     )
                 }
 
-                toast({
-                    title: 'Creating Print Order',
+                toast.info('Creating Print Order', {
                     description: 'Hold tight Sparky - this may take a moment'
                 })
 
@@ -376,9 +373,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 let message = 'Something went wrong.'
                 if (error instanceof Error) message = error.message
 
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
+                toast.error('Error', {
                     description: message
                 })
             } finally {

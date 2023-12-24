@@ -4,7 +4,8 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
 import ThemeProvider from '@/components/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
+// import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -112,7 +113,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
                                 <Footer />
                             </div>
-                            <Toaster />
+                            <Toaster position='bottom-center' />
                             <TailwindIndicator />
                         </TooltipProvider>
                     </ThemeProvider>
