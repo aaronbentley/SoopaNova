@@ -5,8 +5,10 @@ export const runtime = 'edge'
 export const alt = `${process.env.APP_TITLE!}: ${process.env.APP_DESCRIPTION!}`
 
 export const size = {
-    width: 1600, // 2400,
-    height: 840 // 1260
+    width: 2400,
+    // width: 1600,
+    height: 1260
+    // height: 840
 }
 
 export const contentType = 'image/png'
@@ -22,8 +24,8 @@ const opengraphImage = async () => {
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 512 50.4'
                         id='strapline'
-                        // width={1440}
-                        width={960}
+                        width={1440}
+                        // width={960}
                         fill='currentColor'>
                         <path d='M30.3,7.5v7.6H12.9v7.8h16.4v7.5H12.9V45H3.6V7.5H30.3z' />
                         <path d='M42.3,17l0.2,5.7c1.1-3.8,3.3-5.7,6.8-5.7h2.5v6.7h-2.6c-4.7,0-6.6,2-6.6,6.2V45h-9.2V17H42.3z' />
@@ -81,8 +83,8 @@ const opengraphImage = async () => {
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 502 93'
                         id='logo'
-                        // width={800}
-                        width={533}
+                        width={800}
+                        // width={533}
                         fill='currentColor'>
                         <path d='M35.49,62.73c5.52,0,9.2-2.21,9.11-6.25-.09-4.23-3.68-6.44-12.79-8.65-15.45-3.59-24.28-9.47-24.28-20.05,0-12.14,10.3-19.78,25.94-19.78s25.02,9.01,26.58,22.63l-16,.64c-.64-6.35-4.78-10.21-10.95-10.21-5.61,0-9.47,2.76-9.11,6.99.18,4.69,5.79,6.44,12.23,7.91,15.45,3.13,24.74,9.57,24.74,20.14,0,12.51-10.95,19.78-25.85,19.78-16.46,0-27.87-8.83-28.79-22.81l16.1-.83c1.1,6.44,5.52,10.49,13.06,10.49Z' />
                         <path d='M64.09,50.41c0-15.36,10.3-25.48,25.94-25.48s26.03,10.12,26.03,25.48-10.3,25.48-26.03,25.48-25.94-10.12-25.94-25.48ZM90.03,64.11c6.16,0,9.66-4.97,9.66-13.71s-3.5-13.71-9.66-13.71-9.57,4.97-9.57,13.71,3.4,13.71,9.57,13.71Z' />
@@ -103,10 +105,10 @@ const opengraphImage = async () => {
                     }}>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        // width='420'
-                        width='280'
-                        // height='420'
-                        height='280'
+                        width='420'
+                        // width='280'
+                        height='420'
+                        // height='280'
                         viewBox='0 0 24 24'
                         fill='none'
                         stroke='currentColor'
@@ -148,10 +150,10 @@ const opengraphImage = async () => {
                     }}>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        // width='380'
-                        width='253'
-                        // height='380'
-                        height='253'
+                        width='380'
+                        // width='253'
+                        height='380'
+                        // height='253'
                         viewBox='0 0 24 24'
                         fill='none'
                         stroke='currentColor'
