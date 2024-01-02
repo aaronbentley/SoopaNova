@@ -6,23 +6,38 @@ import { authMiddleware } from '@clerk/nextjs'
 
 // const middleware = authMiddleware({
 export default authMiddleware({
-    // Public routes accessible to all users
-    publicRoutes: [
-        '/',
-        '/screenshots/(.*)',
-        '/faq',
-        '/about',
-        '/not-found',
-        '/opengraph-image',
-        '/icon',
-        '/terms',
-        '/privacy'
-    ],
+    /**
+     * Explicit list of public routes accessible to all users
+     */
+    // publicRoutes: [
+    //     '/',
+    //     '/screenshots/(.*)',
+    //     '/faq',
+    //     '/about',
+    //     '/not-found',
+    //     '/opengraph-image',
+    //     '/icon',
+    //     '/terms',
+    //     '/privacy'
+    // ],
+
+    /**
+     * Negative assertion that makes only the '/create/' & '/orders/**' routes protected
+     */
+    publicRoutes: ['((?!^/create/|^/orders/).*)'],
     debug: false
 })
 
 // export default middleware
 
 export const config = {
-    matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc|_vercel)(.*)']
+    // matcher: ['/', '/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
+    // matcher: ['/', '/((?!.+\\.[\\w]+$|_next|_vercel).*)', '/(api|trpc)(.*)']
+    // matcher: ['/((?!api/|_next/|_static|_vercel|[\\w-]+\\.\\w+).*)']
+    matcher: [
+        '/',
+        // '/((?!api|_next/static|_next/image|_vercel|favicon.ico).*)',
+        '/((?!api|_next/static|_next|_vercel|favicon.ico).*)',
+        '/(api|trpc)(.*)'
+    ]
 }
