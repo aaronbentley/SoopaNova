@@ -68,26 +68,27 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <html
-            lang='en'
-            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
-            suppressHydrationWarning>
-            {/*
+        <ClerkProvider
+            appearance={{
+                ...clerkTheme,
+                layout: {
+                    termsPageUrl: '/terms/',
+                    privacyPageUrl: '/privacy/',
+                    showOptionalFields: true
+                }
+            }}>
+            <html
+                lang='en'
+                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+                suppressHydrationWarning>
+                {/*
                 <script
                     type='application/ld+json'
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             */}
-            <head />
-            <ClerkProvider
-                appearance={{
-                    ...clerkTheme,
-                    layout: {
-                        termsPageUrl: '/terms/',
-                        privacyPageUrl: '/privacy/',
-                        showOptionalFields: true
-                    }
-                }}>
+                <head />
+
                 <body
                     className={cn([
                         'bg-neutral-50',
@@ -118,8 +119,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     <Analytics />
                     <SpeedInsights />
                 </body>
-            </ClerkProvider>
-        </html>
+            </html>
+        </ClerkProvider>
     )
 }
 
