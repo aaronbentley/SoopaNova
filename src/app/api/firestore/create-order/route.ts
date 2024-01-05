@@ -133,7 +133,7 @@ export const POST = async (request: NextRequest) => {
      * Save order to firestore
      */
     try {
-        await firestore
+        const order = await firestore
             .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
             .doc(userId)
             .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
@@ -148,26 +148,27 @@ export const POST = async (request: NextRequest) => {
                 orderMarkupProfit,
                 createdAt: admin.firestore.FieldValue.serverTimestamp()
             })
+
+        /**
+         * Return response
+         */
+        return NextResponse.json(
+            {
+                ok: true,
+                message: 'success',
+                data: {
+                    orderId: order.id
+                    // productType,
+                    // productWidth,
+                    // productHeight,
+                    // productFrame,
+                    // productEdge,
+                    // productPrice
+                }
+            },
+            { status: 200 }
+        )
     } catch (error) {
         return NextResponse.json({ message: error }, { status: 500 })
     }
-
-    /**
-     * Return response
-     */
-    return NextResponse.json(
-        {
-            ok: true,
-            message: 'success',
-            data: {
-                productType,
-                productWidth,
-                productHeight,
-                productFrame,
-                productEdge,
-                productPrice
-            }
-        },
-        { status: 200 }
-    )
 }

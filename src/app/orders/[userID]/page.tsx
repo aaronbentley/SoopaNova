@@ -3,6 +3,7 @@ import {
     productFrameSlugs,
     productTypeSlugs
 } from '@/assets/data/product-slugs'
+import NewOrderToast from '@/components/new-order-toast'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -120,7 +121,7 @@ const OrdersTable = async () => {
         return (
             <div className='w-full flex justify-center items-center'>
                 <Alert className='w-max'>
-                    <Info className='h-4 w-4' />
+                    <Info className='size-4' />
                     <AlertTitle>No Print Orders Yet!</AlertTitle>
                     <AlertDescription>
                         Go{' '}
@@ -228,6 +229,10 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
                         fullName !== null ? fullName : primaryEmail
                     }`}</PageHeaderDescription>
                 </PageHeader>
+
+                <Suspense>
+                    <NewOrderToast />
+                </Suspense>
 
                 <PageSection>
                     <Suspense fallback={<TableSkeleton />}>

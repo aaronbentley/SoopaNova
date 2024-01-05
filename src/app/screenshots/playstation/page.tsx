@@ -148,7 +148,7 @@ const ScreenshotsPlaystation = () => {
                     </Typography>
 
                     <Alert className='w-max'>
-                        <Info className='h-4 w-4' />
+                        <Info className='size-4' />
                         <AlertTitle>Heads up!</AlertTitle>
                         <AlertDescription>
                             Screenshots are available in the PlayStation App for

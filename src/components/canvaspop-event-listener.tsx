@@ -366,7 +366,7 @@ const CanvasPopCartEventListener = () => {
                                 price: productPrice
                             })
 
-                            // Call route to save order to firestore db
+                            // Call route to create new order in firestore db
                             console.info(
                                 '⭐️ Sending order data to firestore...'
                             )
@@ -379,14 +379,18 @@ const CanvasPopCartEventListener = () => {
                                 productPrice
                             })
 
-                            console.log(
-                                '🦄 ~ file: canvaspop-event-listener.tsx:404 ~ listener ~ createOrderResponse:',
-                                createOrderResponse
-                            )
+                            // console.log(
+                            //     '🦄 ~ file: canvaspop-event-listener.tsx:404 ~ listener ~ createOrderResponse:',
+                            //     createOrderResponse
+                            // )
 
-                            // FIXME: Check createOrderResponse & reset state
-
+                            // Check createOrderResponse, reset state and redirect to orders page
                             if (createOrderResponse.ok === true) {
+                                // Destrucure new order data the response
+                                const {
+                                    data: { orderId = '' }
+                                } = createOrderResponse
+
                                 setProductType(null)
                                 setProductWidth(null)
                                 setProductHeight(null)
@@ -394,10 +398,12 @@ const CanvasPopCartEventListener = () => {
                                 setProductEdge(null)
                                 setProductPrice(null)
 
-                                // FIXME: Redirect to order confirmation page
+                                // Redirect to orders page with a 1 second delay, include order complete param
                                 setTimeout(() => {
-                                    router.push(`/orders/${user.id}/`)
-                                }, 3000)
+                                    router.push(
+                                        `/orders/${user.id}/?orderId=${orderId}`
+                                    )
+                                }, 1000)
                             }
 
                             break
