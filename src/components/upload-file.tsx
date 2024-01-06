@@ -487,7 +487,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                 }}>
                 <SheetContent
                     side='top'
-                    className='h-fit flex flex-col gap-y-6 border-none container mx-auto'>
+                    className='h-fit flex flex-col gap-y-6 border-none container mx-auto'
+                    onOpenAutoFocus={(event) => {
+                        event.preventDefault()
+                    }}>
                     <SheetHeader>
                         <SheetTitle className='font-extrabold'>
                             Screenshot Preview
@@ -581,7 +584,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 contentModeration ||
                                 imageDimensionsError
                             }
-                            className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'
+                            className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 focus-visible:ring-pink-500 dark:focus-visible:ring-pink-500'
                             onClick={() => {
                                 createPrintOrder()
                             }}>
