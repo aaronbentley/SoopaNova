@@ -19,8 +19,6 @@ export const metadata: Metadata = {
     }
 }
 
-export const dynamic = 'force-static'
-
 const About = () => {
     return (
         <>
