@@ -19,10 +19,10 @@
         "firebase-functions": "^4.3.1"
     },
     "devDependencies": {
+        "@types/react": "18.2.47",
+        "@types/react-dom": "18.2.18",
         "firebase-functions-test": "^3.1.0",
-        "typescript": "^5.2.2",
-        "@types/react": "18.2.37",
-        "@types/react-dom": "18.2.15"
+        "typescript": "^5.2.2"
     },
     "private": true
 }
