@@ -15,7 +15,7 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import resolveConfig from 'tailwindcss/resolveConfig'
-import tailwindConfig from '../../tailwind.config.js'
+import tailwindConfig from '../../tailwind.config'
 
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {

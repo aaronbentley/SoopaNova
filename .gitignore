@@ -34,4 +34,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Next.js certificates
 certificates
+
+# react email
+.react-email

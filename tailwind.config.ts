@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
     darkMode: ['class'],
     content: ['./src/**/*.{ts,tsx}'],
     theme: {
@@ -12,9 +13,11 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-              sans: ['var(--font-geist-sans)'],
+                sans: ['var(--font-geist-sans)']
             }
         }
     },
     plugins: [require('tailwindcss-animate')]
 }
+
+export default config
