@@ -9,4 +9,4 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ## Features Todosies
 
-- [ ] Admin email notification on new order, Firestore document create trigger
+- [ ] Admin email notification on new order, route handler to send email on new order via Resend.
