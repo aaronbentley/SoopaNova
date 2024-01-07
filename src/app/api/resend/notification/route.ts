@@ -13,7 +13,7 @@ export const POST = async (request: NextRequest) => {
      * Get form data from request body
      */
     const data = await request.json()
-    // console.log('🦄 ~ file: route.ts:16 ~ POST ~ data:', data)
+    console.log('🦄 ~ file: route.ts:16 ~ POST ~ data:', data)
 
     /**
      * Bail if no data
@@ -32,30 +32,34 @@ export const POST = async (request: NextRequest) => {
      * Destructure order payload from data
      */
     const {
-        orderId = null,
+        orderId = 'orderId',
         productType = null,
-        productWidth = null,
-        productHeight = null,
+        productWidth = 0,
+        productHeight = 0,
         productFrame = null,
         productEdge = null,
-        productPrice = null
+        productPrice = 0,
+        orderMarkupRate = 0,
+        orderMarkupProfit = 0
     }: {
-        orderId: string | null
+        orderId: string
         productType: ProductType
-        productWidth: number | null
-        productHeight: number | null
+        productWidth: number
+        productHeight: number
         productFrame: ProductFrame
         productEdge: ProductEdge
-        productPrice: number | null
+        productPrice: number
+        orderMarkupRate: number
+        orderMarkupProfit: number
     } = data
 
     /**
-     * Bail if no order payload
+     * Bail if order payload data is missing
      */
     if (!productType || !productWidth || !productHeight || !productPrice) {
         return NextResponse.json(
             {
-                message: 'error: no order payload',
+                message: 'error: missing order payload data',
                 data: {
                     orderId,
                     productType,
@@ -68,38 +72,6 @@ export const POST = async (request: NextRequest) => {
             },
             { status: 400 }
         )
-    }
-
-    /**
-     * Get canvaspop product type markup percentage rates
-     */
-    const canvaspopMarkupRatePoster = Number(
-        process.env.CANVASPOP_MARKUP_RATE_POSTER!
-    )
-    const canvaspopMarkupRateCanvas = Number(
-        process.env.CANVASPOP_MARKUP_RATE_CANVAS!
-    )
-    const canvaspopMarkupRateFramedPrint = Number(
-        process.env.CANVASPOP_MARKUP_RATE_FRAMED_PRINT!
-    )
-
-    /**
-     * Create map of canvaspop product type slugs to markup percentage rates
-     */
-    const productMarkupRates = new Map<string, number>()
-    productMarkupRates.set('PO', canvaspopMarkupRatePoster)
-    productMarkupRates.set('S', canvaspopMarkupRateCanvas)
-    productMarkupRates.set('FP', canvaspopMarkupRateFramedPrint)
-
-    /**
-     * Calculate order markup rate
-     */
-    const orderMarkupRate = productMarkupRates.get(productType)
-
-    let orderMarkupProfit = 0
-
-    if (orderMarkupRate) {
-        orderMarkupProfit = productPrice * orderMarkupRate
     }
 
     try {

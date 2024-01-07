@@ -44,46 +44,15 @@ const CanvasPopCartEventListener = () => {
         productEdge: ProductEdge
         productPrice: number | null
     }) => {
-        const createOrderResponse = await fetch('/api/firestore/create-order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productType,
-                productWidth,
-                productHeight,
-                productFrame,
-                productEdge,
-                productPrice
-            })
-        })
-        // console.log(
-        //     '🦄 ~ file: canvaspop-event-listener.tsx:360 ~ listener ~ createOrderResponse:',
-        //     createOrderResponse
-        // )
-
-        const createOrderResponseJson = await createOrderResponse.json()
-        // console.log(
-        //     '🦄 ~ file: canvaspop-event-listener.tsx:363 ~ listener ~ createOrderResponseJson:',
-        //     createOrderResponseJson
-        // )
-
-        if (createOrderResponseJson.ok === true) {
-            const {
-                data: { orderId = '' }
-            } = createOrderResponseJson
-
-            // Send notification email to admin
-            const sendNotificationEmailResponse = await fetch(
-                '/api/resend/notification',
+        try {
+            const createOrderResponse = await fetch(
+                '/api/firestore/create-order',
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        orderId,
                         productType,
                         productWidth,
                         productHeight,
@@ -93,12 +62,21 @@ const CanvasPopCartEventListener = () => {
                     })
                 }
             )
-            // console.log(
-            //     '🦄 ~ file: canvaspop-event-listener.tsx:96 ~ CanvasPopCartEventListener ~ sendNotificationEmailResponse:',
-            //     sendNotificationEmailResponse
-            // )
+
+            const createOrderResponseJson = await createOrderResponse.json()
+
+            if (!createOrderResponseJson.ok) {
+                throw new Error(
+                    `Error creating order: ${createOrderResponseJson.message}`
+                )
+            }
 
             return createOrderResponseJson
+        } catch (error) {
+            console.error(error)
+            let message = 'Something went wrong.'
+            if (error instanceof Error) message = error.message
+            console.error(message, error)
         }
     }
 

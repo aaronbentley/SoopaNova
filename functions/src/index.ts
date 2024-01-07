@@ -8,6 +8,7 @@
 import vision from '@google-cloud/vision'
 import { initializeApp } from 'firebase-admin/app'
 import { logger } from 'firebase-functions'
+import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { onCall } from 'firebase-functions/v2/https'
 
 /**
@@ -127,6 +128,77 @@ export const moderateImageUrl = onCall(
             }
         } finally {
             logger.info('OK - Cloud Vision SafeSearch moderation completed.')
+        }
+    }
+)
+
+/**
+ * Firestore trigger function.
+ * Function to create a new order email confirmation and send it to admin.
+ */
+export const onOrderCreated = onDocumentCreated(
+    'customers/{userId}/orders/{orderId}',
+    async (event) => {
+        logger.info('Cloud Function has executed onDocumentCreated', event)
+
+        // Set baseUrl - hardcode for now
+        const baseUrl = 'https://soopanova.app'
+
+        // Get an object representing the document
+        const snapshot = event.data
+
+        if (!snapshot) {
+            logger.error('Error: No document snapshot provided.')
+            return
+        }
+
+        // Get the document data
+        const data = snapshot.data()
+
+        if (!data) {
+            logger.error('Error: No document data provided.')
+            return
+        }
+
+        // Get the order data properties with  fallbacks
+        const order = {
+            orderId: event.params.orderId,
+            productType: data.productType || 'not specified',
+            productWidth: data.productWidth || 'not specified',
+            productHeight: data.productHeight || 'not specified',
+            productFrame: data.productFrame || 'none',
+            productEdge: data.productEdge || 'none',
+            productPrice: data.productPrice || 'not specified',
+            orderMarkupRate: data.orderMarkupRate || 'not specified',
+            orderMarkupProfit: data.orderMarkupProfit || 'not specified'
+        }
+
+        logger.info('Order data', order)
+
+        try {
+            const emailNotification = await fetch(
+                `${baseUrl}/api/resend/notification`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                }
+            )
+
+            if (!emailNotification.ok) {
+                throw new Error('Email notification failed.')
+            }
+
+            return logger.info(
+                'Email notification sent successfully.',
+                emailNotification
+            )
+        } catch (error) {
+            let message = 'Something went wrong.'
+            if (error instanceof Error) message = error.message
+            console.error(message, error)
         }
     }
 )
