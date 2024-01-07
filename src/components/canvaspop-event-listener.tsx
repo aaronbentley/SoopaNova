@@ -93,10 +93,10 @@ const CanvasPopCartEventListener = () => {
                     })
                 }
             )
-            console.log(
-                '🦄 ~ file: canvaspop-event-listener.tsx:96 ~ CanvasPopCartEventListener ~ sendNotificationEmailResponse:',
-                sendNotificationEmailResponse
-            )
+            // console.log(
+            //     '🦄 ~ file: canvaspop-event-listener.tsx:96 ~ CanvasPopCartEventListener ~ sendNotificationEmailResponse:',
+            //     sendNotificationEmailResponse
+            // )
 
             return createOrderResponseJson
         }
