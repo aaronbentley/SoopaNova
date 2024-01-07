@@ -1,36 +1,19 @@
+import OrderEmail from '@/email/order'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
-import { auth } from '@clerk/nextjs'
-import * as admin from 'firebase-admin'
 import { NextRequest, NextResponse } from 'next/server'
+import { Resend } from 'resend'
 
 /**
- * Initialize Firebase Admin SDK
+ * Initialize Resend
  */
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID!,
-            clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL!,
-            privateKey:
-                process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID!.replace(
-                    /\\n/g,
-                    '\n'
-                )
-        })
-    })
-}
-
-/**
- * Initialize Firestore
- */
-const firestore = admin.firestore()
+const resend = new Resend(process.env.RESEND_API_KEY!)
 
 export const POST = async (request: NextRequest) => {
     /**
      * Get form data from request body
      */
     const data = await request.json()
-    // console.log('🦄 ~ file: route.ts:8 ~ POST ~ data:', data)
+    console.log('🦄 ~ file: route.ts:16 ~ POST ~ data:', data)
 
     /**
      * Bail if no data
@@ -85,15 +68,6 @@ export const POST = async (request: NextRequest) => {
     }
 
     /**
-     * Get current user
-     */
-    const { userId } = auth()
-
-    if (!userId) {
-        return new Response('Unauthorized', { status: 401 })
-    }
-
-    /**
      * Get canvaspop product type markup percentage rates
      */
     const canvaspopMarkupRatePoster = Number(
@@ -123,40 +97,33 @@ export const POST = async (request: NextRequest) => {
 
     if (orderMarkupRate) {
         orderMarkupProfit = productPrice * orderMarkupRate
-        // console.log(
-        //     `🦄 ~ Markup Profit: ${productPrice} x ${orderMarkupRate} = $`,
-        //     orderMarkupProfit
-        // )
     }
 
-    /**
-     * Save order to firestore
-     */
     try {
-        const order = await firestore
-            .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
-            .doc(userId)
-            .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
-            .add({
+        const { data, error } = await resend.emails.send({
+            from: `${process.env.APP_TITLE!} <notifications@soopanova.app>`,
+            to: [process.env.RESEND_NOTIFICATION_EMAIL!],
+            subject: 'New Order',
+            react: OrderEmail({
+                id: '000001',
                 productType,
                 productWidth,
                 productHeight,
                 productFrame,
                 productEdge,
-                productPrice,
-                orderMarkupRate,
-                orderMarkupProfit,
-                createdAt: admin.firestore.FieldValue.serverTimestamp()
+                productPrice
             })
+        })
 
-        /**
-         * Return response
-         */
+        if (error) {
+            throw new Error(error.message)
+        }
+
         return NextResponse.json(
             {
                 ok: true,
                 message: 'success',
-                data: { orderId: order.id }
+                data
             },
             { status: 200 }
         )
@@ -164,6 +131,6 @@ export const POST = async (request: NextRequest) => {
         let message = 'Something went wrong.'
         if (error instanceof Error) message = error.message
         console.error(message, error)
-        return NextResponse.json({ message: error }, { status: 500 })
+        return NextResponse.json({ message: message }, { status: 500 })
     }
 }

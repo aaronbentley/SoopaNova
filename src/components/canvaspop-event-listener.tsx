@@ -433,14 +433,17 @@ const CanvasPopCartEventListener = () => {
     ])
 
     // Debug
-    console.info('📘 State:', {
-        type: productType,
-        width: productWidth,
-        height: productHeight,
-        frame: productFrame,
-        edge: productEdge,
-        price: productPrice
-    })
+
+    if (process.env.NODE_ENV !== 'production') {
+        console.info('📘 State:', {
+            type: productType,
+            width: productWidth,
+            height: productHeight,
+            frame: productFrame,
+            edge: productEdge,
+            price: productPrice
+        })
+    }
 
     return null
 }
