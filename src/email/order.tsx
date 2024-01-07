@@ -25,7 +25,7 @@ interface OrderEmailProps {
     orderMarkupProfit?: number
 }
 
-const baseUrl = process.env.APP_URL ? `https://${process.env.APP_URL}` : ''
+const baseUrl = process.env.APP_URL ? process.env.APP_URL : ''
 
 const OrderEmail = ({
     orderId = 'orderId',
