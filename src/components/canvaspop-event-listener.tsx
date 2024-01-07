@@ -69,7 +69,37 @@ const CanvasPopCartEventListener = () => {
         //     createOrderResponseJson
         // )
 
-        return createOrderResponseJson
+        if (createOrderResponseJson.ok === true) {
+            const {
+                data: { orderId = '' }
+            } = createOrderResponseJson
+
+            // Send notification email to admin
+            const sendNotificationEmailResponse = await fetch(
+                '/api/resend/notification',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId,
+                        productType,
+                        productWidth,
+                        productHeight,
+                        productFrame,
+                        productEdge,
+                        productPrice
+                    })
+                }
+            )
+            console.log(
+                '🦄 ~ file: canvaspop-event-listener.tsx:96 ~ CanvasPopCartEventListener ~ sendNotificationEmailResponse:',
+                sendNotificationEmailResponse
+            )
+
+            return createOrderResponseJson
+        }
     }
 
     /**

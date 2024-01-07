@@ -32,6 +32,7 @@ export const POST = async (request: NextRequest) => {
      * Destructure order payload from data
      */
     const {
+        orderId = null,
         productType = null,
         productWidth = null,
         productHeight = null,
@@ -39,6 +40,7 @@ export const POST = async (request: NextRequest) => {
         productEdge = null,
         productPrice = null
     }: {
+        orderId: string | null
         productType: ProductType
         productWidth: number | null
         productHeight: number | null
@@ -55,6 +57,7 @@ export const POST = async (request: NextRequest) => {
             {
                 message: 'error: no order payload',
                 data: {
+                    orderId,
                     productType,
                     productWidth,
                     productHeight,
@@ -103,9 +106,9 @@ export const POST = async (request: NextRequest) => {
         const { data, error } = await resend.emails.send({
             from: `${process.env.APP_TITLE!} <notifications@soopanova.app>`,
             to: [process.env.RESEND_NOTIFICATION_EMAIL!],
-            subject: 'New Order',
+            subject: `New Order: ${orderId}`,
             react: OrderEmail({
-                id: '000001',
+                orderId,
                 productType,
                 productWidth,
                 productHeight,

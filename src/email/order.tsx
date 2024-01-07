@@ -14,7 +14,7 @@ import {
 } from '@react-email/components'
 
 interface OrderEmailProps {
-    id?: string
+    orderId?: string | null
     productType?: ProductType
     productWidth?: number
     productHeight?: number
@@ -28,7 +28,7 @@ interface OrderEmailProps {
 const baseUrl = process.env.APP_URL ? `https://${process.env.APP_URL}` : ''
 
 const OrderEmail = ({
-    id = '#ID',
+    orderId = 'orderId',
     productType = 'PO',
     productWidth = 0,
     productHeight = 0,
@@ -38,7 +38,7 @@ const OrderEmail = ({
     orderMarkupRate = 0,
     orderMarkupProfit = 0
 }: OrderEmailProps) => {
-    const previewText = `SoopaNova Order ${id}`
+    const previewText = `SoopaNova Order #${orderId}`
     return (
         <Html>
             <Head />
@@ -66,7 +66,7 @@ const OrderEmail = ({
                                     Order ID:
                                 </td>
                                 <td className='text-neutral-500 text-[16px] p-0 my-0 mx-0'>
-                                    {id}
+                                    {orderId}
                                 </td>
                             </tr>
                             <tr>
