@@ -25,9 +25,7 @@ interface OrderEmailProps {
     orderMarkupProfit?: number
 }
 
-const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : ''
+const baseUrl = process.env.APP_URL ? `https://${process.env.APP_URL}` : ''
 
 const OrderEmail = ({
     id = '#ID',
