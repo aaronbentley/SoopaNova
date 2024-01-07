@@ -385,21 +385,21 @@ const CanvasPopCartEventListener = () => {
                         //#region Completion events
                         // User has completed a purchase
                         case 'appOrderComplete':
-                            console.info('⭐️ appOrderComplete', eventArgs)
+                            // console.info('⭐️ appOrderComplete', eventArgs)
 
-                            console.info('📕 appOrderComplete State:', {
-                                type: productType,
-                                width: productWidth,
-                                height: productHeight,
-                                frame: productFrame,
-                                edge: productEdge,
-                                price: productPrice
-                            })
+                            // console.info('📕 appOrderComplete State:', {
+                            //     type: productType,
+                            //     width: productWidth,
+                            //     height: productHeight,
+                            //     frame: productFrame,
+                            //     edge: productEdge,
+                            //     price: productPrice
+                            // })
 
                             // Call route to create new order in firestore db
-                            console.info(
-                                '⭐️ Sending order data to firestore...'
-                            )
+                            // console.info(
+                            //     '⭐️ Sending order data to firestore...'
+                            // )
                             const createOrderResponse = await createOrder({
                                 productType,
                                 productWidth,
