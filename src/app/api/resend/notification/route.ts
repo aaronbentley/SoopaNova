@@ -13,7 +13,7 @@ export const POST = async (request: NextRequest) => {
      * Get form data from request body
      */
     const data = await request.json()
-    console.log('🦄 ~ file: route.ts:16 ~ POST ~ data:', data)
+    // console.log('🦄 ~ file: route.ts:16 ~ POST ~ data:', data)
 
     /**
      * Bail if no data
@@ -96,7 +96,7 @@ export const POST = async (request: NextRequest) => {
      */
     const orderMarkupRate = productMarkupRates.get(productType)
 
-    let orderMarkupProfit = null
+    let orderMarkupProfit = 0
 
     if (orderMarkupRate) {
         orderMarkupProfit = productPrice * orderMarkupRate
@@ -114,7 +114,9 @@ export const POST = async (request: NextRequest) => {
                 productHeight,
                 productFrame,
                 productEdge,
-                productPrice
+                productPrice,
+                orderMarkupRate,
+                orderMarkupProfit
             })
         })
 
