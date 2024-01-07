@@ -269,6 +269,10 @@ const Frontpage = () => {
                                 accurate detail in tonal range for art prints
                                 that make a statement.
                             </PageSectionDescription>
+
+                            <PageSectionDescription>
+                                Poster Print prices start from $12 (USD).
+                            </PageSectionDescription>
                         </div>
                         <div className='order-1 md:order-2'>
                             <Image
@@ -291,6 +295,9 @@ const Frontpage = () => {
                                 quality canvas, UV coated and designed to last
                                 with no fading - Canvas printing done right:
                                 museum-quality, expertly crafted, ready to hang.
+                            </PageSectionDescription>
+                            <PageSectionDescription>
+                                Canvas Print prices start from $53 (USD).
                             </PageSectionDescription>
                         </div>
                         <div className='order-1'>
@@ -316,6 +323,9 @@ const Frontpage = () => {
                                 coating options), and paired with ultra-low
                                 glare plexiglass to ensure your prints get all
                                 the attention.
+                            </PageSectionDescription>
+                            <PageSectionDescription>
+                                Framed Print prices start from $73 (USD).
                             </PageSectionDescription>
                         </div>
                         <div className='order-1 md:order-2'>
