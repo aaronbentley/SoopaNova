@@ -12,7 +12,7 @@ const cspHeader = `
     frame-src 'self' *.canvaspop.com;
     frame-ancestors 'none';
     worker-src 'self' blob:;
-    connect-src 'self' *.soopanova.app '*.googleapis.com *.cloudfunctions.net;
+    connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;
     block-all-mixed-content;
     upgrade-insecure-requests;
 `
