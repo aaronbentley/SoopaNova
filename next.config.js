@@ -2,7 +2,7 @@
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline' *.soopanova.app;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
@@ -10,6 +10,7 @@ const cspHeader = `
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
+    worker-src 'self';
     block-all-mixed-content;
     upgrade-insecure-requests;
 `
@@ -35,11 +36,10 @@ const nextConfig = {
                         key: 'Strict-Transport-Security',
                         value: 'max-age=63072000; includeSubDomains; preload'
                     },
-                    {
-                        key: 'Permissions-Policy',
-                        // value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()',
-                        value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()'
-                    },
+                    // {
+                    //     key: 'Permissions-Policy',
+                    //     value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()'
+                    // },
                     {
                         key: 'X-Content-Type-Options',
                         value: 'nosniff'
