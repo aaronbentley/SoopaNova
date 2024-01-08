@@ -2,7 +2,7 @@
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' *.soopanova.app;
+    script-src 'self' *.soopanova.app;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: *.clerk.com;
     font-src 'self';
@@ -55,8 +55,8 @@ const nextConfig = {
                         value: 'same-origin'
                     },
                     {
-                        // key: 'Content-Security-Policy-Report-Only',
-                        key: 'Content-Security-Policy',
+                        key: 'Content-Security-Policy-Report-Only',
+                        // key: 'Content-Security-Policy',
                         value: cspHeader.replace(/\n/g, '')
                     }
                 ]
