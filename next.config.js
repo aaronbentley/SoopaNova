@@ -4,7 +4,7 @@ const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-inline' *.soopanova.app;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data:;
+    img-src 'self' blob: data: *.clerk.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
