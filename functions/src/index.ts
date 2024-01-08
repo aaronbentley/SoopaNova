@@ -142,7 +142,7 @@ export const onOrderCreated = onDocumentCreated(
         logger.info('Cloud Function has executed onDocumentCreated', event)
 
         // Set baseUrl - hardcode for now
-        const baseUrl = 'https://soopanova.app'
+        // const baseUrl = 'https://soopanova.app'
 
         // Get an object representing the document
         const snapshot = event.data
@@ -175,30 +175,30 @@ export const onOrderCreated = onDocumentCreated(
 
         logger.info('Order data', order)
 
-        try {
-            const emailNotification = await fetch(
-                `${baseUrl}/api/resend/notification`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(order)
-                }
-            )
+        // try {
+        //     const emailNotification = await fetch(
+        //         `${baseUrl}/api/resend/notification`,
+        //         {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify(order)
+        //         }
+        //     )
 
-            if (!emailNotification.ok) {
-                throw new Error('Email notification failed.')
-            }
+        //     if (!emailNotification.ok) {
+        //         throw new Error('Email notification failed.')
+        //     }
 
-            return logger.info(
-                'Email notification sent successfully.',
-                emailNotification
-            )
-        } catch (error) {
-            let message = 'Something went wrong.'
-            if (error instanceof Error) message = error.message
-            console.error(message, error)
-        }
+        //     return logger.info(
+        //         'Email notification sent successfully.',
+        //         emailNotification
+        //     )
+        // } catch (error) {
+        //     let message = 'Something went wrong.'
+        //     if (error instanceof Error) message = error.message
+        //     console.error(message, error)
+        // }
     }
 )
