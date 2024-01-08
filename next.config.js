@@ -47,11 +47,16 @@ const nextConfig = {
                         value: 'nosniff'
                     },
                     {
+                        key: 'X-Frame-Options',
+                        value: 'SAMEORIGIN'
+                    },
+                    {
                         key: 'Referrer-Policy',
                         value: 'same-origin'
                     },
                     {
-                        key: 'Content-Security-Policy-Report-Only',
+                        // key: 'Content-Security-Policy-Report-Only',
+                        key: 'Content-Security-Policy',
                         value: cspHeader.replace(/\n/g, '')
                     }
                 ]
