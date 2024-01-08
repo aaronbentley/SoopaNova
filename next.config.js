@@ -10,7 +10,8 @@ const cspHeader = `
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
-    worker-src 'self';
+    worker-src 'self' blob:;
+    connect-src 'self' *.soopanova.app;
     block-all-mixed-content;
     upgrade-insecure-requests;
 `
