@@ -2,7 +2,7 @@
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' *.soopanova.app;
+    script-src 'self' 'unsafe-inline' *.soopanova.app;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: *.clerk.com;
     font-src 'self';
@@ -38,10 +38,10 @@ const nextConfig = {
                         key: 'Strict-Transport-Security',
                         value: 'max-age=31536000; includeSubDomains; preload'
                     },
-                    // {
-                    //     key: 'Permissions-Policy',
-                    //     value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()'
-                    // },
+                    {
+                        key: 'Permissions-Policy',
+                        value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()'
+                    },
                     {
                         key: 'X-Content-Type-Options',
                         value: 'nosniff'
@@ -55,8 +55,8 @@ const nextConfig = {
                         value: 'same-origin'
                     },
                     {
-                        key: 'Content-Security-Policy-Report-Only',
-                        // key: 'Content-Security-Policy',
+                        // key: 'Content-Security-Policy-Report-Only',
+                        key: 'Content-Security-Policy',
                         value: cspHeader.replace(/\n/g, '')
                     }
                 ]
