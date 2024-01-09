@@ -469,7 +469,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     file
                                 </p>
                                 <small className='text-sm text-neutral-400 dark:text-neutral-600'>
-                                    Maximum file size {formatBytes(maxSize)}
+                                    Max. file size {formatBytes(maxSize)}
                                 </small>
                             </div>
                         )}
