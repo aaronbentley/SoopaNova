@@ -141,9 +141,6 @@ export const onOrderCreated = onDocumentCreated(
     async (event) => {
         logger.info('Cloud Function has executed onDocumentCreated', event)
 
-        // Set baseUrl - hardcode for now
-        // const baseUrl = 'https://soopanova.app'
-
         // Get an object representing the document
         const snapshot = event.data
 
@@ -162,6 +159,7 @@ export const onOrderCreated = onDocumentCreated(
 
         // Get the order data properties with  fallbacks
         const order = {
+            userId: event.params.userId,
             orderId: event.params.orderId,
             productType: data.productType || 'not specified',
             productWidth: data.productWidth || 'not specified',
@@ -175,30 +173,8 @@ export const onOrderCreated = onDocumentCreated(
 
         logger.info('Order data', order)
 
-        // try {
-        //     const emailNotification = await fetch(
-        //         `${baseUrl}/api/resend/notification`,
-        //         {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             },
-        //             body: JSON.stringify(order)
-        //         }
-        //     )
-
-        //     if (!emailNotification.ok) {
-        //         throw new Error('Email notification failed.')
-        //     }
-
-        //     return logger.info(
-        //         'Email notification sent successfully.',
-        //         emailNotification
-        //     )
-        // } catch (error) {
-        //     let message = 'Something went wrong.'
-        //     if (error instanceof Error) message = error.message
-        //     console.error(message, error)
-        // }
+        /**
+         * TODO: Send email confirmation to admin - SendGrid?
+         */
     }
 )
