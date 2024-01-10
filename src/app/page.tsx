@@ -1,3 +1,6 @@
+import canvasPrint from '@/assets/img/canvas-print-4x3.jpg'
+import framedPrint from '@/assets/img/framed-print-4x3.jpg'
+import posterPrint from '@/assets/img/poster-print-4x3.jpg'
 import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
 import {
@@ -37,9 +40,6 @@ import {
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import bedroomPoster from '../assets/img/bedroom-poster.jpg'
-import galleryFrame from '../assets/img/gallery-frame.jpg'
-import roomCanvas from '../assets/img/room-canvas.jpg'
 
 export const metadata: Metadata = {
     title: {
@@ -276,8 +276,8 @@ const Frontpage = () => {
                         </div>
                         <div className='order-1 md:order-2'>
                             <Image
-                                src={bedroomPoster}
-                                alt='Bedroom Poster Print'
+                                src={posterPrint}
+                                alt='Poster Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
                                 className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
@@ -302,8 +302,8 @@ const Frontpage = () => {
                         </div>
                         <div className='order-1'>
                             <Image
-                                src={roomCanvas}
-                                alt='Room Canvas Print'
+                                src={canvasPrint}
+                                alt='Canvas Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
                                 className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
@@ -330,8 +330,8 @@ const Frontpage = () => {
                         </div>
                         <div className='order-1 md:order-2'>
                             <Image
-                                src={galleryFrame}
-                                alt='Gallery Framed Print'
+                                src={framedPrint}
+                                alt='Framed Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
                                 className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
