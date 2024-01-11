@@ -74,7 +74,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 layout: {
                     termsPageUrl: '/terms/',
                     privacyPageUrl: '/privacy/',
-                    showOptionalFields: true
+                    showOptionalFields: true,
+                    socialButtonsVariant: 'auto',
+                    socialButtonsPlacement: 'top',
+                    shimmer: true
                 }
             }}>
             <html

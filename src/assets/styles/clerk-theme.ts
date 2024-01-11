@@ -122,6 +122,19 @@ export const clerkTheme = {
             '[&_button:hover[id="microsoft"]>svg]:text-pink-500',
             '[&_button:hover[id="microsoft"]>svg]:dark:text-pink-500',
 
+            '[&_button[id="discord"]]:text-neutral-900',
+            '[&_button[id="discord"]]:dark:text-neutral-100',
+            '[&_button[id="discord"]]:border-neutral-200',
+            '[&_button[id="discord"]]:dark:border-neutral-800',
+            '[&_button:focus[id="discord"]]:bg-pink-500/25',
+            '[&_button:focus[id="discord"]]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
+            '[&_button:focus[id="discord"]>svg]:text-pink-500',
+            '[&_button:hover[id="discord"]]:bg-pink-500/25',
+            '[&_button:hover[id="discord"]]:border-pink-500/25',
+            '[&_button:hover[id="discord"]]:dark:border-pink-500/25',
+            '[&_button:hover[id="discord"]>svg]:text-pink-500',
+            '[&_button:hover[id="discord"]>svg]:dark:text-pink-500',
+
             '[&_button[data-localization-key*=formButtonReset]]:bg-transparent',
             '[&_button[data-localization-key*=formButtonReset]]:text-neutral-900',
             '[&_button[data-localization-key*=formButtonReset]]:dark:text-neutral-100',
@@ -151,6 +164,15 @@ export const clerkTheme = {
             'focus:bg-pink-500/25',
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
         ].join(' '),
+        socialButtonsIconButton: [
+            ...mutedTypography,
+            ...defaultBorder,
+            ...primaryHover,
+            'hover:border-pink-500/25',
+            'dark:hover:border-pink-500/25',
+            'focus:bg-pink-500/25',
+            'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
+        ].join(' '),
         socialButtonsBlockButtonArrow: [...primaryTypography].join(' '),
         formFieldRow: [...mutedTypography].join(' '),
         formFieldLabel: [...mutedTypography].join(' '),
@@ -162,6 +184,8 @@ export const clerkTheme = {
         formFieldInput: [...defaultInput].join(' '),
         formFieldWarningText: [...mutedTypography].join(' '),
         formFieldSuccessText: [...mutedTypography].join(' '),
+        formHeaderTitle: [...defaultTypography].join(' '),
+        formHeaderSubtitle: [...mutedTypography].join(' '),
         formButtonPrimary: [
             ...primaryButton,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
@@ -170,11 +194,25 @@ export const clerkTheme = {
             ...ghostButton,
             'focus:shadow-[0_0_0_3px_rgba(229,229,229,0.75)]'
         ].join(' '),
+        identityPreview: ['bg-pink-500/25', 'border-pink-500/25'].join(' '),
+        identityPreviewText: ['text-pink-500'].join(' '),
+        identityPreviewEditButton: [
+            'transition-opacity',
+            'duration-200',
+            'text-pink-500/50',
+            'hover:text-pink-500'
+        ].join(' '),
+        otpCodeFieldInput: [
+            ...mutedTypography,
+            ...defaultBorder,
+            'focus:border-pink-500',
+            'focus:dark:border-pink-500'
+        ].join(' '),
+        formResendCodeLink: ['text-pink-500'].join(' '),
         footerActionText: [...mutedTypography].join(' '),
         footerActionLink: [
             ...mutedTypography,
             'font-medium',
-            'underline',
             'underline-offset-4',
             'transition-colors',
             'duration-200',
