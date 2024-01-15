@@ -3,22 +3,22 @@
 /**
  * Set CSP headers
  */
-// const cspHeader = `
-//     default-src 'self';
-//     script-src 'self' 'unsafe-inline' *.soopanova.app;
-//     style-src 'self' 'unsafe-inline';
-//     img-src 'self' blob: data: *.clerk.com;
-//     font-src 'self';
-//     object-src 'none';
-//     base-uri 'self';
-//     form-action 'self';
-//     frame-src 'self' *.canvaspop.com;
-//     frame-ancestors 'none';
-//     worker-src 'self' blob:;
-//     connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;
-//     block-all-mixed-content;
-//     upgrade-insecure-requests;
-// `
+const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' *.soopanova.app;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data: *.clerk.com;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-src 'self' *.canvaspop.com;
+    frame-ancestors 'none';
+    worker-src 'self' blob:;
+    connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;
+    block-all-mixed-content;
+    upgrade-insecure-requests;
+`
 
 const nextConfig = {
     trailingSlash: true,
