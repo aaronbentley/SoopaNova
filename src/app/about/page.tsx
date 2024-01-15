@@ -147,11 +147,6 @@ const About = () => {
                     </PageSectionDescription>
 
                     <PageSectionDescription>
-                        I&apos;ve always wanted to start my own business, and I
-                        thought this would be a great opportunity to do so.
-                    </PageSectionDescription>
-
-                    <PageSectionDescription>
                         Plus I now had 20+ years of experience in software and
                         web development, so I had the skills to build the app
                         and supporting systems to make it happen.

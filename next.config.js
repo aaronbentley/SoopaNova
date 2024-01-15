@@ -27,48 +27,53 @@ const nextConfig = {
     },
     experimental: {
         ppr: false
+    },
+    logging: {
+        fetches: {
+            fullUrl: process.env.NODE_ENV === 'development'
+        }
+    },
+    async headers() {
+        if (process.env.NODE_ENV === 'production') {
+            return [
+                {
+                    source: '/(.*)',
+                    headers: [
+                        {
+                            key: 'X-DNS-Prefetch-Control',
+                            value: 'on'
+                        },
+                        {
+                            key: 'Strict-Transport-Security',
+                            value: 'max-age=31536000; includeSubDomains; preload'
+                        },
+                        {
+                            key: 'Permissions-Policy',
+                            value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),xr-spatial-tracking=()'
+                        },
+                        {
+                            key: 'X-Content-Type-Options',
+                            value: 'nosniff'
+                        },
+                        {
+                            key: 'X-Frame-Options',
+                            value: 'DENY'
+                        },
+                        {
+                            key: 'Referrer-Policy',
+                            value: 'same-origin'
+                        },
+                        {
+                            key: 'Content-Security-Policy-Report-Only',
+                            // key: 'Content-Security-Policy',
+                            value: cspHeader.replace(/\n/g, '')
+                        }
+                    ]
+                }
+            ]
+        }
+        return []
     }
-    // async headers() {
-    //     if (process.env.NODE_ENV === 'production') {
-    //         return [
-    //             {
-    //                 source: '/(.*)',
-    //                 headers: [
-    //                     {
-    //                         key: 'X-DNS-Prefetch-Control',
-    //                         value: 'on'
-    //                     },
-    //                     {
-    //                         key: 'Strict-Transport-Security',
-    //                         value: 'max-age=31536000; includeSubDomains; preload'
-    //                     },
-    //                     {
-    //                         key: 'Permissions-Policy',
-    //                         value: 'accelerometer=(),autoplay=(),camera=(),display-capture=(),encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),xr-spatial-tracking=()'
-    //                     },
-    //                     {
-    //                         key: 'X-Content-Type-Options',
-    //                         value: 'nosniff'
-    //                     },
-    //                     {
-    //                         key: 'X-Frame-Options',
-    //                         value: 'DENY'
-    //                     },
-    //                     {
-    //                         key: 'Referrer-Policy',
-    //                         value: 'same-origin'
-    //                     },
-    //                     {
-    //                         // key: 'Content-Security-Policy-Report-Only',
-    //                         key: 'Content-Security-Policy',
-    //                         value: cspHeader.replace(/\n/g, '')
-    //                     }
-    //                 ]
-    //             }
-    //         ]
-    //     }
-    //     return []
-    // }
 }
 
 module.exports = nextConfig
