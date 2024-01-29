@@ -224,7 +224,7 @@ const UploadFile = ({ className }: { className?: string }) => {
         // Ensure we have a file and userId
         if (file && userId) {
             try {
-                const processToast = toast.loading('Uploading Media', {
+                const initiateUploadToast = toast.loading('Uploading Media', {
                     description: 'Preparing print assets'
                 })
 
@@ -263,7 +263,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                 }
 
                 toast.loading('Moderating Image', {
-                    id: processToast,
+                    id: initiateUploadToast,
                     description: 'Scanning for spicy pixels'
                 })
 
@@ -306,9 +306,15 @@ const UploadFile = ({ className }: { className?: string }) => {
                     )
                 }
 
-                toast.info('Creating Print Order', {
+                // toast.info('Creating Print Order', {
+                //     description: 'Hold tight Sparky - this may take a moment'
+                // })
+
+                const createOrderToast = toast.loading('Creating Print Order', {
                     description: 'Hold tight Sparky - this may take a moment'
                 })
+
+                toast.dismiss(initiateUploadToast)
 
                 /**
                  * Set print options state
@@ -374,6 +380,8 @@ const UploadFile = ({ className }: { className?: string }) => {
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
                 setPrintSheetOpen(true)
+
+                toast.dismiss(createOrderToast)
 
                 // FIXME: reset upload state on successful order and redirect to a thank you page
             } catch (error) {
