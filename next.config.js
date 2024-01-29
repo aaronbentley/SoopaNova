@@ -64,8 +64,8 @@ const nextConfig = {
                             value: 'same-origin'
                         },
                         {
-                            key: 'Content-Security-Policy-Report-Only',
-                            // key: 'Content-Security-Policy',
+                            key: 'Content-Security-Policy',
+                            // key: 'Content-Security-Policy-Report-Only',
                             value: cspHeader.replace(/\n/g, '')
                         }
                     ]
