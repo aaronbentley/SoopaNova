@@ -8,6 +8,7 @@
  */
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { useUser } from '@clerk/nextjs'
+import { track } from '@vercel/analytics'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -405,6 +406,11 @@ const CanvasPopCartEventListener = () => {
                                 setProductFrame(null)
                                 setProductEdge(null)
                                 setProductPrice(null)
+
+                                track('print-order-completed', {
+                                    userID: user.id,
+                                    orderId
+                                })
 
                                 // Redirect to orders page with a 1 second delay, include order complete param
                                 setTimeout(() => {

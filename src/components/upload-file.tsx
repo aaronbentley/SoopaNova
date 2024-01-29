@@ -4,6 +4,7 @@ import { functions, storage } from '@/firebase/config'
 import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { useAuth } from '@clerk/nextjs'
+import { track } from '@vercel/analytics'
 import { HttpsCallableResult } from 'firebase/functions'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
@@ -363,6 +364,12 @@ const UploadFile = ({ className }: { className?: string }) => {
                     'reference_id',
                     process.env.NEXT_PUBLIC_APP_TITLE!
                 )
+
+                // Track print order initiated
+                track('print-order-initiated', {
+                    userId: userId,
+                    fileName: file.name
+                })
 
                 setPrintOrderUrl(canvasPopCartUrl.href)
 
