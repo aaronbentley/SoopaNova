@@ -2274,9 +2274,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/speed-insights@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "@vercel/speed-insights@npm:1.0.8"
+"@vercel/speed-insights@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@vercel/speed-insights@npm:1.0.9"
   peerDependencies:
     "@sveltejs/kit": ^1 || ^2
     next: ">= 13"
@@ -2297,7 +2297,7 @@ __metadata:
       optional: true
     vue-router:
       optional: true
-  checksum: c3de1cddea6cb56180586351b821edc00764c6aa7e070d7ed5b0d4713144cc31778277f87f7e7faa5219ef12af2c6ffae6a87d6a65e9b0af53af2df1b17d1d3d
+  checksum: bef84bbdbcbb8836eba0ee68229adc79e1a8a6b114f93fb38443882ddf319da3e0d634f938dc3e32e5542b4ba142353f9d9f75326a472549f293c30a5fb2122d
   languageName: node
   linkType: hard
 
@@ -5019,12 +5019,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.316.0":
-  version: 0.316.0
-  resolution: "lucide-react@npm:0.316.0"
+"lucide-react@npm:^0.319.0":
+  version: 0.319.0
+  resolution: "lucide-react@npm:0.319.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: e1f90af4c62042a99fba873422e9e1538afc48e81d242ffd1cbc2b9d6e0257f153201370f8ae8c08ec6b95214c78c17a6c1b7e8f6cb3bce8f1dae9509f866b6f
+  checksum: 86fa2325c3f3633a4b04c68f2b384b65788c5bdde13fe21c12ed3e82708b81481325f4bc4df2ca7a55a952924b00fc49050b90c2c1f216d7e8aac497b8933038
   languageName: node
   linkType: hard
 
@@ -6378,7 +6378,7 @@ __metadata:
     "@types/react-dom": "npm:18.2.18"
     "@types/uuid": "npm:^9.0.8"
     "@vercel/analytics": "npm:^1.1.2"
-    "@vercel/speed-insights": "npm:^1.0.8"
+    "@vercel/speed-insights": "npm:^1.0.9"
     autoprefixer: "npm:10.4.17"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.0"
@@ -6389,7 +6389,7 @@ __metadata:
     firebase: "npm:^10.7.2"
     firebase-admin: "npm:^12.0.0"
     geist: "npm:^1.2.1"
-    lucide-react: "npm:^0.316.0"
+    lucide-react: "npm:^0.319.0"
     next: "npm:^14.1.0"
     next-themes: "npm:^0.2.1"
     postcss: "npm:8.4.33"
