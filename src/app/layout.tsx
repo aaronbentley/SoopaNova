@@ -17,8 +17,6 @@ import { Suspense } from 'react'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config'
 
-export const dynamic = 'force-static'
-
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
     /**
@@ -70,40 +68,40 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <html
-            lang='en'
-            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
-            suppressHydrationWarning>
-            {/*
+        <ClerkProvider
+            appearance={{
+                ...clerkTheme,
+                layout: {
+                    termsPageUrl: '/terms/',
+                    privacyPageUrl: '/privacy/',
+                    showOptionalFields: true,
+                    socialButtonsVariant: 'auto',
+                    socialButtonsPlacement: 'top',
+                    shimmer: true
+                }
+            }}>
+            <html
+                lang='en'
+                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+                suppressHydrationWarning>
+                {/*
                 <script
                     type='application/ld+json'
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             */}
-            <head />
+                <head />
 
-            <body
-                className={cn([
-                    'bg-neutral-50',
-                    'dark:bg-neutral-950',
-                    'text-neutral-900',
-                    'dark:text-neutral-100',
-                    'font-sans',
-                    'antialiased',
-                    'min-h-screen'
-                ])}>
-                <ClerkProvider
-                    appearance={{
-                        ...clerkTheme,
-                        layout: {
-                            termsPageUrl: '/terms/',
-                            privacyPageUrl: '/privacy/',
-                            showOptionalFields: true,
-                            socialButtonsVariant: 'auto',
-                            socialButtonsPlacement: 'top',
-                            shimmer: true
-                        }
-                    }}>
+                <body
+                    className={cn([
+                        'bg-neutral-50',
+                        'dark:bg-neutral-950',
+                        'text-neutral-900',
+                        'dark:text-neutral-100',
+                        'font-sans',
+                        'antialiased',
+                        'min-h-screen'
+                    ])}>
                     <ThemeProvider
                         attribute='class'
                         defaultTheme='system'
@@ -121,11 +119,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                             <TailwindIndicator />
                         </TooltipProvider>
                     </ThemeProvider>
-                </ClerkProvider>
-                <Analytics />
-                <SpeedInsights />
-            </body>
-        </html>
+                    <Analytics />
+                    <SpeedInsights />
+                </body>
+            </html>
+        </ClerkProvider>
     )
 }
 
