@@ -68,46 +68,46 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <ClerkProvider
-            appearance={{
-                ...clerkTheme,
-                layout: {
-                    termsPageUrl: '/terms/',
-                    privacyPageUrl: '/privacy/',
-                    showOptionalFields: true,
-                    socialButtonsVariant: 'auto',
-                    socialButtonsPlacement: 'top',
-                    shimmer: true
-                }
-            }}>
-            <html
-                lang='en'
-                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
-                suppressHydrationWarning>
-                {/*
+        <html
+            lang='en'
+            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+            suppressHydrationWarning>
+            {/*
                 <script
                     type='application/ld+json'
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             */}
-                <head />
+            <head />
 
-                <body
-                    className={cn([
-                        'bg-neutral-50',
-                        'dark:bg-neutral-950',
-                        'text-neutral-900',
-                        'dark:text-neutral-100',
-                        'font-sans',
-                        'antialiased',
-                        'min-h-screen'
-                    ])}>
-                    <ThemeProvider
-                        attribute='class'
-                        defaultTheme='system'
-                        enableSystem
-                        disableTransitionOnChange>
-                        <TooltipProvider>
+            <body
+                className={cn([
+                    'bg-neutral-50',
+                    'dark:bg-neutral-950',
+                    'text-neutral-900',
+                    'dark:text-neutral-100',
+                    'font-sans',
+                    'antialiased',
+                    'min-h-screen'
+                ])}>
+                <ThemeProvider
+                    attribute='class'
+                    defaultTheme='system'
+                    enableSystem
+                    disableTransitionOnChange>
+                    <TooltipProvider>
+                        <ClerkProvider
+                            appearance={{
+                                ...clerkTheme,
+                                layout: {
+                                    termsPageUrl: '/terms/',
+                                    privacyPageUrl: '/privacy/',
+                                    showOptionalFields: true,
+                                    socialButtonsVariant: 'auto',
+                                    socialButtonsPlacement: 'top',
+                                    shimmer: true
+                                }
+                            }}>
                             <div className='relative flex min-h-screen flex-col'>
                                 <Header />
                                 <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
@@ -115,15 +115,16 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
                                 <Footer />
                             </div>
-                            <Toaster position='bottom-center' />
-                            <TailwindIndicator />
-                        </TooltipProvider>
-                    </ThemeProvider>
-                    <Analytics />
-                    <SpeedInsights />
-                </body>
-            </html>
-        </ClerkProvider>
+                        </ClerkProvider>
+
+                        <Toaster position='bottom-center' />
+                        <TailwindIndicator />
+                    </TooltipProvider>
+                </ThemeProvider>
+                <Analytics />
+                <SpeedInsights />
+            </body>
+        </html>
     )
 }
 

@@ -9,6 +9,7 @@ import {
 } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import MainNav from './main-nav'
 import MobileNav from './mobile-nav'
 import ModeToggle from './mode-toggle'
@@ -42,21 +43,23 @@ const Header = () => (
                 <div className='flex items-center md:space-x-4'>
                     <ModeToggle />
 
-                    <ClerkLoading>
-                        <Loader2 className='size-8 animate-spin text-pink-500' />
-                    </ClerkLoading>
-                    <ClerkLoaded>
-                        <SignedOut>
-                            <SignInButton>
-                                <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
-                                    Sign In
-                                </Button>
-                            </SignInButton>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton afterSignOutUrl='/' />
-                        </SignedIn>
-                    </ClerkLoaded>
+                    <Suspense>
+                        <ClerkLoading>
+                            <Loader2 className='size-8 animate-spin text-pink-500' />
+                        </ClerkLoading>
+                        <ClerkLoaded>
+                            <SignedOut>
+                                <SignInButton>
+                                    <Button className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90'>
+                                        Sign In
+                                    </Button>
+                                </SignInButton>
+                            </SignedOut>
+                            <SignedIn>
+                                <UserButton afterSignOutUrl='/' />
+                            </SignedIn>
+                        </ClerkLoaded>
+                    </Suspense>
                 </div>
             </div>
         </div>
