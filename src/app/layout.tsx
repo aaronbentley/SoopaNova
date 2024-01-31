@@ -17,6 +17,8 @@ import { Suspense } from 'react'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config'
 
+export const dynamic = 'force-static'
+
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
     /**
@@ -90,24 +92,24 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     'antialiased',
                     'min-h-screen'
                 ])}>
-                <ThemeProvider
-                    attribute='class'
-                    defaultTheme='system'
-                    enableSystem
-                    disableTransitionOnChange>
-                    <TooltipProvider>
-                        <ClerkProvider
-                            appearance={{
-                                ...clerkTheme,
-                                layout: {
-                                    termsPageUrl: '/terms/',
-                                    privacyPageUrl: '/privacy/',
-                                    showOptionalFields: true,
-                                    socialButtonsVariant: 'auto',
-                                    socialButtonsPlacement: 'top',
-                                    shimmer: true
-                                }
-                            }}>
+                <ClerkProvider
+                    appearance={{
+                        ...clerkTheme,
+                        layout: {
+                            termsPageUrl: '/terms/',
+                            privacyPageUrl: '/privacy/',
+                            showOptionalFields: true,
+                            socialButtonsVariant: 'auto',
+                            socialButtonsPlacement: 'top',
+                            shimmer: true
+                        }
+                    }}>
+                    <ThemeProvider
+                        attribute='class'
+                        defaultTheme='system'
+                        enableSystem
+                        disableTransitionOnChange>
+                        <TooltipProvider>
                             <div className='relative flex min-h-screen flex-col'>
                                 <Header />
                                 <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
@@ -115,12 +117,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
                                 <Footer />
                             </div>
-                        </ClerkProvider>
-
-                        <Toaster position='bottom-center' />
-                        <TailwindIndicator />
-                    </TooltipProvider>
-                </ThemeProvider>
+                            <Toaster position='bottom-center' />
+                            <TailwindIndicator />
+                        </TooltipProvider>
+                    </ThemeProvider>
+                </ClerkProvider>
                 <Analytics />
                 <SpeedInsights />
             </body>

@@ -42,7 +42,6 @@ const Header = () => (
                 </div>
                 <div className='flex items-center md:space-x-4'>
                     <ModeToggle />
-
                     <Suspense>
                         <ClerkLoading>
                             <Loader2 className='size-8 animate-spin text-pink-500' />

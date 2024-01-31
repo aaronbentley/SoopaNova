@@ -6,7 +6,7 @@ import { SignedIn, useAuth } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Button } from './ui/button'
 import { navigationMenuTriggerStyle } from './ui/navigation-menu'
 import { ScrollArea } from './ui/scroll-area'
@@ -62,13 +62,15 @@ const MobileNav = () => {
                                 {link.label}
                             </MobileLink>
                         ))}
-                        <SignedIn>
-                            <MobileLink
-                                href={`/orders/${userId}/`}
-                                onOpenChange={setOpen}>
-                                Orders
-                            </MobileLink>
-                        </SignedIn>
+                        <Suspense>
+                            <SignedIn>
+                                <MobileLink
+                                    href={`/orders/${userId}/`}
+                                    onOpenChange={setOpen}>
+                                    Orders
+                                </MobileLink>
+                            </SignedIn>
+                        </Suspense>
                     </div>
                 </ScrollArea>
             </SheetContent>
