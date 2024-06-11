@@ -1,3 +1,5 @@
+import { buttonVariants } from '@/components/ui/button'
+
 /**
  * Compose common Clerk theme styles
  */
@@ -5,25 +7,21 @@ const defaultTypography = ['text-neutral-950', 'dark:text-neutral-50']
 const mutedTypography = ['text-neutral-900', 'dark:text-neutral-100']
 const primaryTypography = ['text-pink-500', 'dark:text-pink-500']
 
-const defaultBackground = ['bg-neutral-50', 'dark:bg-neutral-950']
+const defaultBackground = ['bg-neutral-100', 'dark:bg-neutral-900']
 const primaryMutedBackground = ['bg-pink-500/25', 'dark:bg-pink-500/25']
 
 const defaultBorder = ['border-neutral-200', 'dark:border-neutral-800']
 
-const primaryButton = [
-    'bg-pink-500',
-    'dark:bg-pink-500',
-    'hover:bg-pink-500/90',
-    'dark:hover:bg-pink-500/90',
-    'capitalize'
+const secondaryButton = [
+    buttonVariants({
+        variant: 'secondary'
+    })
 ]
 
 const ghostButton = [
-    ...mutedTypography,
-    'bg-transparent',
-    'hover:bg-neutral-200',
-    'dark:hover:bg-neutral-800',
-    'capitalize'
+    buttonVariants({
+        variant: 'ghost'
+    })
 ]
 
 const primaryHover = ['hover:bg-pink-500/25', 'dark:hover:bg-pink-500/25']
@@ -56,6 +54,7 @@ const defaultInput = [
 ]
 
 const defaultPopoverActionButton = [
+    ...defaultTypography,
     'hover:bg-pink-500/25',
     'dark:hover:bg-pink-500/25'
 ]
@@ -66,149 +65,103 @@ const defaultPopoverActionButton = [
 export const clerkTheme = {
     elements: {
         //#region UserButton
-        userButtonTrigger: ['focus:shadow-[0_0_0_3px_rgba(236,72,153,1)]'].join(
-            ' '
-        ),
         userButtonPopoverCard: [
             ...defaultBackground,
             ...defaultTypography
         ].join(' '),
-        userButtonPopoverActionButton: [...defaultPopoverActionButton].join(
-            ' '
-        ),
+        userButtonPopoverMain: [...defaultBackground, 'rounded-none'].join(' '),
+        userButtonPopoverActionButton: [
+            ...defaultPopoverActionButton,
+            'rounded-none'
+        ].join(' '),
+        userPreview: [...mutedTypography].join(' '),
+        userPreviewMainIdentifier: [...primaryTypography].join(' '),
+        userPreviewSecondaryIdentifier: ['text-muted-foreground'].join(' '),
         userButtonPopoverActionButtonText: [...mutedTypography].join(' '),
         userButtonPopoverActionButtonIcon: [...primaryTypography].join(' '),
         userButtonPopoverFooter: [
-            '[&_p]:text-neutral-500',
-            '[&_p]:dark:text-neutral-500',
-            '[&_svg]:text-neutral-500',
-            '[&_svg]:dark:text-neutral-500',
-            '[&_svg]:hover:text-pink-500',
-            '[&_svg]:dark:hover:text-pink-500',
-            '[&_*]:transition-all',
-            '[&_*]:duration-2000'
+            'bg-gradient-to-r',
+            'from-card',
+            'to-card',
+            '[&_p]:text-muted-foreground',
+            '[&_a]:w-min',
+            '[&_a_svg]:transition-all',
+            '[&_a_svg]:duration-200',
+            '[&_a_svg]:text-muted-foreground',
+            '[&_a_svg]:hover:text-secondary-foreground'
         ].join(' '),
         //#endregion
 
         //#region Page
         page: [
             ...mutedTypography,
-            '[&_p]:text-neutral-900',
-            '[&_p]:dark:text-neutral-100',
-
-            '[&_button[id="google"]]:text-neutral-900',
-            '[&_button[id="google"]]:dark:text-neutral-100',
-            '[&_button[id="google"]]:border-neutral-200',
-            '[&_button[id="google"]]:dark:border-neutral-800',
-            '[&_button:focus[id="google"]]:bg-pink-500/25',
-            '[&_button:focus[id="google"]]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            '[&_button:focus[id="google"]>svg]:text-pink-500',
-            '[&_button:hover[id="google"]]:bg-pink-500/25',
-            '[&_button:hover[id="google"]]:border-pink-500/25',
-            '[&_button:hover[id="google"]]:dark:border-pink-500/25',
-            '[&_button:hover[id="google"]>svg]:text-pink-500',
-            '[&_button:hover[id="google"]>svg]:dark:text-pink-500',
-
-            '[&_button[id="microsoft"]]:text-neutral-900',
-            '[&_button[id="microsoft"]]:dark:text-neutral-100',
-            '[&_button[id="microsoft"]]:border-neutral-200',
-            '[&_button[id="microsoft"]]:dark:border-neutral-800',
-            '[&_button:focus[id="microsoft"]]:bg-pink-500/25',
-            '[&_button:focus[id="microsoft"]]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            '[&_button:focus[id="microsoft"]>svg]:text-pink-500',
-            '[&_button:hover[id="microsoft"]]:bg-pink-500/25',
-            '[&_button:hover[id="microsoft"]]:border-pink-500/25',
-            '[&_button:hover[id="microsoft"]]:dark:border-pink-500/25',
-            '[&_button:hover[id="microsoft"]>svg]:text-pink-500',
-            '[&_button:hover[id="microsoft"]>svg]:dark:text-pink-500',
-
-            '[&_button[id="discord"]]:text-neutral-900',
-            '[&_button[id="discord"]]:dark:text-neutral-100',
-            '[&_button[id="discord"]]:border-neutral-200',
-            '[&_button[id="discord"]]:dark:border-neutral-800',
-            '[&_button:focus[id="discord"]]:bg-pink-500/25',
-            '[&_button:focus[id="discord"]]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            '[&_button:focus[id="discord"]>svg]:text-pink-500',
-            '[&_button:hover[id="discord"]]:bg-pink-500/25',
-            '[&_button:hover[id="discord"]]:border-pink-500/25',
-            '[&_button:hover[id="discord"]]:dark:border-pink-500/25',
-            '[&_button:hover[id="discord"]>svg]:text-pink-500',
-            '[&_button:hover[id="discord"]>svg]:dark:text-pink-500',
-
+            // '[&_button[data-localization-key*=signIn.alternativeMethods.getHelp.blockButton__emailSupport]]:bg-red-500',
             '[&_button[data-localization-key*=formButtonReset]]:bg-transparent',
-            '[&_button[data-localization-key*=formButtonReset]]:text-neutral-900',
-            '[&_button[data-localization-key*=formButtonReset]]:dark:text-neutral-100',
-            '[&_button:hover[data-localization-key*=formButtonReset]]:bg-neutral-200',
-            '[&_button:hover[data-localization-key*=formButtonReset]]:dark:bg-neutral-800',
+            '[&_button[data-localization-key*=formButtonReset]]:text-muted-foreground',
+            '[&_button:hover[data-localization-key*=formButtonReset]]:bg-muted',
             '[&_button:focus[data-localization-key*=formButtonReset]]:shadow-[0_0_0_3px_rgba(229,229,229,0.75)]',
-
-            '[&_button:focus[data-localization-key*=destructiveActionAccordionSubtitle]]:text-red-500',
-            '[&_button:focus[data-localization-key*=destructiveActionAccordionSubtitle]]:dark:text-red-500'
+            '[&_button:focus[data-localization-key*=destructiveActionAccordionSubtitle]]:text-red-500'
         ].join(' '),
         card: [
             ...defaultBackground,
             ...defaultTypography,
             ...defaultBorder,
-            'shadow-lg'
+            'rounded-none'
         ].join(' '),
         breadcrumbsItem: [...mutedTypography].join(' '),
         breadcrumbsItemDivider: [...mutedTypography].join(' '),
         headerTitle: [...mutedTypography].join(' '),
         headerSubtitle: [...mutedTypography].join(' '),
-        socialButtonsBlockButton: [
-            ...mutedTypography,
-            ...defaultBorder,
-            ...primaryHover,
-            'hover:border-pink-500/25',
-            'dark:hover:border-pink-500/25',
-            'focus:bg-pink-500/25',
-            'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
-        ].join(' '),
-        socialButtonsIconButton: [
-            ...mutedTypography,
-            ...defaultBorder,
-            ...primaryHover,
-            'hover:border-pink-500/25',
-            'dark:hover:border-pink-500/25',
-            'focus:bg-pink-500/25',
-            'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
-        ].join(' '),
-        socialButtonsBlockButtonArrow: [...primaryTypography].join(' '),
         formFieldRow: [...mutedTypography].join(' '),
         formFieldLabel: [...mutedTypography].join(' '),
-        dividerLine: ['bg-neutral-200', 'dark:bg-neutral-800'].join(' '),
-        dividerText: ['text-neutral-500', 'dark:text-neutral-500'].join(' '),
+        dividerLine: ['bg-muted'].join(' '),
+        dividerText: ['text-muted-foreground'].join(' '),
         //#endregion
 
         //#region Form
         formFieldInput: [...defaultInput].join(' '),
+        formFieldInputShowPasswordButton: [
+            'text-secondary',
+            'hover:text-secondary-foreground'
+        ].join(' '),
         formFieldWarningText: [...mutedTypography].join(' '),
         formFieldSuccessText: [...mutedTypography].join(' '),
         formHeaderTitle: [...defaultTypography].join(' '),
         formHeaderSubtitle: [...mutedTypography].join(' '),
         formButtonPrimary: [
-            ...primaryButton,
+            ...secondaryButton,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
         ].join(' '),
         formButtonReset: [
             ...ghostButton,
-            'focus:shadow-[0_0_0_3px_rgba(229,229,229,0.75)]'
+            'focus:shadow-[0_0_0_3px_rgba(229,229,229,1)]'
         ].join(' '),
-        identityPreview: ['bg-pink-500/25', 'border-pink-500/25'].join(' '),
-        identityPreviewText: ['text-pink-500'].join(' '),
+        identityPreviewText: [...primaryTypography].join(' '),
         identityPreviewEditButton: [
             'transition-opacity',
             'duration-200',
-            'text-pink-500/50',
-            'hover:text-pink-500'
+            'text-secondary',
+            'hover:text-secondary-foreground'
         ].join(' '),
         otpCodeFieldInput: [
             ...mutedTypography,
-            ...defaultBorder,
-            'focus:border-pink-500',
-            'focus:dark:border-pink-500'
+            '!border-2',
+            'border-secondary',
+            'focus:border-secondary-foreground'
         ].join(' '),
-        formResendCodeLink: ['text-pink-500'].join(' '),
+        formResendCodeLink: ['text-secondary-foreground'].join(' '),
+        footer: [
+            'bg-gradient-to-r',
+            'from-card',
+            'to-card',
+            'border-0',
+            '[&_a]:w-fit',
+            '[&_a_svg]:transition-colors',
+            '[&_a_svg]:duration-200',
+            '[&_a_svg]:text-muted-foreground',
+            '[&_a_svg]:hover:text-secondary-foreground'
+        ].join(' '),
+        footerAction__signIn: ['hidden'].join(' '),
         footerActionText: [...mutedTypography].join(' '),
         footerActionLink: [
             ...mutedTypography,
@@ -216,69 +169,79 @@ export const clerkTheme = {
             'underline-offset-4',
             'transition-colors',
             'duration-200',
-            'hover:text-pink-500',
-            'dark:hover:text-pink-500',
+            'hover:text-secondary-foreground',
             'focus:shadow-none'
+        ].join(' '),
+        formFieldAction__password: [
+            'text-secondary',
+            'hover:text-secondary-foreground'
         ].join(' '),
         footerPagesLink: [
             ...mutedTypography,
             'underline-offset-4',
             'transition-colors',
             'duration-200',
-            'hover:text-pink-500',
-            'dark:hover:text-pink-500',
+            'hover:text-secondary-foreground',
             'focus:shadow-none'
         ].join(' '),
+        backLink: ['text-secondary', 'hover:text-secondary-foreground'].join(
+            ' '
+        ),
+        alternativeMethodsBlockButton: [...secondaryButton].join(' '),
         //#endregion
 
         //#region Navbar
+        navbar: [
+            'bg-gradient-to-r',
+            'from-neutral-100',
+            'to-neutral-100',
+            'dark:from-neutral-900',
+            'dark:to-neutral-900',
+            '[&_h1]:text-neutral-950',
+            '[&_h1]:dark:text-neutral-50'
+        ].join(' '),
         navbarButton: [
             ...mutedTypography,
             'outline-offset-2',
             'outline-2',
-            'outline-pink-500',
+            'outline-secondary',
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
             'focus:[&.cl-active]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
         ].join(' '),
+        //#endregion
+
+        //#region Scrollbox
+        scrollBox: [
+            ...defaultBackground,
+            'border-l-2',
+            'border-accent/25',
+            'rounded-none'
+        ].join(' '),
+        profileSectionItem: ['[&_p]:text-muted-foreground'].join(' '),
         //#endregion
 
         //#region Profile
         profileSectionTitleText: [...mutedTypography].join(' '),
         profileSectionPrimaryButton: [
             ...primaryTypography,
-            ...primaryHover,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
         ].join(' '),
         badge: [...primaryTypography, ...primaryMutedBackground].join(' '),
         avatarImageActionsUpload: [...primaryTypography].join(' '),
-        avatarImageActionsRemove: ['text-neutral-500'].join(' '),
-        fileDropAreaButtonPrimary: [...primaryTypography, ...primaryHover].join(
-            ' '
-        ),
+        avatarImageActionsRemove: ['text-muted'].join(' '),
+        fileDropAreaButtonPrimary: [...primaryTypography].join(' '),
         profileSectionContent: [
             ...mutedTypography,
-            '[&.cl-profileSectionContent__danger]:text-red-500',
-            'dark:text-red-500'
+            '[&.cl-profileSectionContent__danger]:text-red-500'
         ].join(' '),
-        userPreview: [...mutedTypography].join(' '),
-        userPreviewMainIdentifier: [...primaryTypography].join(' '),
-        userPreviewSecondaryIdentifier: ['text-neutral-500'].join(' '),
         accordionTriggerButton: [
             ...mutedTypography,
-            ...primaryHover,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
             'focus:[&.cl-active]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            '[&_svg]:hover:text-pink-500',
-            '[&_svg]:dark:hover:text-pink-500'
+            '[&_svg]:hover:text-secondary-foreground'
         ].join(' '),
-        accordionContent: [
-            '[&_p]:text-neutral-900',
-            'dark:[&_p]:text-neutral-100'
-        ].join(' '),
-        activeDevice: [
-            '[&_*]:text-neutral-900',
-            'dark:[&_*]:text-neutral-100'
-        ].join(' ')
+        accordionContent: ['[&_p]:text-muted-foreground'].join(' '),
+        activeDevice: ['[&_*]:text-muted-foreground'].join(' ')
         //#endregion
     }
 }

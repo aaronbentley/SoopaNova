@@ -67,6 +67,10 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 })
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+    /**
+     * Get theme from Next.js Theme Provider
+     */
+
     return (
         <ClerkProvider
             appearance={{

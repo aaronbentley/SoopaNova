@@ -1,5 +1,5 @@
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import * as admin from 'firebase-admin'
 import { NextRequest, NextResponse } from 'next/server'
 

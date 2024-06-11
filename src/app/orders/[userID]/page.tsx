@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/table'
 import { formatCurrency } from '@/lib/utils'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import * as admin from 'firebase-admin'
 import { DocumentData } from 'firebase/firestore'
 import { Info } from 'lucide-react'

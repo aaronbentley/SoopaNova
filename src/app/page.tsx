@@ -25,7 +25,8 @@ import {
 } from '@/components/ui/tooltip'
 import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
-import { SignedIn, auth } from '@clerk/nextjs'
+import { SignedIn } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import {
     BoxSelect,
     ChevronDown,
