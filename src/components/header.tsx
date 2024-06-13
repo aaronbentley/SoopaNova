@@ -22,19 +22,24 @@ const Header = () => (
                 <div className='flex flex-row-reverse md:flex-row items-center md:space-x-4'>
                     <Link
                         href='/'
-                        className={cn(buttonVariants({ variant: 'ghost' }), [
-                            'md:mr-6',
-                            'font-sans',
-                            'font-extrabold',
-                            'text-xl',
-                            'tracking-tight',
-                            'transition-all',
-                            'duration-200',
-                            'hover:bg-pink-500',
-                            'hover:dark:bg-pink-500',
-                            'hover:text-neutral-50',
-                            'hover:dark:text-neutral-950'
-                        ])}>
+                        className={cn(
+                            buttonVariants({
+                                variant: 'ghost',
+                                className: [
+                                    'md:mr-6',
+                                    'font-sans',
+                                    'font-extrabold',
+                                    'text-xl',
+                                    'tracking-tight',
+                                    'transition-all',
+                                    'duration-200',
+                                    'hover:bg-transparent',
+                                    'hover:dark:bg-transparent',
+                                    'hover:text-pink-500',
+                                    'hover:dark:text-pink-500'
+                                ]
+                            })
+                        )}>
                         {process.env.APP_TITLE!}
                     </Link>
                     <MainNav />

@@ -193,8 +193,17 @@ const Frontpage = () => {
                     href='/create/'
                     title='Create your prints'
                     className={cn([
-                        buttonVariants({ variant: 'default', size: 'lg' }),
-                        'bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 mt-8'
+                        buttonVariants({
+                            variant: 'default',
+                            size: 'lg',
+                            className: [
+                                'bg-pink-500',
+                                'dark:bg-pink-500',
+                                'hover:bg-pink-500/90',
+                                'dark:hover:bg-pink-500/90',
+                                'mt-8'
+                            ]
+                        })
                     ])}>
                     Get Started
                 </Link>
