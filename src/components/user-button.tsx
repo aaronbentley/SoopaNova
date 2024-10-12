@@ -4,7 +4,12 @@ import { Box } from 'lucide-react'
 
 const UserButton = () => {
     // Get the auth state
-    const { userId } = useAuth()
+    const { isLoaded, userId } = useAuth()
+
+    // In case the user signs out while on the page.
+    if (!isLoaded || !userId) {
+        return null
+    }
 
     return (
         <ClerkUserButton>
