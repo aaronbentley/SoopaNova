@@ -27,13 +27,13 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
     }
 
     return (
-        <div className='relative w-full h-full bg-neutral-50 dark:bg-neutral-950'>
+        <div className='relative w-full h-full'>
             <iframe
                 id='canvaspop-cart-iframe'
                 src={src}
                 ref={iframeRef}
                 onLoad={handleIframeLoad}
-                className='w-full h-full z-10 bg-neutral-50 dark:bg-neutral-950'
+                className='w-full h-full z-10'
             />
             {!isMounted && (
                 <div
@@ -43,11 +43,9 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                         'z-30',
                         'flex',
                         'items-center',
-                        'justify-center',
-                        'bg-neutral-50',
-                        'dark:bg-neutral-950'
+                        'justify-center'
                     ])}>
-                    <Loader2 className='h-12 w-12 animate-spin text-pink-500' />
+                    <Loader2 className='h-12 w-12 animate-spin text-primary' />
                 </div>
             )}
             {isMounted && <CanvasPopCartEventListener />}

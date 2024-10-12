@@ -77,7 +77,7 @@ const Privacy = () => {
                             href='https://clerk.com/privacy'
                             title='View Clerk Privacy Policy'
                             target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Clerk&apos;s
                         </a>{' '}
                         Privacy Policy for more information on how they handle
@@ -91,7 +91,7 @@ const Privacy = () => {
                             href='https://www.canvaspop.com/privacy-policy'
                             title='View Canvaspop Privacy Policy'
                             target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Canvaspop&apos;s
                         </a>{' '}
                         Privacy Policy for more information on how they handle
@@ -205,7 +205,7 @@ const Privacy = () => {
                                 href={process.env.APP_SOCIAL_TWITTER!}
                                 title='DM us on Twitter'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                 Twitter
                             </a>
                         </Typography>
@@ -214,7 +214,7 @@ const Privacy = () => {
                                 href={process.env.APP_SOCIAL_INSTAGRAM!}
                                 title='DM os on Instagram'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                 Instagram
                             </a>
                         </Typography>

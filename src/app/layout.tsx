@@ -14,21 +14,10 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
-import resolveConfig from 'tailwindcss/resolveConfig'
-import tailwindConfig from '../../tailwind.config'
 
 // export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
-    /**
-     * Resolve Tailwind CSS config
-     */
-    const fullConfig = resolveConfig(tailwindConfig)
-
-    /**
-     * Get color values from Tailwind CSS config
-     */
-    const colors = fullConfig?.theme?.colors
-    const themeColor = colors?.pink?.['500']
+    const themeColor = process.env.APP_BRAND_COLOUR!
     return {
         themeColor: themeColor
     }
@@ -98,10 +87,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
                 <body
                     className={cn([
-                        'bg-neutral-50',
-                        'dark:bg-neutral-950',
-                        'text-neutral-900',
-                        'dark:text-neutral-100',
                         'font-sans',
                         'antialiased',
                         'min-h-screen'

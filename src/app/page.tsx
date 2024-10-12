@@ -55,43 +55,43 @@ const Frontpage = () => {
     const { userId } = auth()
     return (
         <>
-            <Hero className='h-dvh md:h-full pt-16 md:pt-0'>
+            <Hero className='h-dvh md:h-full pt-16 md:pt-0 stroke-primary'>
                 <Badge
                     variant='secondary'
                     className='flex justify-around py-2 px-4 gap-2'>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Gamepad2 className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <Gamepad2 className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Play Games</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <BoxSelect className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <BoxSelect className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Capture Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <UploadCloud className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <UploadCloud className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Upload Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <ShoppingBag className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <ShoppingBag className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Choose Print Options</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Package className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <Package className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Fast Shipping</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <LucideImage className='size-4 hover:text-pink-500 hover:scale-150 transition-all duration-200' />
+                            <LucideImage className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Pixel-Perfect Prints</TooltipContent>
                     </Tooltip>
@@ -114,7 +114,7 @@ const Frontpage = () => {
                                 size='icon'
                                 variant='link'
                                 className='w-9 px-0'>
-                                <ChevronDown className='h-9 w-9 text-neutral-300 dark:text-neutral-700 origin-bottom animate-bounce ease-in-out hover:text-pink-500 hover:dark:text-pink-500' />
+                                <ChevronDown className='h-9 w-9 text-muted-foreground/75 origin-bottom animate-bounce ease-in-out hover:text-primary hover:dark:text-primary' />
                                 <span className='sr-only'>View more</span>
                             </Button>
                         </TooltipTrigger>
@@ -129,16 +129,16 @@ const Frontpage = () => {
                 <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
                     Upload Your Screenshots. Create Your Prints.
                 </h2>
-                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
+                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
                     Make something awesome. Make it your own.
                 </p>
 
                 <div className='grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                         <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Choose type
-                                <Frame className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <Frame className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Show your &apos;shot
@@ -151,11 +151,11 @@ const Frontpage = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                         <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Pick size
-                                <Expand className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <Expand className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Go big (or go small)
@@ -169,11 +169,11 @@ const Frontpage = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                         <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 You&apos;re done
-                                <ShoppingBag className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <ShoppingBag className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Get back to gaming
@@ -196,13 +196,7 @@ const Frontpage = () => {
                         buttonVariants({
                             variant: 'default',
                             size: 'lg',
-                            className: [
-                                'bg-pink-500',
-                                'dark:bg-pink-500',
-                                'hover:bg-pink-500/90',
-                                'dark:hover:bg-pink-500/90',
-                                'mt-8'
-                            ]
+                            className: ['mt-8']
                         })
                     ])}>
                     Get Started
@@ -215,39 +209,39 @@ const Frontpage = () => {
                 <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
                     Choose Your Platform
                 </h2>
-                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
+                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
                     Here&apos;s how to download your gaming screenshots.
                 </p>
 
                 <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
                     <Link href='/screenshots/xbox/'>
-                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                             <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Xbox
-                                    <XboxIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Microsoft</CardDescription>
                             </CardHeader>
                         </Card>
                     </Link>
                     <Link href='/screenshots/playstation/'>
-                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                             <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     PlayStation
-                                    <PlaystationIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Sony</CardDescription>
                             </CardHeader>
                         </Card>
                     </Link>
                     <Link href='/screenshots/steam/'>
-                        <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                             <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Steam
-                                    <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Valve</CardDescription>
                             </CardHeader>
@@ -262,7 +256,7 @@ const Frontpage = () => {
                 <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
                     Power-up Prints
                 </h2>
-                <p className='text-lg sm:text-2xl text-neutral-500 dark:text-neutral-500 max-w-[240px] sm:max-w-[340px] text-center'>
+                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
                     Create mighty-fine artwork for your space.
                 </p>
 
@@ -290,7 +284,6 @@ const Frontpage = () => {
                                 alt='Poster Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
                             />
                         </div>
                     </div>
@@ -316,7 +309,6 @@ const Frontpage = () => {
                                 alt='Canvas Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
                             />
                         </div>
                     </div>
@@ -344,7 +336,6 @@ const Frontpage = () => {
                                 alt='Framed Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='shadow-neutral-300/75 dark:shadow-neutral-700/75 shadow-xl'
                             />
                         </div>
                     </div>

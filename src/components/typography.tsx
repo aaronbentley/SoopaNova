@@ -11,8 +11,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 
 const headingBaseClasses = [
-    'text-neutral-900',
-    'dark:text-neutral-100',
+    'text-foreground',
     'font-extrabold',
     'tracking-tight',
     'lg:tracking-[-0.035em]'
@@ -64,7 +63,7 @@ const typographyVariants = cva(['text-lg'], {
                 'xl:text-xl'
             ],
             p: 'max-w-[750px] md:w-2/3 text-lg',
-            lead: 'text-lg text-neutral-500 dark:text-neutral-500 sm:text-xl md:text-2xl',
+            lead: 'text-lg text-muted-foreground dark:text-muted-foreground sm:text-xl md:text-2xl',
             blockquote: 'mt-6 border-l-2 pl-6 italic',
             ul: 'list-disc list-inside ps-4 space-y-2 mt-2 ',
             ol: 'list-decimal list-inside space-y-8',
@@ -73,7 +72,7 @@ const typographyVariants = cva(['text-lg'], {
             strong: 'font-semibold inline'
         },
         muted: {
-            true: 'text-neutral-500 dark:text-neutral-500'
+            true: 'text-muted-foreground dark:text-muted-foreground'
         }
     },
     defaultVariants: {
@@ -115,7 +114,9 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
     ({ className, variant, as, asChild, muted, ...props }, ref) => {
         const Comp = asChild
             ? Slot
-            : as ?? (variant ? variantElementMap[variant] : undefined) ?? 'div'
+            : (as ??
+              (variant ? variantElementMap[variant] : undefined) ??
+              'div')
         return (
             <Comp
                 className={cn(

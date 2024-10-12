@@ -41,7 +41,7 @@ const About = () => {
                             href='https://twitter.com/aaronbentley'
                             title='Visit @aaronbentley on Twitter'
                             target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Aaron Bentley
                         </a>
                         , a software developer from the UK.

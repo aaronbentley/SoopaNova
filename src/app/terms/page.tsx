@@ -171,7 +171,7 @@ const Terms = () => {
                                 href={process.env.APP_SOCIAL_TWITTER!}
                                 title='DM us on Twitter'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                 Twitter
                             </a>
                         </Typography>
@@ -180,7 +180,7 @@ const Terms = () => {
                                 href={process.env.APP_SOCIAL_INSTAGRAM!}
                                 title='DM os on Instagram'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                 Instagram
                             </a>
                         </Typography>

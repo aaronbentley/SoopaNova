@@ -35,10 +35,9 @@ const MainNav = () => {
                                     className={cn(
                                         navigationMenuTriggerStyle(),
                                         [
-                                            'data-[active]:text-neutral-50',
-                                            'dark:data-[active]:text-neutral-950',
-                                            'data-[active]:bg-pink-500',
-                                            'dark:data-[active]:bg-pink-500'
+                                            'data-[active]:text-background',
+                                            'data-[active]:bg-primary',
+                                            'dark:data-[active]:bg-primary'
                                         ]
                                     )}>
                                     {link.label}
@@ -60,10 +59,9 @@ const MainNav = () => {
                                         className={cn(
                                             navigationMenuTriggerStyle(),
                                             [
-                                                'data-[active]:text-neutral-50',
-                                                'dark:data-[active]:text-neutral-950',
-                                                'data-[active]:bg-pink-500',
-                                                'dark:data-[active]:bg-pink-500'
+                                                'data-[active]:text-background',
+                                                'data-[active]:bg-primary',
+                                                'dark:data-[active]:bg-primary'
                                             ]
                                         )}>
                                         Orders

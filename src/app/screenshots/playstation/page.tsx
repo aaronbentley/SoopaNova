@@ -39,21 +39,21 @@ const ScreenshotsPlaystation = () => {
                     </PageHeaderDescription>
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <ScrollToTarget target='xbox-app'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         PlayStation App
-                                        <PlaystationIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='usb-drive'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -85,7 +85,7 @@ const ScreenshotsPlaystation = () => {
                                         href='https://apps.apple.com/us/app/playstation-app/id410896080'
                                         title='View PlayStation App on the App Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         App Store
                                     </a>
                                     ,{' '}
@@ -93,7 +93,7 @@ const ScreenshotsPlaystation = () => {
                                         href='https://play.google.com/store/apps/details?id=com.scee.psxandroid'
                                         title='View PlayStation App on the Google Play Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         Google Play Store
                                     </a>
                                     ).
@@ -160,7 +160,7 @@ const ScreenshotsPlaystation = () => {
                                 href='https://www.playstation.com/en-gb/support/games/ps5-game-captures-ps-app/'
                                 title='How to access PS5 game captures on PlayStation App'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                 PlayStation.com
                             </a>
                             .

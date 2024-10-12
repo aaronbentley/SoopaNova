@@ -36,31 +36,31 @@ const ScreenshotsXbox = () => {
                     </PageHeaderDescription>
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <ScrollToTarget target='onedrive'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         OneDrive
-                                        <OneDriveIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <OneDriveIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='xbox-app'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Xbox App
-                                        <XboxIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='usb-drive'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-2' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -172,7 +172,7 @@ const ScreenshotsXbox = () => {
                                         href='https://apps.apple.com/us/app/microsoft-onedrive/id477537958'
                                         title='View One Drive on the App Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         App Store
                                     </a>
                                     ,{' '}
@@ -180,7 +180,7 @@ const ScreenshotsXbox = () => {
                                         href='https://play.google.com/store/apps/details?id=com.microsoft.skydrive'
                                         title='View One Drive on the Google Play Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         Google Play Store
                                     </a>
                                     ).
@@ -228,7 +228,7 @@ const ScreenshotsXbox = () => {
                                         href='https://apps.microsoft.com/detail/xbox/9MV0B5HZVK9Z'
                                         title='View Xbox App on the Microsoft Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         {' '}
                                         Microsoft Store (PC)
                                     </a>{' '}
@@ -237,7 +237,7 @@ const ScreenshotsXbox = () => {
                                         href='https://apps.apple.com/app/xbox/id736179781'
                                         title='View Xbox App on the App Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         App Store
                                     </a>
                                     ,{' '}
@@ -245,7 +245,7 @@ const ScreenshotsXbox = () => {
                                         href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
                                         title='View Xbox App on the Google Play Store'
                                         target='_blank'
-                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                                        className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         Google Play Store
                                     </a>
                                     ).

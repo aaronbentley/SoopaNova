@@ -420,8 +420,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 'rounded-lg',
                                 'border-2',
                                 'border-dashed',
-                                'border-neutral-300',
-                                'dark:border-neutral-700',
                                 'px-5',
                                 'py-2.5',
                                 'text-center',
@@ -431,14 +429,13 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 'focus-visible:ring-2',
                                 'focus-visible:ring-ring',
                                 'focus-visible:ring-offset-2',
-                                'hover:border-pink-500',
-                                'hover:dark:border-pink-500',
+                                'hover:border-primary',
                                 'transition-all',
                                 'duration-200'
                             ],
                             isDragActive && [
-                                'border-pink-500',
-                                'dark:border-pink-500'
+                                'border-primary',
+                                'dark:border-primary'
                             ],
                             disabled && ['pointer-events-none', 'opacity-60'],
                             className
@@ -458,11 +455,11 @@ const UploadFile = ({ className }: { className?: string }) => {
                                         'size-8',
                                         'origin-bottom',
                                         'animate-bounce',
-                                        'text-pink-500'
+                                        'text-primary'
                                     ])}
                                     aria-hidden='true'
                                 />
-                                <p className='text-base font-medium text-pink-500'>
+                                <p className='text-base font-medium text-primary'>
                                     Drop it like it&apos;s hot
                                 </p>
                             </div>
@@ -471,19 +468,19 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 <UploadCloud
                                     className={cn([
                                         'size-8',
-                                        'text-neutral-400',
+                                        'text-muted-foreground',
                                         'duration-200',
                                         'origin-bottom',
-                                        'group-hover:text-pink-500',
+                                        'group-hover:text-primary',
                                         'group-hover:animate-bounce'
                                     ])}
                                     aria-hidden='true'
                                 />
-                                <p className='mt-2 text-base font-medium text-neutral-500 dark:text-neutral-400 transition-colors duration-200 group-hover:text-pink-500'>
+                                <p className='mt-2 text-base font-medium text-muted-foreground transition-colors duration-200 group-hover:text-primary'>
                                     Drag {`'n'`} drop here, or click to select
                                     file
                                 </p>
-                                <small className='text-sm text-neutral-400 dark:text-neutral-600'>
+                                <small className='text-sm text-muted-foreground/75'>
                                     Max. file size {formatBytes(maxSize)}
                                 </small>
                             </div>
@@ -535,21 +532,21 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
                                         <Progress
                                             value={uploadProgress}
-                                            className='[&>div]:data-[state=indeterminate]:bg-pink-500'
+                                            className='[&>div]:data-[state=indeterminate]:bg-primary'
                                         />
                                     </div>
                                 )}
                                 {callableExecuting && (
-                                    <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='size-12 animate-spin text-pink-500' />
+                                    <div className='absolute inset-0 z-30 bg-muted-50/75 flex flex-col justify-center items-center gap-y-4'>
+                                        <Loader2 className='size-12 animate-spin text-primary' />
                                         <p className='font-extrabold'>
                                             Moderating Image
                                         </p>
                                     </div>
                                 )}
                                 {createPrintOptions && (
-                                    <div className='absolute inset-0 z-30 bg-neutral-50/75 dark:bg-neutral-950/75 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='size-12 animate-spin text-pink-500' />
+                                    <div className='absolute inset-0 z-30 bg-muted-50/75 flex flex-col justify-center items-center gap-y-4'>
+                                        <Loader2 className='size-12 animate-spin text-primary' />
                                         <p className='font-extrabold'>
                                             Creating Print Order
                                         </p>
@@ -599,7 +596,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 contentModeration ||
                                 imageDimensionsError
                             }
-                            className='bg-pink-500 dark:bg-pink-500 hover:bg-pink-500/90 dark:hover:bg-pink-500/90 focus-visible:ring-pink-500 dark:focus-visible:ring-pink-500'
+                            className='focus-visible:ring-primary dark:focus-visible:ring-primary'
                             onClick={() => {
                                 createPrintOrder()
                             }}>

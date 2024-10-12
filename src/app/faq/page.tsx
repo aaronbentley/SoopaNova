@@ -38,7 +38,7 @@ const Faq = () => {
                         It depends on the platform you play on. Check out our{' '}
                         <Link
                             href='/screenshots/'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500 inline'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary inline'>
                             screenshot guides
                         </Link>{' '}
                         to help you get started.
@@ -103,7 +103,7 @@ const Faq = () => {
                             href='https://www.canvaspop.com/'
                             title='Visit Canvaspop website'
                             target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Canvaspop
                         </a>
                         . Canvaspop use only the highest quality print materials
@@ -125,7 +125,7 @@ const Faq = () => {
                             href='mailto:support@canvaspop.com'
                             title='Email Canvaspop'
                             target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Canvaspop Support
                         </a>{' '}
                         and they will make it right.

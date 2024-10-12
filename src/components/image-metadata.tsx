@@ -33,7 +33,7 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
     return (
         <Table>
             <TableBody>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Width</TableHead>
                     <TableCell
                         className={cn([
@@ -63,7 +63,7 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
                             )}
                     </TableCell>
                 </TableRow>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Height</TableHead>
                     <TableCell
                         className={cn([
@@ -93,19 +93,19 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
                             )}
                     </TableCell>
                 </TableRow>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Aspect ratio</TableHead>
                     <TableCell>{imageMeta?.aspectRatio}</TableCell>
                 </TableRow>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Size</TableHead>
                     <TableCell>{formatBytes(file.size)}</TableCell>
                 </TableRow>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Format</TableHead>
                     <TableCell>{file.type}</TableCell>
                 </TableRow>
-                <TableRow className='border-neutral-400/25'>
+                <TableRow>
                     <TableHead>Created at</TableHead>
                     <TableCell>
                         {getDateFromUnixTimestamp(file.lastModified)}

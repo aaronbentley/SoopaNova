@@ -36,21 +36,21 @@ const ScreenshotsSteam = () => {
                     </PageHeaderDescription>
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <ScrollToTarget target='steam-app'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Steam App
-                                        <SteamIcon className='absolute opacity-20 text-neutral-500 group-hover:fill-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='file-system'>
-                            <Card className='bg-neutral-100 dark:bg-neutral-900 group transition-all duration-200 hover:border-pink-500 hover:dark:border-pink-500'>
+                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
                                 <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-pink-500 transition-colors duration-200'>
+                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         File System
-                                        <PcCaseIcon className='absolute opacity-20 text-neutral-500 group-hover:text-pink-500 transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <PcCaseIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>

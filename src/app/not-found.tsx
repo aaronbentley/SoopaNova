@@ -19,11 +19,7 @@ const NotFound = async () => (
             <Link
                 href='/'
                 className={cn(buttonVariants({ variant: 'default' }), [
-                    'mt-4',
-                    'bg-pink-500',
-                    'dark:bg-pink-500',
-                    'hover:bg-pink-500/90',
-                    'hover:dark:bg-pink-500/90'
+                    'mt-4'
                 ])}>
                 Respawn
             </Link>

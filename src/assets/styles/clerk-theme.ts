@@ -3,18 +3,16 @@ import { buttonVariants } from '@/components/ui/button'
 /**
  * Compose common Clerk theme styles
  */
-const defaultTypography = ['text-neutral-950', 'dark:text-neutral-50']
-const mutedTypography = ['text-neutral-500', 'dark:text-neutral-500']
+const defaultTypography = ['text-foreground']
+const mutedTypography = ['text-muted-foreground']
 
-const defaultBackground = ['bg-neutral-100', 'dark:bg-neutral-900']
+const defaultBackground = ['bg-background']
 const defaultBackgroundGradient = [
     'bg-gradient-to-r',
-    'from-neutral-100',
-    'to-neutral-100',
-    'dark:from-neutral-900',
-    'dark:to-neutral-900'
+    'from-background',
+    'to-background'
 ]
-const mutedBackground = ['bg-neutral-200', 'dark:bg-neutral-800']
+const mutedBackground = ['bg-muted']
 
 /**
  * Compose Clerk theme styles for Provider appearance prop
@@ -29,8 +27,8 @@ export const clerkTheme = {
             ...defaultBackgroundGradient,
             '[&_svg]:transition-colors',
             '[&_svg]:duration-200',
-            '[&_svg]:text-neutral-500',
-            '[&_svg:hover]:text-pink-500'
+            '[&_svg]:text-muted-foreground',
+            '[&_svg:hover]:text-primary'
         ].join(' '),
         footerActionText: [...mutedTypography].join(' '),
         footerActionLink: [
@@ -39,8 +37,8 @@ export const clerkTheme = {
             'underline-offset-4',
             'transition-colors',
             'duration-200',
-            'hover:text-pink-500',
-            'dark:hover:text-pink-500',
+            'hover:text-primary',
+            'dark:hover:text-primary',
             'focus:shadow-none'
         ].join(' '),
         footerPagesLink: [
@@ -49,8 +47,8 @@ export const clerkTheme = {
             'underline-offset-4',
             'transition-colors',
             'duration-200',
-            'hover:text-pink-500',
-            'dark:hover:text-pink-500',
+            'hover:text-primary',
+            'dark:hover:text-primary',
             'focus:shadow-none'
         ].join(' '),
         //#endregion
@@ -67,51 +65,36 @@ export const clerkTheme = {
         //#endregion
 
         //#region Divider
-        dividerLine: ['bg-neutral-500/50', 'dark:bg-neutral-500/50'].join(' '),
+        dividerLine: ['bg-accent'].join(' '),
         dividerText: [...mutedTypography].join(' '),
         //#endregion
 
         //#region Form
         formFieldLabel: [...mutedTypography].join(' '),
         formFieldInput: [
-            'text-neutral-900',
-            'dark:text-neutral-100',
+            'text-foreground',
             'rounded-md',
             'border',
-            'border-neutral-200',
             'bg-white',
             'px-3',
             'py-2',
             'text-sm',
             'ring-offset-white',
-            'placeholder:text-neutral-500',
+            'placeholder:text-muted-foreground',
             'focus-visible:outline-none',
             'focus-visible:ring-2',
-            'focus-visible:ring-pink-500',
+            'focus-visible:ring-primary',
             'focus-visible:ring-offset-2',
             'disabled:cursor-not-allowed',
             'disabled:opacity-50',
-            'dark:border-neutral-800',
-            'dark:bg-neutral-950',
-            'dark:ring-offset-neutral-950',
-            'dark:placeholder:text-neutral-400',
-            'dark:focus-visible:ring-pink-500',
-            'accent-pink-500',
+            'dark:focus-visible:ring-primary',
+            // 'accent-primary',
             'focus:!shadow-[0_0_0_1px_#ec4899]'
         ].join(' '),
         formButtonPrimary: [
             buttonVariants({
                 variant: 'default',
-                className: [
-                    '!shadow-none',
-                    'bg-pink-500',
-                    'dark:bg-pink-500',
-                    'hover:bg-pink-500/90',
-                    'dark:hover:bg-pink-500/90',
-                    'hover:text-neutral-50',
-                    'dark:hover:text-neutral-950',
-                    'capitalize'
-                ]
+                className: ['!shadow-none', 'capitalize']
             })
         ].join(' '),
         formFieldErrorText: ['text-red-500'].join(' '),
@@ -134,19 +117,14 @@ export const clerkTheme = {
             ...defaultBackgroundGradient,
             '[&_svg]:transition-colors',
             '[&_svg]:duration-200',
-            '[&_svg]:text-neutral-500',
-            '[&_svg:hover]:text-pink-500'
+            '[&_svg]:text-muted-foreground',
+            '[&_svg:hover]:text-primary'
         ].join(' '),
         userPreviewMainIdentifier: [...defaultTypography].join(' '),
         userPreviewSecondaryIdentifier: [...mutedTypography].join(' '),
         userButtonPopoverActionButton: [
             ...mutedTypography,
-            'rounded-none',
-            'transition-colors',
-            'hover:bg-pink-500/25',
-            'hover:text-neutral-950',
-            'dark:hover:bg-pink-500/25',
-            'dark:hover:text-neutral-50'
+            'rounded-none'
         ].join(' '),
         //#endregion
 
@@ -162,32 +140,24 @@ export const clerkTheme = {
         //#region modalContent -> Navbar
         navbar: [
             ...defaultBackgroundGradient,
-            '[&_h1]:text-neutral-950',
-            '[&_h1]:dark:text-neutral-50',
-            '[&_p]:text-neutral-500',
-            '[&_p]:dark:text-neutral-500',
+            '[&_h1]:text-foreground',
+            '[&_p]:text-muted-foreground',
             '[&_svg]:transition-colors',
             '[&_svg]:duration-200',
-            '[&_svg:not(.cl-navbarButtonIcon)]:text-neutral-500',
-            '[&_svg:not(.cl-navbarButtonIcon):hover]:text-pink-500'
+            '[&_svg:not(.cl-navbarButtonIcon)]:text-muted-foreground',
+            '[&_svg:not(.cl-navbarButtonIcon):hover]:text-primary'
         ].join(' '),
         navbarMobileMenuRow: [...defaultBackgroundGradient].join(' '),
         navbarMobileMenuButton: [
             buttonVariants({
                 variant: 'ghost',
                 size: 'sm',
-                className: [
-                    'text-neutral-500',
-                    'dark:text-neutral-500',
-                    'hover:bg-neutral-100',
-                    'dark:hover:bg-neutral-900'
-                ]
+                className: ['text-muted-foreground']
             })
         ].join(' '),
         navbarButton: [
             ...defaultTypography,
-            'data-[active=true]:bg-neutral-500/25',
-            'data-[active=true]:dark:bg-neutral-500/25',
+            'data-[active=true]:bg-muted/25',
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
             'focus:[&.cl-active]:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
         ].join(' '),
@@ -198,14 +168,9 @@ export const clerkTheme = {
         profileSectionHeader: [...mutedTypography].join(' '),
         profileSectionPrimaryButton__profile: [
             buttonVariants({
-                variant: 'ghost',
-                size: 'sm',
-                className: [
-                    'text-neutral-500',
-                    'dark:text-neutral-500',
-                    'hover:bg-neutral-100',
-                    'dark:hover:bg-neutral-900'
-                ]
+                variant: 'default',
+                size: 'sm'
+                // className: ['text-muted-foreground']
             })
         ].join(' '),
         actionCard: [...defaultBackground].join(' '),
@@ -219,20 +184,11 @@ export const clerkTheme = {
             buttonVariants({
                 variant: 'destructive',
                 size: 'sm',
-                className: ['!text-neutral-50', 'dark:!text-neutral-950']
+                className: ['!text-foreground']
             })
         ].join(' '),
-        profileSectionItem__emailAddresses: [
-            '[&_p]:text-neutral-950',
-            '[&_p]:dark:text-neutral-50'
-        ].join(' '),
-        badge: [
-            'text-pink-500',
-            'dark:text-pink-500',
-            'bg-pink-500/25',
-            'dark:bg-pink-500/25',
-            '!shadow-none'
-        ].join(' '),
+        profileSectionItem__emailAddresses: ['[&_p]:text-foreground'].join(' '),
+        badge: ['text-primary', '!shadow-none'].join(' '),
         menuButton: [
             ...mutedTypography,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
@@ -240,47 +196,31 @@ export const clerkTheme = {
         menuList: [...defaultBackground].join(' '),
         profileSectionPrimaryButton__emailAddresses: [
             buttonVariants({
-                variant: 'ghost',
-                size: 'sm',
-                className: [
-                    'text-neutral-500',
-                    'dark:text-neutral-500',
-                    'hover:bg-neutral-100',
-                    'dark:hover:bg-neutral-900'
-                ]
+                variant: 'default',
+                size: 'sm'
+                // className: ['text-muted-foreground', 'hover:bg-foreground']
             })
         ].join(' '),
-        profileSectionItem__connectedAccounts: [
-            '[&_p]:text-neutral-950',
-            '[&_p]:dark:text-neutral-50'
-        ].join(' '),
+        profileSectionItem__connectedAccounts: ['[&_p]:text-foreground'].join(
+            ' '
+        ),
         menuButton__connectedAccounts: [
             buttonVariants({
-                variant: 'ghost',
-                size: 'sm',
-                className: [
-                    'text-neutral-500',
-                    'dark:text-neutral-500',
-                    'hover:bg-neutral-100',
-                    'dark:hover:bg-neutral-900'
-                ]
+                variant: 'default',
+                size: 'sm'
+                // className: ['text-muted-foreground', 'hover:bg-foreground']
             })
         ].join(' '),
         menuItem__connectedAccounts: [
             ...defaultTypography,
-            'hover:bg-pink-500/50',
-            'hover:dark:bg-pink-500/50'
+            'hover:bg-primary/50',
+            'hover:dark:bg-primary/50'
         ].join(' '),
         profileSectionPrimaryButton__password: [
             buttonVariants({
                 variant: 'ghost',
                 size: 'sm',
-                className: [
-                    'text-neutral-500',
-                    'dark:text-neutral-500',
-                    'hover:bg-neutral-100',
-                    'dark:hover:bg-neutral-900'
-                ]
+                className: ['text-muted-foreground', 'hover:bg-foreground']
             })
         ].join(' '),
         profileSectionContent__activeDevices: [...mutedTypography].join(' '),
@@ -288,7 +228,7 @@ export const clerkTheme = {
             buttonVariants({
                 variant: 'destructive',
                 size: 'sm',
-                className: ['!text-neutral-50', 'dark:!text-neutral-950']
+                className: ['!text-foreground']
             })
         ].join(' ')
         //#endregion

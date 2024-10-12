@@ -128,7 +128,7 @@ const OrdersTable = async () => {
                         <Link
                             href='/create/'
                             title='Create your first Print Order'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-pink-500'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             create your first print order
                         </Link>{' '}
                         to get started.
@@ -169,34 +169,32 @@ const OrdersTable = async () => {
                         const productEdge: ProductEdge = order.productEdge
 
                         return (
-                            <TableRow
-                                key={index}
-                                className='border-neutral-400/25'>
+                            <TableRow key={index}>
                                 <TableCell className='font-medium'>
                                     {id}
                                 </TableCell>
-                                <TableCell className='text-neutral-500'>
+                                <TableCell>
                                     {createdAt.toLocaleDateString()}
                                 </TableCell>
-                                <TableCell className='text-neutral-500'>
+                                <TableCell>
                                     {productType
                                         ? productTypeSlugs[productType]
                                         : '-'}
                                 </TableCell>
-                                <TableCell className='text-neutral-500'>
+                                <TableCell>
                                     {`${productWidth}" x ${productHeight}"`}
                                 </TableCell>
-                                <TableCell className='text-neutral-500'>
+                                <TableCell>
                                     {productFrame
                                         ? productFrameSlugs[productFrame]
                                         : '-'}
                                 </TableCell>
-                                <TableCell className='text-neutral-500'>
+                                <TableCell>
                                     {productEdge
                                         ? productEdgeSlugs[productEdge]
                                         : '-'}
                                 </TableCell>
-                                <TableCell className='text-right text-neutral-500'>
+                                <TableCell className='text-right'>
                                     {formatCurrency(productPrice)}
                                 </TableCell>
                             </TableRow>

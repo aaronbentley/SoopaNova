@@ -34,13 +34,13 @@ export const Breadcrumbs = ({
                     items.map((item, index) => (
                         <li key={index}>
                             {pathname === item.url ? (
-                                <span className='font-medium text-neutral-500 dark:text-neutral-500'>
+                                <span className='font-medium text-muted-foreground dark:text-muted-foreground'>
                                     {item.title}
                                 </span>
                             ) : (
                                 <Link
                                     href={item.url}
-                                    className='font-medium text-neutral-500 dark:text-neutral-500 transition-colors duration-200 hover:text-pink-500 dark:hover:text-pink-500'>
+                                    className='font-medium text-muted-foreground dark:text-muted-foreground transition-colors duration-200 hover:text-primary dark:hover:text-primary'>
                                     {item.title}
                                 </Link>
                             )}

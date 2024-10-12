@@ -4,7 +4,7 @@ import { Threads } from './icons'
 
 const Footer = () => (
     <footer className='py-6 md:px-8 md:pt-12 lg:pt-24 md:pb-4'>
-        <div className='container flex flex-col items-center justify-between gap-4 py-4 md:flex-row text-neutral-400 dark:text-neutral-600 text-sm'>
+        <div className='container flex flex-col items-center justify-between gap-4 py-4 md:flex-row text-muted-foreground text-sm'>
             <div className='flex items-center gap-x-2'>
                 <Copyright className='w-3 h-3' />
                 <span>
@@ -12,7 +12,7 @@ const Footer = () => (
                     <a
                         href={process.env.APP_COMPANY_URL!}
                         target='_blank'
-                        className='hover:text-pink-500'>
+                        className='hover:text-primary'>
                         {process.env.APP_COMPANY!}
                     </a>
                     . All rights reserved.
@@ -23,12 +23,12 @@ const Footer = () => (
                 <div className='flex items-center gap-x-2'>
                     <Link
                         href='/privacy/'
-                        className='transition-all duration-200 hover:text-pink-500'>
+                        className='transition-all duration-200 hover:text-primary'>
                         Privacy
                     </Link>
                     <Link
                         href='/terms/'
-                        className='transition-all duration-200 hover:text-pink-500'>
+                        className='transition-all duration-200 hover:text-primary'>
                         Terms
                     </Link>
                 </div>
@@ -38,7 +38,7 @@ const Footer = () => (
                         aria-label='Twitter'
                         href={process.env.APP_SOCIAL_TWITTER!}
                         target='_blank'
-                        className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
+                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
                         <Twitter className='size-4' />
                     </a>
                     <a
@@ -46,7 +46,7 @@ const Footer = () => (
                         aria-label='Instagram'
                         href={process.env.APP_SOCIAL_INSTAGRAM!}
                         target='_blank'
-                        className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
+                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
                         <Instagram className='size-4' />
                     </a>
                     <a
@@ -54,7 +54,7 @@ const Footer = () => (
                         aria-label='Threads'
                         href={process.env.APP_SOCIAL_THREADS!}
                         target='_blank'
-                        className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
+                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
                         <Threads className='size-4' />
                     </a>
                     <a
@@ -62,7 +62,7 @@ const Footer = () => (
                         aria-label='Facebook'
                         href={process.env.APP_SOCIAL_FACEBOOK!}
                         target='_blank'
-                        className='transition-all duration-200 hover:text-pink-500 cursor-pointer hover:scale-125'>
+                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
                         <Facebook className='size-4' />
                     </a>
                 </div>

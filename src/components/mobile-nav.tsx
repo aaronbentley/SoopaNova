@@ -34,7 +34,7 @@ const MobileNav = () => {
             </SheetTrigger>
             <SheetContent
                 side='left'
-                className='pr-0 pl-8 border-pink-500/25'>
+                className='pr-0 pl-8 border-primary/25'>
                 <MobileLink
                     href='/'
                     className='flex items-center'
@@ -47,7 +47,7 @@ const MobileNav = () => {
                             'tracking-tight',
                             'transition-colors',
                             'duration-200',
-                            'hover:text-pink-500'
+                            'hover:text-primary'
                         ])}>
                         {process.env.NEXT_PUBLIC_APP_TITLE!}
                     </span>
@@ -107,12 +107,7 @@ const MobileLink = ({
             }}
             className={cn(
                 navigationMenuTriggerStyle(),
-                active && [
-                    'text-neutral-50',
-                    'dark:text-neutral-950',
-                    'bg-pink-500',
-                    'dark:bg-pink-500'
-                ],
+                active && ['text-foreground', 'bg-primary', 'dark:bg-primary'],
                 className
             )}
             {...props}>
