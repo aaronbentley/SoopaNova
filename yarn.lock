@@ -6415,6 +6415,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"schema-dts@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "schema-dts@npm:1.1.2"
+  peerDependencies:
+    typescript: ">=4.1.0"
+  checksum: 10c0/bcca8719b1bb1cd71ba2b01a5126b3579e917a2f193e10fcffe020fa42fef911776ed9d2197c9f376780e703994b3ab854db3f962c47064f7282f41eff0f1d24
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.3.1":
   version: 6.3.1
   resolution: "semver@npm:6.3.1"
@@ -6629,6 +6638,7 @@ __metadata:
     react-dom: "npm:18.3.1"
     react-dropzone: "npm:^14.2.9"
     react-firebase-hooks: "npm:^5.1.1"
+    schema-dts: "npm:^1.1.2"
     sonner: "npm:^1.5.0"
     tailwind-merge: "npm:^2.5.3"
     tailwindcss: "npm:3.4.13"
