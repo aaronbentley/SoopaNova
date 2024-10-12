@@ -19,7 +19,7 @@ import { Suspense } from 'react'
 export const generateViewport = (): Viewport => {
     const themeColor = process.env.APP_BRAND_COLOUR!
     return {
-        themeColor: themeColor
+        themeColor
     }
 }
 
