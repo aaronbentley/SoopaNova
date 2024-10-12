@@ -1,5 +1,5 @@
+import { Typography } from '@/components/typography'
 import { cn } from '@/lib/utils'
-import { Typography } from './typography'
 
 export const Hero = ({
     className,

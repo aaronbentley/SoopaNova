@@ -1,5 +1,17 @@
 'use client'
 
+import CanvaspopCart from '@/components/canvaspop-cart'
+import ImageMetadata from '@/components/image-metadata'
+import { Button } from '@/components/ui/button'
+import { Progress } from '@/components/ui/progress'
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle
+} from '@/components/ui/sheet'
 import { functions, storage } from '@/firebase/config'
 import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
@@ -19,18 +31,6 @@ import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
-import CanvaspopCart from './canvaspop-cart'
-import ImageMetadata from './image-metadata'
-import { Button } from './ui/button'
-import { Progress } from './ui/progress'
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle
-} from './ui/sheet'
 
 const UploadFile = ({ className }: { className?: string }) => {
     /**

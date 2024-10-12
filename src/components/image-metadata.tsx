@@ -1,8 +1,18 @@
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
+} from '@/components/ui/table'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger
+} from '@/components/ui/tooltip'
 import { cn, formatBytes, getDateFromUnixTimestamp } from '@/lib/utils'
 import { FileWithPreview } from '@/types'
 import { AlertTriangle } from 'lucide-react'
-import { Table, TableBody, TableCell, TableHead, TableRow } from './ui/table'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 interface ImageMetadataProps {
     file: FileWithPreview | null

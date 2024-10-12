@@ -1,6 +1,6 @@
+import { Typography } from '@/components/typography'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { Typography } from './typography'
-import { Separator } from './ui/separator'
 
 export const PageHeader = ({
     className,

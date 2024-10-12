@@ -1,19 +1,19 @@
+import MainNav from '@/components/main-nav'
+import MobileNav from '@/components/mobile-nav'
+import ModeToggle from '@/components/mode-toggle'
+import { Button, buttonVariants } from '@/components/ui/button'
+import UserButton from '@/components/user-button'
 import { cn } from '@/lib/utils'
 import {
     ClerkLoaded,
     ClerkLoading,
     SignInButton,
     SignedIn,
-    SignedOut,
-    UserButton
+    SignedOut
 } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import MainNav from './main-nav'
-import MobileNav from './mobile-nav'
-import ModeToggle from './mode-toggle'
-import { Button, buttonVariants } from './ui/button'
 
 const Header = () => (
     <header className='sticky top-0 z-50 w-full border-b border-muted bg-background/80 dark:bg-background/80 backdrop-blur'>
@@ -49,18 +49,16 @@ const Header = () => (
                     <ModeToggle />
                     <Suspense>
                         <ClerkLoading>
-                            <Loader2 className='size-8 animate-spin text-primary' />
+                            <Loader2 className='size-7 animate-spin text-primary' />
                         </ClerkLoading>
                         <ClerkLoaded>
                             <SignedOut>
                                 <SignInButton>
-                                    <Button className='bg-primary dark:bg-primary hover:bg-primary/90 dark:hover:bg-primary/90'>
-                                        Sign In
-                                    </Button>
+                                    <Button>Sign In</Button>
                                 </SignInButton>
                             </SignedOut>
                             <SignedIn>
-                                <UserButton afterSignOutUrl='/' />
+                                <UserButton />
                             </SignedIn>
                         </ClerkLoaded>
                     </Suspense>

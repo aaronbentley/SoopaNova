@@ -114,7 +114,7 @@ const Frontpage = () => {
                                 size='icon'
                                 variant='link'
                                 className='w-9 px-0'>
-                                <ChevronDown className='h-9 w-9 text-muted-foreground/75 origin-bottom animate-bounce ease-in-out hover:text-primary hover:dark:text-primary' />
+                                <ChevronDown className='size-9 text-muted-foreground transition-colors hover:text-primary origin-bottom animate-bounce ease-in-out hover:text-primary/90' />
                                 <span className='sr-only'>View more</span>
                             </Button>
                         </TooltipTrigger>
@@ -261,7 +261,7 @@ const Frontpage = () => {
                 </p>
 
                 <div className='flex flex-col gap-24 mt-12 md:mt-24'>
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
                             <PageSectionHeading>
                                 Poster Prints
@@ -278,17 +278,18 @@ const Frontpage = () => {
                                 Poster Print prices start from $12 (USD).
                             </PageSectionDescription>
                         </div>
-                        <div className='order-1 md:order-2'>
+                        <div className='order-1 md:order-2 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
                             <Image
                                 src={posterPrint}
                                 alt='Poster Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='rounded-md'
                             />
                         </div>
                     </div>
 
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2'>
                             <PageSectionHeading>
                                 Canvas Prints
@@ -303,17 +304,18 @@ const Frontpage = () => {
                                 Canvas Print prices start from $53 (USD).
                             </PageSectionDescription>
                         </div>
-                        <div className='order-1'>
+                        <div className='order-1 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
                             <Image
                                 src={canvasPrint}
                                 alt='Canvas Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='rounded-md'
                             />
                         </div>
                     </div>
 
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center'>
+                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
                             <PageSectionHeading>
                                 Framed Prints
@@ -330,12 +332,13 @@ const Frontpage = () => {
                                 Framed Print prices start from $73 (USD).
                             </PageSectionDescription>
                         </div>
-                        <div className='order-1 md:order-2'>
+                        <div className='order-1 md:order-2 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
                             <Image
                                 src={framedPrint}
                                 alt='Framed Print'
                                 placeholder='blur'
                                 sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
+                                className='rounded-md'
                             />
                         </div>
                     </div>

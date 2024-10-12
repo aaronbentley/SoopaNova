@@ -1,6 +1,6 @@
-import { Copyright, Facebook, Instagram, Twitter } from 'lucide-react'
+import { Facebook, Instagram, Threads, Twitter } from '@/components/icons'
+import { Copyright } from 'lucide-react'
 import Link from 'next/link'
-import { Threads } from './icons'
 
 const Footer = () => (
     <footer className='py-6 md:px-8 md:pt-12 lg:pt-24 md:pb-4'>
@@ -39,7 +39,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_TWITTER!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Twitter className='size-4' />
+                        <Twitter />
                     </a>
                     <a
                         title='Instagram'
@@ -47,7 +47,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_INSTAGRAM!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Instagram className='size-4' />
+                        <Instagram />
                     </a>
                     <a
                         title='Threads'
@@ -55,7 +55,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_THREADS!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Threads className='size-4' />
+                        <Threads />
                     </a>
                     <a
                         title='Facebook'
@@ -63,7 +63,7 @@ const Footer = () => (
                         href={process.env.APP_SOCIAL_FACEBOOK!}
                         target='_blank'
                         className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Facebook className='size-4' />
+                        <Facebook />
                     </a>
                 </div>
             </div>

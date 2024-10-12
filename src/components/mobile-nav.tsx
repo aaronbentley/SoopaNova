@@ -1,16 +1,16 @@
 'use client'
 
 import { links } from '@/assets/data/links'
+import { Button } from '@/components/ui/button'
+import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { SignedIn, useAuth } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { Suspense, useState } from 'react'
-import { Button } from './ui/button'
-import { navigationMenuTriggerStyle } from './ui/navigation-menu'
-import { ScrollArea } from './ui/scroll-area'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
 const MobileNav = () => {
     // Get the auth state

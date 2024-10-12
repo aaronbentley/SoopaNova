@@ -1,8 +1,8 @@
 'use client'
+import CanvasPopCartEventListener from '@/components/canvaspop-event-listener'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
-import CanvasPopCartEventListener from './canvaspop-event-listener'
 
 interface CanvaspopCartProps {
     src: string | null

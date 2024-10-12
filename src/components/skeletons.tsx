@@ -1,4 +1,4 @@
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const TableSkeleton = ({ rows = 4 }: { rows?: number }) => (
     <div className='w-full flex flex-col items-center gap-4 mb-8'>
