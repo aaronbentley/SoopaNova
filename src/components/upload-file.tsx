@@ -1,5 +1,6 @@
 'use client'
 
+import CanvaspopCart from '@/components/canvaspop-cart'
 import ImageMetadata from '@/components/image-metadata'
 import { Typography } from '@/components/typography'
 import { Button } from '@/components/ui/button'
@@ -31,7 +32,6 @@ import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
-import CanvaspopCart from './canvaspop-cart'
 
 const UploadFile = ({ className }: { className?: string }) => {
     /**
