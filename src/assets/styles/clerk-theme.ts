@@ -130,7 +130,8 @@ export const clerkTheme = {
             ...mutedTypography,
             'rounded-none',
             'hover:bg-primary/25',
-            'hover:text-accent-foreground'
+            'hover:text-accent-foreground',
+            '[&_.cl-spinner]:!text-primary'
         ].join(' '),
         //#endregion
 
