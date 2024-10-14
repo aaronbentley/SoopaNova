@@ -1146,6 +1146,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-alert-dialog@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@radix-ui/react-alert-dialog@npm:1.1.2"
+  dependencies:
+    "@radix-ui/primitive": "npm:1.1.0"
+    "@radix-ui/react-compose-refs": "npm:1.1.0"
+    "@radix-ui/react-context": "npm:1.1.1"
+    "@radix-ui/react-dialog": "npm:1.1.2"
+    "@radix-ui/react-primitive": "npm:2.0.0"
+    "@radix-ui/react-slot": "npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/e72a82bb1d980f72a836920048d51fe57958ae51c39af3f175e368baea38839961ab1e311bd331e9d6f4656237389be37e1f7503aa5b6348cc87ca0589f21c4f
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-arrow@npm:1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-arrow@npm:1.1.0"
@@ -1226,7 +1250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:^1.1.1, @radix-ui/react-dialog@npm:^1.1.2":
+"@radix-ui/react-dialog@npm:1.1.2, @radix-ui/react-dialog@npm:^1.1.1, @radix-ui/react-dialog@npm:^1.1.2":
   version: 1.1.2
   resolution: "@radix-ui/react-dialog@npm:1.1.2"
   dependencies:
@@ -6429,6 +6453,7 @@ __metadata:
   dependencies:
     "@clerk/nextjs": "npm:^5.7.2"
     "@clerk/themes": "npm:^2.1.35"
+    "@radix-ui/react-alert-dialog": "npm:^1.1.2"
     "@radix-ui/react-dialog": "npm:^1.1.2"
     "@radix-ui/react-dropdown-menu": "npm:^2.1.2"
     "@radix-ui/react-label": "npm:^2.1.0"
@@ -6469,12 +6494,12 @@ __metadata:
     react-firebase-hooks: "npm:^5.1.1"
     schema-dts: "npm:^1.1.2"
     sonner: "npm:^1.5.0"
-    tailwind-merge: "npm:^2.5.3"
+    tailwind-merge: "npm:^2.5.4"
     tailwindcss: "npm:3.4.13"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:5.6.3"
     uuid: "npm:^10.0.0"
-    vaul: "npm:^1.0.0"
+    vaul: "npm:^1.1.0"
   languageName: unknown
   linkType: soft
 
@@ -6753,10 +6778,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-merge@npm:^2.5.3":
-  version: 2.5.3
-  resolution: "tailwind-merge@npm:2.5.3"
-  checksum: 10c0/1d3fb3eae7b5d7c30aad1e7cf74cf5e6fcb1e0319cc91bb29e266837819b23cd226d667a15e8d3f26db81b4abc30332be5d831f2c819e1bebafdcd7b2a1d4e48
+"tailwind-merge@npm:^2.5.4":
+  version: 2.5.4
+  resolution: "tailwind-merge@npm:2.5.4"
+  checksum: 10c0/6c3d2a1d44344f373859f005e6366f0dbd7f66131d330a51dbe823dab08f71c388b2efcbb2b6a2170ca469581d27079c25cd40c234ca1356c4893ae99c2febb3
   languageName: node
   linkType: hard
 
@@ -7155,15 +7180,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vaul@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "vaul@npm:1.0.0"
+"vaul@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "vaul@npm:1.1.0"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.1.1"
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
-  checksum: 10c0/7d5be0385044dc0952a3d3a2f1ee6eb7641b469e4e416f916fcced553a2fd8ed2f2bf9fde0cd9c41739fa1d626d5470b82bc9fde161663f4b1e31c8170ea7eb9
+  checksum: 10c0/87c77a129e7b414480742e70763ea484df102505143e5c241db459df29655a164a3737b09f00cf116355af117fd9200fc9d0eead0ba98a2b9e6adbcfb684be38
   languageName: node
   linkType: hard
 

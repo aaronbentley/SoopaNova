@@ -1,7 +1,7 @@
 'use client'
 
-import CanvaspopCart from '@/components/canvaspop-cart'
 import ImageMetadata from '@/components/image-metadata'
+import { Typography } from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import {
@@ -31,6 +31,7 @@ import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
+import CanvaspopCart from './canvaspop-cart'
 
 const UploadFile = ({ className }: { className?: string }) => {
     /**
@@ -100,9 +101,14 @@ const UploadFile = ({ className }: { className?: string }) => {
     const [printSheetOpen, setPrintSheetOpen] = useState<boolean>(false)
 
     /**
+     * Handle Print Dialog state
+     */
+    // const [printDialogueOpen, setPrintDialogueOpen] = useState<boolean>(false)
+
+    /**
      * Handle Print Order Url
      */
-    const [printOrderUrl, setPrintOrderUrl] = useState<string | null>(null)
+    const [printOrderUrl, setPrintOrderUrl] = useState<URL | null>(null)
 
     /**
      * Handle image metadata
@@ -374,9 +380,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                     fileName: file.name
                 })
 
-                setPrintOrderUrl(canvasPopCartUrl.href)
+                setPrintOrderUrl(canvasPopCartUrl)
 
                 setPrintSheetOpen(true)
+                // setPrintDialogueOpen(true)
 
                 toast.dismiss(createOrderToast)
 
@@ -526,7 +533,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     'max-w-full'
                                 ])}>
                                 {snapshot && (
-                                    <div className='absolute inset-0 z-30 flex flex-col justify-end px-4 pb-4'>
+                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-end px-4 pb-4'>
                                         <Progress
                                             value={uploadProgress}
                                             className='[&>div]:data-[state=indeterminate]:bg-primary'
@@ -534,19 +541,23 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     </div>
                                 )}
                                 {callableExecuting && (
-                                    <div className='absolute inset-0 z-30 bg-muted-50/75 flex flex-col justify-center items-center gap-y-4'>
+                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-center items-center gap-y-4'>
                                         <Loader2 className='size-12 animate-spin text-primary' />
-                                        <p className='font-extrabold'>
+                                        <Typography
+                                            variant='p'
+                                            className='font-extrabold text-center'>
                                             Moderating Image
-                                        </p>
+                                        </Typography>
                                     </div>
                                 )}
                                 {createPrintOptions && (
-                                    <div className='absolute inset-0 z-30 bg-muted-50/75 flex flex-col justify-center items-center gap-y-4'>
+                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-center items-center gap-y-4'>
                                         <Loader2 className='size-12 animate-spin text-primary' />
-                                        <p className='font-extrabold'>
+                                        <Typography
+                                            variant='p'
+                                            className='font-extrabold text-center'>
                                             Creating Print Order
-                                        </p>
+                                        </Typography>
                                     </div>
                                 )}
                                 {files && files.length && (
@@ -559,12 +570,22 @@ const UploadFile = ({ className }: { className?: string }) => {
                                                 'object-contain',
                                                 'object-center'
                                             ],
-                                            uploading && ['opacity-75'],
+                                            uploading && [
+                                                'after:absolute',
+                                                'after:inset-0',
+                                                'after:z-20',
+                                                'after:bg-background/50'
+                                            ],
                                             contentModeration && [
                                                 'blur',
                                                 'opacity-75'
                                             ],
-                                            createPrintOptions && ['opacity-75']
+                                            createPrintOptions && [
+                                                'after:absolute',
+                                                'after:inset-0',
+                                                'after:z-20',
+                                                'after:bg-background/50'
+                                            ]
                                         )}
                                         onLoad={onLoad}
                                         fill={true}
@@ -630,9 +651,43 @@ const UploadFile = ({ className }: { className?: string }) => {
                             Make something awesome. Make it your own.
                         </SheetDescription>
                     </SheetHeader>
-                    {printOrderUrl && <CanvaspopCart src={printOrderUrl} />}
+                    {printOrderUrl && (
+                        <CanvaspopCart src={printOrderUrl.href} />
+                    )}
                 </SheetContent>
             </Sheet>
+            {/*
+            <AlertDialog
+                open={printDialogueOpen}
+                onOpenChange={(open) => {
+                    setPrintDialogueOpen(open)
+                }}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            Your Print Order is ready!
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className='text-balance'>
+                            Please Continue to complete your Print Order.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        {printOrderUrl && (
+                            <AlertDialogAction asChild>
+                                <Link
+                                    href={printOrderUrl?.href}
+                                    title='Order Print'
+                                    target='_blank'>
+                                    Continue
+                                </Link>
+                            </AlertDialogAction>
+                        )}
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+            {printOrderUrl && <CanvasPopCartEventListener />}
+            */}
         </div>
     )
 }

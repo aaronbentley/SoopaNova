@@ -430,7 +430,7 @@ const CanvasPopCartEventListener = () => {
                 }
             }
         }
-        window.addEventListener('message', listener)
+        window.addEventListener('message', listener, true)
         // Clean up the event listener
         return () => {
             window.removeEventListener('message', listener)
