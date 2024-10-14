@@ -18,13 +18,12 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
     /**
      * Bail if no src is provided
      */
-    if (!src) {
-        return null
-    }
+    if (!src) return null
 
-    const handleIframeLoad = () => {
-        setIsMounted(true)
-    }
+    /**
+     * Handle iframe load event
+     */
+    const handleIframeLoad = () => setIsMounted(true)
 
     return (
         <div className='relative w-full h-full'>
