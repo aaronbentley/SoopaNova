@@ -1,7 +1,5 @@
 import { ImageResponse } from 'next/og'
 
-export const runtime = 'edge'
-
 export const alt = process.env.APP_TITLE!
 
 export const size = {

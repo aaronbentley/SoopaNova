@@ -77,27 +77,27 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle upload progress
      */
-    const [uploadProgress, setUploadProgress] = useState(0)
+    const [uploadProgress, setUploadProgress] = useState<number>(0)
 
     /**
      * Handle content moderation
      */
-    const [contentModeration, setContentModeration] = useState(false)
+    const [contentModeration, setContentModeration] = useState<boolean>(false)
 
     /**
      * Handle print options progress
      */
-    const [createPrintOptions, setCreatePrintOptions] = useState(false)
+    const [createPrintOptions, setCreatePrintOptions] = useState<boolean>(false)
 
     /**
      * Handle Media Sheet state
      */
-    const [mediaSheetOpen, setMediaSheetOpen] = useState(false)
+    const [mediaSheetOpen, setMediaSheetOpen] = useState<boolean>(false)
 
     /**
      * Handle Print Sheet state
      */
-    const [printSheetOpen, setPrintSheetOpen] = useState(false)
+    const [printSheetOpen, setPrintSheetOpen] = useState<boolean>(false)
 
     /**
      * Handle Print Order Url
@@ -116,7 +116,8 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle image dimension error
      */
-    const [imageDimensionsError, setImageDimensionsError] = useState(false)
+    const [imageDimensionsError, setImageDimensionsError] =
+        useState<boolean>(false)
 
     /**
      * Handle upload progress
@@ -306,10 +307,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                     )
                 }
 
-                // toast.info('Creating Print Order', {
-                //     description: 'Hold tight Sparky - this may take a moment'
-                // })
-
                 const createOrderToast = toast.loading('Creating Print Order', {
                     description: 'Hold tight Sparky - this may take a moment'
                 })
@@ -360,7 +357,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                     throw new Error('No image token found in response')
                 }
 
-                // Build Canvaspop Cart URL
+                // Build Canvaspop Cart URL TODO: Build path?
                 const canvasPopCartUrl = new URL(
                     `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
                 )
