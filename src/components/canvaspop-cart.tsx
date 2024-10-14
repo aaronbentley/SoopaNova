@@ -35,7 +35,9 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                 onLoad={handleIframeLoad}
                 className='w-full h-full z-10'
             />
-            {!isMounted && (
+            {isMounted ? (
+                <CanvasPopCartEventListener />
+            ) : (
                 <div
                     className={cn([
                         'absolute',
@@ -48,7 +50,6 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                     <Loader2 className='h-12 w-12 animate-spin text-primary' />
                 </div>
             )}
-            {isMounted && <CanvasPopCartEventListener />}
         </div>
     )
 }
