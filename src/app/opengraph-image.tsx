@@ -4,9 +4,7 @@ export const alt = `${process.env.APP_TITLE!}: ${process.env.APP_DESCRIPTION!}`
 
 export const size = {
     width: 2400,
-    // width: 1600,
     height: 1260
-    // height: 840
 }
 
 export const contentType = 'image/png'
@@ -23,7 +21,6 @@ const opengraphImage = async () => {
                         viewBox='0 0 512 50.4'
                         id='strapline'
                         width={1440}
-                        // width={960}
                         fill='currentColor'>
                         <path d='M30.3,7.5v7.6H12.9v7.8h16.4v7.5H12.9V45H3.6V7.5H30.3z' />
                         <path d='M42.3,17l0.2,5.7c1.1-3.8,3.3-5.7,6.8-5.7h2.5v6.7h-2.6c-4.7,0-6.6,2-6.6,6.2V45h-9.2V17H42.3z' />
@@ -93,85 +90,6 @@ const opengraphImage = async () => {
                         <path d='M344.08,50.41c0-15.36,10.3-25.48,25.94-25.48s26.03,10.12,26.03,25.48-10.3,25.48-26.03,25.48-25.94-10.12-25.94-25.48ZM370.02,64.11c6.16,0,9.66-4.97,9.66-13.71s-3.5-13.71-9.66-13.71-9.57,4.97-9.57,13.71,3.4,13.71,9.57,13.71Z' />
                         <path d='M428.16,74.78h-16.19l-18.12-48.75h15.18l11.04,32.84,10.95-32.84h15.27l-18.12,48.75Z' />
                         <path d='M469.46,24.93c15.64,0,23.46,7.17,23.46,21.52v13.8c0,3.59,1.47,4.14,3.13,4.14h1.66v10.39l-2.21.18c-2.48.09-13.8,1.84-15.54-7.54-2.48,5.24-8.09,8.46-17.38,8.46-9.93,0-17.48-5.33-17.48-13.98s6.44-12.42,18.58-14.81l13.06-2.67c0-6.71-2.3-9.84-7.27-9.84-4.23,0-6.81,2.48-7.63,7.54l-16-.74c1.93-10.76,10.03-16.46,23.64-16.46ZM467.98,66.14c5.33,0,9.01-4.05,9.01-11.96v-.55l-6.9,1.29c-5.15,1.01-8.65,2.02-8.65,6.35,0,2.76,2.3,4.88,6.53,4.88Z' />
-                    </svg>
-                </div>
-
-                <div
-                    tw='flex flex-col items-center justify-center absolute -left-12 text-pink-800'
-                    style={{
-                        transform: 'skewY(-12deg)'
-                    }}>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        width='420'
-                        // width='280'
-                        height='420'
-                        // height='280'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='currentColor'
-                        stroke-width='1.5'
-                        stroke-linecap='round'
-                        stroke-linejoin='round'>
-                        <line
-                            x1='6'
-                            x2='10'
-                            y1='11'
-                            y2='11'
-                        />
-                        <line
-                            x1='8'
-                            x2='8'
-                            y1='9'
-                            y2='13'
-                        />
-                        <line
-                            x1='15'
-                            x2='15.01'
-                            y1='12'
-                            y2='12'
-                        />
-                        <line
-                            x1='18'
-                            x2='18.01'
-                            y1='10'
-                            y2='10'
-                        />
-                        <path d='M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z' />
-                    </svg>
-                </div>
-
-                <div
-                    tw='flex flex-col items-center justify-center absolute -right-12 text-pink-800'
-                    style={{
-                        transform: 'skewY(12deg)'
-                    }}>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        width='380'
-                        // width='253'
-                        height='380'
-                        // height='253'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='currentColor'
-                        stroke-width='1.5'
-                        stroke-linecap='round'
-                        stroke-linejoin='round'>
-                        <rect
-                            width='18'
-                            height='18'
-                            x='3'
-                            y='3'
-                            rx='2'
-                            ry='2'
-                        />
-                        <circle
-                            cx='9'
-                            cy='9'
-                            r='2'
-                        />
-                        <path d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21' />
                     </svg>
                 </div>
             </div>
