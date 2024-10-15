@@ -73,7 +73,7 @@ const opengraphImage = async () => {
                     </svg>
                 </div>
 
-                <div tw='flex flex-col items-center justify-center w-full text-pink-800'>
+                <div tw='flex flex-col items-center justify-center w-full text-pink-500'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 502 93'
