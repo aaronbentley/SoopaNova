@@ -20,6 +20,14 @@
 
         /* #ec4899 */
         --primary: 330 81% 60%;
+        /* #3b82f6 */
+        /* --primary: 217 91% 60%; */
+        /* #10b981 */
+        /* --primary: 160 84% 39%; */
+        /* #14b8a6 */
+        /* --primary: 160 84% 39%; */
+        /* #f59e0b */
+        /* --primary: 38 92% 50%; */
         /* #fafafa */
         --primary-foreground: 0 0% 98%;
 
@@ -70,10 +78,16 @@
         /* #fafafa */
         --popover-foreground: var(--foreground);
 
-        /* #fafafa */
-        /* --primary: var(--foreground); */
         /* #ec4899 */
         --primary: 330 81% 60%;
+        /* #3b82f6 */
+        /* --primary: 217 91% 60%; */
+        /* #10b981 */
+        /* --primary: 160 84% 39%; */
+        /* #14b8a6 */
+        /* --primary: 160 84% 39%; */
+        /* #f59e0b */
+        /* --primary: 38 92% 50%; */
         /* #171717 */
         --primary-foreground: 0 0% 9%;
 
