@@ -19,6 +19,8 @@ const UserButton = () => {
                     labelIcon={<Box className='size-4' />}
                     href={`/orders/${userId}`}
                 />
+                <ClerkUserButton.Action label='manageAccount' />
+                <ClerkUserButton.Action label='signOut' />
             </ClerkUserButton.MenuItems>
         </ClerkUserButton>
     )
