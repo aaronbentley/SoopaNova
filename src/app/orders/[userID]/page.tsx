@@ -68,7 +68,7 @@ const getOrders = async () => {
     /**
      * Get the userId from auth()
      */
-    const { userId } = auth()
+    const { userId } = await auth()
 
     if (!userId) {
         return null
@@ -120,15 +120,15 @@ const OrdersTable = async () => {
     if (!orders?.length) {
         return (
             <div className='w-full flex justify-center items-center'>
-                <Alert className='w-max'>
+                <Alert className='max-w-96'>
                     <Info className='size-4' />
                     <AlertTitle>No Print Orders Yet!</AlertTitle>
-                    <AlertDescription>
+                    <AlertDescription className='block'>
                         Go{' '}
                         <Link
                             href='/create/'
                             title='Create your first Print Order'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary inline'>
                             create your first print order
                         </Link>{' '}
                         to get started.
@@ -210,7 +210,7 @@ const Orders = async ({ params }: { params: { userID: string } }) => {
     /**
      * Get sessionClaims from auth()
      */
-    const { sessionClaims } = auth()
+    const { sessionClaims } = await auth()
 
     /**
      * Get custom sessionClaims tokens with fallbacks

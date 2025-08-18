@@ -595,7 +595,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                             </div>
                         </div>
                     </div>
-                    <SheetFooter>
+                    <SheetFooter className='md:flex-row md:justify-end md:px-0'>
                         <Button
                             variant='ghost'
                             onClick={() => {
