@@ -76,6 +76,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <html
                 lang='en'
                 className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+                data-scroll-behavior='smooth'
                 suppressHydrationWarning>
                 {/*
                 <script

@@ -16,7 +16,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 const Header = () => (
-    <header className='sticky top-0 z-50 w-full border-b border-muted bg-background/80 dark:bg-background/80 backdrop-blur'>
+    <header className='sticky top-0 z-50 w-full border-b border-muted bg-background/80 dark:bg-background/80 backdrop-blur-sm'>
         <div className='container px-4 flex items-center'>
             <div className='flex justify-between w-full py-4'>
                 <div className='flex flex-row-reverse md:flex-row items-center md:space-x-4'>
@@ -34,9 +34,9 @@ const Header = () => (
                                     'transition-all',
                                     'duration-200',
                                     'hover:bg-transparent',
-                                    'hover:dark:bg-transparent',
+                                    'dark:hover:bg-transparent',
                                     'hover:text-primary',
-                                    'hover:dark:text-primary'
+                                    'dark:hover:text-primary'
                                 ]
                             })
                         )}>

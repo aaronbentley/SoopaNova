@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
  * Compose common Clerk theme styles
  */
 const defaultBackground = ['bg-card']
-const defaultBackgroundGradient = ['bg-gradient-to-r', 'from-card', 'to-card']
+const defaultBackgroundGradient = ['bg-linear-to-r', 'from-card', 'to-card']
 const mutedBackground = ['bg-muted']
 const defaultTypography = ['text-card-foreground']
 const mutedTypography = ['text-muted-foreground']
@@ -58,13 +58,13 @@ export const clerkTheme = {
 
         //#region social buttons
         socialButtonsIconButton: [
-            '!shadow-[0_0_0_1px_rgba(229,229,229,1)]',
-            'dark:!shadow-[0_0_0_1px_rgba(38,38,38,1)]',
-            'hover:!shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            'dark:hover:!shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            'focus:!shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            'dark:focus:!shadow-[0_0_0_3px_rgba(236,72,153,0.75)]',
-            '[&_.cl-spinner]:!text-primary'
+            'shadow-[0_0_0_1px_rgba(229,229,229,1)]!',
+            'dark:shadow-[0_0_0_1px_rgba(38,38,38,1)]!',
+            'hover:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]!',
+            'dark:hover:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]!',
+            'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]!',
+            'dark:focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]!',
+            '[&_.cl-spinner]:text-primary!'
         ].join(' '),
         //#endregion
 
@@ -85,19 +85,19 @@ export const clerkTheme = {
             'text-sm',
             'ring-offset-background',
             'placeholder:text-muted-foreground',
-            'focus-visible:outline-none',
+            'focus-visible:outline-hidden',
             'focus-visible:ring-2',
             'focus-visible:ring-primary',
             'focus-visible:ring-offset-2',
             'disabled:cursor-not-allowed',
             'disabled:opacity-50',
             'dark:focus-visible:ring-primary',
-            'focus:!shadow-[0_0_0_1px_#ec4899]'
+            'focus:shadow-[0_0_0_1px_#ec4899]!'
         ].join(' '),
         formButtonPrimary: [
             buttonVariants({
                 variant: 'default',
-                className: ['!shadow-none', 'capitalize']
+                className: ['shadow-none!', 'capitalize']
             })
         ].join(' '),
         formFieldErrorText: ['text-destructive'].join(' '),
@@ -131,7 +131,7 @@ export const clerkTheme = {
             'rounded-none',
             'hover:bg-primary/25',
             'hover:text-accent-foreground',
-            '[&_.cl-spinner]:!text-primary'
+            '[&_.cl-spinner]:text-primary!'
         ].join(' '),
         //#endregion
 
@@ -184,11 +184,11 @@ export const clerkTheme = {
             buttonVariants({
                 variant: 'destructive',
                 size: 'sm',
-                className: ['!text-foreground']
+                className: ['text-foreground!']
             })
         ].join(' '),
         profileSectionItem__emailAddresses: ['[&_p]:text-foreground'].join(' '),
-        badge: ['text-primary', 'bg-primary/25', '!shadow-none'].join(' '),
+        badge: ['text-primary', 'bg-primary/25', 'shadow-none!'].join(' '),
         menuButton: [
             ...mutedTypography,
             'focus:shadow-[0_0_0_3px_rgba(236,72,153,0.75)]'
@@ -196,14 +196,14 @@ export const clerkTheme = {
         menuList: [...defaultBackground].join(' '),
         profileSectionPrimaryButton__profile: [
             buttonVariants({
-                variant: 'outline',
+                variant: 'outline-solid',
                 size: 'sm',
                 className: ['text-muted-foreground']
             })
         ].join(' '),
         profileSectionPrimaryButton__emailAddresses: [
             buttonVariants({
-                variant: 'outline',
+                variant: 'outline-solid',
                 size: 'sm',
                 className: ['text-muted-foreground']
             })
@@ -213,14 +213,14 @@ export const clerkTheme = {
         ),
         menuButton__connectedAccounts: [
             buttonVariants({
-                variant: 'outline',
+                variant: 'outline-solid',
                 size: 'sm'
             })
         ].join(' '),
         menuItem__connectedAccounts: [
             ...defaultTypography,
             'hover:bg-primary/50',
-            'hover:dark:bg-primary/50'
+            'dark:hover:bg-primary/50'
         ].join(' '),
         profileSectionContent__activeDevices: [...mutedTypography].join(' '),
         profileSectionPrimaryButton__danger: [

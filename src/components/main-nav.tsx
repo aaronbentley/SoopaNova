@@ -35,9 +35,9 @@ const MainNav = () => {
                                     className={cn(
                                         navigationMenuTriggerStyle(),
                                         [
-                                            'data-[active]:text-background',
-                                            'data-[active]:bg-primary',
-                                            'dark:data-[active]:bg-primary'
+                                            'data-active:text-background',
+                                            'data-active:bg-primary',
+                                            'dark:data-active:bg-primary'
                                         ]
                                     )}>
                                     {link.label}
@@ -59,9 +59,9 @@ const MainNav = () => {
                                         className={cn(
                                             navigationMenuTriggerStyle(),
                                             [
-                                                'data-[active]:text-background',
-                                                'data-[active]:bg-primary',
-                                                'dark:data-[active]:bg-primary'
+                                                'data-active:text-background',
+                                                'data-active:bg-primary',
+                                                'dark:data-active:bg-primary'
                                             ]
                                         )}>
                                         Orders

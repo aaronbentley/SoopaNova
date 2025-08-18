@@ -36,7 +36,7 @@ const ScreenshotsXbox = () => {
                     </PageHeaderDescription>
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <ScrollToTarget target='onedrive'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         OneDrive
@@ -46,7 +46,7 @@ const ScreenshotsXbox = () => {
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='xbox-app'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Xbox App
@@ -56,7 +56,7 @@ const ScreenshotsXbox = () => {
                             </Card>
                         </ScrollToTarget>
                         <ScrollToTarget target='usb-drive'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         USB Drive

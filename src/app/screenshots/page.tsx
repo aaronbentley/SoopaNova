@@ -36,7 +36,7 @@ const Screenshots = () => {
 
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
                         <Link href='/screenshots/xbox/'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Xbox
@@ -47,7 +47,7 @@ const Screenshots = () => {
                             </Card>
                         </Link>
                         <Link href='/screenshots/playstation/'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         PlayStation
@@ -58,7 +58,7 @@ const Screenshots = () => {
                             </Card>
                         </Link>
                         <Link href='/screenshots/steam/'>
-                            <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Steam

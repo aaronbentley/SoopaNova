@@ -134,7 +134,7 @@ const Frontpage = () => {
                 </p>
 
                 <div className='grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
-                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Choose type
@@ -151,7 +151,7 @@ const Frontpage = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Pick size
@@ -169,7 +169,7 @@ const Frontpage = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 You&apos;re done
@@ -215,7 +215,7 @@ const Frontpage = () => {
 
                 <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
                     <Link href='/screenshots/xbox/'>
-                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Xbox
@@ -226,7 +226,7 @@ const Frontpage = () => {
                         </Card>
                     </Link>
                     <Link href='/screenshots/playstation/'>
-                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     PlayStation
@@ -237,7 +237,7 @@ const Frontpage = () => {
                         </Card>
                     </Link>
                     <Link href='/screenshots/steam/'>
-                        <Card className='group transition-all duration-200 hover:border-primary hover:dark:border-primary'>
+                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Steam

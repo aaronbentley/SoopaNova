@@ -429,7 +429,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                 'text-center',
                                 'transition',
                                 'ring-offset-background',
-                                'focus-visible:outline-none',
+                                'focus-visible:outline-hidden',
                                 'focus-visible:ring-2',
                                 'focus-visible:ring-ring',
                                 'focus-visible:ring-offset-2',
@@ -536,7 +536,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                     <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-end px-4 pb-4'>
                                         <Progress
                                             value={uploadProgress}
-                                            className='[&>div]:data-[state=indeterminate]:bg-primary'
+                                            className='data-[state=indeterminate]:[&>div]:bg-primary'
                                         />
                                     </div>
                                 )}
@@ -577,7 +577,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                                                 'after:bg-background/50'
                                             ],
                                             contentModeration && [
-                                                'blur',
+                                                'blur-sm',
                                                 'opacity-75'
                                             ],
                                             createPrintOptions && [
