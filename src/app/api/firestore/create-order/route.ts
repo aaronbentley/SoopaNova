@@ -87,11 +87,12 @@ export const POST = async (request: NextRequest) => {
     /**
      * Get current user
      */
-    const { userId } = auth()
+    const { userId } = await auth()
 
-    if (!userId) {
-        return new Response('Unauthorized', { status: 401 })
-    }
+    /**
+     * Check if user is authenticated
+     */
+    if (!userId) return new Response('Unauthorized', { status: 401 })
 
     /**
      * Get canvaspop product type markup percentage rates

@@ -14,7 +14,7 @@ export const debug = process.env.NODE_ENV !== 'production'
 const iconImage = async () => {
     return new ImageResponse(
         (
-            <div tw='bg-transparent text-pink-500 flex flex-col items-center justify-center size-full'>
+            <div tw='bg-transparent text-pink-500 flex flex-col items-center justify-center h-full w-full'>
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 512 512'
