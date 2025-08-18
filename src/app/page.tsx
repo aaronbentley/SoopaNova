@@ -48,11 +48,11 @@ export const metadata: Metadata = {
     }
 }
 
-const Frontpage = () => {
+const Frontpage = async () => {
     /**
      * Get the userId from auth()
      */
-    const { userId } = auth()
+    const { userId } = await auth()
     return (
         <>
             <Hero className='h-dvh md:h-full pt-16 md:pt-0 stroke-primary'>
