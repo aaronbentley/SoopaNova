@@ -206,7 +206,8 @@ const OrdersTable = async () => {
     )
 }
 
-const Orders = async ({ params }: { params: { userID: string } }) => {
+// const Orders = async ({ params }: { params: { userID: string } }) => {
+const Orders = async () => {
     /**
      * Get sessionClaims from auth()
      */
