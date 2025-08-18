@@ -4,7 +4,12 @@ import { links } from '@/assets/data/links'
 import { Button } from '@/components/ui/button'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+    Sheet,
+    SheetContent,
+    SheetTitle,
+    SheetTrigger
+} from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { SignedIn, useAuth } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
@@ -35,6 +40,7 @@ const MobileNav = () => {
             <SheetContent
                 side='left'
                 className='pr-0 pl-8 border-primary/25'>
+                <SheetTitle className='sr-only'>Naivigation Menu</SheetTitle>
                 <MobileLink
                     href='/'
                     className='flex items-center'

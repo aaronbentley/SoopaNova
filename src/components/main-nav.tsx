@@ -26,12 +26,28 @@ const MainNav = () => {
                 <NavigationMenuList>
                     {links.map((link, index) => (
                         <NavigationMenuItem key={index}>
-                            <Link
-                                href={link.href}
-                                legacyBehavior
-                                passHref>
+                            <NavigationMenuLink
+                                asChild
+                                active={pathname === link.href}
+                                className={cn(navigationMenuTriggerStyle(), [
+                                    'data-active:text-background',
+                                    'data-active:bg-primary',
+                                    'dark:data-active:bg-primary'
+                                ])}>
+                                <Link
+                                    href={link.href}
+                                    passHref>
+                                    {link.label}
+                                </Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    ))}
+                    <Suspense>
+                        <SignedIn>
+                            <NavigationMenuItem>
                                 <NavigationMenuLink
-                                    active={pathname === link.href}
+                                    asChild
+                                    active={pathname === `/orders/${userId}/`}
                                     className={cn(
                                         navigationMenuTriggerStyle(),
                                         [
@@ -40,33 +56,12 @@ const MainNav = () => {
                                             'dark:data-active:bg-primary'
                                         ]
                                     )}>
-                                    {link.label}
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                    ))}
-                    <Suspense>
-                        <SignedIn>
-                            <NavigationMenuItem>
-                                <Link
-                                    href={`/orders/${userId}/`}
-                                    legacyBehavior
-                                    passHref>
-                                    <NavigationMenuLink
-                                        active={
-                                            pathname === `/orders/${userId}/`
-                                        }
-                                        className={cn(
-                                            navigationMenuTriggerStyle(),
-                                            [
-                                                'data-active:text-background',
-                                                'data-active:bg-primary',
-                                                'dark:data-active:bg-primary'
-                                            ]
-                                        )}>
+                                    <Link
+                                        href={`/orders/${userId}/`}
+                                        passHref>
                                         Orders
-                                    </NavigationMenuLink>
-                                </Link>
+                                    </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                         </SignedIn>
                     </Suspense>

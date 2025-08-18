@@ -7,9 +7,7 @@ const UserButton = () => {
     const { isLoaded, userId } = useAuth()
 
     // In case the user signs out while on the page.
-    if (!isLoaded || !userId) {
-        return null
-    }
+    if (!isLoaded || !userId) return null
 
     return (
         <ClerkUserButton>

@@ -114,7 +114,7 @@ const Frontpage = () => {
                                 size='icon'
                                 variant='link'
                                 className='w-9 px-0'>
-                                <ChevronDown className='size-9 text-muted-foreground transition-colors hover:text-primary origin-bottom animate-bounce ease-in-out hover:text-primary/90' />
+                                <ChevronDown className='size-9 text-muted-foreground transition-colors hover:text-primary origin-bottom animate-bounce ease-in-out' />
                                 <span className='sr-only'>View more</span>
                             </Button>
                         </TooltipTrigger>
@@ -122,7 +122,6 @@ const Frontpage = () => {
                     </Tooltip>
                 </ScrollToTarget>
             </Hero>
-
             <PageSection
                 id='customise-your-prints'
                 className='w-full flex flex-col items-center gap-8 py-16 md:py-24'>
@@ -202,7 +201,6 @@ const Frontpage = () => {
                     Get Started
                 </Link>
             </PageSection>
-
             <PageSection
                 id='screenshot-guides'
                 className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
@@ -249,7 +247,6 @@ const Frontpage = () => {
                     </Link>
                 </div>
             </PageSection>
-
             <PageSection
                 id='product-types'
                 className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>

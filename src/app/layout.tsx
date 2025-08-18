@@ -1,5 +1,4 @@
 import { keywords } from '@/assets/data/keywords'
-import { clerkTheme } from '@/assets/styles/clerk-theme'
 import '@/assets/styles/globals.css'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
@@ -9,6 +8,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
+import { shadcn } from '@clerk/themes'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
@@ -63,7 +63,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <ClerkProvider
             appearance={{
-                ...clerkTheme,
+                theme: shadcn,
                 layout: {
                     termsPageUrl: '/terms/',
                     privacyPageUrl: '/privacy/',
@@ -85,7 +85,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 />
             */}
                 <head />
-
                 <body
                     className={cn([
                         'font-sans',
