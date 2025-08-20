@@ -43,7 +43,7 @@ const ScreenshotsPlaystation = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         PlayStation App
-                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -53,7 +53,7 @@ const ScreenshotsPlaystation = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-1' />
+                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>

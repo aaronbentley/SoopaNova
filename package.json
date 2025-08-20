@@ -6,6 +6,7 @@
         "dev": "next dev --experimental-https",
         "dev:turbo": "next dev --experimental-https --turbo",
         "build": "next build",
+        "build:turbo": "next build --turbopack",
         "start": "next start",
         "prod": "yarn build",
         "preview": "next build && next start",

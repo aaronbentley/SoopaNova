@@ -40,7 +40,7 @@ const ScreenshotsXbox = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         OneDrive
-                                        <OneDriveIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100' />
+                                        <OneDriveIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -50,7 +50,7 @@ const ScreenshotsXbox = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Xbox App
-                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100' />
+                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>
@@ -60,7 +60,7 @@ const ScreenshotsXbox = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-7 group-hover:opacity-100 stroke-2' />
+                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-2' />
                                     </CardTitle>
                                 </CardHeader>
                             </Card>

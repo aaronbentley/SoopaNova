@@ -40,7 +40,7 @@ const Screenshots = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Xbox
-                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                     <CardDescription>Microsoft</CardDescription>
                                 </CardHeader>
@@ -51,7 +51,7 @@ const Screenshots = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         PlayStation
-                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                     <CardDescription>Sony</CardDescription>
                                 </CardHeader>
@@ -62,7 +62,7 @@ const Screenshots = () => {
                                 <CardHeader className='relative'>
                                     <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                         Steam
-                                        <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                        <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                     </CardTitle>
                                     <CardDescription>Valve</CardDescription>
                                 </CardHeader>

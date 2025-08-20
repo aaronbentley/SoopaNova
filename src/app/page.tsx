@@ -60,37 +60,37 @@ const Frontpage = async () => {
                     variant='secondary'
                     className='flex justify-around py-2 px-4 gap-2'>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <Gamepad2 className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Play Games</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <BoxSelect className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Capture Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <UploadCloud className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Upload Screenshots</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <ShoppingBag className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Choose Print Options</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <Package className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Fast Shipping</TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger disabled>
                             <LucideImage className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
                         </TooltipTrigger>
                         <TooltipContent>Pixel-Perfect Prints</TooltipContent>
@@ -137,7 +137,7 @@ const Frontpage = async () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Choose type
-                                <Frame className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <Frame className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Show your &apos;shot
@@ -154,7 +154,7 @@ const Frontpage = async () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 Pick size
-                                <Expand className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <Expand className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Go big (or go small)
@@ -172,7 +172,7 @@ const Frontpage = async () => {
                         <CardHeader className='relative'>
                             <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                 You&apos;re done
-                                <ShoppingBag className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-6 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
+                                <ShoppingBag className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
                             </CardTitle>
                             <CardDescription>
                                 Get back to gaming
@@ -217,7 +217,7 @@ const Frontpage = async () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Xbox
-                                    <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Microsoft</CardDescription>
                             </CardHeader>
@@ -228,7 +228,7 @@ const Frontpage = async () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     PlayStation
-                                    <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Sony</CardDescription>
                             </CardHeader>
@@ -239,7 +239,7 @@ const Frontpage = async () => {
                             <CardHeader className='relative'>
                                 <CardTitle className='group-hover:text-primary transition-colors duration-200'>
                                     Steam
-                                    <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-6 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
+                                    <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
                                 </CardTitle>
                                 <CardDescription>Valve</CardDescription>
                             </CardHeader>
@@ -260,7 +260,7 @@ const Frontpage = async () => {
                 <div className='flex flex-col gap-24 mt-12 md:mt-24'>
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
-                            <PageSectionHeading>
+                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
                                 Poster Prints
                             </PageSectionHeading>
                             <PageSectionDescription>
@@ -288,7 +288,7 @@ const Frontpage = async () => {
 
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2'>
-                            <PageSectionHeading>
+                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
                                 Canvas Prints
                             </PageSectionHeading>
                             <PageSectionDescription>
@@ -314,7 +314,7 @@ const Frontpage = async () => {
 
                     <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
                         <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
-                            <PageSectionHeading>
+                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
                                 Framed Prints
                             </PageSectionHeading>
                             <PageSectionDescription>
