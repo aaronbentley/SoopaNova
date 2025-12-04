@@ -182,7 +182,7 @@
         text-rendering: optimizeLegibility;
     }
 
-        /* Preserve button cursor of pointer - default changed in Tailwind CSS v4 */
+    /* Preserve button cursor of pointer - default changed in Tailwind CSS v4 */
     button:not(:disabled),
     [role='button']:not(:disabled) {
         cursor: pointer;
