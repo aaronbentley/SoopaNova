@@ -40,7 +40,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/components/`: app components. `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app` + `firebase-admin/firestore` APIs). `src/firebase/config.ts` is the client SDK.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
-- `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI.
+- `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
 
 ## Conventions
 
@@ -74,5 +74,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - Server-side moderation gate: `push-image` should verify moderation itself rather than trusting the browser.
 - Order integrity: prices come from browser `postMessage`. Check whether CanvasPop offers an order-lookup API or webhooks, and verify on the server if so.
 - Split `upload-file.tsx` (~700 lines) into a hook and presentational parts. Remove commented-out code.
+- Currency mismatch: the CanvasPop cart prices in the shopper's currency (e.g. GBP), but `/orders` formats every total as USD (`formatCurrency`).
+- `moderateImageUrl` returns `status: 'warning'` when Vision gives no annotations, and the browser treats that as a pass.
 - `layout.tsx` hardcodes `className='dark'` on `<html>` while next-themes defaults to `system`.
 - Resend admin email in `onOrderCreated`. CI (typecheck/lint/build) and a Playwright smoke test.
