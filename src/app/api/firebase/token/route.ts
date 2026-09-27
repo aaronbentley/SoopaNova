@@ -1,7 +1,3 @@
-import { adminAuth } from '@/lib/firebase-admin'
-import { auth } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
-
 /**
  * Mint a Firebase custom token for the signed-in Clerk user.
  *
@@ -9,6 +5,10 @@ import { NextResponse } from 'next/server'
  * uid matches the Clerk user id - which is what Storage rules and the
  * moderateImageUrl callable check.
  */
+import { adminAuth } from '@/lib/firebase-admin'
+import { auth } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+
 export const POST = async () => {
     /**
      * Check if user is authenticated
