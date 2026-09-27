@@ -57,11 +57,9 @@ const Header = () => (
                                 className={cn(buttonVariants({ size: 'sm' }), [
                                     'hidden',
                                     'sm:inline-flex',
-                                    'bg-foreground',
-                                    'text-background',
                                     'shadow-none',
-                                    'hover:bg-foreground',
-                                    'hover:opacity-85',
+                                    'hover:bg-primary',
+                                    'hover:brightness-110',
                                     'duration-200'
                                 ])}>
                                 Get Started
