@@ -37,7 +37,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/app/`: routes. `api/` holds the two route handlers. Metadata routes: `opengraph-image.tsx`, `icon.tsx`, `sitemap.ts`, `robots.ts`.
 - `src/proxy.ts`: Clerk `clerkMiddleware` (Next 16's replacement for `middleware.ts`). It protects `/create` and `/orders`.
 - `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`. One local edit: `ui/sonner.tsx` imports `useTheme` from `@wrksz/themes/client` rather than `next-themes`, so re-apply that if the component is ever regenerated.
-- `src/components/`: app components. `src/hooks/`: client hooks (screenshot selection, print pipeline). `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
+- `src/components/`: app components. `src/hooks/`: client hooks (screenshot selection, print pipeline). `src/assets/data/`: static content (nav links, homepage copy in `home.ts`, product slug maps, keywords, JSON-LD).
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app`, `/auth` and `/firestore` APIs). `src/firebase/config.ts` is the client SDK, and `src/firebase/sign-in.ts` signs it in to Firebase Auth.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
 - `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
@@ -50,6 +50,10 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - Short `/** ... */` block comments above logical steps. Match the surrounding density.
 - Tailwind v4 is configured CSS-first in `src/assets/styles/globals.css` (oklch theme tokens, `tw-animate-css`, Clerk's `@clerk/ui/themes/shadcn.css`). There is no `tailwind.config`.
 - Use `react-firebase-hooks` for client-side Firebase interactions (deliberate choice; don't replace it with raw SDK calls).
+- **Visual style** (from the Claude Design homepage handoff): near-black/white surfaces, hairline `border` lines between full-width sections, Geist for text and Geist Mono (`font-mono`) only for small labels, and the pink `primary` used sparingly as an accent. Use the theme tokens, not hex values. Shared pieces:
+  - Utilities in `globals.css`: `wrapper` (1200px content width with 24px gutters; use it instead of `container`, which snaps to breakpoint widths), `eyebrow` (mono uppercase label), and `bg-grid` plus `mask-fade-top` / `mask-fade-bottom` (the faint grid backdrop).
+  - Components: `Wordmark`, `Hero*` (grid, glow, pill, big heading; homepage and 404), `SectionHeader` (eyebrow, H2, sub), `PlatformTile` / `PlatformStrip` (hairline link tiles), `PageHeader` / `PageSection` / `Typography` (inner pages), and `ctaButtonVariants` in `cta-button.ts` (44px hero/CTA buttons). The shadcn `Button` is still used for smaller buttons.
+  - The homepage upload button is `<UploadFile variant='button' />`. The create page uses the default dropzone variant.
 - Theming uses `@wrksz/themes` (not `next-themes`). `ThemeProvider` from `@wrksz/themes/next` is used directly in the server `layout.tsx`, and `useTheme` comes from `@wrksz/themes/client`. It defaults to the system theme and stores the choice in localStorage under `theme`.
 - Clerk v7: use `<Show when='signed-in' | 'signed-out'>` (`SignedIn`/`SignedOut` no longer exist). Theme comes from `@clerk/ui/themes`.
 
