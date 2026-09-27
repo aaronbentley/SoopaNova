@@ -1,43 +1,19 @@
-import canvasPrint from '@/assets/img/canvas-print-4x3.jpg'
-import framedPrint from '@/assets/img/framed-print-4x3.jpg'
-import posterPrint from '@/assets/img/poster-print-4x3.jpg'
-import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
-import { Hero, HeroDescription, HeroHeading } from '@/components/hero'
+import { heroImage, platforms, products, steps } from '@/assets/data/home'
+import { ctaButtonVariants } from '@/components/cta-button'
 import {
-    PageSection,
-    PageSectionDescription,
-    PageSectionHeading
-} from '@/components/page-section'
-import ScrollToTarget from '@/components/scroll-to-target'
-import { Badge } from '@/components/ui/badge'
-import { Button, buttonVariants } from '@/components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger
-} from '@/components/ui/tooltip'
+    Hero,
+    HeroActions,
+    HeroDescription,
+    HeroFrame,
+    HeroHeading,
+    HeroPill
+} from '@/components/hero'
+import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
+import SectionHeader from '@/components/section-header'
 import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
-import { auth } from '@clerk/nextjs/server'
-import {
-    BoxSelect,
-    ChevronDown,
-    Expand,
-    Frame,
-    Gamepad2,
-    Image as LucideImage,
-    Package,
-    ShoppingBag,
-    UploadCloud
-} from 'lucide-react'
+import { UploadCloud } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -48,301 +24,234 @@ export const metadata: Metadata = {
     }
 }
 
-const Frontpage = async () => {
-    /**
-     * Get the userId from auth()
-     */
-    const { userId } = await auth()
-    return (
-        <>
-            <Hero className='h-dvh md:h-full pt-16 md:pt-0 stroke-primary'>
-                <Badge
-                    variant='secondary'
-                    className='flex justify-around py-2 px-4 gap-2'>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <Gamepad2 className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Play Games</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <BoxSelect className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Capture Screenshots</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <UploadCloud className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Upload Screenshots</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <ShoppingBag className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Choose Print Options</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <Package className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Fast Shipping</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger disabled>
-                            <LucideImage className='size-4 hover:text-primary hover:scale-150 transition-all duration-200' />
-                        </TooltipTrigger>
-                        <TooltipContent>Pixel-Perfect Prints</TooltipContent>
-                    </Tooltip>
-                </Badge>
-                <HeroHeading>From Pixels to Prints</HeroHeading>
-                <HeroDescription>
-                    Print your gaming screenshots, preserve your gaming moments.
-                </HeroDescription>
+/**
+ * Small "+" mark for the corners of the How it works grid
+ */
+const Crosshair = ({ className }: { className?: string }) => (
+    <span
+        aria-hidden='true'
+        className={cn(
+            [
+                'absolute',
+                'size-3.25',
+                'bg-[linear-gradient(var(--foreground),var(--foreground)),linear-gradient(var(--foreground),var(--foreground))]',
+                'bg-size-[1px_100%,100%_1px]',
+                'bg-center',
+                'bg-no-repeat'
+            ],
+            className
+        )}
+    />
+)
 
+const Frontpage = () => (
+    <>
+        <Hero>
+            <HeroPill>
+                <span>Play</span>
+                <span className='opacity-50'>→</span>
+                <span>Capture</span>
+                <span className='opacity-50'>→</span>
+                <span>Upload</span>
+                <span className='opacity-50'>→</span>
+                <span className='text-foreground'>Print</span>
+            </HeroPill>
+            <HeroHeading>
+                From Pixels
+                <br />
+                to Prints
+            </HeroHeading>
+            <HeroDescription>
+                Print your gaming screenshots, preserve your gaming moments.
+            </HeroDescription>
+            <HeroActions>
                 <Show when='signed-in'>
-                    <UploadFile className='mt-2' />
+                    <UploadFile variant='button' />
                 </Show>
-
-                <ScrollToTarget
-                    target='customise-your-prints'
-                    className={cn(!userId && 'mt-8')}>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                size='icon'
-                                variant='link'
-                                className='w-9 px-0'>
-                                <ChevronDown className='size-9 text-muted-foreground transition-colors hover:text-primary origin-bottom animate-bounce ease-in-out' />
-                                <span className='sr-only'>View more</span>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Learn more</TooltipContent>
-                    </Tooltip>
-                </ScrollToTarget>
-            </Hero>
-            <PageSection
-                id='customise-your-prints'
-                className='w-full flex flex-col items-center gap-8 py-16 md:py-24'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
-                    Upload Your Screenshots. Create Your Prints.
-                </h2>
-                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
-                    Make something awesome. Make it your own.
-                </p>
-
-                <div className='grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
-                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                Choose type
-                                <Frame className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Show your &apos;shot
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                Choose a Poster, Canvas or Framed Print, add
-                                gallery-quality frames if it takes your fancy.
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                Pick size
-                                <Expand className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Go big (or go small)
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                Everything looks better, bigger. Sizes from
-                                8&Prime;x14&Prime; all the way up to
-                                38&Prime;x70&Prime;.
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                        <CardHeader className='relative'>
-                            <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                You&apos;re done
-                                <ShoppingBag className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-10 sm:size-12 group-hover:opacity-100 stroke-1' />
-                            </CardTitle>
-                            <CardDescription>
-                                Get back to gaming
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>
-                                We&apos;ll do the rest, your prints are expertly
-                                crafted by hand and delivered to you in a few
-                                days.
-                            </p>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                <Link
-                    href='/create/'
-                    title='Create your prints'
-                    className={cn([
-                        buttonVariants({
-                            variant: 'default',
-                            size: 'lg',
-                            className: ['mt-8']
-                        })
-                    ])}>
-                    Get Started
-                </Link>
-            </PageSection>
-            <PageSection
-                id='screenshot-guides'
-                className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
-                    Choose Your Platform
-                </h2>
-                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
-                    Here&apos;s how to download your gaming screenshots.
-                </p>
-
-                <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-2'>
-                    <Link href='/screenshots/xbox/'>
-                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                            <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                    Xbox
-                                    <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                </CardTitle>
-                                <CardDescription>Microsoft</CardDescription>
-                            </CardHeader>
-                        </Card>
+                <Show when='signed-out'>
+                    <Link
+                        href='/create/'
+                        className={ctaButtonVariants()}>
+                        <UploadCloud aria-hidden='true' />
+                        Upload a screenshot
                     </Link>
-                    <Link href='/screenshots/playstation/'>
-                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                            <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                    PlayStation
-                                    <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                </CardTitle>
-                                <CardDescription>Sony</CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </Link>
-                    <Link href='/screenshots/steam/'>
-                        <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                            <CardHeader className='relative'>
-                                <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                    Steam
-                                    <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                </CardTitle>
-                                <CardDescription>Valve</CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </Link>
+                </Show>
+                <a
+                    href='#prints'
+                    className={ctaButtonVariants({ variant: 'secondary' })}>
+                    Browse print types
+                </a>
+            </HeroActions>
+            <HeroFrame>
+                <Image
+                    src={heroImage}
+                    alt='A gaming screenshot printed and hung on a wall'
+                    placeholder='blur'
+                    loading='eager'
+                    fetchPriority='high'
+                    fill
+                    sizes='(max-width: 1128px) 100vw, 1080px'
+                    className='object-cover'
+                />
+            </HeroFrame>
+        </Hero>
+
+        <section className='border-b'>
+            <PlatformStrip
+                className='wrapper'
+                intro={
+                    <>
+                        <p className='eyebrow text-muted-foreground'>
+                            Choose your platform
+                        </p>
+                        <p className='text-[15px]'>
+                            How to download your screenshots
+                        </p>
+                    </>
+                }>
+                {platforms.map((platform) => (
+                    <PlatformTile
+                        key={platform.href}
+                        href={platform.href}
+                        name={platform.name}
+                        detail={platform.maker}
+                        Icon={platform.Icon}
+                    />
+                ))}
+            </PlatformStrip>
+        </section>
+
+        <section className='border-b'>
+            <div className='wrapper py-20 md:py-30'>
+                <SectionHeader
+                    eyebrow='How it works'
+                    heading='Upload your screenshots. Create your prints.'
+                    description='Make something awesome. Make it your own.'
+                />
+                <div className='relative mt-14 grid border lg:grid-cols-3'>
+                    <Crosshair className='-top-1.75 -left-1.75' />
+                    <Crosshair className='-right-1.75 -bottom-1.75' />
+                    {steps.map((step, index) => (
+                        <div
+                            key={step.title}
+                            className={cn([
+                                'flex',
+                                'min-h-48',
+                                'lg:min-h-65',
+                                'flex-col',
+                                'gap-3.5',
+                                'p-8',
+                                'transition-colors',
+                                'duration-200',
+                                'hover:bg-card',
+                                'not-first:border-t',
+                                'lg:not-first:border-t-0',
+                                'lg:not-first:border-l'
+                            ])}>
+                            <div className='flex items-center justify-between gap-4'>
+                                <span className='font-mono text-xs text-muted-foreground'>
+                                    {String(index + 1).padStart(2, '0')}
+                                </span>
+                                <span className='eyebrow text-[11px] text-primary'>
+                                    {step.tagline}
+                                </span>
+                            </div>
+                            <h3 className='mt-auto text-2xl font-semibold tracking-[-0.03em]'>
+                                {step.title}
+                            </h3>
+                            <p className='text-[15px] leading-[1.55] text-muted-foreground text-pretty'>
+                                {step.body}
+                            </p>
+                        </div>
+                    ))}
                 </div>
-            </PageSection>
-            <PageSection
-                id='product-types'
-                className='w-full flex flex-col items-center gap-8 py-16 md:pt-24 md:pb-48'>
-                <h2 className='text-3xl font-extrabold tracking-tight sm:text-4xl text-center md:text-5xl lg:tracking-[-0.035em] lg:text-6xl xl:text-7xl'>
-                    Power-up Prints
+            </div>
+        </section>
+
+        <section
+            id='prints'
+            className='border-b'>
+            <div className='wrapper py-20 md:py-30'>
+                <SectionHeader
+                    eyebrow='Power-up Prints'
+                    heading='Create mighty-fine artwork for your space.'
+                    description='Everything looks better, bigger. Sizes from 8″×14″ all the way up to 38″×70″.'
+                />
+                <div className='mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                    {products.map((product) => (
+                        <Link
+                            key={product.name}
+                            href='/create/'
+                            className='flex flex-col overflow-hidden rounded-xl border bg-background transition-colors duration-200 hover:border-primary'>
+                            <div className='relative aspect-4/3 overflow-hidden border-b'>
+                                <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    placeholder='blur'
+                                    fill
+                                    sizes='(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px'
+                                    className='object-cover'
+                                />
+                            </div>
+                            <div className='flex flex-1 flex-col gap-3 p-6'>
+                                <div className='flex items-baseline justify-between gap-3'>
+                                    <h3 className='text-[22px] font-semibold tracking-[-0.03em]'>
+                                        {product.name}
+                                    </h3>
+                                    <span className='font-mono text-[13px] text-muted-foreground'>
+                                        from{' '}
+                                        <span className='text-foreground'>
+                                            {product.price}
+                                        </span>
+                                    </span>
+                                </div>
+                                <p className='text-[15px] leading-[1.55] text-muted-foreground text-pretty'>
+                                    {product.body}
+                                </p>
+                                <div className='mt-auto flex flex-wrap gap-1.5 pt-3'>
+                                    {product.tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className='rounded-sm border px-2 py-1 font-mono text-[11px] text-muted-foreground'>
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <section className='relative overflow-hidden'>
+            <div
+                aria-hidden='true'
+                className='pointer-events-none absolute inset-0 bg-grid mask-fade-bottom'
+            />
+            <div className='wrapper relative flex flex-col items-center py-24 md:py-32 text-center'>
+                <h2 className='text-[clamp(36px,5vw,64px)] leading-none font-bold tracking-[-0.05em] text-balance'>
+                    Make something awesome.
+                    <br />
+                    <span className='text-muted-foreground'>
+                        Make it your own.
+                    </span>
                 </h2>
-                <p className='text-lg sm:text-2xl text-muted-foreground max-w-[240px] sm:max-w-[340px] text-center'>
-                    Create mighty-fine artwork for your space.
-                </p>
-
-                <div className='flex flex-col gap-24 mt-12 md:mt-24'>
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
-                        <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
-                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
-                                Poster Prints
-                            </PageSectionHeading>
-                            <PageSectionDescription>
-                                Poster Prints are produced using premium 300gsm
-                                matte fine art paper, ideal for high resolution
-                                digital art, this results in extremely crisp and
-                                accurate detail in tonal range for art prints
-                                that make a statement.
-                            </PageSectionDescription>
-
-                            <PageSectionDescription>
-                                Poster Print prices start from $12 (USD).
-                            </PageSectionDescription>
-                        </div>
-                        <div className='order-1 md:order-2 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
-                            <Image
-                                src={posterPrint}
-                                alt='Poster Print'
-                                placeholder='blur'
-                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='rounded-md'
-                            />
-                        </div>
-                    </div>
-
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
-                        <div className='flex flex-col justify-center gap-4 order-2'>
-                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
-                                Canvas Prints
-                            </PageSectionHeading>
-                            <PageSectionDescription>
-                                Canvas Prints are produced using the highest
-                                quality canvas, UV coated and designed to last
-                                with no fading - Canvas printing done right:
-                                museum-quality, expertly crafted, ready to hang.
-                            </PageSectionDescription>
-                            <PageSectionDescription>
-                                Canvas Print prices start from $53 (USD).
-                            </PageSectionDescription>
-                        </div>
-                        <div className='order-1 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
-                            <Image
-                                src={canvasPrint}
-                                alt='Canvas Print'
-                                placeholder='blur'
-                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='rounded-md'
-                            />
-                        </div>
-                    </div>
-
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-2 gap-12 mt-2 place-content-center group'>
-                        <div className='flex flex-col justify-center gap-4 order-2 md:order-1'>
-                            <PageSectionHeading className='group-hover:text-primary transition-colors duration-200'>
-                                Framed Prints
-                            </PageSectionHeading>
-                            <PageSectionDescription>
-                                Our Framed Prints feature all the quality of our
-                                Poster Prints, with premium solid wood frames
-                                (choose from black, white, and dark brown
-                                coating options), and paired with ultra-low
-                                glare plexiglass to ensure your prints get all
-                                the attention.
-                            </PageSectionDescription>
-                            <PageSectionDescription>
-                                Framed Print prices start from $73 (USD).
-                            </PageSectionDescription>
-                        </div>
-                        <div className='order-1 md:order-2 bg-muted rounded-lg p-0.5 group-hover:bg-primary transition-colors duration-200'>
-                            <Image
-                                src={framedPrint}
-                                alt='Framed Print'
-                                placeholder='blur'
-                                sizes='(max-width: 767px) 100vw, (min-width: 768px) 50vw'
-                                className='rounded-md'
-                            />
-                        </div>
-                    </div>
+                <div className='mt-9 flex flex-wrap justify-center gap-3'>
+                    <Link
+                        href='/create/'
+                        className={ctaButtonVariants()}>
+                        Get Started
+                    </Link>
+                    <Link
+                        href='/faq/'
+                        className={ctaButtonVariants({ variant: 'secondary' })}>
+                        Read the FAQ
+                    </Link>
                 </div>
-            </PageSection>
-        </>
-    )
-}
+            </div>
+        </section>
+    </>
+)
 
 export default Frontpage

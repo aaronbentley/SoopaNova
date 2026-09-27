@@ -14,7 +14,13 @@ import { cn } from '@/lib/utils'
  * upload/moderation/CanvasPop pipeline in useCreatePrint; this component
  * wires them to the dropzone and the two sheets.
  */
-const UploadFile = ({ className }: { className?: string }) => {
+const UploadFile = ({
+    variant = 'dropzone',
+    className
+}: {
+    variant?: 'dropzone' | 'button'
+    className?: string
+}) => {
     const screenshot = useScreenshot()
     const print = useCreatePrint()
 
@@ -39,13 +45,13 @@ const UploadFile = ({ className }: { className?: string }) => {
     return (
         <div
             className={cn(
-                ['container', 'mx-auto', 'flex', 'justify-center'],
+                variant === 'dropzone' && ['flex', 'w-full', 'justify-center'],
                 className
             )}>
-            {!screenshot.file && (
+            {(variant === 'button' || !screenshot.file) && (
                 <ScreenshotDropzone
                     onSelect={screenshot.select}
-                    className={className}
+                    variant={variant}
                 />
             )}
             <ScreenshotPreviewSheet

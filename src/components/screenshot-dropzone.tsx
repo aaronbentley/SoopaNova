@@ -1,5 +1,6 @@
 'use client'
 
+import { ctaButtonVariants } from '@/components/cta-button'
 import { cn, formatBytes } from '@/lib/utils'
 import { UploadCloud } from 'lucide-react'
 import { useCallback } from 'react'
@@ -18,11 +19,17 @@ const maxSize =
 
 interface ScreenshotDropzoneProps {
     onSelect: (file: File) => void
+    /**
+     * dropzone: drag 'n' drop area. button: a single button that opens
+     * the file picker.
+     */
+    variant?: 'dropzone' | 'button'
     className?: string
 }
 
 const ScreenshotDropzone = ({
     onSelect,
+    variant = 'dropzone',
     className
 }: ScreenshotDropzoneProps) => {
     /**
@@ -30,7 +37,16 @@ const ScreenshotDropzone = ({
      */
     const onDrop = useCallback(
         (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-            if (acceptedFiles[0]) onSelect(acceptedFiles[0])
+            if (acceptedFiles[0]) {
+                /**
+                 * Release focus from the trigger so the preview sheet can
+                 * take it (Radix hides everything behind the sheet)
+                 */
+                if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur()
+                }
+                onSelect(acceptedFiles[0])
+            }
 
             rejectedFiles.forEach(({ errors }) => {
                 if (errors[0]?.message) {
@@ -46,13 +62,31 @@ const ScreenshotDropzone = ({
     /**
      * Initialize dropzone
      */
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
         onDrop,
         accept,
         maxSize,
         maxFiles: 1,
-        multiple: false
+        multiple: false,
+        noClick: variant === 'button',
+        noKeyboard: variant === 'button',
+        noDrag: variant === 'button'
     })
+
+    if (variant === 'button') {
+        return (
+            <>
+                <input {...getInputProps()} />
+                <button
+                    type='button'
+                    onClick={open}
+                    className={cn(ctaButtonVariants(), className)}>
+                    <UploadCloud aria-hidden='true' />
+                    Upload a screenshot
+                </button>
+            </>
+        )
+    }
 
     return (
         <div className='w-96'>
