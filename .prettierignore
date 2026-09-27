@@ -1,0 +1,9 @@
+# shadcn/ui generated components - managed by the shadcn CLI
+src/components/ui
+
+.next
+.yarn
+node_modules
+functions/lib
+yarn.lock
+*.md

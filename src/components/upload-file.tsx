@@ -31,7 +31,6 @@ import {
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { toast } from 'sonner'
-import { v4 as uuidv4 } from 'uuid'
 
 const UploadFile = ({ className }: { className?: string }) => {
     /**
@@ -240,7 +239,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                  */
                 const storageRef = ref(
                     storage,
-                    `${uuidv4()}--${userId}--${file.name}`
+                    `${crypto.randomUUID()}--${userId}--${file.name}`
                 )
 
                 /**

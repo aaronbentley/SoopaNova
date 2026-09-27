@@ -3,32 +3,10 @@ import {
     productFrameSlugs,
     productTypeSlugs
 } from '@/assets/data/product-slugs'
+import { FieldValue, firestore } from '@/lib/firebase-admin'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs/server'
-import * as admin from 'firebase-admin'
 import { NextRequest, NextResponse } from 'next/server'
-
-/**
- * Initialize Firebase Admin SDK
- */
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID!,
-            clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL!,
-            privateKey:
-                process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID!.replace(
-                    /\\n/g,
-                    '\n'
-                )
-        })
-    })
-}
-
-/**
- * Initialize Firestore
- */
-const firestore = admin.firestore()
 
 export const POST = async (request: NextRequest) => {
     /**
@@ -172,7 +150,7 @@ export const POST = async (request: NextRequest) => {
                 productPrice: orderPrice,
                 orderMarkupRate,
                 orderMarkupProfit,
-                createdAt: admin.firestore.FieldValue.serverTimestamp()
+                createdAt: FieldValue.serverTimestamp()
             })
 
         /**

@@ -21,11 +21,11 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
+import { firestore } from '@/lib/firebase-admin'
 import { formatCurrency } from '@/lib/utils'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs/server'
-import * as admin from 'firebase-admin'
-import { DocumentData } from 'firebase/firestore'
+import { type DocumentData } from 'firebase-admin/firestore'
 import { Info } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -38,28 +38,6 @@ export const metadata: Metadata = {
         canonical: '/orders/'
     }
 }
-
-/**
- * Initialize Firebase Admin SDK
- */
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID!,
-            clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL!,
-            privateKey:
-                process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID!.replace(
-                    /\\n/g,
-                    '\n'
-                )
-        })
-    })
-}
-
-/**
- * Initialize Firestore
- */
-const firestore = admin.firestore()
 
 /**
  * Get orders from firestore

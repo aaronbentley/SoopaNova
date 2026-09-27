@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next'
 
 /**
  * Set CSP headers
@@ -20,13 +20,10 @@ const cspHeader = `
     upgrade-insecure-requests;
 `
 
-const nextConfig = {
+const nextConfig: NextConfig = {
     trailingSlash: true,
     images: {
         formats: ['image/avif', 'image/webp']
-    },
-    experimental: {
-        ppr: false
     },
     logging: {
         fetches: {
@@ -76,4 +73,4 @@ const nextConfig = {
     }
 }
 
-module.exports = nextConfig
+export default nextConfig
