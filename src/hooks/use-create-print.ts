@@ -1,6 +1,7 @@
 'use client'
 
 import { functions, storage } from '@/firebase/config'
+import { ensureFirebaseUser } from '@/firebase/sign-in'
 import { ImageMeta, ModerationResult } from '@/types'
 import { useAuth } from '@clerk/nextjs'
 import { track } from '@vercel/analytics'
@@ -179,6 +180,17 @@ export const useCreatePrint = () => {
         toastIdRef.current = toastId
 
         try {
+            /**
+             * Make sure Firebase Auth is signed in as this Clerk user - Storage
+             * rules and the moderation callable require it
+             */
+            await ensureFirebaseUser(userId).catch(() => {
+                throw new Error(
+                    "We couldn't connect your account. Please try again."
+                )
+            })
+            if (isCancelled()) return
+
             /**
              * Upload, unless this file was already uploaded by an earlier attempt
              */

@@ -3,18 +3,24 @@ rules_version = '2';
 /**
  * Firebase Storage rules.
  *
- * Clerk users are not Firebase Auth users, so client uploads are
- * unauthenticated as far as Firebase is concerned. Restrict what can be
- * written instead: root-level JPEG/PNG files up to 32MB (matches
- * MAX_UPLOAD_FILE_SIZE). Files can be read individually (needed for
- * getDownloadURL) but never listed, overwritten or deleted by clients.
+ * The browser signs in to Firebase Auth with a custom token whose uid is the
+ * Clerk user id (see src/app/api/firebase/token). Uploads are named
+ * `{uuid}--{uid}--{filename}`, so a user can only create and read their own
+ * files: root-level JPEG/PNG up to 32MB (matches MAX_UPLOAD_FILE_SIZE).
+ * Files can't be listed, overwritten or deleted by clients.
  * Cloud Functions and the Admin SDK bypass these rules.
  */
 service firebase.storage {
     match /b/{bucket}/o {
+        function isOwnFile(fileName) {
+            return request.auth != null
+                && fileName.matches('[0-9a-f-]{36}--' + request.auth.uid + '--.+');
+        }
+
         match /{fileName} {
-            allow get: if true;
-            allow create: if request.resource.size < 32 * 1024 * 1024
+            allow get: if isOwnFile(fileName);
+            allow create: if isOwnFile(fileName)
+                && request.resource.size < 32 * 1024 * 1024
                 && request.resource.contentType.matches('image/(jpeg|png)');
         }
     }

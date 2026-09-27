@@ -1,5 +1,6 @@
 import { keywords } from '@/assets/data/keywords'
 import '@/assets/styles/globals.css'
+import FirebaseAuthSync from '@/components/firebase-auth-sync'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
@@ -102,6 +103,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                             <TailwindIndicator />
                         </TooltipProvider>
                     </ThemeProvider>
+                    <FirebaseAuthSync />
                     <Analytics />
                     <SpeedInsights />
                 </ClerkProvider>

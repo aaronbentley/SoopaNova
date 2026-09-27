@@ -10,7 +10,7 @@ import { initializeApp } from 'firebase-admin/app'
 import { getStorage } from 'firebase-admin/storage'
 import { logger } from 'firebase-functions'
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
-import { onCall } from 'firebase-functions/v2/https'
+import { HttpsError, onCall } from 'firebase-functions/v2/https'
 
 /**
  * Initiate Services outside of the function.
@@ -23,132 +23,141 @@ initializeApp()
 
 /**
  * Callable function.
- * Function to moderate an image url using Google Cloud Vision API SafeSearch.
+ * Function to moderate an uploaded image using Google Cloud Vision API SafeSearch.
  *
- * See CORS settings:
- * @link https://firebase.google.com/docs/functions/callable?gen=2nd
+ * Callers must be signed in to Firebase Auth (the browser signs in with a
+ * custom token whose uid is the Clerk user id) and can only moderate their
+ * own uploads, which are named `{uuid}--{uid}--{filename}`.
  */
-export const moderateImageUrl = onCall(
-    // {
-    //     cors: [
-    //         // /firebase\.com$/,
-    //         // "flutter.com",
-    //         'localhost:3000',
-    //         'soopanova.app',
-    //         'vercel.app'
-    //     ],
-    //     enforceAppCheck: true, // Reject requests with missing or invalid App Check tokens.
-    // },
-    async (request) => {
-        logger.log('Cloud Function has executed onCall', request.data)
+export const moderateImageUrl = onCall(async (request) => {
+    // Reject callers who aren't signed in to Firebase Auth
+    if (!request.auth) {
+        throw new HttpsError('unauthenticated', 'You must be signed in.')
+    }
 
-        // Get request data
-        const { data = undefined } = request
+    logger.log('Cloud Function has executed onCall', request.data)
 
-        // Bail if no data is provided
-        if (!data) {
-            logger.error('Error: No fileDownloadUrl provided.')
+    // Get request data
+    const { data = undefined } = request
 
+    // Bail if no data is provided
+    if (!data) {
+        logger.error('Error: No fileDownloadUrl provided.')
+
+        return {
+            status: 'error',
+            message: 'No fileDownloadUrl provided.'
+        }
+    }
+
+    // Destructure file ref & file metadata from data
+    const { fileRef = undefined, fileMetadata = undefined } = data
+
+    // Bail if no fileDownloadUrl is provided
+    if (!fileRef || !fileMetadata) {
+        logger.error('Error: No fileRef or fileMetadata provided.')
+
+        return {
+            status: 'error',
+            message: 'No fileRef or fileMetadata provided.'
+        }
+    }
+
+    // Get file data
+    const {
+        contentType = undefined,
+        bucket = undefined,
+        name = undefined
+    } = fileMetadata
+
+    // Only moderate files in this project's default Storage bucket
+    if (
+        bucket !== getStorage().bucket().name ||
+        typeof name !== 'string' ||
+        !name
+    ) {
+        logger.error('Error: invalid bucket or file name.', {
+            bucket,
+            name
+        })
+
+        return {
+            status: 'error',
+            message: 'Invalid file reference.'
+        }
+    }
+
+    // Only moderate the caller's own uploads
+    const [, fileOwner] = name.split('--')
+
+    if (fileOwner !== request.auth.uid) {
+        logger.error('Error: file does not belong to the caller.', {
+            name,
+            uid: request.auth.uid
+        })
+
+        throw new HttpsError(
+            'permission-denied',
+            'You can only moderate your own uploads.'
+        )
+    }
+
+    // Ensure the content type is an image
+    if (contentType && !contentType.startsWith('image/')) {
+        logger.error('Error: file is not an image.')
+
+        return {
+            status: 'error',
+            message: 'file is not an image.'
+        }
+    }
+
+    // Perform safe search property detection on the remote file
+    try {
+        const [result] = await visionClient.safeSearchDetection(
+            `gs://${bucket}/${name}`
+        )
+
+        // Get Cloud Vision API SafeSearch detections
+        const detections = result.safeSearchAnnotation
+
+        // Bail if detections is null or undefined
+        if (!detections) {
+            logger.warn('Warning: No detections found.', detections)
             return {
-                status: 'error',
-                message: 'No fileDownloadUrl provided.'
+                status: 'warning',
+                message: 'No detections found.'
             }
         }
 
-        // Destructure file ref & file metadata from data
-        const { fileRef = undefined, fileMetadata = undefined } = data
+        // Debug data
+        logger.info('Cloud Vision SafeSearch Detections:', {
+            adult: `${detections.adult}`,
+            racy: `${detections.racy}`,
+            violence: `${detections.violence}`
+        })
 
-        // Bail if no fileDownloadUrl is provided
-        if (!fileRef || !fileMetadata) {
-            logger.error('Error: No fileRef or fileMetadata provided.')
-
-            return {
-                status: 'error',
-                message: 'No fileRef or fileMetadata provided.'
-            }
-        }
-
-        // Get file data
-        const {
-            contentType = undefined,
-            bucket = undefined,
-            name = undefined
-        } = fileMetadata
-
-        // Only moderate files in this project's default Storage bucket
-        if (
-            bucket !== getStorage().bucket().name ||
-            typeof name !== 'string' ||
-            !name
-        ) {
-            logger.error('Error: invalid bucket or file name.', {
-                bucket,
-                name
-            })
-
-            return {
-                status: 'error',
-                message: 'Invalid file reference.'
-            }
-        }
-
-        // Ensure the content type is an image
-        if (contentType && !contentType.startsWith('image/')) {
-            logger.error('Error: file is not an image.')
-
-            return {
-                status: 'error',
-                message: 'file is not an image.'
-            }
-        }
-
-        // Perform safe search property detection on the remote file
-        try {
-            const [result] = await visionClient.safeSearchDetection(
-                `gs://${bucket}/${name}`
-            )
-
-            // Get Cloud Vision API SafeSearch detections
-            const detections = result.safeSearchAnnotation
-
-            // Bail if detections is null or undefined
-            if (!detections) {
-                logger.warn('Warning: No detections found.', detections)
-                return {
-                    status: 'warning',
-                    message: 'No detections found.'
-                }
-            }
-
-            // Debug data
-            logger.info('Cloud Vision SafeSearch Detections:', {
+        // Return Cloud Vision SafeSearch Detections
+        return {
+            status: 'ok',
+            message: 'Cloud Vision SafeSearch moderation completed',
+            detections: {
                 adult: `${detections.adult}`,
                 racy: `${detections.racy}`,
                 violence: `${detections.violence}`
-            })
-
-            // Return Cloud Vision SafeSearch Detections
-            return {
-                status: 'ok',
-                message: 'Cloud Vision SafeSearch moderation completed',
-                detections: {
-                    adult: `${detections.adult}`,
-                    racy: `${detections.racy}`,
-                    violence: `${detections.violence}`
-                }
             }
-        } catch (error) {
-            logger.error('Error: Cloud Vision SafeSearch error', error)
-
-            return {
-                message: 'Error: Cloud Vision SafeSearch error',
-                data: null
-            }
-        } finally {
-            logger.info('OK - Cloud Vision SafeSearch moderation completed.')
         }
+    } catch (error) {
+        logger.error('Error: Cloud Vision SafeSearch error', error)
+
+        return {
+            message: 'Error: Cloud Vision SafeSearch error',
+            data: null
+        }
+    } finally {
+        logger.info('OK - Cloud Vision SafeSearch moderation completed.')
     }
-)
+})
 
 /**
  * Firestore trigger function.

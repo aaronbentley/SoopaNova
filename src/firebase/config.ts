@@ -1,4 +1,5 @@
 import { getApps, initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
 import { getFunctions } from 'firebase/functions'
 import { getStorage } from 'firebase/storage'
 
@@ -19,6 +20,13 @@ const firebaseConfig = {
  */
 export const app =
     getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
+
+/**
+ * Export Firebase Auth. Clerk is the source of truth for users; the browser
+ * signs in to Firebase with a custom token for the same user id (see
+ * src/firebase/sign-in.ts) so Storage rules and callables can check it.
+ */
+export const firebaseAuth = getAuth(app)
 
 /**
  * Export Firebase Storage

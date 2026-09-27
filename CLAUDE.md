@@ -38,7 +38,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/proxy.ts`: Clerk `clerkMiddleware` (Next 16's replacement for `middleware.ts`). It protects `/create` and `/orders`.
 - `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`. One local edit: `ui/sonner.tsx` imports `useTheme` from `@wrksz/themes/client` rather than `next-themes`, so re-apply that if the component is ever regenerated.
 - `src/components/`: app components. `src/hooks/`: client hooks (screenshot selection, print pipeline). `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
-- `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app` + `firebase-admin/firestore` APIs). `src/firebase/config.ts` is the client SDK.
+- `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app`, `/auth` and `/firestore` APIs). `src/firebase/config.ts` is the client SDK, and `src/firebase/sign-in.ts` signs it in to Firebase Auth.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
 - `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
 
@@ -61,7 +61,8 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 ## Gotchas
 
-- **Clerk users are not Firebase Auth users.** Client Storage uploads and the `moderateImageUrl` callable are unauthenticated from Firebase's side. `storage.rules` can only limit *what* is written (root-level JPEG/PNG under 32MB).
+- **Clerk is the source of truth for users; Firebase Auth mirrors it.** `POST /api/firebase/token` mints a Firebase custom token whose uid is the Clerk user id. `firebase-auth-sync.tsx` (in the root layout) signs Firebase in and out to match Clerk, and `useCreatePrint` calls `ensureFirebaseUser()` before uploading. `storage.rules` only let a user create and read their own `{uuid}--{uid}--{name}` files, and `moderateImageUrl` rejects unauthenticated callers and other users' files. Every Clerk user who uploads gets a Firebase Auth user with the same id.
+- **Deploy order for auth changes:** deploy the app (Vercel) *before* the stricter `storage.rules` and functions (Firebase). An app that isn't signed in to Firebase can't upload under the new rules. Local dev talks to the production Firebase project too.
 - **API routes must call `auth()` themselves.** `proxy.ts` only protects pages. `push-image` also only accepts download URLs from our own Storage bucket.
 - **CanvasPop is a third-party service we don't control.** It has no order API or webhooks (only image push/pull and the cart loader). Its cart posts JSON strings (older versions prefixed them with `/*framebus*/`, which is still stripped). `userClickedCartContinue` args are `{ width, height, frame, edge, price }`: **no currency**, and switching currency in the cart just reloads it. So stored prices are in whichever currency the shopper chose, and `/orders` shows plain amounts (`formatPrice`). The only loader parameter is `reference_id`. Product state in the listener is kept in a ref so the `message` listener attaches once. Always remove it with the same `capture` flag it was added with.
 - **CSP** lives in `next.config.ts` (production only). Add any new third-party origin there, or it will work in dev and break in production.
@@ -71,7 +72,6 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 ## Known outstanding work (Phase 8)
 
-- Clerk → Firebase auth bridge (Firebase custom token), so Storage rules and the callable can require `request.auth`.
 - Server-side moderation gate: `push-image` should verify moderation itself rather than trusting the browser.
 - Order integrity (CanvasPop has no order API): record each pushed image token against its user, make `create-order` require an unused token the user owns, and set a unique `reference_id` so CanvasPop orders can be matched to ours.
 - Later: Resend admin email in `onOrderCreated`.

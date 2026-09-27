@@ -1,6 +1,7 @@
 import 'server-only'
 
 import { cert, getApps, initializeApp } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
 import { FieldValue, getFirestore } from 'firebase-admin/firestore'
 
 /**
@@ -19,6 +20,11 @@ const app =
                 )
         })
     })
+
+/**
+ * Export Firebase Auth (used to mint custom tokens for Clerk users)
+ */
+export const adminAuth = getAuth(app)
 
 /**
  * Export Firestore
