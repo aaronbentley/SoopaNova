@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
-import { shadcn } from '@clerk/themes'
+import { shadcn } from '@clerk/ui/themes'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
@@ -61,36 +61,31 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
      */
 
     return (
-        <ClerkProvider
-            appearance={{
-                theme: shadcn,
-                layout: {
-                    termsPageUrl: '/terms/',
-                    privacyPageUrl: '/privacy/',
-                    showOptionalFields: true,
-                    socialButtonsVariant: 'auto',
-                    socialButtonsPlacement: 'top',
-                    shimmer: true
-                }
-            }}>
-            <html
-                lang='en'
-                className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
-                data-scroll-behavior='smooth'
-                suppressHydrationWarning>
-                {/*
-                <script
-                    type='application/ld+json'
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
-            */}
-                <head />
-                <body
-                    className={cn([
-                        'font-sans',
-                        'antialiased',
-                        'min-h-screen'
-                    ])}>
+        <html
+            lang='en'
+            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+            data-scroll-behavior='smooth'
+            suppressHydrationWarning>
+            {/*
+            <script
+                type='application/ld+json'
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+        */}
+            <head />
+            <body className={cn(['font-sans', 'antialiased', 'min-h-screen'])}>
+                <ClerkProvider
+                    appearance={{
+                        theme: shadcn,
+                        options: {
+                            termsPageUrl: '/terms/',
+                            privacyPageUrl: '/privacy/',
+                            showOptionalFields: true,
+                            socialButtonsVariant: 'auto',
+                            socialButtonsPlacement: 'top',
+                            shimmer: true
+                        }
+                    }}>
                     <ThemeProvider
                         attribute='class'
                         defaultTheme='system'
@@ -110,9 +105,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     </ThemeProvider>
                     <Analytics />
                     <SpeedInsights />
-                </body>
-            </html>
-        </ClerkProvider>
+                </ClerkProvider>
+            </body>
+        </html>
     )
 }
 

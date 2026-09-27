@@ -4,13 +4,7 @@ import ModeToggle from '@/components/mode-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
 import UserButton from '@/components/user-button'
 import { cn } from '@/lib/utils'
-import {
-    ClerkLoaded,
-    ClerkLoading,
-    SignInButton,
-    SignedIn,
-    SignedOut
-} from '@clerk/nextjs'
+import { ClerkLoaded, ClerkLoading, SignInButton, Show } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -52,14 +46,14 @@ const Header = () => (
                             <Loader2 className='size-7 animate-spin text-primary' />
                         </ClerkLoading>
                         <ClerkLoaded>
-                            <SignedOut>
+                            <Show when='signed-out'>
                                 <SignInButton>
                                     <Button>Sign In</Button>
                                 </SignInButton>
-                            </SignedOut>
-                            <SignedIn>
+                            </Show>
+                            <Show when='signed-in'>
                                 <UserButton />
-                            </SignedIn>
+                            </Show>
                         </ClerkLoaded>
                     </Suspense>
                 </div>

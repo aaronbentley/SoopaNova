@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@clerk/themes/shadcn.css';
+@import '@clerk/ui/themes/shadcn.css';
 
 @plugin "tailwindcss-animate";
 

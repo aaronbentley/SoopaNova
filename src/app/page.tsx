@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/tooltip'
 import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
-import { SignedIn } from '@clerk/nextjs'
+import { Show } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
 import {
     BoxSelect,
@@ -101,9 +101,9 @@ const Frontpage = async () => {
                     Print your gaming screenshots, preserve your gaming moments.
                 </HeroDescription>
 
-                <SignedIn>
+                <Show when='signed-in'>
                     <UploadFile className='mt-2' />
-                </SignedIn>
+                </Show>
 
                 <ScrollToTarget
                     target='customise-your-prints'

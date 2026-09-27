@@ -8,7 +8,7 @@ import {
     navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
-import { SignedIn } from '@clerk/nextjs'
+import { Show } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Suspense } from 'react'
@@ -40,7 +40,7 @@ const MainNav = () => {
                         </NavigationMenuItem>
                     ))}
                     <Suspense>
-                        <SignedIn>
+                        <Show when='signed-in'>
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     asChild
@@ -60,7 +60,7 @@ const MainNav = () => {
                                     </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
-                        </SignedIn>
+                        </Show>
                     </Suspense>
                 </NavigationMenuList>
             </NavigationMenu>

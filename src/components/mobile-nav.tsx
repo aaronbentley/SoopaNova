@@ -11,7 +11,7 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
-import { SignedIn } from '@clerk/nextjs'
+import { Show } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -66,13 +66,13 @@ const MobileNav = () => {
                             </MobileLink>
                         ))}
                         <Suspense>
-                            <SignedIn>
+                            <Show when='signed-in'>
                                 <MobileLink
                                     href='/orders/'
                                     onOpenChange={setOpen}>
                                     Orders
                                 </MobileLink>
-                            </SignedIn>
+                            </Show>
                         </Suspense>
                     </div>
                 </ScrollArea>
