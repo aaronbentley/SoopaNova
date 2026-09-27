@@ -54,6 +54,7 @@
     },
     "packageManager": "yarn@4.18.1",
     "resolutions": {
-        "buffer-equal-constant-time@npm:1.0.1": "patch:buffer-equal-constant-time@npm%3A1.0.1#~/.yarn/patches/buffer-equal-constant-time-npm-1.0.1-41826f3419.patch"
+        "buffer-equal-constant-time@npm:1.0.1": "patch:buffer-equal-constant-time@npm%3A1.0.1#~/.yarn/patches/buffer-equal-constant-time-npm-1.0.1-41826f3419.patch",
+        "jwks-rsa": "3.2.2"
     }
 }
