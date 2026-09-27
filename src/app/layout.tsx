@@ -15,7 +15,6 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 
-// export const generateViewport = async (): Promise<Viewport> => {
 export const generateViewport = (): Viewport => {
     const themeColor = process.env.APP_BRAND_COLOUR!
     return {
@@ -63,7 +62,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html
             lang='en'
-            className={cn(['dark', 'scroll-pt-20', GeistSans.variable])}
+            className={cn(['scroll-pt-20', GeistSans.variable])}
             data-scroll-behavior='smooth'
             suppressHydrationWarning>
             {/*

@@ -11,7 +11,6 @@ export default clerkMiddleware(
     },
     {
         debug: false
-        // debug: process.env.NODE_ENV === 'development'
     }
 )
 

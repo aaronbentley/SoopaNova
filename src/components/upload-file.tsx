@@ -98,11 +98,6 @@ const UploadFile = ({ className }: { className?: string }) => {
     const [printSheetOpen, setPrintSheetOpen] = useState<boolean>(false)
 
     /**
-     * Handle Print Dialog state
-     */
-    // const [printDialogueOpen, setPrintDialogueOpen] = useState<boolean>(false)
-
-    /**
      * Handle Print Order Url
      */
     const [printOrderUrl, setPrintOrderUrl] = useState<URL | null>(null)
@@ -283,10 +278,23 @@ const UploadFile = ({ className }: { className?: string }) => {
                     }>
 
                 /**
+                 * Bail if the image could not be checked (moderation errored
+                 * or Vision returned no result) - this is not a flag, so the
+                 * user can try again
+                 */
+                if (
+                    moderationData?.status !== 'ok' ||
+                    !moderationData.detections
+                ) {
+                    throw new Error(
+                        "We couldn't check your image right now. Please try again."
+                    )
+                }
+
+                /**
                  * Check for adult content
                  */
-
-                if (moderationData?.detections?.adult === 'VERY_LIKELY') {
+                if (moderationData.detections.adult === 'VERY_LIKELY') {
                     setContentModeration(true)
                     throw new Error(
                         'Sorry, we can not print images with adult content.'
@@ -315,7 +323,7 @@ const UploadFile = ({ className }: { className?: string }) => {
                  * Initiate upload to Canvaspop Push API (API route handler)
                  */
                 const pushImageResponse = await fetch(
-                    '/api/canvaspop/push-image',
+                    '/api/canvaspop/push-image/',
                     {
                         method: 'POST',
                         headers: {
@@ -363,7 +371,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                 setPrintOrderUrl(canvasPopCartUrl)
 
                 setPrintSheetOpen(true)
-                // setPrintDialogueOpen(true)
 
                 toast.dismiss(createOrderToast)
 
@@ -636,38 +643,6 @@ const UploadFile = ({ className }: { className?: string }) => {
                     )}
                 </SheetContent>
             </Sheet>
-            {/*
-            <AlertDialog
-                open={printDialogueOpen}
-                onOpenChange={(open) => {
-                    setPrintDialogueOpen(open)
-                }}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            Your Print Order is ready!
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className='text-balance'>
-                            Please Continue to complete your Print Order.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        {printOrderUrl && (
-                            <AlertDialogAction asChild>
-                                <Link
-                                    href={printOrderUrl?.href}
-                                    title='Order Print'
-                                    target='_blank'>
-                                    Continue
-                                </Link>
-                            </AlertDialogAction>
-                        )}
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-            {printOrderUrl && <CanvasPopCartEventListener />}
-            */}
         </div>
     )
 }

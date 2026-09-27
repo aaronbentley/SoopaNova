@@ -13,7 +13,6 @@ export const POST = async (request: NextRequest) => {
      * Get form data from request body
      */
     const data = await request.json().catch(() => null)
-    // console.log('🦄 ~ file: route.ts:8 ~ POST ~ data:', data)
 
     /**
      * Bail if no data
@@ -127,10 +126,6 @@ export const POST = async (request: NextRequest) => {
 
     if (orderMarkupRate) {
         orderMarkupProfit = orderPrice * orderMarkupRate
-        // console.log(
-        //     `🦄 ~ Markup Profit: ${productPrice} x ${orderMarkupRate} = $`,
-        //     orderMarkupProfit
-        // )
     }
 
     /**

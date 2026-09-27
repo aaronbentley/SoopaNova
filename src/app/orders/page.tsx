@@ -22,9 +22,9 @@ import {
     TableRow
 } from '@/components/ui/table'
 import { firestore } from '@/lib/firebase-admin'
-import { formatCurrency } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
-import { auth } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { type DocumentData } from 'firebase-admin/firestore'
 import { Info } from 'lucide-react'
 import { Metadata } from 'next'
@@ -121,7 +121,10 @@ const OrdersTable = async () => {
      */
     return (
         <Table>
-            <TableCaption>A list of your recent Print Orders.</TableCaption>
+            <TableCaption>
+                A list of your recent Print Orders. Totals are in the currency
+                chosen at checkout.
+            </TableCaption>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-[100px]'>Order ID</TableHead>
@@ -173,7 +176,7 @@ const OrdersTable = async () => {
                                         : '-'}
                                 </TableCell>
                                 <TableCell className='text-right'>
-                                    {formatCurrency(productPrice)}
+                                    {formatPrice(productPrice)}
                                 </TableCell>
                             </TableRow>
                         )
@@ -186,24 +189,18 @@ const OrdersTable = async () => {
 
 const Orders = async () => {
     /**
-     * Get sessionClaims from auth()
+     * Get the current user's name, falling back to their email address
      */
-    const { sessionClaims } = await auth()
-
-    /**
-     * Get custom sessionClaims tokens with fallbacks
-     */
-    const fullName = sessionClaims?.fullName || ''
-    const primaryEmail = sessionClaims?.primaryEmail || ''
+    const user = await currentUser()
+    const displayName =
+        user?.fullName || user?.primaryEmailAddress?.emailAddress || ''
 
     return (
         <>
             <div className='container'>
                 <PageHeader>
                     <PageHeaderHeading>Print Orders</PageHeaderHeading>
-                    <PageHeaderDescription>{`${
-                        fullName !== null ? fullName : primaryEmail
-                    }`}</PageHeaderDescription>
+                    <PageHeaderDescription>{displayName}</PageHeaderDescription>
                 </PageHeader>
 
                 <Suspense>

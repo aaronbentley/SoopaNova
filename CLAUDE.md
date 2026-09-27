@@ -62,7 +62,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 - **Clerk users are not Firebase Auth users.** Client Storage uploads and the `moderateImageUrl` callable are unauthenticated from Firebase's side. `storage.rules` can only limit *what* is written (root-level JPEG/PNG under 32MB).
 - **API routes must call `auth()` themselves.** `proxy.ts` only protects pages. `push-image` also only accepts download URLs from our own Storage bucket.
-- **CanvasPop is a third-party service we don't control.** Its cart posts messages as strings prefixed with `/*framebus*/`. Product state in the listener is kept in a ref so the `message` listener attaches once. Always remove it with the same `capture` flag it was added with.
+- **CanvasPop is a third-party service we don't control.** It has no order API or webhooks (only image push/pull and the cart loader). Its cart posts JSON strings (older versions prefixed them with `/*framebus*/`, which is still stripped). `userClickedCartContinue` args are `{ width, height, frame, edge, price }`: **no currency**, and switching currency in the cart just reloads it. So stored prices are in whichever currency the shopper chose, and `/orders` shows plain amounts (`formatPrice`). The only loader parameter is `reference_id`. Product state in the listener is kept in a ref so the `message` listener attaches once. Always remove it with the same `capture` flag it was added with.
 - **CSP** lives in `next.config.ts` (production only). Add any new third-party origin there, or it will work in dev and break in production.
 - **Node 25+:** `buffer-equal-constant-time` (via firebase-admin → jsonwebtoken) is patched in `.yarn/patches/` because `SlowBuffer` was removed. Keep the patch until upstream is fixed.
 - **ESLint is pinned to 9.x:** `eslint-config-next` 16's Babel parser for JS files doesn't support ESLint 10 yet.
@@ -72,9 +72,8 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 - Clerk → Firebase auth bridge (Firebase custom token), so Storage rules and the callable can require `request.auth`.
 - Server-side moderation gate: `push-image` should verify moderation itself rather than trusting the browser.
-- Order integrity: prices come from browser `postMessage`. Check whether CanvasPop offers an order-lookup API or webhooks, and verify on the server if so.
-- Split `upload-file.tsx` (~700 lines) into a hook and presentational parts. Remove commented-out code.
-- Currency mismatch: the CanvasPop cart prices in the shopper's currency (e.g. GBP), but `/orders` formats every total as USD (`formatCurrency`).
-- `moderateImageUrl` returns `status: 'warning'` when Vision gives no annotations, and the browser treats that as a pass.
-- `layout.tsx` hardcodes `className='dark'` on `<html>` while next-themes defaults to `system`.
-- Resend admin email in `onOrderCreated`. CI (typecheck/lint/build) and a Playwright smoke test.
+- Order integrity (CanvasPop has no order API): record each pushed image token against its user, make `create-order` require an unused token the user owns, and set a unique `reference_id` so CanvasPop orders can be matched to ours.
+- Split `upload-file.tsx` (~650 lines) into a `useCreatePrint` hook and presentational parts.
+- Later: Resend admin email in `onOrderCreated`.
+
+Moderation only blocks `adult === 'VERY_LIKELY'` (stricter thresholds false-flag game screenshots). An empty or failed Vision result is shown as "couldn't check, try again", not as a flag.
