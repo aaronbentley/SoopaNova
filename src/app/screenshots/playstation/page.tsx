@@ -147,15 +147,17 @@ const ScreenshotsPlaystation = () => {
                             14 days after creation on your PS5 console.
                         </AlertDescription>
                         <AlertDescription>
-                            Learn more more at{' '}
-                            <a
-                                href='https://www.playstation.com/en-gb/support/games/ps5-game-captures-ps-app/'
-                                title='How to access PS5 game captures on PlayStation App'
-                                target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
-                                PlayStation.com
-                            </a>
-                            .
+                            <p>
+                                Learn more at{' '}
+                                <a
+                                    href='https://www.playstation.com/en-gb/support/games/ps5-game-captures-ps-app/'
+                                    title='How to access PS5 game captures on PlayStation App'
+                                    target='_blank'
+                                    className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                                    PlayStation.com
+                                </a>
+                                .
+                            </p>
                         </AlertDescription>
                     </Alert>
                 </PageSection>
