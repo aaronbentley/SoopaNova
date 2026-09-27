@@ -11,16 +11,13 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
-import { SignedIn, useAuth } from '@clerk/nextjs'
+import { SignedIn } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { Suspense, useState } from 'react'
 
 const MobileNav = () => {
-    // Get the auth state
-    const { userId } = useAuth()
-
     // Handle menu state
     const [open, setOpen] = useState(false)
 
@@ -71,7 +68,7 @@ const MobileNav = () => {
                         <Suspense>
                             <SignedIn>
                                 <MobileLink
-                                    href={`/orders/${userId}/`}
+                                    href='/orders/'
                                     onOpenChange={setOpen}>
                                     Orders
                                 </MobileLink>

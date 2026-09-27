@@ -15,7 +15,7 @@ const UserButton = () => {
                 <ClerkUserButton.Link
                     label='Orders'
                     labelIcon={<Box className='size-4' />}
-                    href={`/orders/${userId}`}
+                    href='/orders/'
                 />
                 <ClerkUserButton.Action label='manageAccount' />
                 <ClerkUserButton.Action label='signOut' />

@@ -8,15 +8,12 @@ import {
     navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
-import { SignedIn, useAuth } from '@clerk/nextjs'
+import { SignedIn } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Suspense } from 'react'
 
 const MainNav = () => {
-    // Get the auth state
-    const { userId } = useAuth()
-
     // Get the current pathname
     const pathname = usePathname()
 
@@ -47,7 +44,7 @@ const MainNav = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     asChild
-                                    active={pathname === `/orders/${userId}/`}
+                                    active={pathname === '/orders/'}
                                     className={cn(
                                         navigationMenuTriggerStyle(),
                                         [
@@ -57,7 +54,7 @@ const MainNav = () => {
                                         ]
                                     )}>
                                     <Link
-                                        href={`/orders/${userId}/`}
+                                        href='/orders/'
                                         passHref>
                                         Orders
                                     </Link>

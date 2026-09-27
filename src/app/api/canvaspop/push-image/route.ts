@@ -1,8 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const runtime = 'edge'
-
 /**
  * Only accept download URLs for files in our own Firebase Storage bucket
  */

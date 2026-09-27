@@ -442,7 +442,7 @@ const CanvasPopCartEventListener = () => {
                                 // Redirect to orders page with a 1 second delay, include order complete param
                                 setTimeout(() => {
                                     router.push(
-                                        `/orders/${user.id}/?orderId=${orderId}`
+                                        `/orders/?orderId=${orderId}`
                                     )
                                 }, 1000)
                             } else {
@@ -465,7 +465,6 @@ const CanvasPopCartEventListener = () => {
         return () => {
             window.removeEventListener('message', listener, true)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, user])
 
     return null

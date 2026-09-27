@@ -77,7 +77,9 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle upload progress
      */
-    const [uploadProgress, setUploadProgress] = useState<number>(0)
+    const uploadProgress = snapshot
+        ? (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        : 0
 
     /**
      * Handle content moderation
@@ -123,19 +125,6 @@ const UploadFile = ({ className }: { className?: string }) => {
      */
     const [imageDimensionsError, setImageDimensionsError] =
         useState<boolean>(false)
-
-    /**
-     * Handle upload progress
-     */
-    useEffect(() => {
-        if (!snapshot) return
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        setUploadProgress(progress)
-
-        return () => {
-            setUploadProgress(0)
-        }
-    }, [snapshot])
 
     /**
      * Handle dropzone file upload
