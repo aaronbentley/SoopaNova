@@ -126,6 +126,7 @@
 
 @theme inline {
     --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -163,6 +164,53 @@
 @utility container {
     margin-inline: auto;
     padding-inline: 2rem;
+}
+
+/**
+ * Site content width. Use this rather than `container`, which snaps to a
+ * different max-width at every breakpoint.
+ */
+@utility wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+}
+
+/**
+ * Small mono label above headings and in UI chrome
+ */
+@utility eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/**
+ * Faint 64px grid backdrop, faded out with one of the mask-fade-* utilities
+ */
+@utility bg-grid {
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center -1px;
+}
+@utility mask-fade-top {
+    mask-image: radial-gradient(
+        ellipse 70% 60% at 50% 0%,
+        #000 20%,
+        transparent 75%
+    );
+}
+@utility mask-fade-bottom {
+    mask-image: radial-gradient(
+        ellipse 60% 80% at 50% 100%,
+        #000 10%,
+        transparent 70%
+    );
 }
 
 @layer base {

@@ -1,70 +1,66 @@
 'use client'
 import { links } from '@/assets/data/links'
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Suspense } from 'react'
 
+/**
+ * Nav link styles, shared with the mobile nav
+ */
+export const navLinkClassName = (active: boolean) =>
+    cn(
+        [
+            'rounded-md',
+            'px-3',
+            'py-1.5',
+            'text-sm',
+            'text-muted-foreground',
+            'transition-colors',
+            'duration-200',
+            'hover:bg-card',
+            'hover:text-foreground',
+            'focus-visible:outline-none',
+            'focus-visible:ring-2',
+            'focus-visible:ring-ring/50'
+        ],
+        active && [
+            'bg-primary',
+            'text-primary-foreground',
+            'hover:bg-primary',
+            'hover:text-primary-foreground'
+        ]
+    )
+
 const MainNav = () => {
     // Get the current pathname
     const pathname = usePathname()
 
     return (
-        <div className='hidden md:flex'>
-            <NavigationMenu>
-                <NavigationMenuList>
-                    {links.map((link, index) => (
-                        <NavigationMenuItem key={index}>
-                            <NavigationMenuLink
-                                asChild
-                                active={pathname === link.href}
-                                className={cn(navigationMenuTriggerStyle(), [
-                                    'data-active:text-background',
-                                    'data-active:bg-primary',
-                                    'dark:data-active:bg-primary'
-                                ])}>
-                                <Link
-                                    href={link.href}
-                                    passHref>
-                                    {link.label}
-                                </Link>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                    ))}
-                    <Suspense>
-                        <Show when='signed-in'>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink
-                                    asChild
-                                    active={pathname === '/orders/'}
-                                    className={cn(
-                                        navigationMenuTriggerStyle(),
-                                        [
-                                            'data-active:text-background',
-                                            'data-active:bg-primary',
-                                            'dark:data-active:bg-primary'
-                                        ]
-                                    )}>
-                                    <Link
-                                        href='/orders/'
-                                        passHref>
-                                        Orders
-                                    </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                        </Show>
-                    </Suspense>
-                </NavigationMenuList>
-            </NavigationMenu>
-        </div>
+        <nav className='hidden md:flex items-center gap-1'>
+            {links.map((link) => (
+                <Link
+                    key={link.href}
+                    href={link.href}
+                    aria-current={pathname === link.href ? 'page' : undefined}
+                    className={navLinkClassName(pathname === link.href)}>
+                    {link.label}
+                </Link>
+            ))}
+            <Suspense>
+                <Show when='signed-in'>
+                    <Link
+                        href='/orders/'
+                        aria-current={
+                            pathname === '/orders/' ? 'page' : undefined
+                        }
+                        className={navLinkClassName(pathname === '/orders/')}>
+                        Orders
+                    </Link>
+                </Show>
+            </Suspense>
+        </nav>
     )
 }
 

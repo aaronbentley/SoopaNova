@@ -1,8 +1,9 @@
 import MainNav from '@/components/main-nav'
 import MobileNav from '@/components/mobile-nav'
 import ModeToggle from '@/components/mode-toggle'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import UserButton from '@/components/user-button'
+import Wordmark from '@/components/wordmark'
 import { cn } from '@/lib/utils'
 import { ClerkLoaded, ClerkLoading, SignInButton, Show } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
@@ -10,53 +11,67 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 const Header = () => (
-    <header className='sticky top-0 z-50 w-full border-b border-muted bg-background/80 dark:bg-background/80 backdrop-blur-sm'>
-        <div className='container px-4 flex items-center'>
-            <div className='flex justify-between w-full py-4'>
-                <div className='flex flex-row-reverse md:flex-row items-center md:space-x-4'>
-                    <Link
-                        href='/'
-                        className={cn(
-                            buttonVariants({
-                                variant: 'ghost',
-                                className: [
-                                    'md:mr-6',
-                                    'font-sans',
-                                    'font-extrabold',
-                                    'text-xl',
-                                    'tracking-tight',
-                                    'transition-all',
-                                    'duration-200',
-                                    'hover:bg-transparent',
-                                    'dark:hover:bg-transparent',
-                                    'hover:text-primary',
-                                    'dark:hover:text-primary'
-                                ]
-                            })
-                        )}>
-                        {process.env.APP_TITLE!}
-                    </Link>
-                    <MainNav />
-                    <MobileNav />
-                </div>
-                <div className='flex items-center md:space-x-4'>
-                    <ModeToggle />
-                    <Suspense>
-                        <ClerkLoading>
-                            <Loader2 className='size-7 animate-spin text-primary' />
-                        </ClerkLoading>
-                        <ClerkLoaded>
-                            <Show when='signed-out'>
-                                <SignInButton>
-                                    <Button>Sign In</Button>
-                                </SignInButton>
-                            </Show>
-                            <Show when='signed-in'>
-                                <UserButton />
-                            </Show>
-                        </ClerkLoaded>
-                    </Suspense>
-                </div>
+    <header className='sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm'>
+        <div className='wrapper flex h-16 items-center justify-between gap-6'>
+            <div className='flex items-center gap-2 md:gap-8'>
+                <MobileNav />
+                <Link
+                    href='/'
+                    aria-label='Home'
+                    className='transition-opacity duration-200 hover:opacity-80'>
+                    <Wordmark />
+                </Link>
+                <MainNav />
+            </div>
+            <div className='flex items-center gap-2'>
+                <ModeToggle />
+                <Suspense>
+                    <ClerkLoading>
+                        <Loader2 className='size-6 animate-spin text-primary' />
+                    </ClerkLoading>
+                    <ClerkLoaded>
+                        <Show when='signed-out'>
+                            <SignInButton>
+                                <button
+                                    className={cn(
+                                        buttonVariants({
+                                            variant: 'outline',
+                                            size: 'sm'
+                                        }),
+                                        [
+                                            'bg-transparent',
+                                            'dark:bg-transparent',
+                                            'dark:border-border',
+                                            'shadow-none',
+                                            'font-normal',
+                                            'hover:bg-card',
+                                            'dark:hover:bg-card',
+                                            'duration-200'
+                                        ]
+                                    )}>
+                                    Sign In
+                                </button>
+                            </SignInButton>
+                            <Link
+                                href='/create/'
+                                className={cn(buttonVariants({ size: 'sm' }), [
+                                    'hidden',
+                                    'sm:inline-flex',
+                                    'bg-foreground',
+                                    'text-background',
+                                    'shadow-none',
+                                    'hover:bg-foreground',
+                                    'hover:opacity-85',
+                                    'duration-200'
+                                ])}>
+                                Get Started
+                            </Link>
+                        </Show>
+                        <Show when='signed-in'>
+                            <UserButton />
+                        </Show>
+                    </ClerkLoaded>
+                </Suspense>
             </div>
         </div>
     </header>

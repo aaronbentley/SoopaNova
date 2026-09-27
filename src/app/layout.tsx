@@ -12,6 +12,7 @@ import { shadcn } from '@clerk/ui/themes'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from '@wrksz/themes/next'
+import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
@@ -63,7 +64,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html
             lang='en'
-            className={cn(['scroll-pt-20', GeistSans.variable])}
+            className={cn([
+                'scroll-pt-20',
+                GeistSans.variable,
+                GeistMono.variable
+            ])}
             data-scroll-behavior='smooth'
             suppressHydrationWarning>
             {/*
@@ -94,9 +99,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         <TooltipProvider>
                             <div className='relative flex min-h-screen flex-col'>
                                 <Header />
-                                <div className='flex-1 flex min-h-max flex-col items-center justify-start gap-y-4 md:gap-y-12'>
+                                <main className='flex-1 flex flex-col'>
                                     <Suspense>{children}</Suspense>
-                                </div>
+                                </main>
                                 <Footer />
                             </div>
                             <Toaster position='bottom-center' />

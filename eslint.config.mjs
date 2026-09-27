@@ -10,6 +10,7 @@ export default defineConfig([
         'out/**',
         'build/**',
         'next-env.d.ts',
-        'functions/**'
+        'functions/**',
+        'design_handoff_*/**'
     ])
 ])

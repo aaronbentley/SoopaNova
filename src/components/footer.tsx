@@ -1,70 +1,65 @@
 import { Facebook, Instagram, Threads, Twitter } from '@/components/icons'
-import { Copyright } from 'lucide-react'
+import Wordmark from '@/components/wordmark'
 import Link from 'next/link'
 
+/**
+ * Social links, in display order
+ */
+const socials = [
+    { title: 'Twitter', href: process.env.APP_SOCIAL_TWITTER!, Icon: Twitter },
+    {
+        title: 'Instagram',
+        href: process.env.APP_SOCIAL_INSTAGRAM!,
+        Icon: Instagram
+    },
+    { title: 'Threads', href: process.env.APP_SOCIAL_THREADS!, Icon: Threads },
+    {
+        title: 'Facebook',
+        href: process.env.APP_SOCIAL_FACEBOOK!,
+        Icon: Facebook
+    }
+]
+
 const Footer = () => (
-    <footer className='py-6 md:px-8 md:pt-12 lg:pt-24 md:pb-4'>
-        <div className='container flex flex-col items-center justify-between gap-4 py-4 md:flex-row text-muted-foreground text-sm'>
-            <div className='flex items-center gap-x-2'>
-                <Copyright className='w-3 h-3' />
+    <footer className='border-t'>
+        <div className='wrapper flex flex-wrap items-center justify-between gap-4 py-8 text-sm text-muted-foreground'>
+            <div className='flex flex-wrap items-center gap-x-4 gap-y-2'>
+                <Wordmark size='sm' />
                 <span>
-                    {new Date().getFullYear()}{' '}
+                    &copy; {new Date().getFullYear()}{' '}
                     <a
                         href={process.env.APP_COMPANY_URL!}
                         target='_blank'
-                        className='hover:text-primary'>
+                        className='transition-colors duration-200 hover:text-primary'>
                         {process.env.APP_COMPANY!}
                     </a>
                     . All rights reserved.
                 </span>
             </div>
 
-            <div className='flex flex-col md:flex-row items-center gap-4'>
-                <div className='flex items-center gap-x-2'>
-                    <Link
-                        href='/privacy/'
-                        className='transition-all duration-200 hover:text-primary'>
-                        Privacy
-                    </Link>
-                    <Link
-                        href='/terms/'
-                        className='transition-all duration-200 hover:text-primary'>
-                        Terms
-                    </Link>
-                </div>
-                <div className='flex items-center gap-x-2'>
-                    <a
-                        title='Twitter'
-                        aria-label='Twitter'
-                        href={process.env.APP_SOCIAL_TWITTER!}
-                        target='_blank'
-                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Twitter />
-                    </a>
-                    <a
-                        title='Instagram'
-                        aria-label='Instagram'
-                        href={process.env.APP_SOCIAL_INSTAGRAM!}
-                        target='_blank'
-                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Instagram />
-                    </a>
-                    <a
-                        title='Threads'
-                        aria-label='Threads'
-                        href={process.env.APP_SOCIAL_THREADS!}
-                        target='_blank'
-                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Threads />
-                    </a>
-                    <a
-                        title='Facebook'
-                        aria-label='Facebook'
-                        href={process.env.APP_SOCIAL_FACEBOOK!}
-                        target='_blank'
-                        className='transition-all duration-200 hover:text-primary cursor-pointer hover:scale-125'>
-                        <Facebook />
-                    </a>
+            <div className='flex items-center gap-5'>
+                <Link
+                    href='/privacy/'
+                    className='transition-colors duration-200 hover:text-foreground'>
+                    Privacy
+                </Link>
+                <Link
+                    href='/terms/'
+                    className='transition-colors duration-200 hover:text-foreground'>
+                    Terms
+                </Link>
+                <div className='flex items-center gap-3'>
+                    {socials.map(({ title, href, Icon }) => (
+                        <a
+                            key={title}
+                            title={title}
+                            aria-label={title}
+                            href={href}
+                            target='_blank'
+                            className='flex transition-colors duration-200 hover:text-primary'>
+                            <Icon />
+                        </a>
+                    ))}
                 </div>
             </div>
         </div>

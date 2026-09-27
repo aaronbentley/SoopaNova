@@ -1,8 +1,8 @@
 'use client'
 
 import { links } from '@/assets/data/links'
+import { navLinkClassName } from '@/components/main-nav'
 import { Button } from '@/components/ui/button'
-import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
     Sheet,
@@ -10,6 +10,7 @@ import {
     SheetTitle,
     SheetTrigger
 } from '@/components/ui/sheet'
+import Wordmark from '@/components/wordmark'
 import { cn } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
@@ -29,34 +30,24 @@ const MobileNav = () => {
                 <Button
                     size='icon'
                     variant='ghost'
-                    className='md:hidden'>
-                    <Menu className='h-[1.2rem] w-[1.2rem]' />
+                    className='size-8 md:hidden'>
+                    <Menu className='size-[1.1rem]' />
                     <span className='sr-only'>Toggle Menu</span>
                 </Button>
             </SheetTrigger>
             <SheetContent
                 side='left'
-                className='pr-0 pl-8 border-primary/25'>
-                <SheetTitle className='sr-only'>Naivigation Menu</SheetTitle>
-                <MobileLink
+                className='pr-0 pl-6 pt-5'>
+                <SheetTitle className='sr-only'>Navigation Menu</SheetTitle>
+                <Link
                     href='/'
-                    className='flex items-center'
-                    onOpenChange={setOpen}>
-                    <span
-                        className={cn([
-                            'font-sans',
-                            'font-extrabold',
-                            'text-xl',
-                            'tracking-tight',
-                            'transition-colors',
-                            'duration-200',
-                            'hover:text-primary'
-                        ])}>
-                        {process.env.NEXT_PUBLIC_APP_TITLE!}
-                    </span>
-                </MobileLink>
+                    aria-label='Home'
+                    onClick={() => setOpen(false)}
+                    className='flex h-6 items-center'>
+                    <Wordmark />
+                </Link>
                 <ScrollArea className='mt-8 mb-4 h-[calc(100vh-8rem)] pb-10'>
-                    <div className='flex flex-col space-y-2'>
+                    <div className='flex flex-col items-start gap-1 pr-6'>
                         {links.map((link, index) => (
                             <MobileLink
                                 key={index}
@@ -108,11 +99,7 @@ const MobileLink = ({
                 router.push(href.toString())
                 onOpenChange?.(false)
             }}
-            className={cn(
-                navigationMenuTriggerStyle(),
-                active && ['text-foreground', 'bg-primary', 'dark:bg-primary'],
-                className
-            )}
+            className={cn(navLinkClassName(active), 'text-base', className)}
             {...props}>
             {children}
         </Link>

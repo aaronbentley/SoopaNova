@@ -7,3 +7,4 @@ node_modules
 functions/lib
 yarn.lock
 *.md
+design_handoff_*
