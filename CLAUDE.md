@@ -36,7 +36,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 - `src/app/`: routes. `api/` holds the two route handlers. Metadata routes: `opengraph-image.tsx`, `icon.tsx`, `sitemap.ts`, `robots.ts`.
 - `src/proxy.ts`: Clerk `clerkMiddleware` (Next 16's replacement for `middleware.ts`). It protects `/create` and `/orders`.
-- `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`.
+- `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`. One local edit: `ui/sonner.tsx` imports `useTheme` from `@wrksz/themes/client` rather than `next-themes`, so re-apply that if the component is ever regenerated.
 - `src/components/`: app components. `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app` + `firebase-admin/firestore` APIs). `src/firebase/config.ts` is the client SDK.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
@@ -50,6 +50,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - Short `/** ... */` block comments above logical steps. Match the surrounding density.
 - Tailwind v4 is configured CSS-first in `src/assets/styles/globals.css` (oklch theme tokens, `tw-animate-css`, Clerk's `@clerk/ui/themes/shadcn.css`). There is no `tailwind.config`.
 - Use `react-firebase-hooks` for client-side Firebase interactions (deliberate choice; don't replace it with raw SDK calls).
+- Theming uses `@wrksz/themes` (not `next-themes`). `ThemeProvider` from `@wrksz/themes/next` is used directly in the server `layout.tsx`, and `useTheme` comes from `@wrksz/themes/client`. It defaults to the system theme and stores the choice in localStorage under `theme`.
 - Clerk v7: use `<Show when='signed-in' | 'signed-out'>` (`SignedIn`/`SignedOut` no longer exist). Theme comes from `@clerk/ui/themes`.
 
 ## Environment
