@@ -23,11 +23,7 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import {
-    useDropzone,
-    type FileRejection,
-    type FileWithPath
-} from 'react-dropzone'
+import { useDropzone, type FileRejection } from 'react-dropzone'
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
 import { toast } from 'sonner'
@@ -72,7 +68,7 @@ const UploadFile = ({ className }: { className?: string }) => {
     /**
      * Handle Firebase uploads
      */
-    const [uploadFile, uploading, snapshot, uploadError] = useUploadFile()
+    const [uploadFile, uploading, snapshot] = useUploadFile()
 
     /**
      * Handle upload progress
@@ -130,7 +126,7 @@ const UploadFile = ({ className }: { className?: string }) => {
      * Handle dropzone file upload
      */
     const onDrop = useCallback(
-        (acceptedFiles: FileWithPath[], rejectedFiles: FileRejection[]) => {
+        (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
             if (acceptedFiles && acceptedFiles.length) {
                 setFiles(
                     acceptedFiles.map((file) =>
@@ -168,15 +164,13 @@ const UploadFile = ({ className }: { className?: string }) => {
     })
 
     /**
-     * Revoke preview url when component unmounts
+     * Revoke preview urls when files change or the component unmounts
      */
     useEffect(() => {
         return () => {
-            if (!files) return
-            files.forEach((file) => URL.revokeObjectURL(file.preview))
+            files?.forEach((file) => URL.revokeObjectURL(file.preview))
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [files])
 
     /**
      * Handle image onLoad
@@ -248,12 +242,10 @@ const UploadFile = ({ className }: { className?: string }) => {
                 )
 
                 /**
-                 * Handle Firebase Storage upload error
+                 * Handle Firebase Storage upload error (uploadFile resolves
+                 * to undefined when the upload fails)
                  */
-                if (
-                    !firebaseStorageUploadResponse ||
-                    uploadError !== undefined
-                ) {
+                if (!firebaseStorageUploadResponse) {
                     throw new Error('Error uploading image to Firebase Storage')
                 }
 

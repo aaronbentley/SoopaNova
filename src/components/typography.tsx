@@ -4,7 +4,7 @@
  * @link https://github.com/shadcn-ui/ui/pull/363
  */
 
-import { Slot } from '@radix-ui/react-slot'
+import { Slot as SlotPrimitive } from 'radix-ui'
 import { VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
 
@@ -113,7 +113,7 @@ export interface TypographyProps
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
     ({ className, variant, as, asChild, muted, ...props }, ref) => {
         const Comp = asChild
-            ? Slot
+            ? SlotPrimitive.Slot
             : (as ??
               (variant ? variantElementMap[variant] : undefined) ??
               'div')
