@@ -1,392 +1,40 @@
 'use client'
 
-import CanvaspopCart from '@/components/canvaspop-cart'
-import ImageMetadata from '@/components/image-metadata'
-import { Typography } from '@/components/typography'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle
-} from '@/components/ui/sheet'
-import { functions, storage } from '@/firebase/config'
-import { cn, formatBytes, getAspectRatio } from '@/lib/utils'
-import { FileWithPreview } from '@/types'
-import { useAuth } from '@clerk/nextjs'
-import { track } from '@vercel/analytics'
-import { HttpsCallableResult } from 'firebase/functions'
-import { getDownloadURL, ref } from 'firebase/storage'
-import { Loader2, ShoppingBag, UploadCloud } from 'lucide-react'
-import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
-import { useDropzone, type FileRejection } from 'react-dropzone'
-import { useHttpsCallable } from 'react-firebase-hooks/functions'
-import { useUploadFile } from 'react-firebase-hooks/storage'
-import { toast } from 'sonner'
+import PrintOrderSheet from '@/components/print-order-sheet'
+import ScreenshotDropzone from '@/components/screenshot-dropzone'
+import ScreenshotPreviewSheet from '@/components/screenshot-preview-sheet'
+import { useCreatePrint } from '@/hooks/use-create-print'
+import { useScreenshot } from '@/hooks/use-screenshot'
+import { cn } from '@/lib/utils'
 
+/**
+ * Screenshot upload → preview → print order flow.
+ *
+ * The screenshot (file, preview, dimensions) lives in useScreenshot and the
+ * upload/moderation/CanvasPop pipeline in useCreatePrint; this component
+ * wires them to the dropzone and the two sheets.
+ */
 const UploadFile = ({ className }: { className?: string }) => {
-    /**
-     * Get Clerk auth userId
-     */
-    const { userId = '' } = useAuth()
+    const screenshot = useScreenshot()
+    const print = useCreatePrint()
 
     /**
-     * Get Firebase callable cloud function
+     * Cancel any run in progress and clear the screenshot
      */
-    const [callableModerateImageUrl, callableExecuting, callableError] =
-        useHttpsCallable(functions, 'moderateImageUrl')
-
-    /**
-     * Define dropzone config
-     */
-    const accept = {
-        'image/jpeg': [],
-        'image/png': []
-    }
-    const maxSize =
-        1024 *
-        1024 *
-        parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_FILE_SIZE! || '')
-    const maxFiles = 1
-    const disabled = false
-
-    /**
-     * Define minimum image dimensions
-     */
-    const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
-    const imageMinHeight = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!)
-
-    /**
-     *  Manage file in state so we can preview it
-     */
-    const [files, setFiles] = useState<FileWithPreview[] | null>(null)
-
-    /**
-     * Handle Firebase uploads
-     */
-    const [uploadFile, uploading, snapshot] = useUploadFile()
-
-    /**
-     * Handle upload progress
-     */
-    const uploadProgress = snapshot
-        ? (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        : 0
-
-    /**
-     * Handle content moderation
-     */
-    const [contentModeration, setContentModeration] = useState<boolean>(false)
-
-    /**
-     * Handle print options progress
-     */
-    const [createPrintOptions, setCreatePrintOptions] = useState<boolean>(false)
-
-    /**
-     * Handle Media Sheet state
-     */
-    const [mediaSheetOpen, setMediaSheetOpen] = useState<boolean>(false)
-
-    /**
-     * Handle Print Sheet state
-     */
-    const [printSheetOpen, setPrintSheetOpen] = useState<boolean>(false)
-
-    /**
-     * Handle Print Order Url
-     */
-    const [printOrderUrl, setPrintOrderUrl] = useState<URL | null>(null)
-
-    /**
-     * Handle image metadata
-     */
-    const [imageMeta = null, setImageMeta] = useState<{
-        width: number
-        height: number
-        aspectRatio: string
-    } | null>(null)
-
-    /**
-     * Handle image dimension error
-     */
-    const [imageDimensionsError, setImageDimensionsError] =
-        useState<boolean>(false)
-
-    /**
-     * Handle dropzone file upload
-     */
-    const onDrop = useCallback(
-        (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-            if (acceptedFiles && acceptedFiles.length) {
-                setFiles(
-                    acceptedFiles.map((file) =>
-                        Object.assign(file, {
-                            preview: URL.createObjectURL(file)
-                        })
-                    )
-                )
-
-                setMediaSheetOpen(true)
-            }
-
-            if (rejectedFiles && rejectedFiles.length) {
-                rejectedFiles.forEach(({ errors }) => {
-                    errors[0]?.message &&
-                        toast.error('Error', {
-                            description: errors[0].message
-                        })
-                })
-            }
-        },
-        []
-    )
-
-    /**
-     * Initialize dropzone
-     */
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept,
-        maxSize,
-        maxFiles,
-        multiple: maxFiles > 1,
-        disabled
-    })
-
-    /**
-     * Revoke preview urls when files change or the component unmounts
-     */
-    useEffect(() => {
-        return () => {
-            files?.forEach((file) => URL.revokeObjectURL(file.preview))
-        }
-    }, [files])
-
-    /**
-     * Handle image onLoad
-     */
-    const onLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        const target = e.target as HTMLImageElement
-        const { naturalWidth, naturalHeight } = target
-
-        // Check image dimensions
-        if (naturalWidth < imageMinWidth || naturalHeight < imageMinHeight) {
-            // Set image dimensions error
-            setImageDimensionsError(true)
-
-            toast.error('Screenshot too small!', {
-                description: `Minimum dimensions are ${imageMinWidth}px width and minimum ${imageMinHeight}px height.`
-            })
-        }
-
-        setImageMeta({
-            width: naturalWidth,
-            height: naturalHeight,
-            aspectRatio: getAspectRatio(naturalWidth, naturalHeight)
-        })
+    const close = () => {
+        print.reset()
+        screenshot.clear()
     }
 
     /**
-     * Create print order
+     * Create Print is available once the screenshot's dimensions are known
+     * and valid, and nothing is running (or it was flagged)
      */
-    const createPrintOrder = async () => {
-        /**
-         * Bail if no files
-         */
-        if (!files) return
-
-        /**
-         * Pluck the image file from the array
-         */
-        const file = (files[0] as FileWithPreview) || null
-
-        // Ensure we have a file and userId
-        if (file && userId) {
-            try {
-                const initiateUploadToast = toast.loading('Uploading Media', {
-                    description: 'Preparing print assets'
-                })
-
-                /**
-                 * Get Firebase Storage reference
-                 */
-                const storageRef = ref(
-                    storage,
-                    `${crypto.randomUUID()}--${userId}--${file.name}`
-                )
-
-                /**
-                 * Upload file to Firebase Storage
-                 */
-                const firebaseStorageUploadResponse = await uploadFile(
-                    storageRef,
-                    file,
-                    {
-                        customMetadata: {
-                            width: imageMeta?.width.toString() || '',
-                            height: imageMeta?.height.toString() || '',
-                            aspectRatio: imageMeta?.aspectRatio || '',
-                            userId: userId
-                        }
-                    }
-                )
-
-                /**
-                 * Handle Firebase Storage upload error (uploadFile resolves
-                 * to undefined when the upload fails)
-                 */
-                if (!firebaseStorageUploadResponse) {
-                    throw new Error('Error uploading image to Firebase Storage')
-                }
-
-                toast.loading('Moderating Image', {
-                    id: initiateUploadToast,
-                    description: 'Scanning for spicy pixels'
-                })
-
-                /**
-                 * Moderate image using Google Vision API for adult content
-                 */
-                const moderateImageUrlResponse = await callableModerateImageUrl(
-                    {
-                        fileRef: firebaseStorageUploadResponse.ref,
-                        fileMetadata: firebaseStorageUploadResponse.metadata
-                    }
-                )
-
-                /**
-                 * Handle moderation error
-                 */
-                if (!moderateImageUrlResponse) {
-                    throw new Error('Error moderating image')
-                }
-
-                const { data: moderationData } =
-                    moderateImageUrlResponse as HttpsCallableResult<{
-                        status: string
-                        message: string
-                        detections: {
-                            adult: string
-                            racy: string
-                            violence: string
-                        }
-                    }>
-
-                /**
-                 * Bail if the image could not be checked (moderation errored
-                 * or Vision returned no result) - this is not a flag, so the
-                 * user can try again
-                 */
-                if (
-                    moderationData?.status !== 'ok' ||
-                    !moderationData.detections
-                ) {
-                    throw new Error(
-                        "We couldn't check your image right now. Please try again."
-                    )
-                }
-
-                /**
-                 * Check for adult content
-                 */
-                if (moderationData.detections.adult === 'VERY_LIKELY') {
-                    setContentModeration(true)
-                    throw new Error(
-                        'Sorry, we can not print images with adult content.'
-                    )
-                }
-
-                const createOrderToast = toast.loading('Creating Print Order', {
-                    description: 'Hold tight Sparky - this may take a moment'
-                })
-
-                toast.dismiss(initiateUploadToast)
-
-                /**
-                 * Set print options state
-                 */
-                setCreatePrintOptions(true)
-
-                /**
-                 * Get file download url using existing Firebase Storage reference returned from upload
-                 */
-                const fileDownloadUrl = await getDownloadURL(
-                    firebaseStorageUploadResponse.ref
-                )
-
-                /**
-                 * Initiate upload to Canvaspop Push API (API route handler)
-                 */
-                const pushImageResponse = await fetch(
-                    '/api/canvaspop/push-image/',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            imageUrl: fileDownloadUrl
-                        })
-                    }
-                )
-
-                /**
-                 * Get Push Image response data as json
-                 */
-                const pushImageResponseJson = await pushImageResponse.json()
-
-                const {
-                    data: { image_token = null, message }
-                } = pushImageResponseJson
-
-                /**
-                 * Check we have an image upload token
-                 */
-                if (!image_token) {
-                    throw new Error('No image token found in response')
-                }
-
-                // Build Canvaspop Cart URL TODO: Build path?
-                const canvasPopCartUrl = new URL(
-                    `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${image_token}/${imageMeta?.width}/${imageMeta?.height}/`
-                )
-
-                // Add reference_id query param
-                canvasPopCartUrl.searchParams.append(
-                    'reference_id',
-                    process.env.NEXT_PUBLIC_APP_TITLE!
-                )
-
-                // Track print order initiated
-                track('print-order-initiated', {
-                    userId: userId,
-                    fileName: file.name
-                })
-
-                setPrintOrderUrl(canvasPopCartUrl)
-
-                setPrintSheetOpen(true)
-
-                toast.dismiss(createOrderToast)
-
-                // FIXME: reset upload state on successful order and redirect to a thank you page
-            } catch (error) {
-                let message = 'Something went wrong.'
-                if (error instanceof Error) message = error.message
-
-                toast.error('Error', {
-                    description: message
-                })
-            } finally {
-                setCreatePrintOptions(false)
-            }
-        }
-    }
+    const canCreate =
+        screenshot.meta !== null &&
+        !screenshot.isTooSmall &&
+        !print.isBusy &&
+        print.status !== 'flagged'
 
     return (
         <div
@@ -394,255 +42,39 @@ const UploadFile = ({ className }: { className?: string }) => {
                 ['container', 'mx-auto', 'flex', 'justify-center'],
                 className
             )}>
-            {!files && (
-                <div className='w-96'>
-                    <div
-                        {...getRootProps()}
-                        className={cn(
-                            [
-                                'group',
-                                'min-w-full',
-                                'relative',
-                                'grid',
-                                'h-48',
-                                'w-full',
-                                'cursor-pointer',
-                                'place-items-center',
-                                'rounded-lg',
-                                'border-2',
-                                'border-dashed',
-                                'px-5',
-                                'py-2.5',
-                                'text-center',
-                                'transition',
-                                'ring-offset-background',
-                                'focus-visible:outline-hidden',
-                                'focus-visible:ring-2',
-                                'focus-visible:ring-ring',
-                                'focus-visible:ring-offset-2',
-                                'hover:border-primary',
-                                'transition-all',
-                                'duration-200'
-                            ],
-                            isDragActive && [
-                                'border-primary',
-                                'dark:border-primary'
-                            ],
-                            disabled && ['pointer-events-none', 'opacity-60'],
-                            className
-                        )}>
-                        <input {...getInputProps()} />
-                        {uploading ? (
-                            <div className='group grid w-full place-items-center gap-1 sm:px-10'>
-                                <UploadCloud
-                                    className='h-9 w-9 animate-pulse'
-                                    aria-hidden='true'
-                                />
-                            </div>
-                        ) : isDragActive ? (
-                            <div className='grid place-items-center gap-2 sm:px-5'>
-                                <UploadCloud
-                                    className={cn([
-                                        'size-8',
-                                        'origin-bottom',
-                                        'animate-bounce',
-                                        'text-primary'
-                                    ])}
-                                    aria-hidden='true'
-                                />
-                                <p className='text-base font-medium text-primary'>
-                                    Drop it like it&apos;s hot
-                                </p>
-                            </div>
-                        ) : (
-                            <div className='grid place-items-center gap-1 sm:px-5'>
-                                <UploadCloud
-                                    className={cn([
-                                        'size-8',
-                                        'text-muted-foreground',
-                                        'duration-200',
-                                        'origin-bottom',
-                                        'group-hover:text-primary',
-                                        'group-hover:animate-bounce'
-                                    ])}
-                                    aria-hidden='true'
-                                />
-                                <p className='mt-2 text-base font-medium text-muted-foreground transition-colors duration-200 group-hover:text-primary'>
-                                    Drag {`'n'`} drop here, or click to select
-                                    file
-                                </p>
-                                <small className='text-sm text-muted-foreground/75'>
-                                    Max. file size {formatBytes(maxSize)}
-                                </small>
-                            </div>
-                        )}
-                    </div>
-                </div>
+            {!screenshot.file && (
+                <ScreenshotDropzone
+                    onSelect={screenshot.select}
+                    className={className}
+                />
             )}
-            <Sheet
-                open={mediaSheetOpen}
+            <ScreenshotPreviewSheet
+                open={screenshot.file !== null}
                 onOpenChange={(open) => {
-                    if (!open) {
-                        setFiles(null)
-                        setImageDimensionsError(false)
+                    if (!open) close()
+                }}
+                file={screenshot.file}
+                previewUrl={screenshot.previewUrl}
+                meta={screenshot.meta}
+                onImageLoad={screenshot.onImageLoad}
+                status={print.status}
+                progress={print.progress}
+                isBusy={print.isBusy}
+                canCreate={canCreate}
+                onCreate={() => {
+                    if (screenshot.file && screenshot.meta) {
+                        print.start(screenshot.file, screenshot.meta)
                     }
-                    setMediaSheetOpen(open)
-                }}>
-                <SheetContent
-                    side='top'
-                    className='h-fit flex flex-col gap-y-6 border-none container mx-auto'
-                    onOpenAutoFocus={(event) => {
-                        event.preventDefault()
-                    }}>
-                    <SheetHeader>
-                        <SheetTitle className='font-extrabold'>
-                            Screenshot Preview
-                        </SheetTitle>
-                        <SheetDescription>
-                            How we lookin&apos;?
-                        </SheetDescription>
-                    </SheetHeader>
-                    <div className='grid md:grid-cols-4 gap-12 max-w-full'>
-                        <div className='md:col-span-1'>
-                            {files && files.length && (
-                                <ImageMetadata
-                                    file={files[0]}
-                                    imageMeta={imageMeta}
-                                />
-                            )}
-                        </div>
-
-                        <div className='md:col-span-3'>
-                            <div
-                                className={cn([
-                                    'relative',
-                                    'aspect-video',
-                                    'max-w-full'
-                                ])}>
-                                {snapshot && (
-                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-end px-4 pb-4'>
-                                        <Progress
-                                            value={uploadProgress}
-                                            className='data-[state=indeterminate]:[&>div]:bg-primary'
-                                        />
-                                    </div>
-                                )}
-                                {callableExecuting && (
-                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='size-12 animate-spin text-primary' />
-                                        <Typography
-                                            variant='p'
-                                            className='font-extrabold text-center'>
-                                            Moderating Image
-                                        </Typography>
-                                    </div>
-                                )}
-                                {createPrintOptions && (
-                                    <div className='absolute inset-0 z-30 bg-background/50 flex flex-col justify-center items-center gap-y-4'>
-                                        <Loader2 className='size-12 animate-spin text-primary' />
-                                        <Typography
-                                            variant='p'
-                                            className='font-extrabold text-center'>
-                                            Creating Print Order
-                                        </Typography>
-                                    </div>
-                                )}
-                                {files && files.length && (
-                                    <Image
-                                        src={files[0].preview}
-                                        alt={files[0].name}
-                                        className={cn(
-                                            [
-                                                'z-10',
-                                                'object-contain',
-                                                'object-center'
-                                            ],
-                                            uploading && [
-                                                'after:absolute',
-                                                'after:inset-0',
-                                                'after:z-20',
-                                                'after:bg-background/50'
-                                            ],
-                                            contentModeration && [
-                                                'blur-sm',
-                                                'opacity-75'
-                                            ],
-                                            createPrintOptions && [
-                                                'after:absolute',
-                                                'after:inset-0',
-                                                'after:z-20',
-                                                'after:bg-background/50'
-                                            ]
-                                        )}
-                                        onLoad={onLoad}
-                                        fill={true}
-                                        priority={true}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <SheetFooter className='md:flex-row md:justify-end md:px-0'>
-                        <Button
-                            variant='ghost'
-                            onClick={() => {
-                                setFiles(null)
-                                setContentModeration(false)
-                                setMediaSheetOpen(false)
-                                setImageDimensionsError(false)
-                            }}>
-                            Cancel
-                        </Button>
-                        <Button
-                            disabled={
-                                uploading ||
-                                createPrintOptions ||
-                                callableExecuting ||
-                                contentModeration ||
-                                imageDimensionsError
-                            }
-                            className='focus-visible:ring-primary dark:focus-visible:ring-primary'
-                            onClick={() => {
-                                createPrintOrder()
-                            }}>
-                            {uploading ||
-                            createPrintOptions ||
-                            callableExecuting ? (
-                                <Loader2 className='mr-2 size-4 animate-spin' />
-                            ) : (
-                                <ShoppingBag className='mr-2 size-4' />
-                            )}
-                            Create Print
-                        </Button>
-                    </SheetFooter>
-                </SheetContent>
-            </Sheet>
-            <Sheet
-                open={printSheetOpen}
+                }}
+                onCancel={close}
+            />
+            <PrintOrderSheet
+                open={print.status === 'ready'}
                 onOpenChange={(open) => {
-                    if (!open) {
-                        setFiles(null)
-                        setImageDimensionsError(false)
-                    }
-                    setMediaSheetOpen(open)
-                    setPrintSheetOpen(open)
-                }}>
-                <SheetContent
-                    side='bottom'
-                    className='h-screen flex flex-col gap-y-6 border-none container mx-auto'>
-                    <SheetHeader>
-                        <SheetTitle className='font-extrabold'>
-                            Print Order
-                        </SheetTitle>
-                        <SheetDescription>
-                            Make something awesome. Make it your own.
-                        </SheetDescription>
-                    </SheetHeader>
-                    {printOrderUrl && (
-                        <CanvaspopCart src={printOrderUrl.href} />
-                    )}
-                </SheetContent>
-            </Sheet>
+                    if (!open) close()
+                }}
+                cartUrl={print.cartUrl}
+            />
         </div>
     )
 }

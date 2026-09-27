@@ -8,7 +8,7 @@ Next.js app that turns gaming screenshots into physical prints (posters, canvas,
 
 ## Print flow
 
-1. `/create` → `src/components/upload-file.tsx`: signed-in user drops a JPG/PNG (checked for size and minimum dimensions in the browser).
+1. `/create` → `src/components/upload-file.tsx` (a thin component): signed-in user drops a JPG/PNG (`screenshot-dropzone.tsx`). `src/hooks/use-screenshot.ts` holds the file, preview url and dimensions (minimum size checked in the browser). `src/hooks/use-create-print.ts` runs steps 2–4 as one pipeline with a single `status` (`idle → uploading → moderating → pushing → ready`, or `flagged` / `error`). It supports cancel (a cancelled run's late results are ignored) and retry (an already-uploaded file isn't uploaded again).
 2. Browser uploads to Firebase Storage as `{uuid}--{clerkUserId}--{filename}` (`react-firebase-hooks` `useUploadFile`).
 3. Browser calls the `moderateImageUrl` callable (`functions/src/index.ts`, Cloud Vision SafeSearch) and blocks `adult === 'VERY_LIKELY'`.
 4. Browser POSTs the download URL to `src/app/api/canvaspop/push-image/route.ts`, which pushes the image to CanvasPop and returns an `image_token`.
@@ -37,7 +37,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/app/`: routes. `api/` holds the two route handlers. Metadata routes: `opengraph-image.tsx`, `icon.tsx`, `sitemap.ts`, `robots.ts`.
 - `src/proxy.ts`: Clerk `clerkMiddleware` (Next 16's replacement for `middleware.ts`). It protects `/create` and `/orders`.
 - `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`. One local edit: `ui/sonner.tsx` imports `useTheme` from `@wrksz/themes/client` rather than `next-themes`, so re-apply that if the component is ever regenerated.
-- `src/components/`: app components. `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
+- `src/components/`: app components. `src/hooks/`: client hooks (screenshot selection, print pipeline). `src/assets/data/`: static content (nav links, product slug maps, keywords, JSON-LD).
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app` + `firebase-admin/firestore` APIs). `src/firebase/config.ts` is the client SDK.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
 - `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
@@ -74,7 +74,6 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - Clerk → Firebase auth bridge (Firebase custom token), so Storage rules and the callable can require `request.auth`.
 - Server-side moderation gate: `push-image` should verify moderation itself rather than trusting the browser.
 - Order integrity (CanvasPop has no order API): record each pushed image token against its user, make `create-order` require an unused token the user owns, and set a unique `reference_id` so CanvasPop orders can be matched to ours.
-- Split `upload-file.tsx` (~650 lines) into a `useCreatePrint` hook and presentational parts.
 - Later: Resend admin email in `onOrderCreated`.
 
 Moderation only blocks `adult === 'VERY_LIKELY'` (stricter thresholds false-flag game screenshots). An empty or failed Vision result is shown as "couldn't check, try again", not as a flag.

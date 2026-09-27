@@ -1,5 +1,23 @@
-export type FileWithPreview = File & {
-    preview: string
+/**
+ * Screenshot dimensions, read from the preview image once it loads
+ */
+export type ImageMeta = {
+    width: number
+    height: number
+    aspectRatio: string
+}
+
+/**
+ * Response from the moderateImageUrl callable Cloud Function
+ */
+export type ModerationResult = {
+    status: 'ok' | 'warning' | 'error'
+    message: string
+    detections?: {
+        adult: string
+        racy: string
+        violence: string
+    }
 }
 
 export type ProductType =

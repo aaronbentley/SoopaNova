@@ -11,16 +11,12 @@ import {
     TooltipTrigger
 } from '@/components/ui/tooltip'
 import { cn, formatBytes, getDateFromUnixTimestamp } from '@/lib/utils'
-import { FileWithPreview } from '@/types'
+import { ImageMeta } from '@/types'
 import { AlertTriangle } from 'lucide-react'
 
 interface ImageMetadataProps {
-    file: FileWithPreview | null
-    imageMeta: {
-        width: number
-        height: number
-        aspectRatio: string
-    } | null
+    file: File | null
+    imageMeta: ImageMeta | null
 }
 
 const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
