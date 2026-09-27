@@ -7,6 +7,7 @@
 
 import vision from '@google-cloud/vision'
 import { initializeApp } from 'firebase-admin/app'
+import { getStorage } from 'firebase-admin/storage'
 import { logger } from 'firebase-functions'
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { onCall } from 'firebase-functions/v2/https'
@@ -39,7 +40,7 @@ export const moderateImageUrl = onCall(
     //     enforceAppCheck: true, // Reject requests with missing or invalid App Check tokens.
     // },
     async (request) => {
-        logger.log('Cloud Function has executed onCall', request)
+        logger.log('Cloud Function has executed onCall', request.data)
 
         // Get request data
         const { data = undefined } = request
@@ -73,6 +74,23 @@ export const moderateImageUrl = onCall(
             bucket = undefined,
             name = undefined
         } = fileMetadata
+
+        // Only moderate files in this project's default Storage bucket
+        if (
+            bucket !== getStorage().bucket().name ||
+            typeof name !== 'string' ||
+            !name
+        ) {
+            logger.error('Error: invalid bucket or file name.', {
+                bucket,
+                name
+            })
+
+            return {
+                status: 'error',
+                message: 'Invalid file reference.'
+            }
+        }
 
         // Ensure the content type is an image
         if (contentType && !contentType.startsWith('image/')) {
@@ -135,6 +153,9 @@ export const moderateImageUrl = onCall(
 /**
  * Firestore trigger function.
  * Function to create a new order email confirmation and send it to admin.
+ *
+ * NOTE: the document path must match FIREBASE_FIRESTORE_COLLECTION and
+ * FIREBASE_FIRESTORE_SUB_COLLECTION in the Next.js app's environment.
  */
 export const onOrderCreated = onDocumentCreated(
     'customers/{userId}/orders/{orderId}',
