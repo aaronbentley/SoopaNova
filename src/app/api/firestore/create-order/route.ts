@@ -1,3 +1,8 @@
+import {
+    productEdgeSlugs,
+    productFrameSlugs,
+    productTypeSlugs
+} from '@/assets/data/product-slugs'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs/server'
 import * as admin from 'firebase-admin'
@@ -29,7 +34,7 @@ export const POST = async (request: NextRequest) => {
     /**
      * Get form data from request body
      */
-    const data = await request.json()
+    const data = await request.json().catch(() => null)
     // console.log('🦄 ~ file: route.ts:8 ~ POST ~ data:', data)
 
     /**
@@ -65,9 +70,29 @@ export const POST = async (request: NextRequest) => {
     } = data
 
     /**
-     * Bail if no order payload
+     * Bail if order payload is missing or invalid
      */
-    if (!productType || !productWidth || !productHeight || !productPrice) {
+    const toPositiveNumber = (value: unknown) => {
+        if (typeof value !== 'number' && typeof value !== 'string') return null
+        const number = Number(value)
+        return Number.isFinite(number) && number > 0 ? number : null
+    }
+
+    const orderWidth = toPositiveNumber(productWidth)
+    const orderHeight = toPositiveNumber(productHeight)
+    const orderPrice = toPositiveNumber(productPrice)
+
+    if (
+        !productType ||
+        !Object.hasOwn(productTypeSlugs, productType) ||
+        (productFrame !== null &&
+            !Object.hasOwn(productFrameSlugs, productFrame)) ||
+        (productEdge !== null &&
+            !Object.hasOwn(productEdgeSlugs, productEdge)) ||
+        !orderWidth ||
+        !orderHeight ||
+        !orderPrice
+    ) {
         return NextResponse.json(
             {
                 message: 'error: no order payload',
@@ -123,7 +148,7 @@ export const POST = async (request: NextRequest) => {
     let orderMarkupProfit = null
 
     if (orderMarkupRate) {
-        orderMarkupProfit = productPrice * orderMarkupRate
+        orderMarkupProfit = orderPrice * orderMarkupRate
         // console.log(
         //     `🦄 ~ Markup Profit: ${productPrice} x ${orderMarkupRate} = $`,
         //     orderMarkupProfit
@@ -140,11 +165,11 @@ export const POST = async (request: NextRequest) => {
             .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
             .add({
                 productType,
-                productWidth,
-                productHeight,
+                productWidth: orderWidth,
+                productHeight: orderHeight,
                 productFrame,
                 productEdge,
-                productPrice,
+                productPrice: orderPrice,
                 orderMarkupRate,
                 orderMarkupProfit,
                 createdAt: admin.firestore.FieldValue.serverTimestamp()
@@ -162,9 +187,10 @@ export const POST = async (request: NextRequest) => {
             { status: 200 }
         )
     } catch (error) {
-        let message = 'Something went wrong.'
-        if (error instanceof Error) message = error.message
-        console.error(message, error)
-        return NextResponse.json({ message: error }, { status: 500 })
+        console.error('Error saving order to firestore', error)
+        return NextResponse.json(
+            { ok: false, message: 'Something went wrong.' },
+            { status: 500 }
+        )
     }
 }

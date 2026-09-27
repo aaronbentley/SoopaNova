@@ -1,0 +1,21 @@
+rules_version = '2';
+
+/**
+ * Firebase Storage rules.
+ *
+ * Clerk users are not Firebase Auth users, so client uploads are
+ * unauthenticated as far as Firebase is concerned. Restrict what can be
+ * written instead: root-level JPEG/PNG files up to 32MB (matches
+ * MAX_UPLOAD_FILE_SIZE). Files can be read individually (needed for
+ * getDownloadURL) but never listed, overwritten or deleted by clients.
+ * Cloud Functions and the Admin SDK bypass these rules.
+ */
+service firebase.storage {
+    match /b/{bucket}/o {
+        match /{fileName} {
+            allow get: if true;
+            allow create: if request.resource.size < 32 * 1024 * 1024
+                && request.resource.contentType.matches('image/(jpeg|png)');
+        }
+    }
+}

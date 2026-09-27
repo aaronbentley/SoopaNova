@@ -1,12 +1,45 @@
+import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const runtime = 'edge'
 
+/**
+ * Only accept download URLs for files in our own Firebase Storage bucket
+ */
+const isAllowedImageUrl = (imageUrl: string) => {
+    try {
+        const url = new URL(imageUrl)
+        const bucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!
+        return (
+            url.protocol === 'https:' &&
+            url.hostname === 'firebasestorage.googleapis.com' &&
+            url.pathname.startsWith(`/v0/b/${bucket}/o/`)
+        )
+    } catch {
+        return false
+    }
+}
+
 export const POST = async (request: NextRequest) => {
+    /**
+     * Check if user is authenticated
+     */
+    const { userId } = await auth()
+
+    if (!userId) {
+        return NextResponse.json(
+            {
+                message: 'error',
+                data: 'unauthorized'
+            },
+            { status: 401 }
+        )
+    }
+
     /**
      * Get form data from request body
      */
-    const data = await request.json()
+    const data = await request.json().catch(() => null)
 
     /**
      * Bail if no data
@@ -27,13 +60,13 @@ export const POST = async (request: NextRequest) => {
     const { imageUrl = undefined } = data
 
     /**
-     * Bail if no image url
+     * Bail if no image url, or the image url is not one of ours
      */
-    if (!imageUrl) {
+    if (typeof imageUrl !== 'string' || !isAllowedImageUrl(imageUrl)) {
         return NextResponse.json(
             {
                 message: 'error',
-                data: 'no image url'
+                data: 'invalid image url'
             },
             { status: 400 }
         )
@@ -45,6 +78,19 @@ export const POST = async (request: NextRequest) => {
     const imageResponse = await fetch(imageUrl, {
         method: 'GET'
     })
+
+    /**
+     * Bail if the image could not be downloaded
+     */
+    if (!imageResponse.ok) {
+        return NextResponse.json(
+            {
+                message: 'error',
+                data: 'image download failed'
+            },
+            { status: 502 }
+        )
+    }
 
     /**
      * Transform image response body as blob
@@ -73,10 +119,20 @@ export const POST = async (request: NextRequest) => {
     )
 
     /**
-     * Throw error if response is not ok
+     * Bail if response is not ok
      */
     if (!canvasPopPushResponse.ok) {
-        throw new Error('Error uploading image to Canvaspop Push API')
+        console.error(
+            'Error uploading image to Canvaspop Push API',
+            canvasPopPushResponse.status
+        )
+        return NextResponse.json(
+            {
+                message: 'error',
+                data: 'canvaspop upload failed'
+            },
+            { status: 502 }
+        )
     }
 
     /**

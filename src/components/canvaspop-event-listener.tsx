@@ -10,16 +10,44 @@ import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { useUser } from '@clerk/nextjs'
 import { track } from '@vercel/analytics'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
+
+type ProductData = {
+    productType: ProductType
+    productWidth: number | null
+    productHeight: number | null
+    productFrame: ProductFrame
+    productEdge: ProductEdge
+    productPrice: number | null
+}
+
+const emptyProduct: ProductData = {
+    productType: null,
+    productWidth: null,
+    productHeight: null,
+    productFrame: null,
+    productEdge: null,
+    productPrice: null
+}
 
 const CanvasPopCartEventListener = () => {
-    // Create state for handling event data to monitor
-    const [productWidth, setProductWidth] = useState<number | null>(null)
-    const [productHeight, setProductHeight] = useState<number | null>(null)
-    const [productType, setProductType] = useState<ProductType>(null)
-    const [productFrame, setProductFrame] = useState<ProductFrame>(null)
-    const [productEdge, setProductEdge] = useState<ProductEdge>(null)
-    const [productPrice, setProductPrice] = useState<number | null>(null)
+    /**
+     * Track event data in a ref (not state) so the message listener is only
+     * attached once and always reads the latest values.
+     */
+    const productRef = useRef<ProductData>(emptyProduct)
+
+    // Guard against handling the same order completion more than once
+    const orderSubmittedRef = useRef(false)
+
+    const setProduct = (data: Partial<ProductData>) => {
+        productRef.current = { ...productRef.current, ...data }
+
+        // Debug
+        if (process.env.NODE_ENV !== 'production') {
+            console.info('📘 State:', productRef.current)
+        }
+    }
 
     // Get the router
     const router = useRouter()
@@ -37,14 +65,7 @@ const CanvasPopCartEventListener = () => {
         productFrame,
         productEdge,
         productPrice
-    }: {
-        productType: ProductType
-        productWidth: number | null
-        productHeight: number | null
-        productFrame: ProductFrame
-        productEdge: ProductEdge
-        productPrice: number | null
-    }) => {
+    }: ProductData) => {
         try {
             const createOrderResponse = await fetch(
                 '/api/firestore/create-order',
@@ -116,6 +137,9 @@ const CanvasPopCartEventListener = () => {
                 try {
                     // Debug
                     // console.log('🦄 RAW event:', event)
+
+                    // Ignore non-string messages
+                    if (typeof event.data !== 'string') return
 
                     // Strip prefix '/*framebus*/' from event.data string if it exists
                     const data = event.data.replace('/*framebus*/', '')
@@ -190,24 +214,30 @@ const CanvasPopCartEventListener = () => {
                             // console.info('⭐️ userChangedProduct', eventArgs)
 
                             // Update the product type
-                            setProductType(eventArgs.slug)
+                            setProduct({ productType: eventArgs.slug })
 
                             // Reset product attribues to default according to product type
                             switch (eventArgs.slug) {
                                 // Poster
                                 case 'PO':
-                                    setProductFrame(null)
-                                    setProductEdge(null)
+                                    setProduct({
+                                        productFrame: null,
+                                        productEdge: null
+                                    })
                                     break
                                 // Canvas
                                 case 'S':
-                                    setProductFrame('075DW')
-                                    setProductEdge('WB')
+                                    setProduct({
+                                        productFrame: '075DW',
+                                        productEdge: 'WB'
+                                    })
                                     break
                                 // Framed Print
                                 case 'FP':
-                                    setProductFrame('BF')
-                                    setProductEdge('NOMA')
+                                    setProduct({
+                                        productFrame: 'BF',
+                                        productEdge: 'NOMA'
+                                    })
                                     break
                             }
 
@@ -218,8 +248,10 @@ const CanvasPopCartEventListener = () => {
                             // console.info('⭐️ userChangedSize', eventArgs)
 
                             // Update the product width and height
-                            setProductWidth(eventArgs.width)
-                            setProductHeight(eventArgs.height)
+                            setProduct({
+                                productWidth: eventArgs.width,
+                                productHeight: eventArgs.height
+                            })
                             break
 
                         // User changed frame option from drop down menu
@@ -227,7 +259,7 @@ const CanvasPopCartEventListener = () => {
                             // console.info('⭐️ userChangedFrame', eventArgs)
 
                             // Update the product frame
-                            setProductFrame(eventArgs.slug)
+                            setProduct({ productFrame: eventArgs.slug })
 
                             /**
                              * Remove the edge option if the frame selection is:
@@ -235,7 +267,7 @@ const CanvasPopCartEventListener = () => {
                              * 'WF' (white wood)
                              */
                             if (['BF', 'WF'].includes(eventArgs.slug)) {
-                                setProductEdge(null)
+                                setProduct({ productEdge: null })
                             }
 
                             break
@@ -245,7 +277,7 @@ const CanvasPopCartEventListener = () => {
                             // console.info('⭐️ userChangedEdge', eventArgs)
 
                             // Update the product edge
-                            setProductEdge(eventArgs.slug)
+                            setProduct({ productEdge: eventArgs.slug })
                             break
 
                         // User clicked continue from initial cart page
@@ -259,24 +291,26 @@ const CanvasPopCartEventListener = () => {
                                 // Set product type to 'poster' if no frame or edge is present
                                 case eventArgs.frame === null &&
                                     eventArgs.edge === null:
-                                    setProductType('PO')
+                                    setProduct({ productType: 'PO' })
                                     break
                                 // Set product type to 'framed print' if the edge value is one of 'NOMA' or '250MA'
                                 case ['NOMA', '250MA'].includes(eventArgs.edge):
-                                    setProductType('FP')
+                                    setProduct({ productType: 'FP' })
                                     break
                                 // Set product type to 'canvas' if previous conditions are not met
                                 default:
-                                    setProductType('S')
+                                    setProduct({ productType: 'S' })
                                     break
                             }
 
                             // Update remaining product data attributes
-                            setProductWidth(eventArgs.width)
-                            setProductHeight(eventArgs.height)
-                            setProductFrame(eventArgs.frame)
-                            setProductEdge(eventArgs.edge)
-                            setProductPrice(eventArgs.price)
+                            setProduct({
+                                productWidth: eventArgs.width,
+                                productHeight: eventArgs.height,
+                                productFrame: eventArgs.frame,
+                                productEdge: eventArgs.edge,
+                                productPrice: eventArgs.price
+                            })
 
                             break
 
@@ -379,14 +413,12 @@ const CanvasPopCartEventListener = () => {
                             // console.info(
                             //     '⭐️ Sending order data to firestore...'
                             // )
-                            const createOrderResponse = await createOrder({
-                                productType,
-                                productWidth,
-                                productHeight,
-                                productFrame,
-                                productEdge,
-                                productPrice
-                            })
+                            if (orderSubmittedRef.current) break
+                            orderSubmittedRef.current = true
+
+                            const createOrderResponse = await createOrder(
+                                productRef.current
+                            )
 
                             // console.log(
                             //     '🦄 ~ file: canvaspop-event-listener.tsx:404 ~ listener ~ createOrderResponse:',
@@ -394,18 +426,13 @@ const CanvasPopCartEventListener = () => {
                             // )
 
                             // Check createOrderResponse, reset state and redirect to orders page
-                            if (createOrderResponse.ok === true) {
+                            if (createOrderResponse?.ok === true) {
                                 // Destrucure new order data the response
                                 const {
                                     data: { orderId = '' }
                                 } = createOrderResponse
 
-                                setProductType(null)
-                                setProductWidth(null)
-                                setProductHeight(null)
-                                setProductFrame(null)
-                                setProductEdge(null)
-                                setProductPrice(null)
+                                setProduct(emptyProduct)
 
                                 track('print-order-completed', {
                                     userID: user.id,
@@ -418,6 +445,9 @@ const CanvasPopCartEventListener = () => {
                                         `/orders/${user.id}/?orderId=${orderId}`
                                     )
                                 }, 1000)
+                            } else {
+                                // Allow a retry if the order could not be saved
+                                orderSubmittedRef.current = false
                             }
 
                             break
@@ -431,33 +461,12 @@ const CanvasPopCartEventListener = () => {
             }
         }
         window.addEventListener('message', listener, true)
-        // Clean up the event listener
+        // Clean up the event listener (capture flag must match addEventListener)
         return () => {
-            window.removeEventListener('message', listener)
+            window.removeEventListener('message', listener, true)
         }
-    }, [
-        productEdge,
-        productFrame,
-        productHeight,
-        productPrice,
-        productType,
-        productWidth,
-        router,
-        user
-    ])
-
-    // Debug
-
-    if (process.env.NODE_ENV !== 'production') {
-        console.info('📘 State:', {
-            type: productType,
-            width: productWidth,
-            height: productHeight,
-            frame: productFrame,
-            edge: productEdge,
-            price: productPrice
-        })
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [router, user])
 
     return null
 }
