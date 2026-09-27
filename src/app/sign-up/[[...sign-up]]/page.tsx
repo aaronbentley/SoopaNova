@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 const SignUp = () => (
-    <div className='container flex justify-center py-24'>
+    <div className='wrapper flex justify-center py-16 md:py-24'>
         <ClerkSignUp />
     </div>
 )

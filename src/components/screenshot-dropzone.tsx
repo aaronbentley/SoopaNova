@@ -16,6 +16,7 @@ const accept = {
 }
 const maxSize =
     1024 * 1024 * parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_FILE_SIZE! || '')
+const minSize = `${process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH}×${process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT}`
 
 interface ScreenshotDropzoneProps {
     onSelect: (file: File) => void
@@ -89,7 +90,7 @@ const ScreenshotDropzone = ({
     }
 
     return (
-        <div className='w-96'>
+        <div className='w-full max-w-[460px]'>
             <div
                 {...getRootProps()}
                 className={cn(
@@ -102,9 +103,10 @@ const ScreenshotDropzone = ({
                         'w-full',
                         'cursor-pointer',
                         'place-items-center',
-                        'rounded-lg',
-                        'border-2',
+                        'rounded-xl',
+                        'border-[1.5px]',
                         'border-dashed',
+                        'bg-background',
                         'px-5',
                         'py-2.5',
                         'text-center',
@@ -153,8 +155,9 @@ const ScreenshotDropzone = ({
                         <p className='mt-2 text-base font-medium text-muted-foreground transition-colors duration-200 group-hover:text-primary'>
                             Drag {`'n'`} drop here, or click to select file
                         </p>
-                        <small className='text-sm text-muted-foreground/75'>
-                            Max. file size {formatBytes(maxSize)}
+                        <small className='font-mono text-xs text-muted-foreground'>
+                            JPG / PNG · min {minSize} · max{' '}
+                            {formatBytes(maxSize)}
                         </small>
                     </div>
                 )}

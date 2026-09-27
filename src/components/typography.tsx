@@ -9,66 +9,62 @@ import { VariantProps, cva } from 'class-variance-authority'
 import { Slot as SlotPrimitive } from 'radix-ui'
 import * as React from 'react'
 
-const headingBaseClasses = [
-    'text-foreground',
-    'font-extrabold',
-    'tracking-tight',
-    'lg:tracking-[-0.035em]'
-]
+const headingBaseClasses = ['text-foreground', 'text-balance']
 
-const typographyVariants = cva(['text-lg'], {
+const typographyVariants = cva(['text-base'], {
     variants: {
         variant: {
             h1: [
                 ...headingBaseClasses,
-                'text-3xl',
-                'md:text-5xl',
-                'lg:text-6xl',
-                'xl:text-7xl'
+                'text-[clamp(40px,6vw,72px)]',
+                'leading-none',
+                'font-bold',
+                'tracking-[-0.05em]'
             ],
             h2: [
                 ...headingBaseClasses,
                 'text-2xl',
-                'md:text-3xl',
-                'lg:text-4xl',
-                'xl:text-5xl'
+                'md:text-[28px]',
+                'leading-tight',
+                'font-semibold',
+                'tracking-[-0.03em]'
             ],
             h3: [
                 ...headingBaseClasses,
                 'text-xl',
-                'md:text-2xl',
-                'lg:text-3xl',
-                'xl:text-4xl'
+                'md:text-[22px]',
+                'leading-snug',
+                'font-semibold',
+                'tracking-[-0.025em]'
             ],
             h4: [
                 ...headingBaseClasses,
                 'text-lg',
                 'md:text-xl',
-                'lg:text-2xl',
-                'xl:text-3xl'
+                'font-semibold',
+                'tracking-[-0.02em]'
             ],
             h5: [
                 ...headingBaseClasses,
                 'text-base',
                 'md:text-lg',
-                'lg:text-xl',
-                'xl:text-2xl'
+                'font-semibold',
+                'tracking-[-0.015em]'
             ],
             h6: [
                 ...headingBaseClasses,
                 'text-sm',
                 'md:text-base',
-                'lg:text-lg',
-                'xl:text-xl'
+                'font-semibold'
             ],
-            p: 'max-w-[750px] md:w-2/3 text-lg',
-            lead: 'text-lg text-muted-foreground dark:text-muted-foreground sm:text-xl md:text-2xl',
-            blockquote: 'mt-6 border-l-2 pl-6 italic',
-            ul: 'list-disc list-inside ps-4 space-y-2 mt-2 ',
-            ol: 'list-decimal list-inside space-y-8',
-            li: '',
+            p: 'max-w-[750px] md:w-2/3 text-base leading-[1.65]',
+            lead: 'text-lg md:text-xl leading-normal text-muted-foreground dark:text-muted-foreground',
+            blockquote: 'mt-6 border-l-2 border-primary pl-6 italic',
+            ul: 'list-disc list-outside ps-5 space-y-2 mt-2 leading-[1.65] marker:text-muted-foreground',
+            ol: 'list-decimal list-outside ps-5 space-y-8 leading-[1.65] marker:font-mono marker:text-sm marker:text-primary',
+            li: 'ps-1',
             em: 'italic inline',
-            strong: 'font-semibold inline'
+            strong: 'font-semibold inline text-foreground'
         },
         muted: {
             true: 'text-muted-foreground dark:text-muted-foreground'
@@ -103,7 +99,8 @@ const variantElementMap: Record<
 }
 
 export interface TypographyProps
-    extends React.HTMLAttributes<HTMLElement>,
+    extends
+        React.HTMLAttributes<HTMLElement>,
         VariantProps<typeof typographyVariants> {
     asChild?: boolean
     as?: string

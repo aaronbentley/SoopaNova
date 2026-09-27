@@ -6,6 +6,10 @@ interface PlatformTileProps {
     name: string
     detail?: string
     Icon: React.ComponentType<{ className?: string }>
+    /**
+     * Brand icons are filled; set false for outline (lucide) icons
+     */
+    filledIcon?: boolean
     className?: string
 }
 
@@ -19,46 +23,61 @@ const PlatformTile = ({
     name,
     detail,
     Icon,
+    filledIcon = true,
     className
-}: PlatformTileProps) => (
-    <Link
-        href={href}
-        className={cn(
-            [
-                'group',
-                'flex',
-                'items-center',
-                'justify-between',
-                'gap-4',
-                'py-6',
-                'lg:px-6',
-                'lg:py-7',
-                'text-muted-foreground',
-                'transition-colors',
-                'duration-200',
-                'hover:bg-card',
-                'hover:text-foreground',
-                'focus-visible:outline-none',
-                'focus-visible:bg-card'
-            ],
-            className
-        )}>
-        <span className='flex items-center gap-3.5'>
-            <Icon className='size-6.5 fill-current' />
-            <span className='flex flex-col gap-0.5'>
-                <span className='text-base font-semibold text-foreground'>
-                    {name}
+}: PlatformTileProps) => {
+    /**
+     * In-page anchors use a plain <a> so repeat clicks still scroll
+     */
+    const Component = href.startsWith('#') ? 'a' : Link
+
+    return (
+        <Component
+            href={href}
+            className={cn(
+                [
+                    'group',
+                    'flex',
+                    'items-center',
+                    'justify-between',
+                    'gap-4',
+                    'py-6',
+                    'lg:px-6',
+                    'lg:py-7',
+                    'text-muted-foreground',
+                    'transition-colors',
+                    'duration-200',
+                    'hover:bg-card',
+                    'hover:text-foreground',
+                    'focus-visible:outline-none',
+                    'focus-visible:bg-card'
+                ],
+                className
+            )}>
+            <span className='flex items-center gap-3.5'>
+                <Icon
+                    className={cn(
+                        'size-6.5',
+                        filledIcon ? 'fill-current' : 'stroke-[1.5]'
+                    )}
+                />
+                <span className='flex flex-col gap-0.5'>
+                    <span className='text-base font-semibold text-foreground'>
+                        {name}
+                    </span>
+                    {detail && (
+                        <span className='font-mono text-xs'>{detail}</span>
+                    )}
                 </span>
-                {detail && <span className='font-mono text-xs'>{detail}</span>}
             </span>
-        </span>
-        <span
-            aria-hidden='true'
-            className='font-mono text-sm transition-transform duration-200 group-hover:translate-x-0.5'>
-            →
-        </span>
-    </Link>
-)
+            <span
+                aria-hidden='true'
+                className='font-mono text-sm transition-transform duration-200 group-hover:translate-x-0.5'>
+                →
+            </span>
+        </Component>
+    )
+}
 
 /**
  * A row of tiles divided by hairlines, with an optional intro cell first

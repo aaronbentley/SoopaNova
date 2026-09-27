@@ -9,9 +9,8 @@ import {
     PageSectionDescription,
     PageSectionHeading
 } from '@/components/page-section'
-import ScrollToTarget from '@/components/scroll-to-target'
+import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { PcCaseIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
@@ -27,39 +26,32 @@ export const metadata: Metadata = {
 const ScreenshotsSteam = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Steam Screenshots</PageHeaderHeading>
                     <PageHeaderDescription>
                         How to download your Steam screenshots, ready to create
                         awesome prints.
                     </PageHeaderDescription>
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
-                        <ScrollToTarget target='steam-app'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        Steam App
-                                        <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                        <ScrollToTarget target='file-system'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        File System
-                                        <PcCaseIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                    </div>
+                    <PlatformStrip className='mt-6 w-full overflow-hidden rounded-xl border bg-background'>
+                        <PlatformTile
+                            href='#steam-app'
+                            name='Steam App'
+                            Icon={SteamIcon}
+                            className='px-6'
+                        />
+                        <PlatformTile
+                            href='#file-system'
+                            name='File System'
+                            Icon={PcCaseIcon}
+                            filledIcon={false}
+                            className='px-6'
+                        />
+                    </PlatformStrip>
                 </PageHeader>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='steam-app'>
                     <PageSectionHeading>Steam App</PageSectionHeading>
                     <PageSectionDescription>
@@ -71,11 +63,11 @@ const ScreenshotsSteam = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Open Steam:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Open Steam on your device.
                                 </Typography>
@@ -94,11 +86,11 @@ const ScreenshotsSteam = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Click on the desired screenshot.
                                 </Typography>
@@ -116,7 +108,7 @@ const ScreenshotsSteam = () => {
                 </PageSection>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='file-system'>
                     <PageSectionHeading>File System</PageSectionHeading>
                     <PageSectionDescription>
@@ -128,18 +120,18 @@ const ScreenshotsSteam = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Open the Steam directory:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Finding and opening Steam&apos;s
                                     installation directory depends on the
                                     operating system you&apos;re using:
                                     <Typography
                                         variant='ul'
-                                        className='font-normal'>
+                                        className='font-normal text-muted-foreground'>
                                         <Typography variant='li'>
                                             On Windows, the default is{' '}
                                             <Typography variant='em'>
@@ -175,11 +167,11 @@ const ScreenshotsSteam = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Navigate to the Screenshots Folder:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Within the Steam installation directory,
                                     look for a folder named{' '}
@@ -217,11 +209,11 @@ const ScreenshotsSteam = () => {
 
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Inside the{' '}
                                     <Typography variant='em'>

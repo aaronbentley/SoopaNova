@@ -1,17 +1,11 @@
-import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
+import { platforms } from '@/assets/data/home'
 import {
     PageHeader,
     PageHeaderDescription,
     PageHeaderHeading
 } from '@/components/page-header'
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card'
+import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Metadata } from 'next'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'Screenshots',
@@ -25,7 +19,7 @@ export const metadata: Metadata = {
 const Screenshots = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Choose Your Platform</PageHeaderHeading>
                     <PageHeaderDescription>
@@ -34,41 +28,18 @@ const Screenshots = () => {
                         for popular platforms:
                     </PageHeaderDescription>
 
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
-                        <Link href='/screenshots/xbox/'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        Xbox
-                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                    <CardDescription>Microsoft</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </Link>
-                        <Link href='/screenshots/playstation/'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        PlayStation
-                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                    <CardDescription>Sony</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </Link>
-                        <Link href='/screenshots/steam/'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        Steam
-                                        <SteamIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-8 sm:size-10 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                    <CardDescription>Valve</CardDescription>
-                                </CardHeader>
-                            </Card>
-                        </Link>
-                    </div>
+                    <PlatformStrip className='mt-6 w-full overflow-hidden rounded-xl border bg-background'>
+                        {platforms.map((platform) => (
+                            <PlatformTile
+                                key={platform.href}
+                                href={platform.href}
+                                name={platform.name}
+                                detail={platform.maker}
+                                Icon={platform.Icon}
+                                className='px-6'
+                            />
+                        ))}
+                    </PlatformStrip>
                 </PageHeader>
             </div>
         </>

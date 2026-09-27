@@ -9,10 +9,9 @@ import {
     PageSectionDescription,
     PageSectionHeading
 } from '@/components/page-section'
-import ScrollToTarget from '@/components/scroll-to-target'
+import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Info, UsbIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
 const ScreenshotsPlaystation = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>
                         PlayStation Screenshots
@@ -37,33 +36,26 @@ const ScreenshotsPlaystation = () => {
                         How to download your PlayStation screenshots, ready to
                         create awesome prints.
                     </PageHeaderDescription>
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
-                        <ScrollToTarget target='xbox-app'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        PlayStation App
-                                        <PlaystationIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                        <ScrollToTarget target='usb-drive'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-1' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                    </div>
+                    <PlatformStrip className='mt-6 w-full overflow-hidden rounded-xl border bg-background'>
+                        <PlatformTile
+                            href='#playstation-app'
+                            name='PlayStation App'
+                            Icon={PlaystationIcon}
+                            className='px-6'
+                        />
+                        <PlatformTile
+                            href='#usb-drive'
+                            name='USB Drive'
+                            Icon={UsbIcon}
+                            filledIcon={false}
+                            className='px-6'
+                        />
+                    </PlatformStrip>
                 </PageHeader>
             </div>
 
-            <div className='container'>
-                <PageSection>
+            <div>
+                <PageSection id='playstation-app'>
                     <PageSectionHeading>PlayStation App</PageSectionHeading>
                     <PageSectionDescription>
                         The PlayStation App is a handy tool for managing your
@@ -73,11 +65,11 @@ const ScreenshotsPlaystation = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Install the PlayStation App:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Download the PlayStation App from your
                                     device&apos;s app store (
@@ -106,11 +98,11 @@ const ScreenshotsPlaystation = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Connect your console:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Ensure that your PlayStation console and
                                     your device are connected to the same Wi-Fi
@@ -127,11 +119,11 @@ const ScreenshotsPlaystation = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     In the PlayStation App, select{' '}
                                     <Typography variant='em'>
@@ -169,7 +161,7 @@ const ScreenshotsPlaystation = () => {
                 </PageSection>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='usb-drive'>
                     <PageSectionHeading>USB Drive</PageSectionHeading>
                     <PageSectionDescription>
@@ -180,11 +172,11 @@ const ScreenshotsPlaystation = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Prepare USB Drive:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Insert a compatible USB stick into one of
                                     your PlayStation&rsquo;s USB ports.
@@ -193,11 +185,11 @@ const ScreenshotsPlaystation = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Copy Screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Navigate to the{' '}
                                     <Typography variant='em'>

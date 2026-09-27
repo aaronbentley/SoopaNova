@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const Create = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Power-up Prints</PageHeaderHeading>
                     <PageHeaderDescription>

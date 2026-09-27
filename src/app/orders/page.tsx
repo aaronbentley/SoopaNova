@@ -197,7 +197,7 @@ const Orders = async () => {
 
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Print Orders</PageHeaderHeading>
                     <PageHeaderDescription>{displayName}</PageHeaderDescription>

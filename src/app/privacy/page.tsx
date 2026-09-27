@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const Privacy = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Privacy</PageHeaderHeading>
                     <PageHeaderDescription>

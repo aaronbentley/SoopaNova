@@ -1,21 +1,32 @@
 import { Typography } from '@/components/typography'
-import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
+/**
+ * Full-width page intro with a faint grid backdrop. Extra children (cards,
+ * the upload dropzone) sit below the heading and description.
+ */
 export const PageHeader = ({
+    eyebrow,
     className,
     children,
     ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
+}: React.HTMLAttributes<HTMLElement> & { eyebrow?: string }) => {
     return (
         <section
-            className={cn(
-                'flex max-w-[980px] flex-col items-start gap-2 px-4 py-8 md:py-24 mx-auto',
-                className
-            )}
+            className='relative overflow-hidden border-b last:border-b-0'
             {...props}>
-            {children}
-            <Separator className='mt-6 md:mt-12' />
+            <div
+                aria-hidden='true'
+                className='pointer-events-none absolute inset-0 bg-grid mask-fade-top'
+            />
+            <div
+                className={cn(
+                    'wrapper relative flex flex-col items-start gap-5 pt-16 pb-14 md:pt-24 md:pb-20',
+                    className
+                )}>
+                {eyebrow && <p className='eyebrow text-primary'>{eyebrow}</p>}
+                {children}
+            </div>
         </section>
     )
 }
@@ -27,6 +38,7 @@ export const PageHeaderHeading = ({
     return (
         <Typography
             variant='h1'
+            className={className}
             {...props}
         />
     )
@@ -39,7 +51,7 @@ export const PageHeaderDescription = ({
     return (
         <Typography
             variant='lead'
-            className={cn(['max-w-[750px]', 'text-balance'], className)}
+            className={cn(['max-w-[640px]', 'text-pretty'], className)}
             as='p'
             {...props}
         />

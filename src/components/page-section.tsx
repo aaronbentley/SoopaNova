@@ -5,11 +5,11 @@ export const PageSection = ({
     className,
     children,
     ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
+}: React.HTMLAttributes<HTMLElement>) => {
     return (
         <section
             className={cn(
-                'flex max-w-[980px] flex-col justify-around items-start gap-8 px-4 py-10 md:py-20 mx-auto',
+                'wrapper flex flex-col items-start gap-5 py-10 md:py-14',
                 className
             )}
             {...props}>

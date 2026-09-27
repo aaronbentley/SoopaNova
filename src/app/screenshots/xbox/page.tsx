@@ -9,9 +9,8 @@ import {
     PageSectionDescription,
     PageSectionHeading
 } from '@/components/page-section'
-import ScrollToTarget from '@/components/scroll-to-target'
+import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { UsbIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
@@ -27,49 +26,38 @@ export const metadata: Metadata = {
 const ScreenshotsXbox = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Xbox Screenshots</PageHeaderHeading>
                     <PageHeaderDescription>
                         How to download your Xbox screenshots, ready to create
                         awesome prints.
                     </PageHeaderDescription>
-                    <div className='w-full grid md:grid-flow-dense md:grid-cols-3 gap-8 mt-12 md:mt-24'>
-                        <ScrollToTarget target='onedrive'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        OneDrive
-                                        <OneDriveIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                        <ScrollToTarget target='xbox-app'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        Xbox App
-                                        <XboxIcon className='absolute opacity-20 text-muted-foreground group-hover:fill-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                        <ScrollToTarget target='usb-drive'>
-                            <Card className='group transition-all duration-200 hover:border-primary dark:hover:border-primary'>
-                                <CardHeader className='relative'>
-                                    <CardTitle className='group-hover:text-primary transition-colors duration-200'>
-                                        USB Drive
-                                        <UsbIcon className='absolute opacity-20 text-muted-foreground group-hover:text-primary transition-all duration-200 top-0 right-6 size-7 group-hover:opacity-100 stroke-2' />
-                                    </CardTitle>
-                                </CardHeader>
-                            </Card>
-                        </ScrollToTarget>
-                    </div>
+                    <PlatformStrip className='mt-6 w-full overflow-hidden rounded-xl border bg-background'>
+                        <PlatformTile
+                            href='#onedrive'
+                            name='OneDrive'
+                            Icon={OneDriveIcon}
+                            className='px-6'
+                        />
+                        <PlatformTile
+                            href='#xbox-app'
+                            name='Xbox App'
+                            Icon={XboxIcon}
+                            className='px-6'
+                        />
+                        <PlatformTile
+                            href='#usb-drive'
+                            name='USB Drive'
+                            Icon={UsbIcon}
+                            filledIcon={false}
+                            className='px-6'
+                        />
+                    </PlatformStrip>
                 </PageHeader>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='onedrive'>
                     <PageSectionHeading>OneDrive</PageSectionHeading>
                     <PageSectionDescription>
@@ -81,11 +69,11 @@ const ScreenshotsXbox = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Enable OneDrive on Xbox:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Press the Xbox button on your controller to
                                     open the guide.
@@ -131,11 +119,11 @@ const ScreenshotsXbox = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots on PC:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     On your PC, ensure you&apos;re signed in to
                                     the same Microsoft account used on your
@@ -160,11 +148,11 @@ const ScreenshotsXbox = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots on Phone:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Download the OneDrive app from your
                                     device&apos;s app store (
@@ -206,7 +194,7 @@ const ScreenshotsXbox = () => {
                 </PageSection>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='xbox-app'>
                     <PageSectionHeading>Xbox App</PageSectionHeading>
                     <PageSectionDescription>
@@ -217,11 +205,11 @@ const ScreenshotsXbox = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Install Xbox App:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Download the Xbox app from the{' '}
                                     <a
@@ -258,11 +246,11 @@ const ScreenshotsXbox = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Access screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Open the Xbox app.
                                 </Typography>
@@ -281,11 +269,11 @@ const ScreenshotsXbox = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Sharing and Saving:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     On PC: Right-click the screenshot and choose
                                     <Typography variant='em'>
@@ -307,7 +295,7 @@ const ScreenshotsXbox = () => {
                 </PageSection>
             </div>
 
-            <div className='container'>
+            <div>
                 <PageSection id='usb-drive'>
                     <PageSectionHeading>USB Drive</PageSectionHeading>
                     <PageSectionDescription>
@@ -318,11 +306,11 @@ const ScreenshotsXbox = () => {
                     <Typography variant='ol'>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Prepare USB Drive:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Insert a USB storage device into your
                                     Xbox&apos;s USB port.
@@ -357,11 +345,11 @@ const ScreenshotsXbox = () => {
                         </Typography>
                         <Typography
                             variant='li'
-                            className='font-extrabold'>
+                            className='font-semibold text-foreground'>
                             Copy Screenshots:
                             <Typography
                                 variant='ul'
-                                className='font-normal'>
+                                className='font-normal text-muted-foreground'>
                                 <Typography variant='li'>
                                     Navigate to{' '}
                                     <Typography variant='em'>

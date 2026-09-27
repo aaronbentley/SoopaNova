@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const Faq = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>FAQ</PageHeaderHeading>
                     <PageHeaderDescription>

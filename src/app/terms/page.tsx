@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const Terms = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>Terms</PageHeaderHeading>
                     <PageHeaderDescription>

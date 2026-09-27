@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const About = () => {
     return (
         <>
-            <div className='container'>
+            <div>
                 <PageHeader>
                     <PageHeaderHeading>About</PageHeaderHeading>
                     <PageHeaderDescription>
