@@ -3945,6 +3945,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"buffer-equal-constant-time@patch:buffer-equal-constant-time@npm%3A1.0.1#~/.yarn/patches/buffer-equal-constant-time-npm-1.0.1-41826f3419.patch":
+  version: 1.0.1
+  resolution: "buffer-equal-constant-time@patch:buffer-equal-constant-time@npm%3A1.0.1#~/.yarn/patches/buffer-equal-constant-time-npm-1.0.1-41826f3419.patch::version=1.0.1&hash=bc803a"
+  checksum: 10c0/0df6d72602a480d4430e4e76b827cdb90389130f29bb8bab734fe06df04e68e953e756dcc1edd65f34a1b9b43d91dc8400d9b08a199288763b41a57aadd77f12
+  languageName: node
+  linkType: hard
+
 "buffer@npm:^6.0.3":
   version: 6.0.3
   resolution: "buffer@npm:6.0.3"

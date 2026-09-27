@@ -38,4 +38,5 @@ next-env.d.ts
 certificates
 
 # Yarn
-.yarn
+.yarn/*
+!.yarn/patches
