@@ -5,7 +5,7 @@ import { buttonVariants } from '@/components/ui/button'
 import UserButton from '@/components/user-button'
 import Wordmark from '@/components/wordmark'
 import { cn } from '@/lib/utils'
-import { ClerkLoaded, ClerkLoading, SignInButton, Show } from '@clerk/nextjs'
+import { ClerkLoaded, ClerkLoading, Show } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -31,32 +31,9 @@ const Header = () => (
                     </ClerkLoading>
                     <ClerkLoaded>
                         <Show when='signed-out'>
-                            <SignInButton>
-                                <button
-                                    className={cn(
-                                        buttonVariants({
-                                            variant: 'outline',
-                                            size: 'sm'
-                                        }),
-                                        [
-                                            'bg-transparent',
-                                            'dark:bg-transparent',
-                                            'dark:border-border',
-                                            'shadow-none',
-                                            'font-normal',
-                                            'hover:bg-card',
-                                            'dark:hover:bg-card',
-                                            'duration-200'
-                                        ]
-                                    )}>
-                                    Sign In
-                                </button>
-                            </SignInButton>
                             <Link
                                 href='/create/'
                                 className={cn(buttonVariants({ size: 'sm' }), [
-                                    'hidden',
-                                    'sm:inline-flex',
                                     'shadow-none',
                                     'hover:bg-primary',
                                     'hover:brightness-110',
