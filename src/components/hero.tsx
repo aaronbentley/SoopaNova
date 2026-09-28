@@ -95,11 +95,11 @@ export const HeroActions = ({
 )
 
 /**
- * Framed 16:9 image below the hero actions
+ * Framed 16:10 image below the hero actions
  */
 export const HeroFrame = ({ children }: { children: React.ReactNode }) => (
     <div className='mt-18 w-full max-w-[1080px] rounded-[14px] border bg-card/60 p-1.5 shadow-[0_40px_120px_-40px_color-mix(in_oklch,var(--primary)_45%,transparent)]'>
-        <div className='relative aspect-video overflow-hidden rounded-[9px] bg-black'>
+        <div className='relative aspect-16/10 overflow-hidden rounded-[9px] bg-black'>
             {children}
         </div>
     </div>
