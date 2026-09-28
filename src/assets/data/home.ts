@@ -1,6 +1,7 @@
 import canvasPrint from '@/assets/img/canvas-print-4x3.jpg'
 import framedPrint from '@/assets/img/framed-print-4x3.jpg'
 import posterPrint from '@/assets/img/poster-print-4x3.jpg'
+import heroPrint from '@/assets/img/poster-print-16x10.jpg'
 import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 
 /**
@@ -70,6 +71,6 @@ export const products = [
 ]
 
 /**
- * The hero shows the poster print photo (as in the design)
+ * The hero shows a larger crop of the poster print photo
  */
-export const heroImage = posterPrint
+export const heroImage = heroPrint
