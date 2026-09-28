@@ -8,12 +8,11 @@ import {
     HeroHeading,
     HeroPill
 } from '@/components/hero'
+import HeroUploadAction from '@/components/hero-upload-action'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import SectionHeader from '@/components/section-header'
-import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
-import { Show } from '@clerk/nextjs'
-import { ArrowRight, UploadCloud } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -74,17 +73,7 @@ const Frontpage = () => (
                 Print your gaming screenshots, preserve your gaming moments.
             </HeroDescription>
             <HeroActions>
-                <Show when='signed-in'>
-                    <UploadFile variant='button' />
-                </Show>
-                <Show when='signed-out'>
-                    <Link
-                        href='/create/'
-                        className={ctaButtonVariants()}>
-                        <UploadCloud aria-hidden='true' />
-                        Upload a screenshot
-                    </Link>
-                </Show>
+                <HeroUploadAction />
                 <a
                     href='#prints'
                     className={ctaButtonVariants({ variant: 'secondary' })}>

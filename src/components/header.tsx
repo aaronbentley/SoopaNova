@@ -1,3 +1,9 @@
+'use client'
+
+/**
+ * Client component: Clerk's server-side <Show> reads the request, which would
+ * make every page dynamic. On the client, auth state comes from Clerk's JS.
+ */
 import MainNav from '@/components/main-nav'
 import MobileNav from '@/components/mobile-nav'
 import ModeToggle from '@/components/mode-toggle'
