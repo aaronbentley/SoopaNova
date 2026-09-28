@@ -40,3 +40,6 @@ certificates
 # Yarn
 .yarn/*
 !.yarn/patches
+
+# Design. hanndoff
+/design_handoff_homepage_redesign
