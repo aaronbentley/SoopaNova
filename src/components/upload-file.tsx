@@ -80,6 +80,7 @@ const UploadFile = ({
                     if (!open) close()
                 }}
                 cartUrl={print.cartUrl}
+                sessionId={print.sessionId}
             />
         </div>
     )

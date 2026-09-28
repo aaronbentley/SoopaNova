@@ -3,11 +3,36 @@ import {
     productFrameSlugs,
     productTypeSlugs
 } from '@/assets/data/product-slugs'
-import { FieldValue, firestore } from '@/lib/firebase-admin'
+import {
+    FieldValue,
+    firestore,
+    ordersCollection,
+    printSessionsCollection
+} from '@/lib/firebase-admin'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
+/**
+ * Thrown inside the transaction when the print session can't be claimed
+ */
+class SessionError extends Error {
+    constructor(
+        message: string,
+        public status: number
+    ) {
+        super(message)
+    }
+}
+
+/**
+ * Record an order for the signed-in user.
+ *
+ * CanvasPop has no order API, so the product details and price come from
+ * the cart's postMessage events and can't be verified. What is enforced: the
+ * order must claim one of the user's own print sessions (created by
+ * push-image), and each session can only be claimed once.
+ */
 export const POST = async (request: NextRequest) => {
     /**
      * Get form data from request body
@@ -31,6 +56,7 @@ export const POST = async (request: NextRequest) => {
      * Destructure order payload from data
      */
     const {
+        sessionId = null,
         productType = null,
         productWidth = null,
         productHeight = null,
@@ -38,6 +64,7 @@ export const POST = async (request: NextRequest) => {
         productEdge = null,
         productPrice = null
     }: {
+        sessionId: string | null
         productType: ProductType
         productWidth: number | null
         productHeight: number | null
@@ -60,6 +87,8 @@ export const POST = async (request: NextRequest) => {
     const orderPrice = toPositiveNumber(productPrice)
 
     if (
+        typeof sessionId !== 'string' ||
+        !/^[A-Za-z0-9]{1,64}$/.test(sessionId) ||
         !productType ||
         !Object.hasOwn(productTypeSlugs, productType) ||
         (productFrame !== null &&
@@ -129,14 +158,29 @@ export const POST = async (request: NextRequest) => {
     }
 
     /**
-     * Save order to firestore
+     * Claim the print session and save the order in one transaction
      */
     try {
-        const order = await firestore
-            .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
-            .doc(userId)
-            .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
-            .add({
+        const sessionRef = printSessionsCollection(userId).doc(sessionId)
+        const orderRef = ordersCollection(userId).doc()
+
+        await firestore.runTransaction(async (transaction) => {
+            const session = await transaction.get(sessionRef)
+
+            if (!session.exists) {
+                throw new SessionError('Print session not found.', 404)
+            }
+
+            if (session.get('orderId')) {
+                throw new SessionError(
+                    'This print session already has an order.',
+                    409
+                )
+            }
+
+            transaction.create(orderRef, {
+                sessionId,
+                imageToken: session.get('imageToken'),
                 productType,
                 productWidth: orderWidth,
                 productHeight: orderHeight,
@@ -148,6 +192,12 @@ export const POST = async (request: NextRequest) => {
                 createdAt: FieldValue.serverTimestamp()
             })
 
+            transaction.update(sessionRef, {
+                orderId: orderRef.id,
+                completedAt: FieldValue.serverTimestamp()
+            })
+        })
+
         /**
          * Return response
          */
@@ -155,11 +205,18 @@ export const POST = async (request: NextRequest) => {
             {
                 ok: true,
                 message: 'success',
-                data: { orderId: order.id }
+                data: { orderId: orderRef.id }
             },
             { status: 200 }
         )
     } catch (error) {
+        if (error instanceof SessionError) {
+            return NextResponse.json(
+                { ok: false, message: error.message },
+                { status: error.status }
+            )
+        }
+
         console.error('Error saving order to firestore', error)
         return NextResponse.json(
             { ok: false, message: 'Something went wrong.' },

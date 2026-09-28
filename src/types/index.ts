@@ -13,6 +13,7 @@ export type ImageMeta = {
 export type ModerationResult = {
     status: 'ok' | 'warning' | 'error'
     message: string
+    verdict?: 'passed' | 'rejected'
     detections?: {
         adult: string
         racy: string

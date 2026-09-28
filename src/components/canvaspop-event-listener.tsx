@@ -30,7 +30,7 @@ const emptyProduct: ProductData = {
     productPrice: null
 }
 
-const CanvasPopCartEventListener = () => {
+const CanvasPopCartEventListener = ({ sessionId }: { sessionId: string }) => {
     /**
      * Track event data in a ref (not state) so the message listener is only
      * attached once and always reads the latest values.
@@ -58,14 +58,17 @@ const CanvasPopCartEventListener = () => {
     /**
      * Call route handler to create the order in firestore db
      */
-    const createOrder = async ({
-        productType,
-        productWidth,
-        productHeight,
-        productFrame,
-        productEdge,
-        productPrice
-    }: ProductData) => {
+    const createOrder = async (
+        orderSessionId: string,
+        {
+            productType,
+            productWidth,
+            productHeight,
+            productFrame,
+            productEdge,
+            productPrice
+        }: ProductData
+    ) => {
         try {
             const createOrderResponse = await fetch(
                 '/api/firestore/create-order/',
@@ -75,6 +78,7 @@ const CanvasPopCartEventListener = () => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        sessionId: orderSessionId,
                         productType,
                         productWidth,
                         productHeight,
@@ -285,6 +289,7 @@ const CanvasPopCartEventListener = () => {
                             orderSubmittedRef.current = true
 
                             const createOrderResponse = await createOrder(
+                                sessionId,
                                 productRef.current
                             )
 
@@ -326,7 +331,7 @@ const CanvasPopCartEventListener = () => {
         return () => {
             window.removeEventListener('message', listener, true)
         }
-    }, [router, user])
+    }, [router, user, sessionId])
 
     return null
 }

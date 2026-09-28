@@ -21,11 +21,10 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import { firestore } from '@/lib/firebase-admin'
+import { ordersCollection, printSessionsCollection } from '@/lib/firebase-admin'
 import { formatPrice } from '@/lib/utils'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth, currentUser } from '@clerk/nextjs/server'
-import { type DocumentData } from 'firebase-admin/firestore'
 import { Info } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -40,9 +39,25 @@ export const metadata: Metadata = {
 }
 
 /**
- * Get orders from firestore
+ * A row in the orders table: a completed order, or a print session whose
+ * checkout was continued in a new tab (no order details reach us from there)
  */
-const getOrders = async () => {
+type OrderRow = {
+    id: string
+    status: 'completed' | 'continued'
+    createdAt: Date
+    productType: ProductType
+    productWidth: number | null
+    productHeight: number | null
+    productFrame: ProductFrame
+    productEdge: ProductEdge
+    productPrice: number | null
+}
+
+/**
+ * Get orders (and print sessions continued in a new tab) from firestore
+ */
+const getOrders = async (): Promise<OrderRow[] | null> => {
     /**
      * Get the userId from auth()
      */
@@ -53,33 +68,55 @@ const getOrders = async () => {
     }
 
     try {
-        // Get orders from firestore
-        const orders: DocumentData[] = []
-        const snapshot = await firestore
-            .collection(process.env.FIREBASE_FIRESTORE_COLLECTION!)
-            .doc(userId)
-            .collection(process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!)
-            .orderBy('createdAt', 'desc')
-            .limit(20)
-            .get()
+        const [ordersSnapshot, continuedSnapshot] = await Promise.all([
+            ordersCollection(userId)
+                .orderBy('createdAt', 'desc')
+                .limit(20)
+                .get(),
+            printSessionsCollection(userId)
+                .where('continuedInTab', '==', true)
+                .limit(20)
+                .get()
+        ])
 
-        // Add doc data properties to orders array
-        snapshot.forEach((doc) => {
-            orders.push({
+        const orders: OrderRow[] = ordersSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            status: 'completed',
+            createdAt: doc.get('createdAt').toDate(),
+            productType: doc.get('productType'),
+            productWidth: doc.get('productWidth'),
+            productHeight: doc.get('productHeight'),
+            productFrame: doc.get('productFrame'),
+            productEdge: doc.get('productEdge'),
+            productPrice: doc.get('productPrice')
+        }))
+
+        /**
+         * Sessions that went on to complete in the embedded cart already
+         * appear as orders
+         */
+        const continued: OrderRow[] = continuedSnapshot.docs
+            .filter((doc) => !doc.get('orderId'))
+            .map((doc) => ({
                 id: doc.id,
-                productPrice: doc.data().productPrice,
-                productWidth: doc.data().productWidth,
-                productHeight: doc.data().productHeight,
-                productType: doc.data().productType,
-                productFrame: doc.data().productFrame,
-                productEdge: doc.data().productEdge,
-                createdAt: doc.data().createdAt.toDate()
-            })
-        })
+                status: 'continued',
+                createdAt: (
+                    doc.get('continuedAt') ?? doc.get('createdAt')
+                ).toDate(),
+                productType: null,
+                productWidth: null,
+                productHeight: null,
+                productFrame: null,
+                productEdge: null,
+                productPrice: null
+            }))
 
-        return orders
+        return [...orders, ...continued]
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+            .slice(0, 20)
     } catch (error) {
         console.error('Error getting documents: ', error)
+        return null
     }
 }
 
@@ -123,12 +160,14 @@ const OrdersTable = async () => {
         <Table>
             <TableCaption>
                 A list of your recent Print Orders. Totals are in the currency
-                chosen at checkout.
+                chosen at checkout. Orders continued in a new tab are confirmed
+                by CanvasPop by email.
             </TableCaption>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-[100px]'>Order ID</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Size</TableHead>
                     <TableHead>Frame</TableHead>
@@ -136,53 +175,52 @@ const OrdersTable = async () => {
                     <TableHead className='text-right'>Total</TableHead>
                 </TableRow>
             </TableHeader>
-            {orders && (
-                <TableBody>
-                    {orders.map((order, index) => {
-                        // Get order data properties
-                        const id: string = order.id
-                        const createdAt: Date = order.createdAt
-                        const productPrice: number = order.productPrice
-                        const productWidth: number = order.productWidth
-                        const productHeight: number = order.productHeight
-                        const productType: ProductType = order.productType
-                        const productFrame: ProductFrame = order.productFrame
-                        const productEdge: ProductEdge = order.productEdge
-
-                        return (
-                            <TableRow key={index}>
-                                <TableCell className='font-medium'>
-                                    {id}
-                                </TableCell>
-                                <TableCell>
-                                    {createdAt.toLocaleDateString()}
-                                </TableCell>
-                                <TableCell>
-                                    {productType
-                                        ? productTypeSlugs[productType]
-                                        : '-'}
-                                </TableCell>
-                                <TableCell>
-                                    {`${productWidth}" x ${productHeight}"`}
-                                </TableCell>
-                                <TableCell>
-                                    {productFrame
-                                        ? productFrameSlugs[productFrame]
-                                        : '-'}
-                                </TableCell>
-                                <TableCell>
-                                    {productEdge
-                                        ? productEdgeSlugs[productEdge]
-                                        : '-'}
-                                </TableCell>
-                                <TableCell className='text-right'>
-                                    {formatPrice(productPrice)}
-                                </TableCell>
-                            </TableRow>
-                        )
-                    })}
-                </TableBody>
-            )}
+            <TableBody>
+                {orders.map((order) => (
+                    <TableRow key={order.id}>
+                        <TableCell className='font-mono text-xs'>
+                            {order.id}
+                        </TableCell>
+                        <TableCell>
+                            {order.createdAt.toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>
+                            {order.status === 'completed' ? (
+                                'Completed'
+                            ) : (
+                                <span title='Checkout was opened in a new tab, so the order details are with CanvasPop'>
+                                    Continued in CanvasPop
+                                </span>
+                            )}
+                        </TableCell>
+                        <TableCell>
+                            {order.productType
+                                ? productTypeSlugs[order.productType]
+                                : '-'}
+                        </TableCell>
+                        <TableCell>
+                            {order.productWidth && order.productHeight
+                                ? `${order.productWidth}" x ${order.productHeight}"`
+                                : '-'}
+                        </TableCell>
+                        <TableCell>
+                            {order.productFrame
+                                ? productFrameSlugs[order.productFrame]
+                                : '-'}
+                        </TableCell>
+                        <TableCell>
+                            {order.productEdge
+                                ? productEdgeSlugs[order.productEdge]
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='text-right'>
+                            {order.productPrice !== null
+                                ? formatPrice(order.productPrice)
+                                : '-'}
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
         </Table>
     )
 }

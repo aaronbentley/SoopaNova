@@ -5,7 +5,7 @@ import { ensureFirebaseUser } from '@/firebase/sign-in'
 import { ImageMeta, ModerationResult } from '@/types'
 import { useAuth } from '@clerk/nextjs'
 import { track } from '@vercel/analytics'
-import { getDownloadURL, ref, type UploadResult } from 'firebase/storage'
+import { ref, type UploadResult } from 'firebase/storage'
 import { useCallback, useRef, useState } from 'react'
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
@@ -54,6 +54,7 @@ export const useCreatePrint = () => {
 
     const [status, setStatus] = useState<PrintStatus>('idle')
     const [cartUrl, setCartUrl] = useState<string | null>(null)
+    const [sessionId, setSessionId] = useState<string | null>(null)
 
     const runIdRef = useRef(0)
     const toastIdRef = useRef<string | number | null>(null)
@@ -99,7 +100,8 @@ export const useCreatePrint = () => {
 
     /**
      * Moderate the uploaded screenshot with Cloud Vision SafeSearch.
-     * Only adult content rated VERY_LIKELY is flagged.
+     * Only adult content rated VERY_LIKELY is flagged. The function also
+     * tags the file with its verdict, which push-image checks.
      */
     const moderate = async (upload: UploadResult) => {
         const response = await moderateImageUrl({
@@ -119,48 +121,58 @@ export const useCreatePrint = () => {
             )
         }
 
-        return moderation.detections.adult === 'VERY_LIKELY'
-            ? 'flagged'
-            : 'passed'
+        const rejected = moderation.verdict
+            ? moderation.verdict === 'rejected'
+            : moderation.detections.adult === 'VERY_LIKELY'
+
+        return rejected ? 'flagged' : 'passed'
     }
 
     /**
-     * Push the screenshot to CanvasPop (via our API route) and return the
-     * CanvasPop image token
+     * Push the screenshot to CanvasPop (via our API route, which checks the
+     * moderation verdict) and return the CanvasPop image token and our
+     * print session id
      */
     const pushToCanvaspop = async (upload: UploadResult) => {
-        const imageUrl = await getDownloadURL(upload.ref)
-
         const response = await fetch('/api/canvaspop/push-image/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ imageUrl })
+            body: JSON.stringify({ fileName: upload.ref.fullPath })
         })
+
+        if (response.status === 403) {
+            throw new Error(
+                "We couldn't approve this image for printing. Please try again."
+            )
+        }
 
         const json = response.ok ? await response.json() : null
         const imageToken: string | undefined = json?.data?.image_token
+        const sessionId: string | undefined = json?.data?.sessionId
 
-        if (!imageToken) {
+        if (!imageToken || !sessionId) {
             throw new Error('No image token found in response')
         }
 
-        return imageToken
+        return { imageToken, sessionId }
     }
 
     /**
-     * Build the CanvasPop cart url for the pushed image
+     * Build the CanvasPop cart url for the pushed image. The print session id
+     * is the reference_id, so CanvasPop orders can be matched to ours.
      */
-    const buildCartUrl = (imageToken: string, meta: ImageMeta) => {
+    const buildCartUrl = (
+        imageToken: string,
+        sessionId: string,
+        meta: ImageMeta
+    ) => {
         const url = new URL(
             `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${imageToken}/${meta.width}/${meta.height}/`
         )
 
-        url.searchParams.append(
-            'reference_id',
-            process.env.NEXT_PUBLIC_APP_TITLE!
-        )
+        url.searchParams.append('reference_id', sessionId)
 
         return url.href
     }
@@ -237,7 +249,7 @@ export const useCreatePrint = () => {
                 description: 'Hold tight Sparky - this may take a moment'
             })
 
-            const imageToken = await pushToCanvaspop(upload)
+            const { imageToken, sessionId } = await pushToCanvaspop(upload)
             if (isCancelled()) return
 
             track('print-order-initiated', {
@@ -245,7 +257,8 @@ export const useCreatePrint = () => {
                 fileName: file.name
             })
 
-            setCartUrl(buildCartUrl(imageToken, meta))
+            setCartUrl(buildCartUrl(imageToken, sessionId, meta))
+            setSessionId(sessionId)
             setStatus('ready')
             toast.dismiss(toastId)
         } catch (error) {
@@ -275,6 +288,7 @@ export const useCreatePrint = () => {
 
         setStatus('idle')
         setCartUrl(null)
+        setSessionId(null)
     }, [])
 
     const isBusy =
@@ -282,5 +296,5 @@ export const useCreatePrint = () => {
         status === 'moderating' ||
         status === 'pushing'
 
-    return { status, isBusy, progress, cartUrl, start, reset }
+    return { status, isBusy, progress, cartUrl, sessionId, start, reset }
 }

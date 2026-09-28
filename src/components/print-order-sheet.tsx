@@ -13,12 +13,14 @@ interface PrintOrderSheetProps {
     open: boolean
     onOpenChange: (open: boolean) => void
     cartUrl: string | null
+    sessionId: string | null
 }
 
 const PrintOrderSheet = ({
     open,
     onOpenChange,
-    cartUrl
+    cartUrl,
+    sessionId
 }: PrintOrderSheetProps) => (
     <Sheet
         open={open}
@@ -32,7 +34,12 @@ const PrintOrderSheet = ({
                     Make something awesome. Make it your own.
                 </SheetDescription>
             </SheetHeader>
-            {cartUrl && <CanvaspopCart src={cartUrl} />}
+            {cartUrl && sessionId && (
+                <CanvaspopCart
+                    src={cartUrl}
+                    sessionId={sessionId}
+                />
+            )}
         </SheetContent>
     </Sheet>
 )

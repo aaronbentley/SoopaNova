@@ -26,9 +26,23 @@ type CartState = 'loading' | 'ready' | 'blocked'
 
 interface CanvaspopCartProps {
     src: string | null
+    sessionId: string
 }
 
-const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
+/**
+ * Record that checkout for this print session moved to a new tab, where we
+ * won't see its order events (keepalive so it survives the tab switch)
+ */
+const continueSessionInTab = (sessionId: string) => {
+    fetch('/api/firestore/continue-session/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId }),
+        keepalive: true
+    }).catch(() => {})
+}
+
+const CanvaspopCart = ({ src = null, sessionId }: CanvaspopCartProps) => {
     const [cartState, setCartState] = useState<CartState>('loading')
     const iframeRef = useRef<HTMLIFrameElement>(null)
     const timeoutRef = useRef<number | undefined>(undefined)
@@ -101,9 +115,10 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                                 href={src}
                                 target='_blank'
                                 rel='noopener noreferrer'
-                                onClick={() =>
+                                onClick={() => {
                                     track('print-cart-opened-in-tab')
-                                }>
+                                    continueSessionInTab(sessionId)
+                                }}>
                                 <ExternalLink className='mr-2 size-4' />
                                 Open checkout in a new tab
                             </a>
@@ -119,7 +134,9 @@ const CanvaspopCart = ({ src = null }: CanvaspopCartProps) => {
                     onLoad={handleIframeLoad}
                     className='w-full h-full z-10'
                 />
-                {cartState === 'ready' && <CanvasPopCartEventListener />}
+                {cartState === 'ready' && (
+                    <CanvasPopCartEventListener sessionId={sessionId} />
+                )}
                 {cartState === 'loading' && (
                     <div
                         className={cn([

@@ -28,6 +28,10 @@ initializeApp()
  * Callers must be signed in to Firebase Auth (the browser signs in with a
  * custom token whose uid is the Clerk user id) and can only moderate their
  * own uploads, which are named `{uuid}--{uid}--{filename}`.
+ *
+ * The verdict is written to the file's custom metadata as
+ * `moderation: passed | rejected`. Storage rules stop clients setting it, and
+ * the app's push-image route only sends `passed` files to CanvasPop.
  */
 export const moderateImageUrl = onCall(async (request) => {
     // Reject callers who aren't signed in to Firebase Auth
@@ -137,10 +141,22 @@ export const moderateImageUrl = onCall(async (request) => {
             violence: `${detections.violence}`
         })
 
+        // Only adult content rated VERY_LIKELY is rejected (stricter
+        // thresholds false-flag game screenshots)
+        const verdict =
+            `${detections.adult}` === 'VERY_LIKELY' ? 'rejected' : 'passed'
+
+        // Record the verdict on the file for the push-image route to check
+        await getStorage()
+            .bucket(bucket)
+            .file(name)
+            .setMetadata({ metadata: { moderation: verdict } })
+
         // Return Cloud Vision SafeSearch Detections
         return {
             status: 'ok',
             message: 'Cloud Vision SafeSearch moderation completed',
+            verdict,
             detections: {
                 adult: `${detections.adult}`,
                 racy: `${detections.racy}`,
@@ -151,6 +167,7 @@ export const moderateImageUrl = onCall(async (request) => {
         logger.error('Error: Cloud Vision SafeSearch error', error)
 
         return {
+            status: 'error',
             message: 'Error: Cloud Vision SafeSearch error',
             data: null
         }

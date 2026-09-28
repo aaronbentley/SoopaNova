@@ -1,105 +1,84 @@
+import {
+    FieldValue,
+    printSessionsCollection,
+    storageBucket
+} from '@/lib/firebase-admin'
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
- * Only accept download URLs for files in our own Firebase Storage bucket
+ * Uploads are named `{uuid}--{userId}--{filename}` at the bucket root
  */
-const isAllowedImageUrl = (imageUrl: string) => {
-    try {
-        const url = new URL(imageUrl)
-        const bucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!
-        return (
-            url.protocol === 'https:' &&
-            url.hostname === 'firebasestorage.googleapis.com' &&
-            url.pathname.startsWith(`/v0/b/${bucket}/o/`)
-        )
-    } catch {
-        return false
-    }
+const isOwnUpload = (fileName: string, userId: string) => {
+    const [uuid, owner, name] = fileName.split('--')
+    return (
+        /^[0-9a-f-]{36}$/.test(uuid) &&
+        owner === userId &&
+        !!name &&
+        !fileName.includes('/')
+    )
 }
 
+const errorResponse = (data: string, status: number) =>
+    NextResponse.json({ message: 'error', data }, { status })
+
+/**
+ * Push a moderated upload to CanvasPop and open a print session for it.
+ *
+ * The file must belong to the signed-in user and carry the `moderation:
+ * passed` metadata that only the moderateImageUrl Cloud Function can write.
+ */
 export const POST = async (request: NextRequest) => {
     /**
      * Check if user is authenticated
      */
     const { userId } = await auth()
 
-    if (!userId) {
-        return NextResponse.json(
-            {
-                message: 'error',
-                data: 'unauthorized'
-            },
-            { status: 401 }
-        )
-    }
+    if (!userId) return errorResponse('unauthorized', 401)
 
     /**
-     * Get form data from request body
+     * Get the uploaded file name from the request body
      */
     const data = await request.json().catch(() => null)
+    const fileName: unknown = data?.fileName
 
     /**
-     * Bail if no data
+     * Bail if no file name, or the file isn't one of the user's uploads
      */
-    if (!data) {
-        return NextResponse.json(
-            {
-                message: 'error',
-                data: 'no data'
-            },
-            { status: 400 }
-        )
+    if (typeof fileName !== 'string' || !isOwnUpload(fileName, userId)) {
+        return errorResponse('invalid file', 400)
     }
 
     /**
-     * Destructure image url from data
+     * Check the file exists and passed moderation
      */
-    const { imageUrl = undefined } = data
+    const file = storageBucket.file(fileName)
 
-    /**
-     * Bail if no image url, or the image url is not one of ours
-     */
-    if (typeof imageUrl !== 'string' || !isAllowedImageUrl(imageUrl)) {
-        return NextResponse.json(
-            {
-                message: 'error',
-                data: 'invalid image url'
-            },
-            { status: 400 }
-        )
+    const [metadata] = await file.getMetadata().catch(() => [null])
+
+    if (!metadata) return errorResponse('file not found', 404)
+
+    if (metadata.metadata?.moderation !== 'passed') {
+        return errorResponse('image not approved', 403)
     }
 
     /**
      * Download the image file
      */
-    const imageResponse = await fetch(imageUrl, {
-        method: 'GET'
-    })
+    const [imageBuffer] = await file.download().catch(() => [null])
 
-    /**
-     * Bail if the image could not be downloaded
-     */
-    if (!imageResponse.ok) {
-        return NextResponse.json(
-            {
-                message: 'error',
-                data: 'image download failed'
-            },
-            { status: 502 }
-        )
-    }
-
-    /**
-     * Transform image response body as blob
-     */
-    const imageResponseBody = await imageResponse.blob()
+    if (!imageBuffer) return errorResponse('image download failed', 502)
 
     /**
      * Compose payload formData
      */
     const payload = new FormData()
-    payload.append('image', imageResponseBody)
+    payload.append(
+        'image',
+        new Blob([new Uint8Array(imageBuffer)], {
+            type: metadata.contentType
+        })
+    )
 
     /**
      * POST payload to Canvaspop Push API
@@ -124,30 +103,44 @@ export const POST = async (request: NextRequest) => {
             'Error uploading image to Canvaspop Push API',
             canvasPopPushResponse.status
         )
-        return NextResponse.json(
-            {
-                message: 'error',
-                data: 'canvaspop upload failed'
-            },
-            { status: 502 }
-        )
+        return errorResponse('canvaspop upload failed', 502)
     }
 
     /**
      * Get Canvaspop Push API response data as json
      */
     const canvasPopPushResponseJson = await canvasPopPushResponse.json()
+    const imageToken: unknown = canvasPopPushResponseJson?.image_token
+
+    if (typeof imageToken !== 'string' || !imageToken) {
+        return errorResponse('canvaspop upload failed', 502)
+    }
 
     /**
-     * Return response
+     * Open a print session. create-order will only record an order that
+     * claims an unused session belonging to the user.
      */
-    return NextResponse.json(
-        {
-            message: 'success',
-            data: {
-                ...canvasPopPushResponseJson
-            }
-        },
-        { status: 200 }
-    )
+    try {
+        const session = await printSessionsCollection(userId).add({
+            imageToken,
+            fileName,
+            orderId: null,
+            continuedInTab: false,
+            createdAt: FieldValue.serverTimestamp()
+        })
+
+        return NextResponse.json(
+            {
+                message: 'success',
+                data: {
+                    ...canvasPopPushResponseJson,
+                    sessionId: session.id
+                }
+            },
+            { status: 200 }
+        )
+    } catch (error) {
+        console.error('Error creating print session', error)
+        return errorResponse('could not start print session', 500)
+    }
 }
