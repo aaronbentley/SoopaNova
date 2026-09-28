@@ -180,7 +180,7 @@ const Frontpage = () => (
                         <Link
                             key={product.name}
                             href='/create/'
-                            className='flex flex-col overflow-hidden rounded-xl border bg-background transition-colors duration-200 hover:border-primary'>
+                            className='group flex flex-col overflow-hidden rounded-xl border bg-background transition-colors duration-200 hover:border-primary'>
                             <div className='relative aspect-4/3 overflow-hidden border-b'>
                                 <Image
                                     src={product.image}
@@ -210,7 +210,7 @@ const Frontpage = () => (
                                     {product.tags.map((tag) => (
                                         <span
                                             key={tag}
-                                            className='rounded-sm border px-2 py-1 font-mono text-[11px] text-muted-foreground'>
+                                            className='rounded-sm border px-2 py-1 font-mono text-[11px] text-muted-foreground transition-colors duration-200 group-hover:border-primary/40 group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:border-primary/40 group-focus-visible:bg-primary/10 group-focus-visible:text-primary'>
                                             {tag}
                                         </span>
                                     ))}
