@@ -4,7 +4,6 @@
 
 import { cn } from '@/lib/utils'
 
-
 export const Hero = ({
     className,
     children,
@@ -36,7 +35,9 @@ export const HeroPill = ({ children }: { children: React.ReactNode }) => (
             aria-hidden='true'
             className='size-1.5 rounded-full bg-primary shadow-[0_0_12px_var(--primary)]'
         />
-        <span className='flex flex-wrap justify-center gap-2'>{children}</span>
+        <span className='flex flex-wrap items-center justify-center gap-2'>
+            {children}
+        </span>
     </div>
 )
 

@@ -13,7 +13,7 @@ import SectionHeader from '@/components/section-header'
 import UploadFile from '@/components/upload-file'
 import { cn } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
-import { UploadCloud } from 'lucide-react'
+import { ArrowRight, UploadCloud } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -49,11 +49,20 @@ const Frontpage = () => (
         <Hero>
             <HeroPill>
                 <span>Play</span>
-                <span className='opacity-50'>→</span>
+                <ArrowRight
+                    aria-hidden='true'
+                    className='size-3 opacity-50'
+                />
                 <span>Capture</span>
-                <span className='opacity-50'>→</span>
+                <ArrowRight
+                    aria-hidden='true'
+                    className='size-3 opacity-50'
+                />
                 <span>Upload</span>
-                <span className='opacity-50'>→</span>
+                <ArrowRight
+                    aria-hidden='true'
+                    className='size-3 opacity-50'
+                />
                 <span className='text-foreground'>Print</span>
             </HeroPill>
             <HeroHeading>
