@@ -1,7 +1,7 @@
 import canvasPrint from '@/assets/img/canvas-print-4x3.jpg'
 import framedPrint from '@/assets/img/framed-print-4x3.jpg'
 import posterPrint from '@/assets/img/poster-print-4x3.jpg'
-import heroPrint from '@/assets/img/poster-print-16x10.jpg'
+import heroPrint from '@/assets/img/poster-print-3x2.jpg'
 import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 
 /**
