@@ -16,6 +16,7 @@
     "dependencies": {
         "@clerk/nextjs": "^7.9.9",
         "@clerk/react": "^6.17.4",
+        "@hookform/resolvers": "^5.9.1",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
         "@wrksz/themes": "^2.0.2",
@@ -33,6 +34,7 @@
         "react-dom": "19.3.0",
         "react-dropzone": "^20.1.2",
         "react-firebase-hooks": "^5.1.1",
+        "react-hook-form": "^7.89.0",
         "server-only": "^0.0.1",
         "sonner": "^2.0.8",
         "stripe": "^23.0.0",

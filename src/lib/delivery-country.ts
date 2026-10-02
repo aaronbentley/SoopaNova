@@ -1,8 +1,8 @@
-'use client'
-
 import { countries, defaultCountry } from '@/assets/data/countries'
-import { useState } from 'react'
 
+/**
+ * The delivery country for prices and checkout, remembered in this browser
+ */
 const storageKey = 'deliveryCountry'
 
 const isDeliveryCountry = (code: string | null | undefined): code is string =>
@@ -12,7 +12,7 @@ const isDeliveryCountry = (code: string | null | undefined): code is string =>
  * The visitor's last chosen country, else a guess from their browser
  * language (en-GB → GB), else the UK
  */
-const detectCountry = () => {
+export const detectDeliveryCountry = () => {
     if (typeof window === 'undefined') return defaultCountry
 
     try {
@@ -30,20 +30,12 @@ const detectCountry = () => {
 }
 
 /**
- * The delivery country for prices and checkout, remembered in this browser
+ * Remember the chosen country for next time
  */
-export const useDeliveryCountry = () => {
-    const [country, setCountry] = useState(detectCountry)
-
-    const update = (code: string) => {
-        setCountry(code)
-
-        try {
-            window.localStorage.setItem(storageKey, code)
-        } catch {
-            /** Not remembered, but still used for this order */
-        }
+export const rememberDeliveryCountry = (code: string) => {
+    try {
+        window.localStorage.setItem(storageKey, code)
+    } catch {
+        /** Not remembered, but still used for this order */
     }
-
-    return [country, update] as const
 }

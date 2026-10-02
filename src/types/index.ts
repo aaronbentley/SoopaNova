@@ -79,17 +79,3 @@ export type Catalogue = {
     generatedAt: string
     products: Record<string, CatalogueItem[]>
 }
-
-/**
- * What the customer chose in the print options sheet
- */
-export type PrintSelection = {
-    productType: string
-    size: string
-    sku: string
-    /** Prodigi attributes, e.g. { color: 'black' } */
-    options: Record<string, string>
-    /** Two-letter delivery country code */
-    country: string
-    region: Region
-}

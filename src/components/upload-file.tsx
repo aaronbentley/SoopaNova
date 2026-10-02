@@ -2,10 +2,10 @@
 
 import PrintOptionsSheet from '@/components/print-options/print-options-sheet'
 import ScreenshotDropzone from '@/components/screenshot-dropzone'
+import { useCheckout } from '@/hooks/use-checkout'
 import { useCreatePrint } from '@/hooks/use-create-print'
 import { useScreenshot } from '@/hooks/use-screenshot'
 import { cn } from '@/lib/utils'
-import { toast } from 'sonner'
 
 /**
  * Screenshot upload → print options flow.
@@ -23,6 +23,7 @@ const UploadFile = ({
 }) => {
     const screenshot = useScreenshot()
     const print = useCreatePrint()
+    const checkout = useCheckout()
 
     /**
      * Check the screenshot, then upload and moderate it
@@ -39,6 +40,7 @@ const UploadFile = ({
      */
     const close = () => {
         print.reset()
+        checkout.clearError()
         screenshot.clear()
     }
 
@@ -72,15 +74,14 @@ const UploadFile = ({
                             print.start(screenshot.file, screenshot.meta)
                         }
                     }}
-                    onCheckout={() => {
-                        /**
-                         * Placeholder until /api/checkout (Stripe) exists
-                         */
-                        toast.info('Checkout is coming soon', {
-                            description:
-                                "Your choices look great - we're still building this bit."
-                        })
+                    onCheckout={(values) => {
+                        const fileName =
+                            screenshot.file &&
+                            print.getUploadName(screenshot.file)
+                        if (fileName) checkout.checkout(fileName, values)
                     }}
+                    checkoutPending={checkout.pending}
+                    checkoutError={checkout.error}
                 />
             )}
         </div>

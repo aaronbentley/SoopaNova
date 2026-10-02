@@ -2,36 +2,47 @@
 
 import { ctaButtonVariants } from '@/components/cta-button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form'
 import { formatMoney, type Price } from '@/lib/pricing'
+import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { cn } from '@/lib/utils'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import type { Control } from 'react-hook-form'
 
 interface OrderSummaryProps {
+    control: Control<PrintOptionsValues>
     title: string
     price: Price | null
     shippingFrom: Price | null
     countryName: string
-    confirmed: boolean
     /** The screenshot passed moderation */
     approved: boolean
-    onConfirmedChange: (confirmed: boolean) => void
-    onCheckout: () => void
+    /** Checkout is starting (redirecting to Stripe) */
+    pending: boolean
+    /** Why checkout couldn't start */
+    error: string | null
 }
 
 /**
- * Price, shipping note, the personal-use confirmation and checkout button
+ * Price, shipping note, the personal-use confirmation and the submit button
+ * (checkout). An unticked confirmation shows its message when submitted.
  */
 const OrderSummary = ({
+    control,
     title,
     price,
     shippingFrom,
     countryName,
-    confirmed,
     approved,
-    onConfirmedChange,
-    onCheckout
+    pending,
+    error
 }: OrderSummaryProps) => (
     <section className='flex flex-col gap-5 border-t pt-6'>
         <div className='flex items-baseline justify-between gap-4'>
@@ -47,50 +58,67 @@ const OrderSummary = ({
                 + shipping from {formatMoney(shippingFrom)}
             </p>
         )}
-        <div
-            role='group'
-            aria-labelledby='personal-use-label'
-            className='flex flex-col gap-3'>
-            <h3
-                id='personal-use-label'
-                className='eyebrow text-muted-foreground'>
-                Personal use
-            </h3>
-            <div className='flex items-start gap-3'>
-                <Checkbox
-                    id='personal-use'
-                    checked={confirmed}
-                    onCheckedChange={(checked) =>
-                        onConfirmedChange(checked === true)
-                    }
-                    className='mt-0.5'
-                />
-                <Label
-                    htmlFor='personal-use'
-                    className='block leading-snug font-normal text-pretty text-muted-foreground'>
-                    This is my own screenshot and it&apos;s for my personal,
-                    non-commercial display. See our{' '}
-                    <Link
-                        href='/terms/'
-                        target='_blank'
-                        className='font-medium text-primary underline underline-offset-4'>
-                        Terms
-                    </Link>
-                    .
-                </Label>
-            </div>
-        </div>
+        <FormField
+            control={control}
+            name='confirmed'
+            render={({ field }) => (
+                <FormItem className='gap-3'>
+                    <p className='eyebrow text-muted-foreground'>
+                        Personal use
+                    </p>
+                    <div className='flex items-start gap-3'>
+                        <FormControl>
+                            <Checkbox
+                                ref={field.ref}
+                                checked={field.value}
+                                onCheckedChange={(checked) =>
+                                    field.onChange(checked === true)
+                                }
+                                className='mt-0.5'
+                            />
+                        </FormControl>
+                        <FormLabel className='block leading-snug font-normal text-pretty text-muted-foreground'>
+                            This is my own screenshot and it&apos;s for my
+                            personal, non-commercial display. See our{' '}
+                            <Link
+                                href='/terms/'
+                                target='_blank'
+                                className='font-medium text-primary underline underline-offset-4'>
+                                Terms
+                            </Link>
+                            .
+                        </FormLabel>
+                    </div>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
         <button
-            type='button'
-            disabled={!price || !confirmed || !approved}
-            onClick={onCheckout}
+            type='submit'
+            disabled={!price || !approved || pending}
             className={cn(
                 ctaButtonVariants(),
                 'w-full disabled:pointer-events-none disabled:opacity-50'
             )}>
-            Continue to checkout
-            <ArrowRight />
+            {pending ? (
+                <>
+                    <Loader2 className='animate-spin' />
+                    Starting checkout
+                </>
+            ) : (
+                <>
+                    Continue to checkout
+                    <ArrowRight />
+                </>
+            )}
         </button>
+        {error && (
+            <p
+                role='alert'
+                className='-mt-2 text-sm text-pretty text-destructive'>
+                {error}
+            </p>
+        )}
     </section>
 )
 

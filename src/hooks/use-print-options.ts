@@ -7,7 +7,10 @@ import {
     type ProductTypeId
 } from '@/assets/data/pricing'
 import { defaultOptions, defaultProductType } from '@/assets/data/print-options'
-import { useDeliveryCountry } from '@/hooks/use-delivery-country'
+import {
+    detectDeliveryCountry,
+    rememberDeliveryCountry
+} from '@/lib/delivery-country'
 import {
     getCatalogueItem,
     getPrice,
@@ -15,12 +18,18 @@ import {
     type Price
 } from '@/lib/pricing'
 import {
+    printOptionsSchema,
+    type PrintOptionsValues
+} from '@/lib/print-options-schema'
+import {
     getPrintDpi,
     getPrintQuality,
     type PrintQuality
 } from '@/lib/print-quality'
-import type { ImageMeta, PrintSelection, Region } from '@/types'
+import type { ImageMeta, Region } from '@/types'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 
 export type SizeChoice = {
     size: string
@@ -38,7 +47,12 @@ export type ProductChoice = {
     fromPrice: Price | null
 }
 
+type Selection = Omit<PrintOptionsValues, 'confirmed'>
+
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
+
+const regionOf = (country: string): Region =>
+    countries.find((entry) => entry.code === country)?.region ?? 'gb'
 
 const cheapest = (prices: (Price | null)[]) =>
     prices
@@ -72,26 +86,10 @@ const getSizeChoices = (
     })
 
 /**
- * State for the print options sheet: delivery country, product type, size
- * and options. Choices that don't apply (a size not sold in the country, a
- * colour the product doesn't have) fall back to defaults as they're read,
- * so switching product keeps whatever still fits.
+ * Product types, with the price of their cheapest orderable size
  */
-export const usePrintOptions = (meta: ImageMeta) => {
-    const [country, setCountry] = useDeliveryCountry()
-    const [chosenType, setProductType] =
-        useState<ProductTypeId>(defaultProductType)
-    const [chosenSize, setSize] = useState<string | null>(null)
-    const [chosenOptions, setOptions] = useState<Record<string, string>>({})
-    const [confirmed, setConfirmed] = useState(false)
-
-    const region =
-        countries.find((entry) => entry.code === country)?.region ?? 'gb'
-
-    /**
-     * Product types, with the price of their cheapest orderable size
-     */
-    const productChoices: ProductChoice[] = productTypeIds.map((id) => ({
+const getProductChoices = (region: Region, meta: ImageMeta) =>
+    productTypeIds.map((id) => ({
         id,
         name: productTypes[id].name,
         fromPrice: cheapest(
@@ -101,82 +99,120 @@ export const usePrintOptions = (meta: ImageMeta) => {
         )
     }))
 
+/**
+ * Make a selection valid for the screenshot and country: keep each choice
+ * that still applies, otherwise fall back to the first orderable product,
+ * the first orderable size, and each option's default (or first) value
+ */
+const resolveSelection = (selection: Selection, meta: ImageMeta): Selection => {
+    const region = regionOf(selection.country)
+    const productChoices = getProductChoices(region, meta)
+
     const productType =
         productChoices.find(
-            (choice) => choice.id === chosenType && choice.fromPrice
+            (choice) => choice.id === selection.productType && choice.fromPrice
         )?.id ??
         productChoices.find((choice) => choice.fromPrice)?.id ??
-        chosenType
+        selection.productType
 
-    /**
-     * Sizes sold in the region, and the chosen (or first orderable) one
-     */
-    const sizeChoices = getSizeChoices(productType, region, meta).filter(
-        (choice) => choice.unavailable !== 'region'
-    )
-
+    const sizeChoices = getSizeChoices(productType, region, meta)
     const size =
         sizeChoices.find(
-            (choice) => choice.size === chosenSize && !choice.unavailable
-        ) ??
-        sizeChoices.find((choice) => !choice.unavailable) ??
-        null
+            (choice) => choice.size === selection.size && !choice.unavailable
+        )?.size ??
+        sizeChoices.find((choice) => !choice.unavailable)?.size ??
+        ''
 
-    const item = size ? getCatalogueItem(productType, size.size) : undefined
-
-    /**
-     * Options the product offers, each with the chosen or default value
-     */
-    const optionValues = item?.options ?? {}
+    const item = size ? getCatalogueItem(productType, size) : undefined
     const options = Object.fromEntries(
-        Object.entries(optionValues).map(([name, values]) => {
-            const value = [chosenOptions[name], defaultOptions[name]].find(
+        Object.entries(item?.options ?? {}).map(([name, values]) => {
+            const value = [selection.options[name], defaultOptions[name]].find(
                 (candidate) => candidate && values.includes(candidate)
             )
             return [name, value ?? values[0]]
         })
     )
 
-    const setOption = (name: string, value: string) =>
-        setOptions((current) => ({ ...current, [name]: value }))
+    return { country: selection.country, productType, size, options }
+}
 
-    const shippingFrom = size
-        ? cheapest(
-              shipping.methods.map((method) =>
-                  getShippingPrice(productType, size.size, region, method)
-              )
-          )
-        : null
+/**
+ * The print options form (react-hook-form + zod). Product, size and options
+ * depend on each other and on the country, so each change resolves the
+ * whole selection again and every field always holds a valid value; zod
+ * checks it (and the personal-use confirmation) on submit, as the server
+ * does at checkout.
+ */
+export const usePrintOptionsForm = (meta: ImageMeta) => {
+    const [defaultValues] = useState<PrintOptionsValues>(() => ({
+        ...resolveSelection(
+            {
+                country: detectDeliveryCountry(),
+                productType: defaultProductType,
+                size: '',
+                options: {}
+            },
+            meta
+        ),
+        confirmed: false
+    }))
 
-    const selection: PrintSelection | null =
-        size && item
-            ? {
-                  productType,
-                  size: size.size,
-                  sku: item.sku,
-                  options,
-                  country,
-                  region
-              }
-            : null
+    const form = useForm<PrintOptionsValues>({
+        resolver: zodResolver(printOptionsSchema),
+        defaultValues
+    })
+
+    const values = useWatch({ control: form.control }) as PrintOptionsValues
+
+    /**
+     * Apply a change and resolve the rest of the selection around it
+     */
+    const update = (change: Partial<Selection>) => {
+        const next = resolveSelection({ ...form.getValues(), ...change }, meta)
+
+        form.setValue('country', next.country, { shouldDirty: true })
+        form.setValue('productType', next.productType, { shouldDirty: true })
+        form.setValue('size', next.size, { shouldDirty: true })
+        form.setValue('options', next.options, { shouldDirty: true })
+    }
+
+    const region = regionOf(values.country)
+    const sizeChoices = getSizeChoices(values.productType, region, meta).filter(
+        (choice) => choice.unavailable !== 'region'
+    )
+    const size = sizeChoices.find((choice) => choice.size === values.size)
+    const item = size
+        ? getCatalogueItem(values.productType, size.size)
+        : undefined
 
     return {
-        country,
-        setCountry,
+        form,
+        values,
         region,
-        productChoices,
-        productType,
-        setProductType,
+        productChoices: getProductChoices(region, meta),
         sizeChoices,
-        size,
-        setSize,
-        optionValues,
-        options,
-        setOption,
+        size: size ?? null,
+        optionValues: item?.options ?? {},
         price: size?.price ?? null,
-        shippingFrom,
-        confirmed,
-        setConfirmed,
-        selection
+        shippingFrom: size
+            ? cheapest(
+                  shipping.methods.map((method) =>
+                      getShippingPrice(
+                          values.productType,
+                          size.size,
+                          region,
+                          method
+                      )
+                  )
+              )
+            : null,
+        setCountry: (country: string) => {
+            rememberDeliveryCountry(country)
+            update({ country })
+        },
+        setProductType: (productType: ProductTypeId) => update({ productType }),
+        setSize: (newSize: string) => update({ size: newSize }),
+        setOption: (name: string, value: string) =>
+            update({ options: { ...form.getValues('options'), [name]: value } })
     }
 }

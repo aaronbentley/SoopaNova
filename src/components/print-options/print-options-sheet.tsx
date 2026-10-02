@@ -12,6 +12,7 @@ import OrderSummary from '@/components/print-options/order-summary'
 import PreviewStatus from '@/components/print-options/preview-status'
 import PrintPreview from '@/components/print-options/print-preview'
 import ScreenshotDetails from '@/components/print-options/screenshot-details'
+import { Form } from '@/components/ui/form'
 import {
     Sheet,
     SheetContent,
@@ -20,9 +21,10 @@ import {
     SheetTitle
 } from '@/components/ui/sheet'
 import type { PrintStatus } from '@/hooks/use-create-print'
-import { usePrintOptions } from '@/hooks/use-print-options'
+import { usePrintOptionsForm } from '@/hooks/use-print-options'
+import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { formatSize } from '@/lib/print-quality'
-import type { ImageMeta, PrintSelection } from '@/types'
+import type { ImageMeta } from '@/types'
 
 interface PrintOptionsSheetProps {
     open: boolean
@@ -35,7 +37,10 @@ interface PrintOptionsSheetProps {
     progress: number
     error: string | null
     onRetry: () => void
-    onCheckout: (selection: PrintSelection) => void
+    /** Called with the validated options when the form is submitted */
+    onCheckout: (values: PrintOptionsValues) => void
+    checkoutPending: boolean
+    checkoutError: string | null
 }
 
 /**
@@ -53,17 +58,20 @@ const PrintOptionsSheet = ({
     progress,
     error,
     onRetry,
-    onCheckout
+    onCheckout,
+    checkoutPending,
+    checkoutError
 }: PrintOptionsSheetProps) => {
-    const print = usePrintOptions(meta)
+    const print = usePrintOptionsForm(meta)
+    const { values, form } = print
 
     const countryName =
-        countries.find((country) => country.code === print.country)?.name ??
-        print.country
+        countries.find((country) => country.code === values.country)?.name ??
+        values.country
 
     const title = print.size
-        ? `${productTypes[print.productType].name}, ${formatSize(print.size.size, meta).inches}`
-        : productTypes[print.productType].name
+        ? `${productTypes[values.productType].name}, ${formatSize(print.size.size, meta).inches}`
+        : productTypes[values.productType].name
 
     return (
         <Sheet
@@ -91,9 +99,9 @@ const PrintOptionsSheet = ({
                                 previewUrl={previewUrl}
                                 alt={file.name}
                                 meta={meta}
-                                productType={print.productType}
+                                productType={values.productType}
                                 size={print.size?.size ?? null}
-                                options={print.options}>
+                                options={values.options}>
                                 <PreviewStatus
                                     status={status}
                                     progress={progress}
@@ -107,54 +115,57 @@ const PrintOptionsSheet = ({
                             </PrintPreview>
                         </div>
 
-                        {/* Locked if the screenshot can't be printed */}
-                        <fieldset
-                            disabled={status === 'flagged'}
-                            className='flex min-w-0 flex-col gap-8 disabled:opacity-50'>
-                            {/* First, as it sets the currency of every price below */}
-                            <CountryField
-                                value={print.country}
-                                onChange={print.setCountry}
-                            />
-                            <ProductTypeField
-                                choices={print.productChoices}
-                                value={print.productType}
-                                onChange={print.setProductType}
-                            />
-                            <SizeField
-                                choices={print.sizeChoices}
-                                value={print.size?.size ?? null}
-                                meta={meta}
-                                onChange={print.setSize}
-                            />
-                            {Object.entries(print.optionValues).map(
-                                ([name, values]) => (
-                                    <OptionField
-                                        key={name}
-                                        name={name}
-                                        values={values}
-                                        value={print.options[name]}
-                                        onChange={(value) =>
-                                            print.setOption(name, value)
-                                        }
+                        <Form {...form}>
+                            <form
+                                noValidate
+                                onSubmit={form.handleSubmit(onCheckout)}
+                                className='min-w-0'>
+                                {/* Locked if the screenshot can't be printed */}
+                                <fieldset
+                                    disabled={status === 'flagged'}
+                                    className='flex min-w-0 flex-col gap-8 disabled:opacity-50'>
+                                    {/* First, as it sets the currency of every price below */}
+                                    <CountryField
+                                        control={form.control}
+                                        onChange={print.setCountry}
                                     />
-                                )
-                            )}
-                            <OrderSummary
-                                title={title}
-                                price={print.price}
-                                shippingFrom={print.shippingFrom}
-                                countryName={countryName}
-                                confirmed={print.confirmed}
-                                approved={status === 'ready'}
-                                onConfirmedChange={print.setConfirmed}
-                                onCheckout={() => {
-                                    if (print.selection) {
-                                        onCheckout(print.selection)
-                                    }
-                                }}
-                            />
-                        </fieldset>
+                                    <ProductTypeField
+                                        control={form.control}
+                                        choices={print.productChoices}
+                                        onChange={print.setProductType}
+                                    />
+                                    <SizeField
+                                        control={form.control}
+                                        choices={print.sizeChoices}
+                                        meta={meta}
+                                        onChange={print.setSize}
+                                    />
+                                    {Object.entries(print.optionValues).map(
+                                        ([name, optionValues]) => (
+                                            <OptionField
+                                                key={name}
+                                                control={form.control}
+                                                name={name}
+                                                values={optionValues}
+                                                onChange={(value) =>
+                                                    print.setOption(name, value)
+                                                }
+                                            />
+                                        )
+                                    )}
+                                    <OrderSummary
+                                        control={form.control}
+                                        title={title}
+                                        price={print.price}
+                                        shippingFrom={print.shippingFrom}
+                                        countryName={countryName}
+                                        approved={status === 'ready'}
+                                        pending={checkoutPending}
+                                        error={checkoutError}
+                                    />
+                                </fieldset>
+                            </form>
+                        </Form>
                     </div>
                 </div>
             </SheetContent>
