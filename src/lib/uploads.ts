@@ -33,7 +33,10 @@ export const isApprovedUpload = async (fileName: string) => {
  * A signed link to read a file in the uploads bucket (signed locally with
  * the service account key, so no request is made)
  */
-export const getSignedReadUrl = async (path: string, expiresInMinutes: number) => {
+export const getSignedReadUrl = async (
+    path: string,
+    expiresInMinutes: number
+) => {
     const [url] = await storageBucket.file(path).getSignedUrl({
         version: 'v4',
         action: 'read',

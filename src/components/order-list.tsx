@@ -90,7 +90,9 @@ const Tracking = ({ prodigi }: { prodigi: ProdigiStatus | null }) => {
                             rel='noopener noreferrer'
                             className='inline-flex items-center gap-1 font-medium text-primary underline underline-offset-4'>
                             Track
-                            {shipment.carrier ? ` with ${shipment.carrier}` : ''}
+                            {shipment.carrier
+                                ? ` with ${shipment.carrier}`
+                                : ''}
                             <ExternalLink
                                 aria-hidden={true}
                                 className='size-3.5'

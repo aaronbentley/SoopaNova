@@ -120,7 +120,8 @@ const claimPrintSession = async (
 
         const existingOrderId: string | null = session.get('orderId')
 
-        if (existingOrderId) return ordersCollection(userId).doc(existingOrderId)
+        if (existingOrderId)
+            return ordersCollection(userId).doc(existingOrderId)
 
         const recipient = toRecipient(checkout)
         const shippingMethod = toShippingMethod(checkout)
@@ -228,7 +229,8 @@ const saveProdigiOrder = (
 
         const isNewer =
             !saved?.lastUpdated ||
-            Date.parse(prodigiOrder.lastUpdated) >= Date.parse(saved.lastUpdated)
+            Date.parse(prodigiOrder.lastUpdated) >=
+                Date.parse(saved.lastUpdated)
 
         transaction.update(orderRef, {
             status: 'submitted' satisfies PrintOrderStatus,
@@ -269,10 +271,7 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
      * Uploads are deleted after 3 days, and Prodigi downloads within minutes
      * of the order (retrying for a while), so the url lasts as long
      */
-    const assetUrl = await getSignedReadUrl(
-        order.get('fileName'),
-        3 * 24 * 60
-    )
+    const assetUrl = await getSignedReadUrl(order.get('fileName'), 3 * 24 * 60)
 
     const callbackSecret = process.env.PRODIGI_CALLBACK_SECRET
     const options: Record<string, string> = order.get('options') ?? {}
@@ -437,8 +436,5 @@ export const syncProdigiOrder = async (prodigiOrderId: string) => {
 
     if (!userId || !orderId) return false
 
-    return saveProdigiOrder(
-        ordersCollection(userId).doc(orderId),
-        prodigiOrder
-    )
+    return saveProdigiOrder(ordersCollection(userId).doc(orderId), prodigiOrder)
 }

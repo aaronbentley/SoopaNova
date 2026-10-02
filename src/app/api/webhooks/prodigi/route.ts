@@ -37,7 +37,10 @@ export const POST = async (request: NextRequest) => {
     const event = await request.json().catch(() => null)
     const prodigiOrderId = event?.subject ?? event?.data?.id
 
-    if (typeof prodigiOrderId !== 'string' || !/^ord_\d+$/.test(prodigiOrderId)) {
+    if (
+        typeof prodigiOrderId !== 'string' ||
+        !/^ord_\d+$/.test(prodigiOrderId)
+    ) {
         return NextResponse.json({ received: false }, { status: 400 })
     }
 
@@ -45,7 +48,10 @@ export const POST = async (request: NextRequest) => {
         const synced = await syncProdigiOrder(prodigiOrderId)
 
         if (!synced) {
-            console.error('Prodigi callback for an unknown order', prodigiOrderId)
+            console.error(
+                'Prodigi callback for an unknown order',
+                prodigiOrderId
+            )
         }
     } catch (error) {
         /** Not an order on this Prodigi account: nothing to retry */

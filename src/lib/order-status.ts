@@ -2,12 +2,7 @@ import type { ProdigiStatus } from '@/lib/orders'
 import type { PrintOrderStatus } from '@/types'
 
 export type OrderProgress =
-    | 'processing'
-    | 'received'
-    | 'printing'
-    | 'shipped'
-    | 'cancelled'
-    | 'onHold'
+    'processing' | 'received' | 'printing' | 'shipped' | 'cancelled' | 'onHold'
 
 export const orderProgressLabels: Record<OrderProgress, string> = {
     processing: 'Processing',
