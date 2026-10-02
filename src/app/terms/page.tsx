@@ -72,15 +72,24 @@ const Terms = () => {
                     </PageSectionHeading>
                     <Typography variant='h3'>User Content</Typography>
                     <PageSectionDescription>
-                        You retain ownership of any content you submit, post, or
-                        display on or through the Service (&quot;User
-                        Content&quot;).
+                        Images you upload to the Service (&quot;User
+                        Content&quot;), such as game screenshots, usually
+                        include material owned by others, including the artwork,
+                        characters, and other content of the game&apos;s
+                        publisher or developer. Uploading User Content does not
+                        give you or SoopaNova ownership of that material.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        By submitting User Content, you grant SoopaNova a
-                        worldwide, non-exclusive, royalty-free license to use,
-                        copy, reproduce, process, adapt, modify, publish,
-                        transmit, display, and distribute such User Content.
+                        By uploading User Content, you confirm that you have the
+                        rights needed to have it printed, and that any print you
+                        order is for your own personal, non-commercial use.
+                    </PageSectionDescription>
+                    <PageSectionDescription>
+                        You grant SoopaNova a limited, non-exclusive,
+                        royalty-free license to store, process, and copy your
+                        User Content only as needed to provide the Service:
+                        checking it against our content rules and sending it to
+                        our print partner to produce and deliver your order.
                     </PageSectionDescription>
                     <Typography variant='h3'>Intellectual Property</Typography>
                     <PageSectionDescription>
@@ -189,7 +198,7 @@ const Terms = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionDescription>
-                        Last updated: December, 2023
+                        Last updated: October, 2026
                     </PageSectionDescription>
                 </PageSection>
             </div>
