@@ -74,10 +74,17 @@ const ScreenshotDropzone = ({
         noDrag: variant === 'button'
     })
 
+    /**
+     * react-dropzone hides the file input with a zero size but leaves it in
+     * the layout, and Safari gives file inputs a minimum width, which pushed
+     * the hero buttons apart. sr-only takes it out of the flow.
+     */
+    const inputProps = getInputProps({ className: 'sr-only' })
+
     if (variant === 'button') {
         return (
             <>
-                <input {...getInputProps()} />
+                <input {...inputProps} />
                 <button
                     type='button'
                     onClick={open}
@@ -123,7 +130,7 @@ const ScreenshotDropzone = ({
                     isDragActive && ['border-primary', 'dark:border-primary'],
                     className
                 )}>
-                <input {...getInputProps()} />
+                <input {...inputProps} />
                 {isDragActive ? (
                     <div className='grid place-items-center gap-2 sm:px-5'>
                         <UploadCloud
