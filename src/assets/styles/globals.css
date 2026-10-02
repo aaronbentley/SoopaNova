@@ -25,7 +25,7 @@
 
     /* #ec4899 / hsl(330 81% 60%) */
     --primary: oklch(0.6538 0.2133 354.06);
-    
+
     /* #fafafa / hsl(0 0% 98%) */
     --primary-foreground: oklch(0.9848 0 0);
 
@@ -77,7 +77,7 @@
 
     /* #ec4899 / hsl(330 81% 60%) */
     --primary: oklch(0.6538 0.2133 354.06);
-    
+
     /* #171717 / hsl(0 0% 9%) */
     --primary-foreground: oklch(0.2044 0 0);
 
