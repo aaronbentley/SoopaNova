@@ -1,6 +1,5 @@
 'use client'
 
-import PrintOrderSheet from '@/components/print-order-sheet'
 import ScreenshotDropzone from '@/components/screenshot-dropzone'
 import ScreenshotPreviewSheet from '@/components/screenshot-preview-sheet'
 import { useCreatePrint } from '@/hooks/use-create-print'
@@ -8,11 +7,11 @@ import { useScreenshot } from '@/hooks/use-screenshot'
 import { cn } from '@/lib/utils'
 
 /**
- * Screenshot upload → preview → print order flow.
+ * Screenshot upload → preview → moderation flow.
  *
  * The screenshot (file, preview, dimensions) lives in useScreenshot and the
- * upload/moderation/CanvasPop pipeline in useCreatePrint; this component
- * wires them to the dropzone and the two sheets.
+ * upload/moderation pipeline in useCreatePrint; this component wires them to
+ * the dropzone and the preview sheet.
  */
 const UploadFile = ({
     variant = 'dropzone',
@@ -34,13 +33,14 @@ const UploadFile = ({
 
     /**
      * Create Print is available once the screenshot's dimensions are known
-     * and valid, and nothing is running (or it was flagged)
+     * and valid, and nothing is running (or it was flagged or approved)
      */
     const canCreate =
         screenshot.meta !== null &&
         !screenshot.isTooSmall &&
         !print.isBusy &&
-        print.status !== 'flagged'
+        print.status !== 'flagged' &&
+        print.status !== 'ready'
 
     return (
         <div
@@ -73,14 +73,6 @@ const UploadFile = ({
                     }
                 }}
                 onCancel={close}
-            />
-            <PrintOrderSheet
-                open={print.status === 'ready'}
-                onOpenChange={(open) => {
-                    if (!open) close()
-                }}
-                cartUrl={print.cartUrl}
-                sessionId={print.sessionId}
             />
         </div>
     )

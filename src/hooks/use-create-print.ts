@@ -4,7 +4,6 @@ import { functions, storage } from '@/firebase/config'
 import { ensureFirebaseUser } from '@/firebase/sign-in'
 import { ImageMeta, ModerationResult } from '@/types'
 import { useAuth } from '@clerk/nextjs'
-import { track } from '@vercel/analytics'
 import { ref, type UploadResult } from 'firebase/storage'
 import { useCallback, useRef, useState } from 'react'
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
@@ -13,21 +12,14 @@ import { toast } from 'sonner'
 
 /**
  * Print creation pipeline status:
- * idle → uploading → moderating → pushing → ready,
+ * idle → uploading → moderating → ready (approved for printing),
  * or flagged (adult content) / error (retryable) along the way
  */
 export type PrintStatus =
-    | 'idle'
-    | 'uploading'
-    | 'moderating'
-    | 'pushing'
-    | 'ready'
-    | 'flagged'
-    | 'error'
+    'idle' | 'uploading' | 'moderating' | 'ready' | 'flagged' | 'error'
 
 /**
- * Upload a screenshot, moderate it, push it to CanvasPop and build the
- * CanvasPop cart url.
+ * Upload a screenshot and moderate it.
  *
  * - Each run gets an id; calling `reset()` (cancel) bumps the id so any late
  *   results from the cancelled run are ignored.
@@ -53,8 +45,6 @@ export const useCreatePrint = () => {
     >(functions, 'moderateImageUrl')
 
     const [status, setStatus] = useState<PrintStatus>('idle')
-    const [cartUrl, setCartUrl] = useState<string | null>(null)
-    const [sessionId, setSessionId] = useState<string | null>(null)
 
     const runIdRef = useRef(0)
     const toastIdRef = useRef<string | number | null>(null)
@@ -101,7 +91,7 @@ export const useCreatePrint = () => {
     /**
      * Moderate the uploaded screenshot with Cloud Vision SafeSearch.
      * Only adult content rated VERY_LIKELY is flagged. The function also
-     * tags the file with its verdict, which push-image checks.
+     * tags the file with its verdict, which server routes can check.
      */
     const moderate = async (upload: UploadResult) => {
         const response = await moderateImageUrl({
@@ -126,55 +116,6 @@ export const useCreatePrint = () => {
             : moderation.detections.adult === 'VERY_LIKELY'
 
         return rejected ? 'flagged' : 'passed'
-    }
-
-    /**
-     * Push the screenshot to CanvasPop (via our API route, which checks the
-     * moderation verdict) and return the CanvasPop image token and our
-     * print session id
-     */
-    const pushToCanvaspop = async (upload: UploadResult) => {
-        const response = await fetch('/api/canvaspop/push-image/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ fileName: upload.ref.fullPath })
-        })
-
-        if (response.status === 403) {
-            throw new Error(
-                "We couldn't approve this image for printing. Please try again."
-            )
-        }
-
-        const json = response.ok ? await response.json() : null
-        const imageToken: string | undefined = json?.data?.image_token
-        const sessionId: string | undefined = json?.data?.sessionId
-
-        if (!imageToken || !sessionId) {
-            throw new Error('No image token found in response')
-        }
-
-        return { imageToken, sessionId }
-    }
-
-    /**
-     * Build the CanvasPop cart url for the pushed image. The print session id
-     * is the reference_id, so CanvasPop orders can be matched to ours.
-     */
-    const buildCartUrl = (
-        imageToken: string,
-        sessionId: string,
-        meta: ImageMeta
-    ) => {
-        const url = new URL(
-            `${process.env.NEXT_PUBLIC_CANVASPOP_IMAGE_LOADER_ENDPOINT}/${imageToken}/${meta.width}/${meta.height}/`
-        )
-
-        url.searchParams.append('reference_id', sessionId)
-
-        return url.href
     }
 
     /**
@@ -241,26 +182,13 @@ export const useCreatePrint = () => {
             }
 
             /**
-             * Push to CanvasPop and build the cart url
+             * Approved for printing
              */
-            setStatus('pushing')
-            toast.loading('Creating Print Order', {
-                id: toastId,
-                description: 'Hold tight Sparky - this may take a moment'
-            })
-
-            const { imageToken, sessionId } = await pushToCanvaspop(upload)
-            if (isCancelled()) return
-
-            track('print-order-initiated', {
-                userId,
-                fileName: file.name
-            })
-
-            setCartUrl(buildCartUrl(imageToken, sessionId, meta))
-            setSessionId(sessionId)
             setStatus('ready')
-            toast.dismiss(toastId)
+            toast.success('Ready to Print', {
+                id: toastId,
+                description: 'Your screenshot is approved for printing.'
+            })
         } catch (error) {
             if (isCancelled()) return
 
@@ -287,14 +215,9 @@ export const useCreatePrint = () => {
         }
 
         setStatus('idle')
-        setCartUrl(null)
-        setSessionId(null)
     }, [])
 
-    const isBusy =
-        status === 'uploading' ||
-        status === 'moderating' ||
-        status === 'pushing'
+    const isBusy = status === 'uploading' || status === 'moderating'
 
-    return { status, isBusy, progress, cartUrl, sessionId, start, reset }
+    return { status, isBusy, progress, start, reset }
 }

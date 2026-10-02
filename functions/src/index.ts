@@ -30,8 +30,8 @@ initializeApp()
  * own uploads, which are named `{uuid}--{uid}--{filename}`.
  *
  * The verdict is written to the file's custom metadata as
- * `moderation: passed | rejected`. Storage rules stop clients setting it, and
- * the app's push-image route only sends `passed` files to CanvasPop.
+ * `moderation: passed | rejected`. Storage rules stop clients setting it, so
+ * server routes can trust it before sending a file to print.
  */
 export const moderateImageUrl = onCall(async (request) => {
     // Reject callers who aren't signed in to Firebase Auth

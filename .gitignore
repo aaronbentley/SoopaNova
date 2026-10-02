@@ -43,3 +43,4 @@ certificates
 
 # Design. hanndoff
 /design_handoff_homepage_redesign
+.env*

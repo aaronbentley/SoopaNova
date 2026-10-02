@@ -98,16 +98,8 @@ const Faq = () => {
                         Who does your printing?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        Print orders are fulfilled by our trusted print partner,{' '}
-                        <a
-                            href='https://www.canvaspop.com/'
-                            title='Visit Canvaspop website'
-                            target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
-                            Canvaspop
-                        </a>
-                        . Canvaspop use only the highest quality print materials
-                        and offer outstanding customer service.
+                        Print orders are made and shipped by our trusted print
+                        partner, using only the highest quality print materials.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -120,15 +112,23 @@ const Faq = () => {
                         guarantee.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        If you&apos;re unhappy with your print, contact{' '}
+                        If you&apos;re unhappy with your print, DM us on{' '}
                         <a
-                            href='mailto:support@canvaspop.com'
-                            title='Email Canvaspop'
+                            href={process.env.APP_SOCIAL_TWITTER!}
+                            title='DM us on Twitter'
                             target='_blank'
                             className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
-                            Canvaspop Support
+                            Twitter
                         </a>{' '}
-                        and they will make it right.
+                        or{' '}
+                        <a
+                            href={process.env.APP_SOCIAL_INSTAGRAM!}
+                            title='DM us on Instagram'
+                            target='_blank'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                            Instagram
+                        </a>{' '}
+                        and we&apos;ll make it right.
                     </PageSectionDescription>
                 </PageSection>
             </div>

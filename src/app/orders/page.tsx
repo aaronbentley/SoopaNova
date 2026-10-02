@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import { ordersCollection, printSessionsCollection } from '@/lib/firebase-admin'
+import { ordersCollection } from '@/lib/firebase-admin'
 import { formatPrice } from '@/lib/utils'
 import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth, currentUser } from '@clerk/nextjs/server'
@@ -39,12 +39,10 @@ export const metadata: Metadata = {
 }
 
 /**
- * A row in the orders table: a completed order, or a print session whose
- * checkout was continued in a new tab (no order details reach us from there)
+ * A row in the orders table
  */
 type OrderRow = {
     id: string
-    status: 'completed' | 'continued'
     createdAt: Date
     productType: ProductType
     productWidth: number | null
@@ -55,7 +53,7 @@ type OrderRow = {
 }
 
 /**
- * Get orders (and print sessions continued in a new tab) from firestore
+ * Get orders from firestore
  */
 const getOrders = async (): Promise<OrderRow[] | null> => {
     /**
@@ -68,20 +66,13 @@ const getOrders = async (): Promise<OrderRow[] | null> => {
     }
 
     try {
-        const [ordersSnapshot, continuedSnapshot] = await Promise.all([
-            ordersCollection(userId)
-                .orderBy('createdAt', 'desc')
-                .limit(20)
-                .get(),
-            printSessionsCollection(userId)
-                .where('continuedInTab', '==', true)
-                .limit(20)
-                .get()
-        ])
+        const snapshot = await ordersCollection(userId)
+            .orderBy('createdAt', 'desc')
+            .limit(20)
+            .get()
 
-        const orders: OrderRow[] = ordersSnapshot.docs.map((doc) => ({
+        return snapshot.docs.map((doc) => ({
             id: doc.id,
-            status: 'completed',
             createdAt: doc.get('createdAt').toDate(),
             productType: doc.get('productType'),
             productWidth: doc.get('productWidth'),
@@ -90,30 +81,6 @@ const getOrders = async (): Promise<OrderRow[] | null> => {
             productEdge: doc.get('productEdge'),
             productPrice: doc.get('productPrice')
         }))
-
-        /**
-         * Sessions that went on to complete in the embedded cart already
-         * appear as orders
-         */
-        const continued: OrderRow[] = continuedSnapshot.docs
-            .filter((doc) => !doc.get('orderId'))
-            .map((doc) => ({
-                id: doc.id,
-                status: 'continued',
-                createdAt: (
-                    doc.get('continuedAt') ?? doc.get('createdAt')
-                ).toDate(),
-                productType: null,
-                productWidth: null,
-                productHeight: null,
-                productFrame: null,
-                productEdge: null,
-                productPrice: null
-            }))
-
-        return [...orders, ...continued]
-            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-            .slice(0, 20)
     } catch (error) {
         console.error('Error getting documents: ', error)
         return null
@@ -160,14 +127,12 @@ const OrdersTable = async () => {
         <Table>
             <TableCaption>
                 A list of your recent Print Orders. Totals are in the currency
-                chosen at checkout. Orders continued in a new tab are confirmed
-                by CanvasPop by email.
+                chosen at checkout.
             </TableCaption>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-25'>Order ID</TableHead>
                     <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Size</TableHead>
                     <TableHead>Frame</TableHead>
@@ -183,15 +148,6 @@ const OrdersTable = async () => {
                         </TableCell>
                         <TableCell>
                             {order.createdAt.toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                            {order.status === 'completed' ? (
-                                'Completed'
-                            ) : (
-                                <span title='Checkout was opened in a new tab, so the order details are with CanvasPop'>
-                                    Continued in CanvasPop
-                                </span>
-                            )}
                         </TableCell>
                         <TableCell>
                             {order.productType

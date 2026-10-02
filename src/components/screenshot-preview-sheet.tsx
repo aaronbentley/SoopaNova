@@ -22,8 +22,7 @@ import Image from 'next/image'
  * Overlay label shown over the preview while a step is running
  */
 const busyLabels: Partial<Record<PrintStatus, string>> = {
-    moderating: 'Moderating Image',
-    pushing: 'Creating Print Order'
+    moderating: 'Moderating Image'
 }
 
 interface ScreenshotPreviewSheetProps {

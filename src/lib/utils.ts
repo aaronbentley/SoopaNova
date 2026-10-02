@@ -39,8 +39,8 @@ export const getDateFromUnixTimestamp = (timestamp: number) => {
 }
 
 /**
- * Format a price as a plain amount. CanvasPop doesn't report which currency
- * the shopper chose at checkout, so no currency symbol is shown.
+ * Format a price as a plain amount. Orders don't record which currency the
+ * shopper chose at checkout, so no currency symbol is shown.
  */
 export const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

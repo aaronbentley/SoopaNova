@@ -84,20 +84,6 @@ const Privacy = () => {
                         your data.
                     </PageSectionDescription>
 
-                    <PageSectionDescription>
-                        We use Canvaspop for print fulfillment services, and you
-                        can refer to{' '}
-                        <a
-                            href='https://www.canvaspop.com/privacy-policy'
-                            title='View Canvaspop Privacy Policy'
-                            target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
-                            Canvaspop&apos;s
-                        </a>{' '}
-                        Privacy Policy for more information on how they handle
-                        your data.
-                    </PageSectionDescription>
-
                     <Typography variant='h3'>Cookies</Typography>
                     <PageSectionDescription>
                         We use cookies to enhance your experience on our

@@ -48,7 +48,7 @@ const DeleteAccount = () => {
             <AccountRow>
                 <p className='min-w-0 flex-1 text-sm text-muted-foreground text-pretty'>
                     Permanently delete your SoopaNova account. Prints you’ve
-                    already ordered from CanvasPop aren’t affected.
+                    already ordered aren’t affected.
                 </p>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>

@@ -12,7 +12,7 @@ const cspHeader = `
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self' *.canvaspop.com https://challenges.cloudflare.com;
+    frame-src 'self' https://challenges.cloudflare.com;
     frame-ancestors 'none';
     worker-src 'self' blob:;
     connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;

@@ -60,7 +60,7 @@ export const ordersCollection = (userId: string) =>
 
 /**
  * A user's print sessions: customers/{userId}/printSessions.
- * One per image pushed to CanvasPop; an order must claim an unused session.
+ * One per checkout started; an order must claim an unused session.
  */
 export const printSessionsCollection = (userId: string) =>
     customerDoc(userId).collection('printSessions')
