@@ -43,7 +43,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/lib/prodigi.ts`: the Prodigi Print API client (`server-only`): `createQuote`, `createOrder`, `getOrder`, `cancelOrder`, `getProductDetails`, throwing `ProdigiError` on HTTP errors and retrying rate limits (429) briefly. API types are in `src/types/prodigi.ts` (the catalogue script shares them). Prodigi returns business outcomes (`Created`, `OnHold`, `AlreadyExists`, `ActionNotAvailable`…) with HTTP 200, so check `outcome`. Callbacks aren't signed: fetch the order rather than trusting the body. Code that Node runs directly (the script, and anything it imports) can't use TypeScript-only syntax such as constructor parameter properties.
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app`, `/auth` and `/firestore` APIs). `src/firebase/config.ts` is the client SDK, and `src/firebase/sign-in.ts` signs it in to Firebase Auth.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
-- `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
+- `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes uploads and their moderation thumbnails after 3 days (not `orders/`): uploads are temporary and can't be deleted early.
 
 ## Conventions
 
@@ -65,7 +65,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 
 - Copy `.env.example` → `.env.local`. `NEXT_PUBLIC_*` values reach the browser. The rest are server-only.
 - Firestore collection names come from `FIREBASE_FIRESTORE_COLLECTION` / `FIREBASE_FIRESTORE_SUB_COLLECTION`. The `onOrderCreated` trigger path in `functions/src/index.ts` is hardcoded and must match them in production. Local dev and Preview use `customers-sandbox`, so test checkouts and orders stay out of the real collection.
-- Order thumbnails live at `orders/` in the uploads bucket. The bucket's lifecycle rule must not delete that prefix (see the plan's setup checklist).
+- Order thumbnails live at `orders/` in the uploads bucket and are kept: the lifecycle rule only matches the prefixes `0`–`9`, `a`–`f`, `-` (uploads start with a uuid) and `thumbnails/`. Anything stored under a new prefix is kept forever unless it's added to the rule.
 - The Admin SDK key is `FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY` (escaped `\n` newlines are unescaped in code).
 
 ## Gotchas
