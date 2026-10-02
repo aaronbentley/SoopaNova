@@ -21,38 +21,6 @@ export type ModerationResult = {
     }
 }
 
-export type ProductType =
-    // Poster
-    | 'PO'
-    // Canvas
-    | 'S'
-    // Framed Print
-    | 'FP'
-    // Default
-    | null
-
-export type ProductFrame =
-    // Canvas
-    | '075DW'
-    | '150DW'
-    // Canvas & Framed Print
-    | 'BF'
-    | 'WF'
-    // Framed Print
-    | 'EF'
-    // Default
-    | null
-
-export type ProductEdge =
-    // Canvas
-    | 'WB'
-    | 'BB'
-    // Framed Print
-    | 'NOMA'
-    | '250MA'
-    // Default
-    | null
-
 /**
  * A region we sell to. Each has one currency and one country Prodigi's costs
  * are quoted for (see regions in src/assets/data/pricing.ts).
@@ -110,4 +78,18 @@ export type CatalogueItem = {
 export type Catalogue = {
     generatedAt: string
     products: Record<string, CatalogueItem[]>
+}
+
+/**
+ * What the customer chose in the print options sheet
+ */
+export type PrintSelection = {
+    productType: string
+    size: string
+    sku: string
+    /** Prodigi attributes, e.g. { color: 'black' } */
+    options: Record<string, string>
+    /** Two-letter delivery country code */
+    country: string
+    region: Region
 }

@@ -186,7 +186,7 @@ export const moderateImageUrl = onCall(async (request) => {
 export const onOrderCreated = onDocumentCreated(
     'customers/{userId}/orders/{orderId}',
     async (event) => {
-        logger.info('Cloud Function has executed onDocumentCreated', event)
+        logger.info('Cloud Function has executed onDocumentCreated')
 
         // Get an object representing the document
         const snapshot = event.data
@@ -204,18 +204,11 @@ export const onOrderCreated = onDocumentCreated(
             return
         }
 
-        // Get the order data properties with  fallbacks
+        // Log which order was created (not its contents, which will hold
+        // the customer's address)
         const order = {
             userId: event.params.userId,
-            orderId: event.params.orderId,
-            productType: data.productType || 'not specified',
-            productWidth: data.productWidth || 'not specified',
-            productHeight: data.productHeight || 'not specified',
-            productFrame: data.productFrame || 'none',
-            productEdge: data.productEdge || 'none',
-            productPrice: data.productPrice || 'not specified',
-            orderMarkupRate: data.orderMarkupRate || 'not specified',
-            orderMarkupProfit: data.orderMarkupProfit || 'not specified'
+            orderId: event.params.orderId
         }
 
         logger.info('Order data', order)

@@ -40,7 +40,7 @@ const ScreenshotDropzone = ({
         (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
             if (acceptedFiles[0]) {
                 /**
-                 * Release focus from the trigger so the preview sheet can
+                 * Release focus from the trigger so the print options sheet can
                  * take it (Radix hides everything behind the sheet)
                  */
                 if (document.activeElement instanceof HTMLElement) {

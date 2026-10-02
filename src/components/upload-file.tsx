@@ -1,17 +1,18 @@
 'use client'
 
+import PrintOptionsSheet from '@/components/print-options/print-options-sheet'
 import ScreenshotDropzone from '@/components/screenshot-dropzone'
-import ScreenshotPreviewSheet from '@/components/screenshot-preview-sheet'
 import { useCreatePrint } from '@/hooks/use-create-print'
 import { useScreenshot } from '@/hooks/use-screenshot'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 
 /**
- * Screenshot upload → preview → moderation flow.
+ * Screenshot upload → print options flow.
  *
- * The screenshot (file, preview, dimensions) lives in useScreenshot and the
- * upload/moderation pipeline in useCreatePrint; this component wires them to
- * the dropzone and the preview sheet.
+ * Choosing a screenshot checks its dimensions (useScreenshot), then starts
+ * the upload/moderation pipeline (useCreatePrint) and opens the print
+ * options sheet straight away, which shows the pipeline's progress.
  */
 const UploadFile = ({
     variant = 'dropzone',
@@ -24,23 +25,22 @@ const UploadFile = ({
     const print = useCreatePrint()
 
     /**
+     * Check the screenshot, then upload and moderate it
+     */
+    const select = async (file: File) => {
+        print.reset()
+
+        const selected = await screenshot.select(file)
+        if (selected) print.start(selected.file, selected.meta)
+    }
+
+    /**
      * Cancel any run in progress and clear the screenshot
      */
     const close = () => {
         print.reset()
         screenshot.clear()
     }
-
-    /**
-     * Create Print is available once the screenshot's dimensions are known
-     * and valid, and nothing is running (or it was flagged or approved)
-     */
-    const canCreate =
-        screenshot.meta !== null &&
-        !screenshot.isTooSmall &&
-        !print.isBusy &&
-        print.status !== 'flagged' &&
-        print.status !== 'ready'
 
     return (
         <div
@@ -50,30 +50,39 @@ const UploadFile = ({
             )}>
             {(variant === 'button' || !screenshot.file) && (
                 <ScreenshotDropzone
-                    onSelect={screenshot.select}
+                    onSelect={select}
                     variant={variant}
                 />
             )}
-            <ScreenshotPreviewSheet
-                open={screenshot.file !== null}
-                onOpenChange={(open) => {
-                    if (!open) close()
-                }}
-                file={screenshot.file}
-                previewUrl={screenshot.previewUrl}
-                meta={screenshot.meta}
-                onImageLoad={screenshot.onImageLoad}
-                status={print.status}
-                progress={print.progress}
-                isBusy={print.isBusy}
-                canCreate={canCreate}
-                onCreate={() => {
-                    if (screenshot.file && screenshot.meta) {
-                        print.start(screenshot.file, screenshot.meta)
-                    }
-                }}
-                onCancel={close}
-            />
+            {screenshot.file && screenshot.previewUrl && screenshot.meta && (
+                <PrintOptionsSheet
+                    key={screenshot.previewUrl}
+                    open={true}
+                    onOpenChange={(open) => {
+                        if (!open) close()
+                    }}
+                    file={screenshot.file}
+                    previewUrl={screenshot.previewUrl}
+                    meta={screenshot.meta}
+                    status={print.status}
+                    progress={print.progress}
+                    error={print.error}
+                    onRetry={() => {
+                        if (screenshot.file && screenshot.meta) {
+                            print.start(screenshot.file, screenshot.meta)
+                        }
+                    }}
+                    onCheckout={() => {
+                        /**
+                         * Placeholder until /api/checkout (Stripe) exists
+                         */
+                        toast.info('Checkout is coming soon', {
+                            description:
+                                "Your choices look great - we're still building this bit."
+                        })
+                    }}
+                />
+            )}
         </div>
     )
 }

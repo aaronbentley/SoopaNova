@@ -14,8 +14,29 @@ export const imageMinHeight = parseInt(
 )
 
 /**
+ * Read an image's dimensions from its object url
+ */
+const readImageMeta = (url: string) =>
+    new Promise<ImageMeta>((resolve, reject) => {
+        const image = new window.Image()
+
+        image.onload = () =>
+            resolve({
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+                aspectRatio: getAspectRatio(
+                    image.naturalWidth,
+                    image.naturalHeight
+                )
+            })
+        image.onerror = reject
+        image.src = url
+    })
+
+/**
  * Manage the selected screenshot: the file, its preview url, and its
- * dimensions (read once the preview image loads).
+ * dimensions. A screenshot is only selected once its dimensions are known
+ * and big enough to print.
  */
 export const useScreenshot = () => {
     const [file, setFile] = useState<File | null>(null)
@@ -32,12 +53,37 @@ export const useScreenshot = () => {
     }, [previewUrl])
 
     /**
-     * Select a new screenshot
+     * Select a new screenshot. Resolves to the file and its dimensions, or
+     * null (with an error toast) when it can't be read or is too small.
      */
-    const select = useCallback((file: File) => {
-        setFile(file)
-        setPreviewUrl(URL.createObjectURL(file))
-        setMeta(null)
+    const select = useCallback(async (selected: File) => {
+        const url = URL.createObjectURL(selected)
+        const imageMeta = await readImageMeta(url).catch(() => null)
+
+        if (!imageMeta) {
+            URL.revokeObjectURL(url)
+            toast.error("We couldn't read that image", {
+                description: 'Please try a JPG or PNG screenshot.'
+            })
+            return null
+        }
+
+        if (
+            imageMeta.width < imageMinWidth ||
+            imageMeta.height < imageMinHeight
+        ) {
+            URL.revokeObjectURL(url)
+            toast.error('Screenshot too small!', {
+                description: `Screenshots need to be at least ${imageMinWidth}×${imageMinHeight}px to print well. This one is ${imageMeta.width}×${imageMeta.height}px.`
+            })
+            return null
+        }
+
+        setFile(selected)
+        setPreviewUrl(url)
+        setMeta(imageMeta)
+
+        return { file: selected, meta: imageMeta }
     }, [])
 
     /**
@@ -49,37 +95,5 @@ export const useScreenshot = () => {
         setMeta(null)
     }, [])
 
-    /**
-     * Read the screenshot dimensions from the loaded preview image
-     */
-    const onImageLoad = useCallback(
-        (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-            const { naturalWidth, naturalHeight } = event.currentTarget
-
-            if (
-                naturalWidth < imageMinWidth ||
-                naturalHeight < imageMinHeight
-            ) {
-                toast.error('Screenshot too small!', {
-                    description: `Minimum dimensions are ${imageMinWidth}px width and minimum ${imageMinHeight}px height.`
-                })
-            }
-
-            setMeta({
-                width: naturalWidth,
-                height: naturalHeight,
-                aspectRatio: getAspectRatio(naturalWidth, naturalHeight)
-            })
-        },
-        []
-    )
-
-    /**
-     * Whether the screenshot is below the minimum print dimensions
-     */
-    const isTooSmall =
-        meta !== null &&
-        (meta.width < imageMinWidth || meta.height < imageMinHeight)
-
-    return { file, previewUrl, meta, isTooSmall, select, clear, onImageLoad }
+    return { file, previewUrl, meta, select, clear }
 }

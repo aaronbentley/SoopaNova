@@ -8,7 +8,6 @@ import { ref, type UploadResult } from 'firebase/storage'
 import { useCallback, useRef, useState } from 'react'
 import { useHttpsCallable } from 'react-firebase-hooks/functions'
 import { useUploadFile } from 'react-firebase-hooks/storage'
-import { toast } from 'sonner'
 
 /**
  * Print creation pipeline status:
@@ -19,7 +18,8 @@ export type PrintStatus =
     'idle' | 'uploading' | 'moderating' | 'ready' | 'flagged' | 'error'
 
 /**
- * Upload a screenshot and moderate it.
+ * Upload a screenshot and moderate it. The print options sheet shows the
+ * status, upload progress and any error message.
  *
  * - Each run gets an id; calling `reset()` (cancel) bumps the id so any late
  *   results from the cancelled run are ignored.
@@ -45,9 +45,9 @@ export const useCreatePrint = () => {
     >(functions, 'moderateImageUrl')
 
     const [status, setStatus] = useState<PrintStatus>('idle')
+    const [error, setError] = useState<string | null>(null)
 
     const runIdRef = useRef(0)
-    const toastIdRef = useRef<string | number | null>(null)
     const uploadedRef = useRef<{ file: File; result: UploadResult } | null>(
         null
     )
@@ -127,10 +127,8 @@ export const useCreatePrint = () => {
         const runId = ++runIdRef.current
         const isCancelled = () => runId !== runIdRef.current
 
-        const toastId = toast.loading('Uploading Media', {
-            description: 'Preparing print assets'
-        })
-        toastIdRef.current = toastId
+        setError(null)
+        setStatus('uploading')
 
         try {
             /**
@@ -163,21 +161,12 @@ export const useCreatePrint = () => {
              * Moderate
              */
             setStatus('moderating')
-            toast.loading('Moderating Image', {
-                id: toastId,
-                description: 'Scanning for spicy pixels'
-            })
 
             const verdict = await moderate(upload)
             if (isCancelled()) return
 
             if (verdict === 'flagged') {
                 setStatus('flagged')
-                toast.error('Error', {
-                    id: toastId,
-                    description:
-                        'Sorry, we can not print images with adult content.'
-                })
                 return
             }
 
@@ -185,21 +174,14 @@ export const useCreatePrint = () => {
              * Approved for printing
              */
             setStatus('ready')
-            toast.success('Ready to Print', {
-                id: toastId,
-                description: 'Your screenshot is approved for printing.'
-            })
         } catch (error) {
             if (isCancelled()) return
 
             let message = 'Something went wrong.'
             if (error instanceof Error) message = error.message
 
+            setError(message)
             setStatus('error')
-            toast.error('Error', {
-                id: toastId,
-                description: message
-            })
         }
     }
 
@@ -208,16 +190,11 @@ export const useCreatePrint = () => {
      */
     const reset = useCallback(() => {
         runIdRef.current++
-
-        if (toastIdRef.current !== null) {
-            toast.dismiss(toastIdRef.current)
-            toastIdRef.current = null
-        }
-
+        setError(null)
         setStatus('idle')
     }, [])
 
     const isBusy = status === 'uploading' || status === 'moderating'
 
-    return { status, isBusy, progress, start, reset }
+    return { status, isBusy, progress, error, start, reset }
 }

@@ -1,8 +1,3 @@
-import {
-    productEdgeSlugs,
-    productFrameSlugs,
-    productTypeSlugs
-} from '@/assets/data/product-slugs'
 import NewOrderToast from '@/components/new-order-toast'
 import {
     PageHeader,
@@ -22,8 +17,6 @@ import {
     TableRow
 } from '@/components/ui/table'
 import { ordersCollection } from '@/lib/firebase-admin'
-import { formatPrice } from '@/lib/utils'
-import { ProductEdge, ProductFrame, ProductType } from '@/types'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { Info } from 'lucide-react'
 import { Metadata } from 'next'
@@ -39,17 +32,12 @@ export const metadata: Metadata = {
 }
 
 /**
- * A row in the orders table
+ * A row in the orders table. Product, status and total columns come with
+ * the Stripe + Prodigi order format.
  */
 type OrderRow = {
     id: string
     createdAt: Date
-    productType: ProductType
-    productWidth: number | null
-    productHeight: number | null
-    productFrame: ProductFrame
-    productEdge: ProductEdge
-    productPrice: number | null
 }
 
 /**
@@ -73,13 +61,7 @@ const getOrders = async (): Promise<OrderRow[] | null> => {
 
         return snapshot.docs.map((doc) => ({
             id: doc.id,
-            createdAt: doc.get('createdAt').toDate(),
-            productType: doc.get('productType'),
-            productWidth: doc.get('productWidth'),
-            productHeight: doc.get('productHeight'),
-            productFrame: doc.get('productFrame'),
-            productEdge: doc.get('productEdge'),
-            productPrice: doc.get('productPrice')
+            createdAt: doc.get('createdAt').toDate()
         }))
     } catch (error) {
         console.error('Error getting documents: ', error)
@@ -125,19 +107,11 @@ const OrdersTable = async () => {
      */
     return (
         <Table>
-            <TableCaption>
-                A list of your recent Print Orders. Totals are in the currency
-                chosen at checkout.
-            </TableCaption>
+            <TableCaption>A list of your recent Print Orders.</TableCaption>
             <TableHeader>
                 <TableRow>
                     <TableHead className='w-25'>Order ID</TableHead>
                     <TableHead>Date</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Size</TableHead>
-                    <TableHead>Frame</TableHead>
-                    <TableHead>Edge</TableHead>
-                    <TableHead className='text-right'>Total</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -148,31 +122,6 @@ const OrdersTable = async () => {
                         </TableCell>
                         <TableCell>
                             {order.createdAt.toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                            {order.productType
-                                ? productTypeSlugs[order.productType]
-                                : '-'}
-                        </TableCell>
-                        <TableCell>
-                            {order.productWidth && order.productHeight
-                                ? `${order.productWidth}" x ${order.productHeight}"`
-                                : '-'}
-                        </TableCell>
-                        <TableCell>
-                            {order.productFrame
-                                ? productFrameSlugs[order.productFrame]
-                                : '-'}
-                        </TableCell>
-                        <TableCell>
-                            {order.productEdge
-                                ? productEdgeSlugs[order.productEdge]
-                                : '-'}
-                        </TableCell>
-                        <TableCell className='text-right'>
-                            {order.productPrice !== null
-                                ? formatPrice(order.productPrice)
-                                : '-'}
                         </TableCell>
                     </TableRow>
                 ))}

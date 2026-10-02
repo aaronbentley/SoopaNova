@@ -39,17 +39,6 @@ export const getDateFromUnixTimestamp = (timestamp: number) => {
 }
 
 /**
- * Format a price as a plain amount. Orders don't record which currency the
- * shopper chose at checkout, so no currency symbol is shown.
- */
-export const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }).format(amount)
-}
-
-/**
  * A nav link is active on its own page and on any page below it (e.g.
  * Screenshots on /screenshots/xbox/). Hrefs end in a slash, so /screenshots/
  * doesn't match /screenshots-foo/.

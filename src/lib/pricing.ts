@@ -100,3 +100,21 @@ export const getShippingPrice = (
  * guard to compare with the product type's minMargin
  */
 export const getMargin = (price: number, cost: number) => (price - cost) / price
+
+/**
+ * Format a price for display: whole amounts without decimals (£34), others
+ * with two (£7.50)
+ */
+const currencyLocales: Record<Currency, string> = {
+    GBP: 'en-GB',
+    EUR: 'en-IE',
+    USD: 'en-US'
+}
+
+export const formatMoney = ({ amount, currency }: Price) =>
+    new Intl.NumberFormat(currencyLocales[currency], {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+        maximumFractionDigits: 2
+    }).format(amount)
