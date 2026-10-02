@@ -12,11 +12,10 @@ import {
 } from '@/components/ui/sheet'
 import Wordmark from '@/components/wordmark'
 import { cn, isNavLinkActive } from '@/lib/utils'
-import { Show } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { Suspense, useState } from 'react'
+import React, { useState } from 'react'
 
 const MobileNav = () => {
     // Handle menu state
@@ -56,15 +55,6 @@ const MobileNav = () => {
                                 {link.label}
                             </MobileLink>
                         ))}
-                        <Suspense>
-                            <Show when='signed-in'>
-                                <MobileLink
-                                    href='/orders/'
-                                    onOpenChange={setOpen}>
-                                    Orders
-                                </MobileLink>
-                            </Show>
-                        </Suspense>
                     </div>
                 </ScrollArea>
             </SheetContent>

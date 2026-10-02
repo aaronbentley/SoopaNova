@@ -8,7 +8,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
-import { shadcn } from '@clerk/ui/themes'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from '@wrksz/themes/next'
@@ -79,18 +78,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         */}
             <head />
             <body className={cn(['font-sans', 'antialiased', 'min-h-screen'])}>
-                <ClerkProvider
-                    appearance={{
-                        theme: shadcn,
-                        options: {
-                            termsPageUrl: '/terms/',
-                            privacyPageUrl: '/privacy/',
-                            showOptionalFields: true,
-                            socialButtonsVariant: 'auto',
-                            socialButtonsPlacement: 'top',
-                            shimmer: true
-                        }
-                    }}>
+                <ClerkProvider>
                     <ThemeProvider
                         attribute='class'
                         defaultTheme='system'

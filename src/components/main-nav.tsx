@@ -1,10 +1,8 @@
 'use client'
 import { links } from '@/assets/data/links'
 import { cn, isNavLinkActive } from '@/lib/utils'
-import { Show } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Suspense } from 'react'
 
 /**
  * Nav link styles, shared with the mobile nav
@@ -50,20 +48,6 @@ const MainNav = () => {
                     {link.label}
                 </Link>
             ))}
-            <Suspense>
-                <Show when='signed-in'>
-                    <Link
-                        href='/orders/'
-                        aria-current={
-                            pathname === '/orders/' ? 'page' : undefined
-                        }
-                        className={navLinkClassName(
-                            isNavLinkActive(pathname, '/orders/')
-                        )}>
-                        Orders
-                    </Link>
-                </Show>
-            </Suspense>
         </nav>
     )
 }

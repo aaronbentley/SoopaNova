@@ -8,8 +8,10 @@ const robots = (): MetadataRoute.Robots => {
             disallow: [
                 '/sign-in/',
                 '/sign-up/',
+                '/sso-callback/',
                 '/create/',
-                '/orders/'
+                '/orders/',
+                '/account/'
                 // '/icon/',
                 // '/opengraph-image',
                 // '/favicon.ico'

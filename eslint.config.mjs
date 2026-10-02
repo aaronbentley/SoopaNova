@@ -28,7 +28,8 @@ export default defineConfig([
                         'src/app/terms/**',
                         'src/app/screenshots/**',
                         'src/app/sign-in/**',
-                        'src/app/sign-up/**'
+                        'src/app/sign-up/**',
+                        'src/app/sso-callback/**'
                     ]
                 }
             ]

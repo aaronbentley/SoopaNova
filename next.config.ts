@@ -5,14 +5,14 @@ import type { NextConfig } from 'next'
  */
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' *.soopanova.app;
+    script-src 'self' 'unsafe-inline' *.soopanova.app https://challenges.cloudflare.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: *.clerk.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self' *.canvaspop.com;
+    frame-src 'self' *.canvaspop.com https://challenges.cloudflare.com;
     frame-ancestors 'none';
     worker-src 'self' blob:;
     connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;
