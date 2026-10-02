@@ -97,7 +97,7 @@ const ScreenshotDropzone = ({
     }
 
     return (
-        <div className='w-full max-w-[460px]'>
+        <div className='w-full max-w-115'>
             <div
                 {...getRootProps()}
                 className={cn(
