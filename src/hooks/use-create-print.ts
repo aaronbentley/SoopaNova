@@ -196,5 +196,17 @@ export const useCreatePrint = () => {
 
     const isBusy = status === 'uploading' || status === 'moderating'
 
-    return { status, isBusy, progress, error, start, reset }
+    /**
+     * The Storage name of a file's upload (`{uuid}--{userId}--{name}`), once
+     * it's uploaded; checkout sends it so the server can find it
+     */
+    const getUploadName = useCallback(
+        (file: File) =>
+            uploadedRef.current?.file === file
+                ? uploadedRef.current.result.ref.fullPath
+                : null,
+        []
+    )
+
+    return { status, isBusy, progress, error, start, reset, getUploadName }
 }

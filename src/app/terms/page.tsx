@@ -1,3 +1,4 @@
+import { termsVersion } from '@/assets/data/legal'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -9,6 +10,7 @@ import {
     PageSectionHeading
 } from '@/components/page-section'
 import { Typography } from '@/components/typography'
+import { format, parseISO } from 'date-fns'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -198,7 +200,8 @@ const Terms = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionDescription>
-                        Last updated: October, 2026
+                        Last updated:{' '}
+                        {format(parseISO(termsVersion), 'MMMM, yyyy')}
                     </PageSectionDescription>
                 </PageSection>
             </div>

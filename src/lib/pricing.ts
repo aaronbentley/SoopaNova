@@ -15,7 +15,7 @@ export type Price = { amount: number; currency: Currency }
 /**
  * Work in whole cents/pence so rounding isn't thrown by float errors
  */
-const toMinor = (amount: number) => Math.round(amount * 100)
+export const toMinor = (amount: number) => Math.round(amount * 100)
 
 /**
  * A catalogue item by product type and size ('14x24')
@@ -35,9 +35,7 @@ const getItemCost = (
 
     if (!cost) return null
 
-    return region === 'us'
-        ? cost.itemCost * (1 + usSalesTaxBuffer)
-        : cost.itemCost
+    return withSalesTaxBuffer(cost.itemCost, region)
 }
 
 /**
@@ -87,13 +85,24 @@ export const getShippingPrice = (
 
     if (cost === undefined || !shipping.methods.includes(method)) return null
 
+    return { amount: roundShipping(cost), currency: regions[region].currency }
+}
+
+/**
+ * Round a shipping cost up to the next shipping.roundUpTo (0.50)
+ */
+export const roundShipping = (cost: number) => {
     const step = toMinor(shipping.roundUpTo)
 
-    return {
-        amount: (Math.ceil(toMinor(cost) / step) * step) / 100,
-        currency: regions[region].currency
-    }
+    return (Math.ceil(toMinor(cost) / step) * step) / 100
 }
+
+/**
+ * Prodigi's item cost as used for margins: US quotes exclude sales tax, so
+ * the US gets an allowance on top
+ */
+export const withSalesTaxBuffer = (cost: number, region: Region) =>
+    region === 'us' ? cost * (1 + usSalesTaxBuffer) : cost
 
 /**
  * The gross margin a price makes on a cost (0.4 = 40%), for the checkout

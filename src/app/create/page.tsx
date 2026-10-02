@@ -1,3 +1,4 @@
+import CheckoutToast from '@/components/checkout-toast'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -6,6 +7,7 @@ import {
 import UploadFile from '@/components/upload-file'
 import { auth } from '@clerk/nextjs/server'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
     title: 'Create',
@@ -32,6 +34,9 @@ const Create = async () => {
                         artwork for your space.
                     </PageHeaderDescription>
                     <UploadFile className='my-16' />
+                    <Suspense>
+                        <CheckoutToast />
+                    </Suspense>
                 </PageHeader>
             </div>
         </>

@@ -35,7 +35,9 @@
         "react-firebase-hooks": "^5.1.1",
         "server-only": "^0.0.1",
         "sonner": "^2.0.8",
-        "tailwind-merge": "^3.7.0"
+        "stripe": "^23.0.0",
+        "tailwind-merge": "^3.7.0",
+        "zod": "^4.6.5"
     },
     "devDependencies": {
         "@clerk/eslint-plugin": "0.2.0",

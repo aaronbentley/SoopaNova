@@ -18,7 +18,6 @@ import type {
     Region
 } from '@/types'
 import type {
-    Money,
     ProductDetails as ProdigiProduct,
     Quote as ProdigiQuote
 } from '@/types/prodigi'
@@ -27,6 +26,7 @@ import { setTimeout as sleep } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import * as prettier from 'prettier'
 import { productTypes, regions, shipping } from '../src/assets/data/pricing.ts'
+import { getQuoteCosts } from '../src/lib/prodigi-costs.ts'
 
 /**
  * The script can't import src/lib/prodigi.ts (it's server-only and uses @/
@@ -49,9 +49,6 @@ if (!apiUrl || !apiKey) {
     )
     process.exit(1)
 }
-
-const money = (value?: Money) => (value ? Number(value.amount) : 0)
-const round2 = (value: number) => Math.round(value * 100) / 100
 
 /**
  * Call the Prodigi API. It rate-limits bursts (HTTP 429), so requests are
@@ -125,50 +122,16 @@ const quoteCost = async (
         ]
     })
 
-    const quotes: ProdigiQuote[] = (json?.quotes ?? []).filter(
-        (quote: ProdigiQuote) => shipping.methods.includes(quote.shipmentMethod)
-    )
+    const quotes: ProdigiQuote[] = json?.quotes ?? []
+    const costs = getQuoteCosts(quotes, shipping.methods)
 
-    if (!quotes.length) {
+    if (!costs) {
         throw new Error(
             `${sku} → ${country}: no quote ${JSON.stringify(json?.issues)}`
         )
     }
 
-    /**
-     * Each shipping method can be routed to a different lab at a different
-     * item cost, so the item cost and lab come from our first method
-     * (Standard) when it's offered
-     */
-    const reference =
-        quotes.find((quote) => quote.shipmentMethod === shipping.methods[0]) ??
-        quotes[0]
-    const [item] = reference.items
-    const itemCost =
-        money(item.unitCost) +
-        money(item.taxUnitCost) +
-        (item.additionalCosts ?? []).reduce(
-            (sum, cost) => sum + money(cost.unitCost) + money(cost.taxUnitCost),
-            0
-        )
-
-    const shippingCosts: CatalogueCost['shipping'] = {}
-
-    for (const quote of quotes) {
-        shippingCosts[quote.shipmentMethod] = round2(
-            quote.shipments.reduce(
-                (sum, shipment) =>
-                    sum + money(shipment.cost) + money(shipment.tax),
-                0
-            )
-        )
-    }
-
-    return {
-        itemCost: round2(itemCost),
-        shipping: shippingCosts,
-        madeIn: reference.shipments[0].fulfillmentLocation.countryCode
-    }
+    return costs
 }
 
 const config: Record<string, ProductTypeConfig> = productTypes

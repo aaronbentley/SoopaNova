@@ -1,4 +1,4 @@
-import NewOrderToast from '@/components/new-order-toast'
+import CheckoutToast from '@/components/checkout-toast'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -152,7 +152,7 @@ const Orders = async () => {
                 </PageHeader>
 
                 <Suspense>
-                    <NewOrderToast />
+                    <CheckoutToast />
                 </Suspense>
 
                 <PageSection>
