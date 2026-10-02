@@ -2,29 +2,30 @@ import canvasPrint from '@/assets/img/canvas-print-4x3.jpg'
 import framedPrint from '@/assets/img/framed-print-4x3.jpg'
 import posterPrint from '@/assets/img/poster-print-4x3.jpg'
 import heroPrint from '@/assets/img/poster-print-3x2.jpg'
-import { PlaystationIcon, SteamIcon, XboxIcon } from '@/components/brand-icons'
 
 /**
  * Homepage content
+ */
+
+/**
+ * Platform names as text, not logos: logos suggest an endorsement we
+ * don't have
  */
 export const platforms = [
     {
         name: 'Xbox',
         maker: 'Microsoft',
-        href: '/screenshots/xbox/',
-        Icon: XboxIcon
+        href: '/screenshots/xbox/'
     },
     {
         name: 'PlayStation',
         maker: 'Sony',
-        href: '/screenshots/playstation/',
-        Icon: PlaystationIcon
+        href: '/screenshots/playstation/'
     },
     {
         name: 'Steam',
         maker: 'Valve',
-        href: '/screenshots/steam/',
-        Icon: SteamIcon
+        href: '/screenshots/steam/'
     }
 ]
 

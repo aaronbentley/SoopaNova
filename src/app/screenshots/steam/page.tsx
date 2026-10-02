@@ -1,4 +1,3 @@
-import { SteamIcon } from '@/components/brand-icons'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -11,7 +10,6 @@ import {
 } from '@/components/page-section'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
-import { PcCaseIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -37,14 +35,11 @@ const ScreenshotsSteam = () => {
                         <PlatformTile
                             href='#steam-app'
                             name='Steam App'
-                            Icon={SteamIcon}
                             className='px-6'
                         />
                         <PlatformTile
                             href='#file-system'
                             name='File System'
-                            Icon={PcCaseIcon}
-                            filledIcon={false}
                             className='px-6'
                         />
                     </PlatformStrip>

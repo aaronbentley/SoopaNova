@@ -113,7 +113,6 @@ const Frontpage = () => (
                         href={platform.href}
                         name={platform.name}
                         detail={platform.maker}
-                        Icon={platform.Icon}
                     />
                 ))}
             </PlatformStrip>

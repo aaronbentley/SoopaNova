@@ -35,7 +35,6 @@ const Screenshots = () => {
                                 href={platform.href}
                                 name={platform.name}
                                 detail={platform.maker}
-                                Icon={platform.Icon}
                                 className='px-6'
                             />
                         ))}

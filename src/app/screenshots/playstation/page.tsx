@@ -1,4 +1,3 @@
-import { PlaystationIcon } from '@/components/brand-icons'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -12,7 +11,7 @@ import {
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Info, UsbIcon } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -40,14 +39,11 @@ const ScreenshotsPlaystation = () => {
                         <PlatformTile
                             href='#playstation-app'
                             name='PlayStation App'
-                            Icon={PlaystationIcon}
                             className='px-6'
                         />
                         <PlatformTile
                             href='#usb-drive'
                             name='USB Drive'
-                            Icon={UsbIcon}
-                            filledIcon={false}
                             className='px-6'
                         />
                     </PlatformStrip>

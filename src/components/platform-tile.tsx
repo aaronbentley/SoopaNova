@@ -5,27 +5,15 @@ interface PlatformTileProps {
     href: string
     name: string
     detail?: string
-    Icon: React.ComponentType<{ className?: string }>
-    /**
-     * Brand icons are filled; set false for outline (lucide) icons
-     */
-    filledIcon?: boolean
     className?: string
 }
 
 /**
- * Link tile with an icon, name and optional mono detail line. Muted until
- * hovered. Tiles sit in a PlatformStrip: stacked on small screens, one row
+ * Link tile with a name and optional mono detail line. Muted until hovered.
+ * No logos: platform names are text so nothing suggests an endorsement. Tiles sit in a PlatformStrip: stacked on small screens, one row
  * from `lg`.
  */
-const PlatformTile = ({
-    href,
-    name,
-    detail,
-    Icon,
-    filledIcon = true,
-    className
-}: PlatformTileProps) => {
+const PlatformTile = ({ href, name, detail, className }: PlatformTileProps) => {
     /**
      * In-page anchors use a plain <a> so repeat clicks still scroll
      */
@@ -54,25 +42,15 @@ const PlatformTile = ({
                 ],
                 className
             )}>
-            <span className='flex items-center gap-3.5'>
-                <Icon
-                    className={cn(
-                        'size-6.5',
-                        filledIcon ? 'fill-current' : 'stroke-[1.5]'
-                    )}
-                />
-                <span className='flex flex-col gap-0.5'>
-                    <span className='text-base font-semibold text-foreground'>
-                        {name}
-                    </span>
-                    {detail && (
-                        <span className='font-mono text-xs'>{detail}</span>
-                    )}
+            <span className='flex flex-col gap-0.5'>
+                <span className='text-base font-semibold text-foreground'>
+                    {name}
                 </span>
+                {detail && <span className='font-mono text-xs'>{detail}</span>}
             </span>
             <span
                 aria-hidden='true'
-                className='font-mono text-sm transition-transform duration-200 group-hover:translate-x-0.5'>
+                className='font-mono text-sm transition-[color,translate] duration-200 group-hover:translate-x-0.5 group-hover:text-primary group-focus-visible:text-primary'>
                 →
             </span>
         </Component>

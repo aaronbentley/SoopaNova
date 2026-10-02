@@ -1,4 +1,3 @@
-import { OneDriveIcon, XboxIcon } from '@/components/brand-icons'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -11,7 +10,6 @@ import {
 } from '@/components/page-section'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import { Typography } from '@/components/typography'
-import { UsbIcon } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -37,20 +35,16 @@ const ScreenshotsXbox = () => {
                         <PlatformTile
                             href='#onedrive'
                             name='OneDrive'
-                            Icon={OneDriveIcon}
                             className='px-6'
                         />
                         <PlatformTile
                             href='#xbox-app'
                             name='Xbox App'
-                            Icon={XboxIcon}
                             className='px-6'
                         />
                         <PlatformTile
                             href='#usb-drive'
                             name='USB Drive'
-                            Icon={UsbIcon}
-                            filledIcon={false}
                             className='px-6'
                         />
                     </PlatformStrip>
