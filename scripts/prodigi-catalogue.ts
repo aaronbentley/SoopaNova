@@ -15,43 +15,24 @@ import type {
     CatalogueCost,
     CatalogueItem,
     ProductTypeConfig,
-    Region,
-    ShippingMethod
+    Region
 } from '@/types'
+import type {
+    Money,
+    ProductDetails as ProdigiProduct,
+    Quote as ProdigiQuote
+} from '@/types/prodigi'
 import { writeFile } from 'node:fs/promises'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import * as prettier from 'prettier'
 import { productTypes, regions, shipping } from '../src/assets/data/pricing.ts'
 
-type Money = { amount: string; currency: string }
-
-type ProdigiProduct = {
-    description: string
-    attributes: Record<string, string[]>
-    variants: {
-        attributes: Record<string, string>
-        shipsTo: string[]
-        printAreaSizes: Record<
-            string,
-            { horizontalResolution: number; verticalResolution: number }
-        >
-    }[]
-}
-
-type ProdigiQuote = {
-    shipmentMethod: ShippingMethod
-    shipments: {
-        cost: Money
-        tax?: Money
-        fulfillmentLocation: { countryCode: string }
-    }[]
-    items: {
-        unitCost: Money
-        taxUnitCost?: Money
-        additionalCosts?: { unitCost: Money; taxUnitCost?: Money }[]
-    }[]
-}
+/**
+ * The script can't import src/lib/prodigi.ts (it's server-only and uses @/
+ * imports Node can't resolve), so it has its own small request helper but
+ * shares the API types.
+ */
 
 const outFile = fileURLToPath(
     new URL('../src/assets/data/catalogue.ts', import.meta.url)
