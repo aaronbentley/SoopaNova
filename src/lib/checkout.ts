@@ -3,7 +3,6 @@ import 'server-only'
 import { countries } from '@/assets/data/countries'
 import { termsVersion } from '@/assets/data/legal'
 import { productTypes, shipping } from '@/assets/data/pricing'
-import { optionNames, optionValueLabels } from '@/assets/data/print-options'
 import { FieldValue, printSessionsCollection } from '@/lib/firebase-admin'
 import {
     getCatalogueItem,
@@ -13,8 +12,8 @@ import {
     toMinor,
     withSalesTaxBuffer
 } from '@/lib/pricing'
+import { describeOptions, formatPrintSize } from '@/lib/print-labels'
 import { checkoutRequestSchema } from '@/lib/print-options-schema'
-import { parseSize } from '@/lib/print-quality'
 import { createQuote } from '@/lib/prodigi'
 import { getQuoteCosts } from '@/lib/prodigi-costs'
 import { getStripe } from '@/lib/stripe'
@@ -207,19 +206,14 @@ export const startCheckout = async ({
      * The line item: product, size and options, with the thumbnail if
      * moderation made one
      */
-    const description = Object.entries(options)
-        .map(
-            ([name, value]) =>
-                `${optionNames[name] ?? name}: ${optionValueLabels[name]?.[value] ?? value}`
-        )
-        .join(' · ')
+    const description = describeOptions(options)
     const thumbnailUrl = await getThumbnailUrl(fileName).catch(() => null)
-    const [width, height] = parseSize(size)
-    const sizeLabel = `${Math.max(width, height)} × ${Math.min(width, height)}″`
     const metadata = {
         userId,
         printSessionId: session.id,
-        sku: item.sku
+        sku: item.sku,
+        /** Which deployment's webhook handles it (see isOwnCheckout) */
+        origin
     }
 
     const params: Stripe.Checkout.SessionCreateParams = {
@@ -233,7 +227,7 @@ export const startCheckout = async ({
                     currency: price.currency.toLowerCase(),
                     unit_amount: toMinor(price.amount),
                     product_data: {
-                        name: `${productName}, ${sizeLabel}`,
+                        name: `${productName}, ${formatPrintSize(size)}`,
                         ...(description && { description }),
                         ...(thumbnailUrl && { images: [thumbnailUrl] }),
                         metadata: { sku: item.sku }

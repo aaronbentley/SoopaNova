@@ -7,10 +7,11 @@ import {
     printSessionsCollection,
     storageBucket
 } from '@/lib/firebase-admin'
-import { createOrder, ProdigiError } from '@/lib/prodigi'
+import { createOrder, getOrder, ProdigiError } from '@/lib/prodigi'
 import { getStripe } from '@/lib/stripe'
+import { getSignedReadUrl } from '@/lib/uploads'
 import type { PrintOrderStatus, ShippingMethod } from '@/types'
-import type { Recipient } from '@/types/prodigi'
+import type { CreateOrderOutcome, Order, Recipient } from '@/types/prodigi'
 import type { DocumentReference } from 'firebase-admin/firestore'
 import type Stripe from 'stripe'
 
@@ -179,6 +180,71 @@ const claimPrintSession = async (
 }
 
 /**
+ * What an order keeps of its Prodigi order: the stage, progress, issues and
+ * shipments with tracking. `lastUpdated` orders the snapshots.
+ */
+const toProdigiStatus = (order: Order) => ({
+    orderId: order.id,
+    stage: order.status.stage,
+    details: order.status.details,
+    issues: order.status.issues ?? [],
+    shipments: (order.shipments ?? []).map((shipment) => ({
+        status: shipment.status,
+        carrier: shipment.carrier?.name ?? null,
+        service: shipment.carrier?.service ?? null,
+        trackingNumber: shipment.tracking?.number ?? null,
+        trackingUrl: shipment.tracking?.url ?? null,
+        dispatchDate: shipment.dispatchDate ?? null
+    })),
+    lastUpdated: order.lastUpdated
+})
+
+export type ProdigiStatus = ReturnType<typeof toProdigiStatus> & {
+    /** How Prodigi answered the submission (Created, OnHold...) */
+    outcome: CreateOrderOutcome | null
+}
+
+/**
+ * Save a Prodigi order onto ours, unless ours already has a newer snapshot
+ * (callbacks and the submission can arrive in any order). Returns false if
+ * the order doesn't exist or belongs to a different Prodigi order.
+ */
+const saveProdigiOrder = (
+    orderRef: DocumentReference,
+    prodigiOrder: Order,
+    outcome?: CreateOrderOutcome
+) =>
+    firestore.runTransaction(async (transaction) => {
+        const order = await transaction.get(orderRef)
+        const saved: ProdigiStatus | null = order.get('prodigi') ?? null
+
+        if (!order.exists || (saved && saved.orderId !== prodigiOrder.id)) {
+            console.error('Prodigi order does not match ours', {
+                orderId: orderRef.id,
+                prodigiOrderId: prodigiOrder.id
+            })
+            return false
+        }
+
+        const isNewer =
+            !saved?.lastUpdated ||
+            Date.parse(prodigiOrder.lastUpdated) >= Date.parse(saved.lastUpdated)
+
+        transaction.update(orderRef, {
+            status: 'submitted' satisfies PrintOrderStatus,
+            prodigi: {
+                ...(isNewer ? toProdigiStatus(prodigiOrder) : saved),
+                outcome: outcome ?? saved?.outcome ?? null
+            } satisfies ProdigiStatus,
+            error: null,
+            ...(!saved && { submittedAt: FieldValue.serverTimestamp() }),
+            updatedAt: FieldValue.serverTimestamp()
+        })
+
+        return true
+    })
+
+/**
  * Submit an order to Prodigi, with a signed url to the original upload.
  * Prodigi refusing the order (4xx) marks it failed for us to sort out; any
  * other error is thrown so the webhook answers 500 and Stripe retries.
@@ -203,13 +269,10 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
      * Uploads are deleted after 3 days, and Prodigi downloads within minutes
      * of the order (retrying for a while), so the url lasts as long
      */
-    const [assetUrl] = await storageBucket
-        .file(order.get('fileName'))
-        .getSignedUrl({
-            version: 'v4',
-            action: 'read',
-            expires: Date.now() + 3 * 24 * 60 * 60 * 1000
-        })
+    const assetUrl = await getSignedReadUrl(
+        order.get('fileName'),
+        3 * 24 * 60
+    )
 
     const callbackSecret = process.env.PRODIGI_CALLBACK_SECRET
     const options: Record<string, string> = order.get('options') ?? {}
@@ -252,18 +315,7 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
             })
         }
 
-        await orderRef.update({
-            status: 'submitted' satisfies PrintOrderStatus,
-            prodigi: {
-                orderId: prodigiOrder.id,
-                outcome,
-                stage: prodigiOrder.status.stage,
-                issues: prodigiOrder.status.issues ?? []
-            },
-            error: null,
-            submittedAt: FieldValue.serverTimestamp(),
-            updatedAt: FieldValue.serverTimestamp()
-        })
+        await saveProdigiOrder(orderRef, prodigiOrder, outcome)
     } catch (error) {
         if (
             error instanceof ProdigiError &&
@@ -290,6 +342,18 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
 }
 
 /**
+ * Local dev and the preview share the Stripe sandbox, so both receive every
+ * event. The dev server (via `stripe listen`) only handles checkouts started
+ * on localhost, and deployments only handle the rest.
+ */
+const isOwnCheckout = (checkout: Stripe.Checkout.Session) => {
+    const origin = checkout.metadata?.origin
+    const isLocal = !!origin && new URL(origin).hostname === 'localhost'
+
+    return isLocal === (process.env.NODE_ENV === 'development')
+}
+
+/**
  * Turn a paid Checkout session into a Prodigi order. `origin` is this
  * deployment's url, for Prodigi's status callbacks.
  */
@@ -305,8 +369,8 @@ export const fulfilCheckout = async (
 
     const { userId, printSessionId } = event.metadata ?? {}
 
-    /** Not one of ours (e.g. `stripe trigger`) */
-    if (!userId || !printSessionId) return
+    /** Not one of ours (e.g. `stripe trigger`), or another deployment's */
+    if (!userId || !printSessionId || !isOwnCheckout(event)) return
 
     /**
      * The full session: the chosen shipping rate (for its Prodigi method)
@@ -341,7 +405,7 @@ export const fulfilCheckout = async (
 export const expireCheckout = async (checkout: Stripe.Checkout.Session) => {
     const { userId, printSessionId } = checkout.metadata ?? {}
 
-    if (!userId || !printSessionId) return
+    if (!userId || !printSessionId || !isOwnCheckout(checkout)) return
 
     const sessionRef = printSessionsCollection(userId).doc(printSessionId)
 
@@ -359,4 +423,22 @@ export const expireCheckout = async (checkout: Stripe.Checkout.Session) => {
             })
         }
     })
+}
+
+/**
+ * Refresh an order from Prodigi, for a status callback. The callback isn't
+ * signed, so its body is only a prompt: the order is fetched with our API
+ * key and found through the metadata we gave it. Returns false if it isn't
+ * one of ours.
+ */
+export const syncProdigiOrder = async (prodigiOrderId: string) => {
+    const prodigiOrder = await getOrder(prodigiOrderId)
+    const { userId, orderId } = prodigiOrder.metadata ?? {}
+
+    if (!userId || !orderId) return false
+
+    return saveProdigiOrder(
+        ordersCollection(userId).doc(orderId),
+        prodigiOrder
+    )
 }

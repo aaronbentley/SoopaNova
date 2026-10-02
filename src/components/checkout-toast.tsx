@@ -2,8 +2,14 @@
 
 import { Heart } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
+
+/**
+ * Stripe's webhook usually records the order a few seconds after the
+ * customer is back, so /orders refreshes a few times to show it
+ */
+const refreshDelays = [3000, 8000, 15000]
 
 /**
  * A toast for coming back from Stripe Checkout: `?checkout=success` (to
@@ -15,6 +21,7 @@ const CheckoutToast = () => {
     const router = useRouter()
     const pathname = usePathname()
     const checkout = searchParams.get('checkout')
+    const refreshTimers = useRef<ReturnType<typeof setTimeout>[]>([])
 
     useEffect(() => {
         if (checkout === 'success') {
@@ -24,6 +31,10 @@ const CheckoutToast = () => {
                 duration: 8000,
                 icon: <Heart className='size-4' />
             })
+
+            refreshTimers.current = refreshDelays.map((delay) =>
+                setTimeout(() => router.refresh(), delay)
+            )
         } else if (checkout === 'cancelled') {
             toast.info('Checkout cancelled', {
                 description:
@@ -35,6 +46,12 @@ const CheckoutToast = () => {
 
         router.replace(pathname, { scroll: false })
     }, [checkout, pathname, router])
+
+    /**
+     * Stop refreshing when leaving the page (not when the parameter is
+     * removed, which re-runs the effect above)
+     */
+    useEffect(() => () => refreshTimers.current.forEach(clearTimeout), [])
 
     return null
 }

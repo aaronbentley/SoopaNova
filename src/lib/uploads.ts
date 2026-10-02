@@ -30,6 +30,20 @@ export const isApprovedUpload = async (fileName: string) => {
 }
 
 /**
+ * A signed link to read a file in the uploads bucket (signed locally with
+ * the service account key, so no request is made)
+ */
+export const getSignedReadUrl = async (path: string, expiresInMinutes: number) => {
+    const [url] = await storageBucket.file(path).getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + expiresInMinutes * 60 * 1000
+    })
+
+    return url
+}
+
+/**
  * A short-lived link to an upload's thumbnail, made by moderateImageUrl at
  * `thumbnails/{name}.webp` (functions/src/images.ts). Null if there isn't
  * one, e.g. for uploads moderated before thumbnails existed.
@@ -38,16 +52,13 @@ export const getThumbnailUrl = async (
     fileName: string,
     expiresInMinutes = 120
 ) => {
-    const thumbnail = storageBucket.file(`thumbnails/${fileName}.webp`)
-    const [exists] = await thumbnail.exists().catch(() => [false])
+    const path = `thumbnails/${fileName}.webp`
+    const [exists] = await storageBucket
+        .file(path)
+        .exists()
+        .catch(() => [false])
 
     if (!exists) return null
 
-    const [url] = await thumbnail.getSignedUrl({
-        version: 'v4',
-        action: 'read',
-        expires: Date.now() + expiresInMinutes * 60 * 1000
-    })
-
-    return url
+    return getSignedReadUrl(path, expiresInMinutes)
 }

@@ -1,22 +1,15 @@
 import CheckoutToast from '@/components/checkout-toast'
+import OrderList, { type OrderListItem } from '@/components/order-list'
 import {
     PageHeader,
     PageHeaderDescription,
     PageHeaderHeading
 } from '@/components/page-header'
 import { PageSection } from '@/components/page-section'
-import { TableSkeleton } from '@/components/skeletons'
+import { OrderListSkeleton } from '@/components/skeletons'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from '@/components/ui/table'
 import { ordersCollection } from '@/lib/firebase-admin'
+import { getSignedReadUrl } from '@/lib/uploads'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { Info } from 'lucide-react'
 import { Metadata } from 'next'
@@ -32,18 +25,10 @@ export const metadata: Metadata = {
 }
 
 /**
- * A row in the orders table. Product, status and total columns come with
- * the Stripe + Prodigi order format.
+ * Get the signed-in user's recent orders from Firestore, with a short-lived
+ * link to each thumbnail
  */
-type OrderRow = {
-    id: string
-    createdAt: Date
-}
-
-/**
- * Get orders from firestore
- */
-const getOrders = async (): Promise<OrderRow[] | null> => {
+const getOrders = async (): Promise<OrderListItem[] | null> => {
     /**
      * Get the userId from auth()
      */
@@ -59,10 +44,28 @@ const getOrders = async (): Promise<OrderRow[] | null> => {
             .limit(20)
             .get()
 
-        return snapshot.docs.map((doc) => ({
-            id: doc.id,
-            createdAt: doc.get('createdAt').toDate()
-        }))
+        return Promise.all(
+            snapshot.docs.map(async (doc) => {
+                const thumbnail: string | null = doc.get('thumbnail') ?? null
+
+                return {
+                    id: doc.id,
+                    createdAt: doc.get('createdAt').toDate(),
+                    status: doc.get('status'),
+                    productType: doc.get('productType'),
+                    size: doc.get('size'),
+                    options: doc.get('options'),
+                    currency: doc.get('currency'),
+                    total: doc.get('amounts.total'),
+                    prodigi: doc.get('prodigi') ?? null,
+                    thumbnailUrl: thumbnail
+                        ? await getSignedReadUrl(thumbnail, 60).catch(
+                              () => null
+                          )
+                        : null
+                }
+            })
+        )
     } catch (error) {
         console.error('Error getting documents: ', error)
         return null
@@ -70,12 +73,9 @@ const getOrders = async (): Promise<OrderRow[] | null> => {
 }
 
 /**
- * Create a table of orders
+ * The orders list, or a prompt to create the first one
  */
-const OrdersTable = async () => {
-    /**
-     * Get the orders from firestore
-     */
+const OrdersList = async () => {
     const orders = await getOrders()
 
     /**
@@ -102,32 +102,7 @@ const OrdersTable = async () => {
         )
     }
 
-    /**
-     * Return orders table
-     */
-    return (
-        <Table>
-            <TableCaption>A list of your recent Print Orders.</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className='w-25'>Order ID</TableHead>
-                    <TableHead>Date</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {orders.map((order) => (
-                    <TableRow key={order.id}>
-                        <TableCell className='font-mono text-xs'>
-                            {order.id}
-                        </TableCell>
-                        <TableCell>
-                            {order.createdAt.toLocaleDateString()}
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    )
+    return <OrderList orders={orders} />
 }
 
 const Orders = async () => {
@@ -156,8 +131,8 @@ const Orders = async () => {
                 </Suspense>
 
                 <PageSection>
-                    <Suspense fallback={<TableSkeleton />}>
-                        <OrdersTable />
+                    <Suspense fallback={<OrderListSkeleton />}>
+                        <OrdersList />
                     </Suspense>
                 </PageSection>
             </div>

@@ -7,7 +7,7 @@ const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-inline' *.soopanova.app https://challenges.cloudflare.com;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: *.clerk.com;
+    img-src 'self' blob: data: *.clerk.com https://storage.googleapis.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
