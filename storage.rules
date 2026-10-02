@@ -6,7 +6,7 @@ rules_version = '2';
  * The browser signs in to Firebase Auth with a custom token whose uid is the
  * Clerk user id (see src/app/api/firebase/token). Uploads are named
  * `{uuid}--{uid}--{filename}`, so a user can only create and read their own
- * files: root-level JPEG/PNG up to 32MB (matches MAX_UPLOAD_FILE_SIZE).
+ * files: root-level JPEG/PNG up to 64MB (matches MAX_UPLOAD_FILE_SIZE).
  * Files can't be listed, overwritten or deleted by clients, and clients can't
  * set the `moderation` custom metadata - only the moderateImageUrl Cloud
  * Function writes it. Cloud Functions and the Admin SDK bypass these rules.
@@ -21,7 +21,7 @@ service firebase.storage {
         match /{fileName} {
             allow get: if isOwnFile(fileName);
             allow create: if isOwnFile(fileName)
-                && request.resource.size < 32 * 1024 * 1024
+                && request.resource.size < 64 * 1024 * 1024
                 && request.resource.contentType.matches('image/(jpeg|png)')
                 && (request.resource.metadata == null
                     || !('moderation' in request.resource.metadata));
