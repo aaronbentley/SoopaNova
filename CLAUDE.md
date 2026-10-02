@@ -22,6 +22,7 @@ yarn build        # production build
 yarn lint         # ESLint CLI (flat config: eslint.config.mjs)
 yarn typecheck    # tsc --noEmit
 yarn format       # prettier --write .
+yarn catalogue    # regenerate src/assets/data/catalogue.ts from Prodigi (needs PRODIGI_* in .env.local)
 
 # Cloud Functions (separate npm package, NOT part of the Yarn project)
 npm --prefix functions install
@@ -37,6 +38,7 @@ Before calling a change done, run `yarn typecheck && yarn lint && yarn build`. T
 - `src/proxy.ts`: plain Clerk `clerkMiddleware()` (Next 16's replacement for `middleware.ts`). It doesn't protect any routes (`createRouteMatcher` is deprecated); see the auth gotcha below.
 - `src/components/ui/`: **shadcn-generated.** Update through the shadcn CLI (`npx shadcn@latest add <component>`); don't hand-edit. These files use shadcn's own formatting and are in `.prettierignore`. Local edits to re-apply if a component is regenerated: `ui/sonner.tsx` imports `useTheme` from `@wrksz/themes/client` rather than `next-themes`. Newer shadcn CLIs write `import { cn } from "cn"` (shadcn's `cn` package) and add that dependency; change it to `@/lib/utils` like the other ui files, and don't keep the `cn` package.
 - `src/components/`: app components. `src/components/account/`: the `/account` sections and the re-verification dialog. `src/hooks/`: client hooks (screenshot selection, print pipeline, post-sign-in navigation). `src/assets/data/`: static content (nav links, homepage copy in `home.ts`, product slug maps, keywords, JSON-LD).
+- **Pricing** (Prodigi): `src/assets/data/pricing.ts` is the hand-edited config: regions (GBP/EUR/USD, each quoted for one country), product types with their Prodigi SKU family, sizes and margins, rounding, shipping methods and overrides. `scripts/prodigi-catalogue.ts` (`yarn catalogue`) reads it and writes `src/assets/data/catalogue.ts` (generated; don't edit): per SKU, its options, `printArea` pixels and per-region costs including Prodigi's tax. `src/lib/pricing.ts` turns them into prices (`getPrice`, `getShippingPrice`, `getMargin`), shared by the UI and server routes. The script runs with Node's built-in TypeScript support, so it imports `pricing.ts` by relative path with a `.ts` extension (hence `allowImportingTsExtensions`) and only `import type`s from `@/`.
 - `src/lib/firebase-admin.ts`: the only place the Admin SDK is initialised (`server-only`, modular `firebase-admin/app`, `/auth` and `/firestore` APIs). `src/firebase/config.ts` is the client SDK, and `src/firebase/sign-in.ts` signs it in to Firebase Auth.
 - `functions/`: Firebase Cloud Functions (Node 24, firebase-functions v7, npm + `package-lock.json`). Deployed with the Firebase CLI, excluded from Vercel by `.vercelignore`, and excluded from the root tsconfig and ESLint.
 - `storage.rules` / `firestore.rules`: Firebase security rules, deployed with the Firebase CLI. The Storage bucket has a 1-day retention policy and a lifecycle rule that deletes objects after 3 days: uploads are temporary and can't be deleted early.
