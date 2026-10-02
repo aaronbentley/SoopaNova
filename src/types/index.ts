@@ -79,3 +79,10 @@ export type Catalogue = {
     generatedAt: string
     products: Record<string, CatalogueItem[]>
 }
+
+/**
+ * Where an order is (customers/{userId}/orders): paid in Stripe, submitted
+ * to Prodigi, or refused by Prodigi and waiting for us. Prodigi's own stage
+ * and tracking are kept on the order's `prodigi` field.
+ */
+export type PrintOrderStatus = 'paid' | 'submitted' | 'failed'

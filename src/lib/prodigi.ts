@@ -104,10 +104,21 @@ export const createQuote = (quote: QuoteRequest) =>
 /**
  * Submit an order. Business outcomes come back with HTTP 200: Created,
  * OnHold (paused or awaiting payment), CreatedWithIssues, or AlreadyExists
- * (same idempotencyKey; the existing order is returned).
+ * (same idempotencyKey). AlreadyExists only returns the existing order's id,
+ * so that order is fetched.
  */
-export const createOrder = (order: CreateOrderRequest) =>
-    request<{ outcome: CreateOrderOutcome; order: Order }>('/orders', order)
+export const createOrder = async (order: CreateOrderRequest) => {
+    const created = await request<{
+        outcome: CreateOrderOutcome
+        order: Order
+    }>('/orders', order)
+
+    if (created.outcome === 'AlreadyExists') {
+        return { ...created, order: await getOrder(created.order.id) }
+    }
+
+    return created
+}
 
 /**
  * Get an order by its Prodigi id (ord_...)
