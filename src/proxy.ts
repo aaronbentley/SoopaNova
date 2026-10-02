@@ -1,18 +1,12 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 
 /**
- * Define protected routes
+ * Clerk middleware only: each page, route handler and Server Function checks
+ * auth itself (enforced by @clerk/next/require-auth-protection)
  */
-const isProtectedRoute = createRouteMatcher(['/create', '/orders(.*)'])
-
-export default clerkMiddleware(
-    async (auth, req) => {
-        if (isProtectedRoute(req)) await auth.protect()
-    },
-    {
-        debug: false
-    }
-)
+export default clerkMiddleware({
+    debug: false
+})
 
 export const config = {
     matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']

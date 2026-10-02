@@ -4,6 +4,7 @@ import {
     PageHeaderHeading
 } from '@/components/page-header'
 import UploadFile from '@/components/upload-file'
+import { auth } from '@clerk/nextjs/server'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -15,7 +16,12 @@ export const metadata: Metadata = {
     }
 }
 
-const Create = () => {
+const Create = async () => {
+    /**
+     * Redirect signed-out visitors to sign-in
+     */
+    await auth.protect()
+
     return (
         <>
             <div>

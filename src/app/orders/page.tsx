@@ -165,7 +165,7 @@ const OrdersTable = async () => {
             </TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead className='w-[100px]'>Order ID</TableHead>
+                    <TableHead className='w-25'>Order ID</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Type</TableHead>
@@ -226,6 +226,11 @@ const OrdersTable = async () => {
 }
 
 const Orders = async () => {
+    /**
+     * Redirect signed-out visitors to sign-in
+     */
+    await auth.protect()
+
     /**
      * Get the current user's name, falling back to their email address
      */

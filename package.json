@@ -13,8 +13,8 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@clerk/nextjs": "^7.9.7",
-        "@clerk/ui": "^1.36.0",
+        "@clerk/nextjs": "^7.9.9",
+        "@clerk/ui": "^1.38.0",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
         "@wrksz/themes": "^2.0.2",
@@ -24,8 +24,8 @@
         "firebase": "^12.19.0",
         "firebase-admin": "^14.5.0",
         "geist": "^1.7.2",
-        "lucide-react": "^1.48.0",
-        "next": "16.3.6",
+        "lucide-react": "^1.49.0",
+        "next": "16.3.8",
         "radix-ui": "^1.6.7",
         "react": "19.3.0",
         "react-dom": "19.3.0",
@@ -36,12 +36,13 @@
         "tailwind-merge": "^3.7.0"
     },
     "devDependencies": {
+        "@clerk/eslint-plugin": "0.2.0",
         "@tailwindcss/postcss": "^4.3.3",
-        "@types/node": "^24.19.0",
+        "@types/node": "^26.6.3",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
         "eslint": "^9.39.5",
-        "eslint-config-next": "16.3.6",
+        "eslint-config-next": "16.3.8",
         "eslint-config-prettier": "^10.1.8",
         "postcss": "^8.5.28",
         "prettier": "^3.9.9",

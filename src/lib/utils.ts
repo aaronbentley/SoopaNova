@@ -17,8 +17,8 @@ export const formatBytes = (
     const i = Math.floor(Math.log(bytes) / Math.log(1024))
     return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
         sizeType === 'accurate'
-            ? accurateSizes[i] ?? 'Bytest'
-            : sizes[i] ?? 'Bytes'
+            ? (accurateSizes[i] ?? 'Bytes')
+            : (sizes[i] ?? 'Bytes')
     }`
 }
 
@@ -48,3 +48,11 @@ export const formatPrice = (amount: number) => {
         maximumFractionDigits: 2
     }).format(amount)
 }
+
+/**
+ * A nav link is active on its own page and on any page below it (e.g.
+ * Screenshots on /screenshots/xbox/). Hrefs end in a slash, so /screenshots/
+ * doesn't match /screenshots-foo/.
+ */
+export const isNavLinkActive = (pathname: string, href: string) =>
+    pathname.startsWith(href)

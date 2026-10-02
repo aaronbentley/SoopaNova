@@ -6,7 +6,6 @@ const sitemap = (): MetadataRoute.Sitemap => {
      */
     const paths = [
         '/',
-        '/create/',
         '/screenshots/',
         '/screenshots/xbox/',
         '/screenshots/playstation/',

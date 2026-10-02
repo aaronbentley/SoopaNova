@@ -35,6 +35,13 @@ class SessionError extends Error {
  */
 export const POST = async (request: NextRequest) => {
     /**
+     * Check if user is authenticated
+     */
+    const { userId } = await auth()
+
+    if (!userId) return new Response('Unauthorized', { status: 401 })
+
+    /**
      * Get form data from request body
      */
     const data = await request.json().catch(() => null)
@@ -114,16 +121,6 @@ export const POST = async (request: NextRequest) => {
             { status: 400 }
         )
     }
-
-    /**
-     * Get current user
-     */
-    const { userId } = await auth()
-
-    /**
-     * Check if user is authenticated
-     */
-    if (!userId) return new Response('Unauthorized', { status: 401 })
 
     /**
      * Get canvaspop product type markup percentage rates

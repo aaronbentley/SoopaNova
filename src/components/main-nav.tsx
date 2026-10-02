@@ -1,6 +1,6 @@
 'use client'
 import { links } from '@/assets/data/links'
-import { cn } from '@/lib/utils'
+import { cn, isNavLinkActive } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -44,7 +44,9 @@ const MainNav = () => {
                     key={link.href}
                     href={link.href}
                     aria-current={pathname === link.href ? 'page' : undefined}
-                    className={navLinkClassName(pathname === link.href)}>
+                    className={navLinkClassName(
+                        isNavLinkActive(pathname, link.href)
+                    )}>
                     {link.label}
                 </Link>
             ))}
@@ -55,7 +57,9 @@ const MainNav = () => {
                         aria-current={
                             pathname === '/orders/' ? 'page' : undefined
                         }
-                        className={navLinkClassName(pathname === '/orders/')}>
+                        className={navLinkClassName(
+                            isNavLinkActive(pathname, '/orders/')
+                        )}>
                         Orders
                     </Link>
                 </Show>

@@ -11,7 +11,7 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import Wordmark from '@/components/wordmark'
-import { cn } from '@/lib/utils'
+import { cn, isNavLinkActive } from '@/lib/utils'
 import { Show } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
@@ -90,7 +90,7 @@ const MobileLink = ({
     const router = useRouter()
     const pathname = usePathname()
 
-    const active = pathname === href
+    const active = isNavLinkActive(pathname, href.toString())
 
     return (
         <Link
