@@ -62,6 +62,12 @@ const Footer = () => (
                     ))}
                 </div>
             </div>
+
+            <p className='basis-full text-xs'>
+                SoopaNova is not affiliated with or endorsed by Microsoft, Sony,
+                Valve, or any game publisher. All game content and trademarks
+                are the property of their respective owners.
+            </p>
         </div>
     </footer>
 )
