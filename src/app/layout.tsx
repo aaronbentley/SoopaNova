@@ -70,12 +70,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             ])}
             data-scroll-behavior='smooth'
             suppressHydrationWarning>
-            {/*
-            <script
-                type='application/ld+json'
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-        */}
             <head />
             <body className={cn(['font-sans', 'antialiased', 'min-h-screen'])}>
                 <ClerkProvider>

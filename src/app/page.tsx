@@ -1,3 +1,4 @@
+import { jsonLd } from '@/assets/data/json-ld'
 import { platforms } from '@/assets/data/platforms'
 import {
     productTypes,
@@ -18,6 +19,7 @@ import {
     HeroPill
 } from '@/components/hero'
 import HeroUploadAction from '@/components/hero-upload-action'
+import JsonLd from '@/components/json-ld'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import ProductPrice from '@/components/product-price'
 import SectionHeader from '@/components/section-header'
@@ -54,6 +56,7 @@ export const metadata: Metadata = {
 
 const Frontpage = () => (
     <>
+        <JsonLd data={jsonLd} />
         <Hero>
             <HeroPill>
                 <span>Play</span>
