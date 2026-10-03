@@ -51,7 +51,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Use of Service</PageSectionHeading>
+                    <PageSectionHeading>Use of service</PageSectionHeading>
                     <Typography variant='h3'>Eligibility</Typography>
                     <PageSectionDescription>
                         You must be at least 18 years old to use the Service. By
@@ -70,9 +70,9 @@ const Terms = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Content and Intellectual Property
+                        Content and intellectual property
                     </PageSectionHeading>
-                    <Typography variant='h3'>User Content</Typography>
+                    <Typography variant='h3'>User content</Typography>
                     <PageSectionDescription>
                         Images you upload to the Service (&quot;User
                         Content&quot;), such as game screenshots, usually
@@ -93,7 +93,7 @@ const Terms = () => {
                         checking it against our content rules and sending it to
                         our print partner to produce and deliver your order.
                     </PageSectionDescription>
-                    <Typography variant='h3'>Intellectual Property</Typography>
+                    <Typography variant='h3'>Intellectual property</Typography>
                     <PageSectionDescription>
                         All content and materials available on the Service,
                         including but not limited to text, graphics, logos,
@@ -104,7 +104,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Orders and Payment</PageSectionHeading>
+                    <PageSectionHeading>Orders and payment</PageSectionHeading>
                     <PageSectionDescription>
                         Prices are shown in pounds, euros or US dollars,
                         depending on the country you&apos;re delivering to. The
@@ -125,7 +125,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Your Print</PageSectionHeading>
+                    <PageSectionHeading>Your print</PageSectionHeading>
                     <PageSectionDescription>
                         Your screenshot is cropped from the centre to fill the
                         print, as the preview shows. We grade each size by how
@@ -151,7 +151,7 @@ const Terms = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Cancellations, Returns and Problems
+                        Cancellations, returns and problems
                     </PageSectionHeading>
                     <Typography variant='h3'>Changing your mind</Typography>
                     <PageSectionDescription>
@@ -185,7 +185,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Prohibited Conduct</PageSectionHeading>
+                    <PageSectionHeading>Prohibited conduct</PageSectionHeading>
                     <PageSectionDescription>
                         You agree not to:
                     </PageSectionDescription>
@@ -229,7 +229,7 @@ const Terms = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Limitation of Liability
+                        Limitation of liability
                     </PageSectionHeading>
                     <PageSectionDescription>
                         To the fullest extent permitted by applicable law,
@@ -243,7 +243,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Policy Updates</PageSectionHeading>
+                    <PageSectionHeading>Policy updates</PageSectionHeading>
                     <PageSectionDescription>
                         We may update these Terms at any time. The most current
                         version supersedes all previous versions, but an order
@@ -252,7 +252,7 @@ const Terms = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Contact Us</PageSectionHeading>
+                    <PageSectionHeading>Contact us</PageSectionHeading>
                     <PageSectionDescription>
                         If you have a problem with an order, or any questions
                         about these Terms, please contact us via DM on:

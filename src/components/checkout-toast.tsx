@@ -26,10 +26,10 @@ const CheckoutToast = () => {
 
     useEffect(() => {
         if (checkout === 'success') {
-            toast.success('Thanks for your order!', {
+            toast.success('Achievement unlocked: order placed', {
                 id: 'checkout',
                 description:
-                    "Your payment went through. Your order will show here once it's confirmed.",
+                    "Thanks for your order. Your payment went through, and it'll show here once it's confirmed.",
                 duration: 8000,
                 icon: <Heart className='size-4' />
             })

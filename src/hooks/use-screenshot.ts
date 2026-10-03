@@ -73,7 +73,7 @@ export const useScreenshot = () => {
             imageMeta.height < imageMinHeight
         ) {
             URL.revokeObjectURL(url)
-            toast.error('Screenshot too small!', {
+            toast.error('Screenshot too small', {
                 description: `Screenshots need to be at least ${imageMinWidth}×${imageMinHeight}px to print well. This one is ${imageMeta.width}×${imageMeta.height}px.`
             })
             return null

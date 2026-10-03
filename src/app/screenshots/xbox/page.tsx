@@ -25,8 +25,8 @@ const ScreenshotsXbox = () => {
     return (
         <>
             <div>
-                <PageHeader>
-                    <PageHeaderHeading>Xbox Screenshots</PageHeaderHeading>
+                <PageHeader eyebrow='Screenshots'>
+                    <PageHeaderHeading>Xbox</PageHeaderHeading>
                     <PageHeaderDescription>
                         How to download your Xbox screenshots, ready to create
                         awesome prints.
@@ -39,12 +39,12 @@ const ScreenshotsXbox = () => {
                         />
                         <PlatformTile
                             href='#xbox-app'
-                            name='Xbox App'
+                            name='Xbox app'
                             className='px-6'
                         />
                         <PlatformTile
                             href='#usb-drive'
-                            name='USB Drive'
+                            name='USB drive'
                             className='px-6'
                         />
                     </PlatformStrip>
@@ -143,7 +143,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Access screenshots on Phone:
+                            Access screenshots on your phone:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>
@@ -190,9 +190,9 @@ const ScreenshotsXbox = () => {
 
             <div>
                 <PageSection id='xbox-app'>
-                    <PageSectionHeading>Xbox App</PageSectionHeading>
+                    <PageSectionHeading>Xbox app</PageSectionHeading>
                     <PageSectionDescription>
-                        The Xbox App provides a direct connection between your
+                        The Xbox app provides a direct connection between your
                         Xbox console, PC, and mobile device.
                     </PageSectionDescription>
 
@@ -200,7 +200,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Install Xbox App:
+                            Install the Xbox app:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>
@@ -208,7 +208,7 @@ const ScreenshotsXbox = () => {
                                     Download the Xbox app from the{' '}
                                     <a
                                         href='https://apps.microsoft.com/detail/xbox/9MV0B5HZVK9Z'
-                                        title='View Xbox App on the Microsoft Store'
+                                        title='View the Xbox app on the Microsoft Store'
                                         target='_blank'
                                         className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         {' '}
@@ -217,7 +217,7 @@ const ScreenshotsXbox = () => {
                                     or your device&apos;s app store (
                                     <a
                                         href='https://apps.apple.com/app/xbox/id736179781'
-                                        title='View Xbox App on the App Store'
+                                        title='View the Xbox app on the App Store'
                                         target='_blank'
                                         className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         App Store
@@ -225,7 +225,7 @@ const ScreenshotsXbox = () => {
                                     ,{' '}
                                     <a
                                         href='https://play.google.com/store/apps/details?id=com.microsoft.xboxone.smartglass&hl'
-                                        title='View Xbox App on the Google Play Store'
+                                        title='View the Xbox app on the Google Play Store'
                                         target='_blank'
                                         className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                                         Google Play Store
@@ -264,7 +264,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Sharing and Saving:
+                            Sharing and saving:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>
@@ -291,7 +291,7 @@ const ScreenshotsXbox = () => {
 
             <div>
                 <PageSection id='usb-drive'>
-                    <PageSectionHeading>USB Drive</PageSectionHeading>
+                    <PageSectionHeading>USB drive</PageSectionHeading>
                     <PageSectionDescription>
                         If you prefer a wired connection, using a USB drive is a
                         straightforward way to transfer screenshots.
@@ -301,7 +301,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Prepare USB Drive:
+                            Prepare a USB drive:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>
@@ -340,7 +340,7 @@ const ScreenshotsXbox = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Copy Screenshots:
+                            Copy your screenshots:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>

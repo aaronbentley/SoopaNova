@@ -12,7 +12,7 @@ import { Suspense } from 'react'
 export const metadata: Metadata = {
     title: 'Create',
     description:
-        'Transform your gaming screenshots into mighty-fine artwork for your space.',
+        'Turn your gaming screenshots into mighty-fine artwork for your space.',
     alternates: {
         canonical: '/create/'
     }
@@ -27,11 +27,13 @@ const Create = async () => {
     return (
         <>
             <div>
-                <PageHeader>
-                    <PageHeaderHeading>Power-up Prints</PageHeaderHeading>
+                <PageHeader eyebrow='Power-up prints'>
+                    <PageHeaderHeading>
+                        Start with a screenshot
+                    </PageHeaderHeading>
                     <PageHeaderDescription>
-                        Transform your gaming screenshots into mighty-fine
-                        artwork for your space.
+                        Turn your gaming screenshots into mighty-fine artwork
+                        for your space.
                     </PageHeaderDescription>
                     <UploadFile className='my-16' />
                     <Suspense>

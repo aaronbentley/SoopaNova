@@ -54,7 +54,8 @@ const processors = [
     {
         name: 'Vercel',
         href: 'https://vercel.com/legal/privacy-policy',
-        purpose: 'hosting the website and anonymous visitor statistics'
+        purpose:
+            'hosting the website, the country you connect from (for prices in your currency) and anonymous visitor statistics'
     },
     {
         name: 'Cloudflare',
@@ -87,7 +88,7 @@ const Privacy = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Information We Collect
+                        Information we collect
                     </PageSectionHeading>
                     <Typography variant='h3'>Your account</Typography>
                     <PageSectionDescription>
@@ -128,7 +129,7 @@ const Privacy = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        How We Use Your Information
+                        How we use your information
                     </PageSectionHeading>
                     <Typography
                         variant='ul'
@@ -163,7 +164,7 @@ const Privacy = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Who We Share It With
+                        Who we share it with
                     </PageSectionHeading>
                     <PageSectionDescription>
                         Only the services we use to run SoopaNova, each for its
@@ -195,7 +196,7 @@ const Privacy = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>How Long We Keep It</PageSectionHeading>
+                    <PageSectionHeading>How long we keep it</PageSectionHeading>
                     <Typography
                         variant='ul'
                         muted>
@@ -215,19 +216,22 @@ const Privacy = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        Cookies and Browser Storage
+                        Cookies and browser storage
                     </PageSectionHeading>
                     <PageSectionDescription>
                         We only use what the website needs to work: cookies and
-                        browser storage that keep you signed in, and browser
-                        storage that remembers your theme and delivery country.
-                        There are no advertising or tracking cookies. Stripe
-                        sets its own cookies on its checkout page.
+                        browser storage that keep you signed in, a cookie with
+                        the country you&apos;re connecting from (worked out by
+                        our host from your IP address, so we can show prices in
+                        your currency), and browser storage that remembers your
+                        theme and delivery country. There are no advertising or
+                        tracking cookies. Stripe sets its own cookies on its
+                        checkout page.
                     </PageSectionDescription>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Your Rights</PageSectionHeading>
+                    <PageSectionHeading>Your rights</PageSectionHeading>
                     <PageSectionDescription>
                         You can ask for a copy of your information, ask us to
                         correct or delete it, or object to how we use it. You
@@ -266,7 +270,7 @@ const Privacy = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Policy Updates</PageSectionHeading>
+                    <PageSectionHeading>Policy updates</PageSectionHeading>
                     <PageSectionDescription>
                         We may update this Privacy Policy. Any changes will be
                         posted here, with the date of the latest version below.
@@ -274,7 +278,7 @@ const Privacy = () => {
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Contact Us</PageSectionHeading>
+                    <PageSectionHeading>Contact us</PageSectionHeading>
                     <PageSectionDescription>
                         If you have any questions about this Privacy Policy or
                         your information, please contact us via DM on:

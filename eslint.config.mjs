@@ -27,6 +27,7 @@ export default defineConfig([
                         'src/app/privacy/**',
                         'src/app/terms/**',
                         'src/app/screenshots/**',
+                        'src/app/prints/**',
                         'src/app/sign-in/**',
                         'src/app/sign-up/**',
                         'src/app/sso-callback/**',

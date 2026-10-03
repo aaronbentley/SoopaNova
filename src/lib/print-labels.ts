@@ -12,6 +12,25 @@ export const formatPrintSize = (size: string) => {
 }
 
 /**
+ * Option values in the order of optionValueLabels; unknown ones go last
+ */
+export const sortOptionValues = (name: string, values: string[]) => {
+    const order = Object.keys(optionValueLabels[name] ?? {})
+    const rank = (value: string) =>
+        order.includes(value) ? order.indexOf(value) : order.length
+
+    return [...values].sort((a, b) => rank(a) - rank(b))
+}
+
+/**
+ * An option value's label, e.g. 'MirrorWrap' → 'Mirror wrap'; unknown values
+ * are capitalised
+ */
+export const optionLabel = (name: string, value: string) =>
+    optionValueLabels[name]?.[value] ??
+    value.charAt(0).toUpperCase() + value.slice(1)
+
+/**
  * Chosen options as text, e.g. 'Frame colour: Black · Canvas edges: Mirror wrap'
  */
 export const describeOptions = (options: Record<string, string>) =>

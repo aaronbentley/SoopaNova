@@ -1,4 +1,4 @@
-import { sizeRange } from '@/assets/data/products'
+import { sizeRange } from '@/assets/data/size-range'
 
 /**
  * The homepage's "How it works" steps
@@ -17,6 +17,6 @@ export const steps = [
     {
         title: "You're done",
         tagline: 'Get back to gaming',
-        body: "We'll do the rest. Your print is made to order, usually sent out within two working days, and delivered to your door."
+        body: 'Your print is made to order, usually sent out within one to five working days depending on the product, and delivered to your door.'
     }
 ]

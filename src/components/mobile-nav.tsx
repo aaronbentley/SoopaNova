@@ -15,7 +15,7 @@ import { cn, isNavLinkActive } from '@/lib/utils'
 import { Menu } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 const MobileNav = () => {
     // Handle menu state
@@ -39,7 +39,7 @@ const MobileNav = () => {
             <SheetContent
                 side='left'
                 className='pr-0 pl-6 pt-5'>
-                <SheetTitle className='sr-only'>Navigation Menu</SheetTitle>
+                <SheetTitle className='sr-only'>Navigation menu</SheetTitle>
                 <Link
                     href='/'
                     aria-label='Home'
@@ -49,13 +49,23 @@ const MobileNav = () => {
                 </Link>
                 <ScrollArea className='mt-8 mb-4 h-[calc(100vh-8rem)] pb-10'>
                     <div className='flex flex-col items-start gap-1 pr-6'>
-                        {links.map((link, index) => (
-                            <MobileLink
-                                key={index}
-                                href={link.href}
-                                onOpenChange={setOpen}>
-                                {link.label}
-                            </MobileLink>
+                        {links.map((link) => (
+                            <Fragment key={link.href}>
+                                <MobileLink
+                                    href={link.href}
+                                    onOpenChange={setOpen}>
+                                    {link.label}
+                                </MobileLink>
+                                {link.children?.map((child) => (
+                                    <MobileLink
+                                        key={child.href}
+                                        href={child.href}
+                                        onOpenChange={setOpen}
+                                        className='ml-4 text-sm'>
+                                        {child.label}
+                                    </MobileLink>
+                                ))}
+                            </Fragment>
                         ))}
                     </div>
                 </ScrollArea>

@@ -21,7 +21,7 @@ const NotFound = async () => (
             <span className='opacity-50'>·</span>
             <span className='text-foreground'>404</span>
         </HeroPill>
-        <HeroHeading>Page Not Found</HeroHeading>
+        <HeroHeading>Page not found</HeroHeading>
         <HeroDescription>
             It appears this side quest has been lost to the void.
         </HeroDescription>

@@ -162,22 +162,22 @@ const About = () => {
                         It took a little while, but I got there.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        SoopaNova — a one-stop service for transforming your
-                        favourite video game screenshots into mighty-fine
-                        artwork for your space.
+                        SoopaNova: a way to turn your favourite video game
+                        screenshots into mighty-fine artwork for your space.
                     </PageSectionDescription>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Epilogue</PageSectionHeading>
                     <PageSectionDescription>
-                        At the time of writing, SoopaNova is on the verge of
-                        launch, it&apos;s quite exciting!
-                    </PageSectionDescription>
-                    <PageSectionDescription>
                         Here&apos;s hoping I&apos;ve made something fun, that
                         helps people present their favourite gaming memories in
                         a unique way.
+                    </PageSectionDescription>
+                    <PageSectionDescription>
+                        SoopaNova is just me. When the rest of the site says
+                        &ldquo;we&rdquo;, that&apos;s me and my print partner,
+                        Prodigi, who print and post every order.
                     </PageSectionDescription>
                     <PageSectionDescription>
                         Thank you to my wife Eva & my darling daughters Lexi &

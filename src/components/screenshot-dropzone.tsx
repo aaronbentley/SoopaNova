@@ -18,6 +18,25 @@ const maxSize =
     1024 * 1024 * parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_FILE_SIZE! || '')
 const minSize = `${process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH}×${process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT}`
 
+/**
+ * What to tell the customer when a file is turned away, by react-dropzone's
+ * error code (its own messages are written for developers)
+ */
+const rejections: Record<string, { title: string; description: string }> = {
+    'file-invalid-type': {
+        title: 'That file type won’t work',
+        description: 'Please choose a JPG or PNG screenshot.'
+    },
+    'file-too-large': {
+        title: 'That file is too big',
+        description: `Screenshots can be up to ${formatBytes(maxSize)}.`
+    },
+    'too-many-files': {
+        title: 'One screenshot at a time',
+        description: 'Please choose a single screenshot.'
+    }
+}
+
 interface ScreenshotDropzoneProps {
     onSelect: (file: File) => void
     /**
@@ -41,7 +60,7 @@ const ScreenshotDropzone = ({
             if (acceptedFiles[0]) {
                 /**
                  * Release focus from the trigger so the print options sheet can
-                 * take it (Radix hides everything behind the sheet)
+                 * take it (the sheet hides everything behind it)
                  */
                 if (document.activeElement instanceof HTMLElement) {
                     document.activeElement.blur()
@@ -49,13 +68,16 @@ const ScreenshotDropzone = ({
                 onSelect(acceptedFiles[0])
             }
 
-            rejectedFiles.forEach(({ errors }) => {
-                if (errors[0]?.message) {
-                    toast.error('Error', {
-                        description: errors[0].message
-                    })
+            const code = rejectedFiles[0]?.errors[0]?.code
+
+            if (code) {
+                const { title, description } = rejections[code] ?? {
+                    title: 'That file won’t work',
+                    description: 'Please choose a JPG or PNG screenshot.'
                 }
-            })
+
+                toast.error(title, { id: 'screenshot-rejected', description })
+            }
         },
         [onSelect]
     )
@@ -90,7 +112,7 @@ const ScreenshotDropzone = ({
                     onClick={open}
                     className={cn(ctaButtonVariants(), className)}>
                     <UploadCloud aria-hidden='true' />
-                    Upload a screenshot
+                    Start creating
                 </button>
             </>
         )

@@ -27,10 +27,8 @@ const ScreenshotsPlaystation = () => {
     return (
         <>
             <div>
-                <PageHeader>
-                    <PageHeaderHeading>
-                        PlayStation Screenshots
-                    </PageHeaderHeading>
+                <PageHeader eyebrow='Screenshots'>
+                    <PageHeaderHeading>PlayStation</PageHeaderHeading>
                     <PageHeaderDescription>
                         How to download your PlayStation screenshots, ready to
                         create awesome prints.
@@ -43,7 +41,7 @@ const ScreenshotsPlaystation = () => {
                         />
                         <PlatformTile
                             href='#usb-drive'
-                            name='USB Drive'
+                            name='USB drive'
                             className='px-6'
                         />
                     </PlatformStrip>
@@ -137,7 +135,7 @@ const ScreenshotsPlaystation = () => {
 
                     <Alert className='w-max'>
                         <Info className='size-4' />
-                        <AlertTitle>Heads up!</AlertTitle>
+                        <AlertTitle>Heads up</AlertTitle>
                         <AlertDescription>
                             Screenshots are available in the PlayStation App for
                             14 days after creation on your PS5 console.
@@ -161,7 +159,7 @@ const ScreenshotsPlaystation = () => {
 
             <div>
                 <PageSection id='usb-drive'>
-                    <PageSectionHeading>USB Drive</PageSectionHeading>
+                    <PageSectionHeading>USB drive</PageSectionHeading>
                     <PageSectionDescription>
                         If you prefer a wired connection, using a USB drive is a
                         straightforward way to transfer screenshots.
@@ -171,7 +169,7 @@ const ScreenshotsPlaystation = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Prepare USB Drive:
+                            Prepare a USB drive:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>
@@ -184,7 +182,7 @@ const ScreenshotsPlaystation = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Copy Screenshots:
+                            Copy your screenshots:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>

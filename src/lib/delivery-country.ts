@@ -10,8 +10,21 @@ const isDeliveryCountry = (code: string | null | undefined): code is string =>
     !!code && countries.some((country) => country.code === code)
 
 /**
- * The visitor's last chosen country, else a guess from their browser
- * language (en-GB → GB), else the UK
+ * The visitor's country from their connection, set by proxy.ts from Vercel's
+ * x-vercel-ip-country header (not set in local dev)
+ */
+export const locationCookie = 'visitorCountry'
+
+const getLocationCountry = () =>
+    document.cookie
+        .split('; ')
+        .find((cookie) => cookie.startsWith(`${locationCookie}=`))
+        ?.split('=')[1]
+
+/**
+ * The visitor's last chosen country, else where they're connecting from
+ * (when we deliver there), else a guess from their browser language
+ * (en-GB → GB), else the UK
  */
 export const detectDeliveryCountry = () => {
     if (typeof window === 'undefined') return defaultCountry
@@ -22,6 +35,9 @@ export const detectDeliveryCountry = () => {
     } catch {
         /** Storage can be unavailable (private windows, blocked cookies) */
     }
+
+    const fromLocation = getLocationCountry()
+    if (isDeliveryCountry(fromLocation)) return fromLocation
 
     const fromLanguage = navigator.languages
         .map((language) => language.split('-')[1]?.toUpperCase())

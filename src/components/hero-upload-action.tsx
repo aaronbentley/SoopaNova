@@ -7,7 +7,7 @@ import { UploadCloud } from 'lucide-react'
 import Link from 'next/link'
 
 /**
- * Hero "Upload a screenshot" button.
+ * Hero "Start creating" button: opens the file picker when signed in.
  *
  * Auth is read on the client so the homepage can be statically rendered.
  * Until Clerk confirms a signed-in user it's a link to /create/ (which goes
@@ -23,7 +23,7 @@ const HeroUploadAction = () => {
             href='/create/'
             className={ctaButtonVariants()}>
             <UploadCloud aria-hidden='true' />
-            Upload a screenshot
+            Start creating
         </Link>
     )
 }

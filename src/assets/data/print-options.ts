@@ -15,7 +15,16 @@ export const optionNames: Record<string, string> = {
 }
 
 /**
- * Labels for option values, in the order they're shown
+ * How to count an option's values ('8 frame colours')
+ */
+export const optionCountNames: Record<string, string> = {
+    color: 'frame colours',
+    wrap: 'edge finishes'
+}
+
+/**
+ * Labels for option values, in the order they're shown. Use Prodigi's names
+ * for them (their product pages), so we describe what's actually made.
  */
 export const optionValueLabels: Record<string, Record<string, string>> = {
     color: {
@@ -23,24 +32,24 @@ export const optionValueLabels: Record<string, Record<string, string>> = {
         white: 'White',
         natural: 'Natural',
         brown: 'Brown',
-        silver: 'Silver',
-        gold: 'Gold',
+        silver: 'Antique silver',
+        gold: 'Antique gold',
         'dark grey': 'Dark grey',
         'light grey': 'Light grey'
     },
     wrap: {
-        MirrorWrap: 'Mirrored',
+        MirrorWrap: 'Mirror wrap',
         ImageWrap: 'Image wrap',
-        White: 'White',
-        Black: 'Black'
+        White: 'White edge',
+        Black: 'Black edge'
     }
 }
 
 export const wrapDescriptions: Record<string, string> = {
     MirrorWrap:
-        'The edges mirror your screenshot, so all of it stays on the front',
+        'The edge of your screenshot is repeated on the sides, so all of it stays on the front',
     ImageWrap:
-        'Your screenshot wraps round the sides, so its outer edge is on the sides',
+        'Your screenshot wraps round the sides, so its outer edge is on the sides, not the front',
     Black: 'Plain black edges',
     White: 'Plain white edges'
 }

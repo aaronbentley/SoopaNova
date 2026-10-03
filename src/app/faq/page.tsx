@@ -1,4 +1,4 @@
-import { sizeRange } from '@/assets/data/products'
+import { sizeRange } from '@/assets/data/size-range'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -27,7 +27,7 @@ const Faq = () => {
                 <PageHeader>
                     <PageHeaderHeading>FAQ</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Got questions? Here&apos;s the answers.
+                        It&apos;s dangerous to go alone. Take these answers.
                     </PageHeaderDescription>
                 </PageHeader>
 
@@ -79,10 +79,11 @@ const Faq = () => {
                     </PageSectionHeading>
                     <PageSectionDescription>
                         Every print is made to order and usually sent out within
-                        two working days. Standard delivery then takes around
-                        2–3 working days in the UK, 4–6 in the US and 5–7 in the
-                        EU. Express is quicker: you&apos;ll see the options and
-                        their prices at checkout.
+                        one to five working days, depending on the product
+                        (framed canvases take longest). Standard delivery then
+                        takes around 2–3 working days in the UK, 4–6 in the US
+                        and 5–7 in the EU. Express is quicker: you&apos;ll see
+                        the options and their prices at checkout.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -101,8 +102,9 @@ const Faq = () => {
                         Who does your printing?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        Print orders are made and shipped by our trusted print
-                        partner, using only the highest quality print materials.
+                        Our print partner, Prodigi. Your print is made and
+                        posted from one of their labs, usually in the market
+                        it&apos;s going to: the UK, the Netherlands or the US.
                     </PageSectionDescription>
                 </PageSection>
 

@@ -84,7 +84,7 @@ const PrintOptionsSheet = ({
                 <div className='wrapper flex flex-col gap-8 py-8'>
                     <SheetHeader className='p-0'>
                         <SheetTitle className='font-extrabold'>
-                            Print Options
+                            Print options
                         </SheetTitle>
                         <SheetDescription>
                             Make something awesome. Make it your own.

@@ -131,9 +131,9 @@ const opengraphImage = async () => {
                     lineHeight: 0.95,
                     letterSpacing: '-0.055em'
                 }}>
-                <span>From Pixels</span>
+                <span>From pixels</span>
                 <span>
-                    to Prints
+                    to prints
                     <span style={{ color: colors.primary }}>.</span>
                 </span>
             </div>

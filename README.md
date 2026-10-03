@@ -4,12 +4,6 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ## Todosies
 
-### Done
-
-- [x] icon
-- [x] og image
-- [x] JSONLD content
-
 ### Build
 
 - [ ] footer

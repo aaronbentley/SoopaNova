@@ -90,6 +90,44 @@ export const getFromPrice = (productType: ProductTypeId, region: Region) =>
     )
 
 /**
+ * A size's price in every region (null where it isn't sold)
+ */
+export const getRegionPrices = (productType: ProductTypeId, size: string) =>
+    Object.fromEntries(
+        (Object.keys(regions) as Region[]).map((region) => [
+            region,
+            getPrice(productType, size, region)
+        ])
+    ) as Record<Region, Price | null>
+
+/**
+ * A product type's starting price in every region
+ */
+export const getFromPrices = (productType: ProductTypeId) =>
+    Object.fromEntries(
+        (Object.keys(regions) as Region[]).map((region) => [
+            region,
+            getFromPrice(productType, region)
+        ])
+    ) as Record<Region, Price | null>
+
+/**
+ * Every option a product type has across its sizes (frame colours, canvas
+ * edges), as read from Prodigi by the catalogue script
+ */
+export const getProductOptions = (productType: ProductTypeId) => {
+    const options: Record<string, string[]> = {}
+
+    for (const item of catalogue.products[productType] ?? []) {
+        for (const [name, values] of Object.entries(item.options)) {
+            options[name] = [...new Set([...(options[name] ?? []), ...values])]
+        }
+    }
+
+    return options
+}
+
+/**
  * The smallest and largest sizes on offer across all products and regions,
  * by area ('14x24')
  */

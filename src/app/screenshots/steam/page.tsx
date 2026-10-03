@@ -25,8 +25,8 @@ const ScreenshotsSteam = () => {
     return (
         <>
             <div>
-                <PageHeader>
-                    <PageHeaderHeading>Steam Screenshots</PageHeaderHeading>
+                <PageHeader eyebrow='Screenshots'>
+                    <PageHeaderHeading>Steam</PageHeaderHeading>
                     <PageHeaderDescription>
                         How to download your Steam screenshots, ready to create
                         awesome prints.
@@ -34,12 +34,12 @@ const ScreenshotsSteam = () => {
                     <PlatformStrip className='mt-6 w-full overflow-hidden rounded-xl border bg-background'>
                         <PlatformTile
                             href='#steam-app'
-                            name='Steam App'
+                            name='Steam app'
                             className='px-6'
                         />
                         <PlatformTile
                             href='#file-system'
-                            name='File System'
+                            name='File system'
                             className='px-6'
                         />
                     </PlatformStrip>
@@ -48,9 +48,9 @@ const ScreenshotsSteam = () => {
 
             <div>
                 <PageSection id='steam-app'>
-                    <PageSectionHeading>Steam App</PageSectionHeading>
+                    <PageSectionHeading>Steam app</PageSectionHeading>
                     <PageSectionDescription>
-                        The Steam App provides an integrated system that
+                        The Steam app provides an integrated system that
                         organizes and allows easy access to your captured
                         in-game moments.
                     </PageSectionDescription>
@@ -105,7 +105,7 @@ const ScreenshotsSteam = () => {
 
             <div>
                 <PageSection id='file-system'>
-                    <PageSectionHeading>File System</PageSectionHeading>
+                    <PageSectionHeading>File system</PageSectionHeading>
                     <PageSectionDescription>
                         To locate Steam screenshots via the file system, you can
                         navigate to the Steam folder where the screenshots are
@@ -163,7 +163,7 @@ const ScreenshotsSteam = () => {
                         <Typography
                             variant='li'
                             className='font-semibold text-foreground'>
-                            Navigate to the Screenshots Folder:
+                            Go to the screenshots folder:
                             <Typography
                                 variant='ul'
                                 className='font-normal text-muted-foreground'>

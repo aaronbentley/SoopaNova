@@ -45,7 +45,7 @@ const Header = () => (
                                     'hover:brightness-110',
                                     'duration-200'
                                 ])}>
-                                Get Started
+                                Start creating
                             </Link>
                         </Show>
                         <Show when='signed-in'>

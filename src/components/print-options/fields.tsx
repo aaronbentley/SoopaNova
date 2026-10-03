@@ -5,7 +5,6 @@ import { regions, type ProductTypeId } from '@/assets/data/pricing'
 import {
     frameSwatches,
     optionNames,
-    optionValueLabels,
     wrapDescriptions
 } from '@/assets/data/print-options'
 import { productCopy } from '@/assets/data/products'
@@ -30,6 +29,7 @@ import {
     qualityThresholds,
     type PrintQuality
 } from '@/lib/print-quality'
+import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { cn } from '@/lib/utils'
 import type { ImageMeta, Region } from '@/types'
 import { Controller, type Control } from 'react-hook-form'
@@ -71,21 +71,6 @@ const tagClasses = [
     'font-normal',
     'text-muted-foreground'
 ]
-
-/**
- * Option values in the order of optionValueLabels; unknown ones go last
- */
-const sortOptionValues = (name: string, values: string[]) => {
-    const order = Object.keys(optionValueLabels[name] ?? {})
-    const rank = (value: string) =>
-        order.includes(value) ? order.indexOf(value) : order.length
-
-    return [...values].sort((a, b) => rank(a) - rank(b))
-}
-
-const optionLabel = (name: string, value: string) =>
-    optionValueLabels[name]?.[value] ??
-    value.charAt(0).toUpperCase() + value.slice(1)
 
 /**
  * Id of a field's label, which also names its radio group (a label element

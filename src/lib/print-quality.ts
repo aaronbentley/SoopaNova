@@ -32,6 +32,15 @@ export const formatInches = (size: string) => {
 }
 
 /**
+ * The same in centimetres, rounded ('36 × 61 cm')
+ */
+export const formatCentimetres = (size: string) => {
+    const [a, b] = parseSize(size).map((inches) => Math.round(inches * 2.54))
+
+    return `${Math.min(a, b)} × ${Math.max(a, b)} cm`
+}
+
+/**
  * A size as the screenshot is oriented: long edge first for landscape
  * screenshots (Prodigi rotates the print to match), in inches and cm
  */

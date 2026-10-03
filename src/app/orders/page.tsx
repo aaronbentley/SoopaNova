@@ -86,16 +86,15 @@ const OrdersList = async () => {
             <div className='w-full flex justify-center items-center'>
                 <Alert className='max-w-96'>
                     <Info className='size-4' />
-                    <AlertTitle>No Print Orders Yet!</AlertTitle>
+                    <AlertTitle>No print orders yet</AlertTitle>
                     <AlertDescription className='block'>
-                        Go{' '}
+                        Your inventory&apos;s empty for now.{' '}
                         <Link
                             href='/create/'
-                            title='Create your first Print Order'
                             className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary inline'>
-                            create your first print order
+                            Start creating
                         </Link>{' '}
-                        to get started.
+                        your first print.
                     </AlertDescription>
                 </Alert>
             </div>
@@ -122,7 +121,7 @@ const Orders = async () => {
         <>
             <div>
                 <PageHeader>
-                    <PageHeaderHeading>Print Orders</PageHeaderHeading>
+                    <PageHeaderHeading>Print orders</PageHeaderHeading>
                     <PageHeaderDescription>{displayName}</PageHeaderDescription>
                 </PageHeader>
 

@@ -21,10 +21,19 @@ const getRegionSnapshot = () => getRegion(detectDeliveryCountry())
 const getServerSnapshot = () => null
 
 /**
- * A product's "from" price in the visitor's currency. The prices for every
- * region are worked out at build time and passed in.
+ * A price in the visitor's currency: a product's "from" price, or one
+ * size's. The prices for every region are worked out at build time and
+ * passed in; `unavailable` shows when it isn't sold in the visitor's region.
  */
-const ProductPrice = ({ prices }: { prices: Record<Region, Price | null> }) => {
+const ProductPrice = ({
+    prices,
+    from = false,
+    unavailable = null
+}: {
+    prices: Record<Region, Price | null>
+    from?: boolean
+    unavailable?: React.ReactNode
+}) => {
     const region = useSyncExternalStore(
         subscribe,
         getRegionSnapshot,
@@ -42,11 +51,14 @@ const ProductPrice = ({ prices }: { prices: Record<Region, Price | null> }) => {
 
     const price = prices[region]
 
-    return price ? (
+    if (!price) return unavailable
+
+    return (
         <>
-            from <span className='text-foreground'>{formatMoney(price)}</span>
+            {from && 'from '}
+            <span className='text-foreground'>{formatMoney(price)}</span>
         </>
-    ) : null
+    )
 }
 
 export default ProductPrice

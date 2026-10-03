@@ -1,6 +1,4 @@
 import type { ProductTypeId } from '@/assets/data/pricing'
-import { getSizeRange } from '@/lib/pricing'
-import { formatInches } from '@/lib/print-quality'
 
 /**
  * Customer-facing copy for each product, used by the homepage and the print
@@ -36,10 +34,8 @@ export const productCopy: Record<
     }
 }
 
-const { smallest, largest } = getSizeRange()
-
 /**
- * The sizes on offer, from pricing.ts ('14 × 24″ to 28 × 48″'). What's sold
- * varies by product and delivery region.
+ * A product's page ('/prints/framed-print/')
  */
-export const sizeRange = `${formatInches(smallest)} to ${formatInches(largest)}`
+export const productPath = (productType: ProductTypeId) =>
+    `/prints/${productType}/`

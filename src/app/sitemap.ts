@@ -1,4 +1,6 @@
 import { platforms } from '@/assets/data/platforms'
+import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
+import { productPath } from '@/assets/data/products'
 import { MetadataRoute } from 'next'
 
 const sitemap = (): MetadataRoute.Sitemap => {
@@ -9,6 +11,9 @@ const sitemap = (): MetadataRoute.Sitemap => {
         '/',
         '/screenshots/',
         ...platforms.map((platform) => platform.href),
+        '/prints/',
+        '/prints/sustainability/',
+        ...(Object.keys(productTypes) as ProductTypeId[]).map(productPath),
         '/faq/',
         '/about/',
         '/privacy/',
