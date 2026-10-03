@@ -12,9 +12,6 @@ const robots = (): MetadataRoute.Robots => {
                 '/create/',
                 '/orders/',
                 '/account/'
-                // '/icon/',
-                // '/opengraph-image',
-                // '/favicon.ico'
             ]
         },
         sitemap: `${process.env.APP_URL!}/sitemap.xml`
