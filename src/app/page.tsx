@@ -1,4 +1,5 @@
 import { heroImage, platforms, products, steps } from '@/assets/data/home'
+import Crosshair from '@/components/crosshair'
 import { ctaButtonVariants } from '@/components/cta-button'
 import {
     Hero,
@@ -22,26 +23,6 @@ export const metadata: Metadata = {
         absolute: `${process.env.APP_TITLE!} - ${process.env.APP_STRAPLINE!}`
     }
 }
-
-/**
- * Small "+" mark for the corners of the How it works grid
- */
-const Crosshair = ({ className }: { className?: string }) => (
-    <span
-        aria-hidden='true'
-        className={cn(
-            [
-                'absolute',
-                'size-3.25',
-                'bg-[linear-gradient(var(--foreground),var(--foreground)),linear-gradient(var(--foreground),var(--foreground))]',
-                'bg-size-[1px_100%,100%_1px]',
-                'bg-center',
-                'bg-no-repeat'
-            ],
-            className
-        )}
-    />
-)
 
 const Frontpage = () => (
     <>
