@@ -27,13 +27,13 @@ export const Hero = ({
 )
 
 /**
- * Rounded label above the heading, with a glowing pink dot
+ * Rounded label above the heading, with a glowing pink square (the wordmark's mark)
  */
 export const HeroPill = ({ children }: { children: React.ReactNode }) => (
     <div className='inline-flex items-center gap-2.5 rounded-full border bg-background py-1.5 pr-3.5 pl-2.5 font-mono text-xs leading-none font-medium tracking-[0.04em] text-muted-foreground uppercase'>
         <span
             aria-hidden='true'
-            className='size-1.5 rounded-full bg-primary shadow-[0_0_12px_var(--primary)]'
+            className='size-1.5 bg-primary shadow-[0_0_12px_var(--primary)]'
         />
         <span className='flex flex-wrap items-center justify-center gap-2'>
             {children}
