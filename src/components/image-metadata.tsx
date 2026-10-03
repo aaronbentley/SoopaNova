@@ -58,9 +58,11 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
                         {imageMeta?.width &&
                             imageMeta?.width < imageMinWidth && (
                                 <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <AlertTriangle className='size-4' />
-                                    </TooltipTrigger>
+                                    <TooltipTrigger
+                                        render={
+                                            <AlertTriangle className='size-4' />
+                                        }
+                                    />
                                     <TooltipContent>
                                         Screenshot too small - minimum width{' '}
                                         {imageMinWidth}px
@@ -88,9 +90,11 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
                         {imageMeta?.height &&
                             imageMeta?.height < imageMinHeight && (
                                 <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <AlertTriangle className='size-4' />
-                                    </TooltipTrigger>
+                                    <TooltipTrigger
+                                        render={
+                                            <AlertTriangle className='size-4' />
+                                        }
+                                    />
                                     <TooltipContent>
                                         Screenshot too small - minimum height{' '}
                                         {imageMinHeight}px

@@ -2,22 +2,18 @@
 
 import { ctaButtonVariants } from '@/components/cta-button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/ui/form'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { formatMoney, type Price } from '@/lib/pricing'
 import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { cn } from '@/lib/utils'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useWatch, type Control } from 'react-hook-form'
+import { Controller, useWatch, type Control } from 'react-hook-form'
 
 interface OrderSummaryProps {
     control: Control<PrintOptionsValues>
+    /** Locked, e.g. when the screenshot was flagged */
+    disabled?: boolean
     title: string
     price: Price | null
     shippingFrom: Price | null
@@ -36,6 +32,7 @@ interface OrderSummaryProps {
  */
 const OrderSummary = ({
     control,
+    disabled,
     title,
     price,
     shippingFrom,
@@ -61,26 +58,27 @@ const OrderSummary = ({
                     + shipping from {formatMoney(shippingFrom)}
                 </p>
             )}
-            <FormField
+            <Controller
                 control={control}
                 name='confirmed'
-                render={({ field }) => (
-                    <FormItem className='gap-3'>
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
                         <p className='eyebrow text-muted-foreground'>
                             Personal use
                         </p>
                         <div className='flex items-start gap-3'>
-                            <FormControl>
-                                <Checkbox
-                                    ref={field.ref}
-                                    checked={field.value}
-                                    onCheckedChange={(checked) =>
-                                        field.onChange(checked === true)
-                                    }
-                                    className='mt-0.5'
-                                />
-                            </FormControl>
-                            <FormLabel className='block leading-snug font-normal text-pretty text-muted-foreground'>
+                            <Checkbox
+                                id={field.name}
+                                ref={field.ref}
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={disabled}
+                                aria-invalid={fieldState.invalid}
+                                className='mt-0.5'
+                            />
+                            <FieldLabel
+                                htmlFor={field.name}
+                                className='block leading-snug font-normal text-pretty text-muted-foreground'>
                                 This is my own screenshot and it&apos;s for my
                                 personal, non-commercial display. See our{' '}
                                 <Link
@@ -90,10 +88,10 @@ const OrderSummary = ({
                                     Terms
                                 </Link>
                                 .
-                            </FormLabel>
+                            </FieldLabel>
                         </div>
-                        <FormMessage />
-                    </FormItem>
+                        <FieldError errors={[fieldState.error]} />
+                    </Field>
                 )}
             />
             <button

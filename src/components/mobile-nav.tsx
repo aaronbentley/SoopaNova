@@ -25,14 +25,16 @@ const MobileNav = () => {
         <Sheet
             open={open}
             onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-                <Button
-                    size='icon'
-                    variant='ghost'
-                    className='size-8 md:hidden'>
-                    <Menu className='size-[1.1rem]' />
-                    <span className='sr-only'>Toggle Menu</span>
-                </Button>
+            <SheetTrigger
+                render={
+                    <Button
+                        size='icon'
+                        variant='ghost'
+                        className='size-8 md:hidden'
+                    />
+                }>
+                <Menu className='size-[1.1rem]' />
+                <span className='sr-only'>Toggle Menu</span>
             </SheetTrigger>
             <SheetContent
                 side='left'

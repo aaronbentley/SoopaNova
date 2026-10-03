@@ -6,7 +6,6 @@
 
 import { cn } from '@/lib/utils'
 import { VariantProps, cva } from 'class-variance-authority'
-import { Slot as SlotPrimitive } from 'radix-ui'
 import * as React from 'react'
 
 const headingBaseClasses = ['text-foreground', 'text-balance']
@@ -102,17 +101,14 @@ export interface TypographyProps
     extends
         React.HTMLAttributes<HTMLElement>,
         VariantProps<typeof typographyVariants> {
-    asChild?: boolean
     as?: string
 }
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
-    ({ className, variant, as, asChild, muted, ...props }, ref) => {
-        const Comp = asChild
-            ? SlotPrimitive.Slot
-            : (as ??
-              (variant ? variantElementMap[variant] : undefined) ??
-              'div')
+    ({ className, variant, as, muted, ...props }, ref) => {
+        const Comp = (as ??
+            (variant ? variantElementMap[variant] : undefined) ??
+            'div') as React.ElementType
         return (
             <Comp
                 className={cn(

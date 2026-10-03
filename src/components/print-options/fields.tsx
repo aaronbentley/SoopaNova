@@ -9,14 +9,7 @@ import {
     productCopy,
     wrapDescriptions
 } from '@/assets/data/print-options'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    useFormField
-} from '@/components/ui/form'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
@@ -39,7 +32,7 @@ import {
 } from '@/lib/print-quality'
 import { cn } from '@/lib/utils'
 import type { ImageMeta, Region } from '@/types'
-import type { Control } from 'react-hook-form'
+import { Controller, type Control } from 'react-hook-form'
 
 /**
  * A selectable card: hairline border that turns pink when chosen, like the
@@ -59,8 +52,8 @@ const choiceCard = (disabled = false) =>
             'transition-colors',
             'duration-200',
             'hover:border-primary/60',
-            'has-[[data-state=checked]]:border-primary',
-            'has-[[data-state=checked]]:bg-primary/5'
+            'has-data-checked:border-primary',
+            'has-data-checked:bg-primary/5'
         ],
         disabled && ['cursor-not-allowed', 'opacity-50', 'hover:border-border']
     )
@@ -95,68 +88,91 @@ const optionLabel = (name: string, value: string) =>
     value.charAt(0).toUpperCase() + value.slice(1)
 
 /**
- * Eyebrow label above each field (labels the field's control, and turns red
- * when it has an error), with an optional value on the right
+ * Id of a field's label, which also names its radio group (a label element
+ * can't name a radio group on its own)
  */
-const FieldLabel = ({
+const labelId = (name: string) => `${name}-label`
+
+/**
+ * Eyebrow label above each field (turns red when the field has an error),
+ * with an optional value on the right
+ */
+const FieldEyebrow = ({
+    name,
+    htmlFor,
     children,
     aside
 }: {
+    name: string
+    htmlFor?: string
     children: React.ReactNode
     aside?: React.ReactNode
-}) => {
-    const { formItemId } = useFormField()
-
-    return (
-        <div className='flex items-baseline justify-between gap-4'>
-            <FormLabel
-                id={`${formItemId}-label`}
-                className='eyebrow text-xs leading-4 font-normal text-muted-foreground'>
-                {children}
-            </FormLabel>
-            {aside && <span className='text-sm text-foreground'>{aside}</span>}
-        </div>
-    )
-}
+}) => (
+    <div className='flex items-baseline justify-between gap-4'>
+        <FieldLabel
+            id={labelId(name)}
+            htmlFor={htmlFor}
+            className='eyebrow text-xs leading-4 font-normal text-muted-foreground group-data-[invalid=true]/field:text-destructive'>
+            {children}
+        </FieldLabel>
+        {aside && <span className='text-sm text-foreground'>{aside}</span>}
+    </div>
+)
 
 /**
- * A radio group named by its field's label (a label element can't name a
- * radio group on its own)
+ * A radio group named by its field's label
  */
-const FieldRadioGroup = (props: React.ComponentProps<typeof RadioGroup>) => {
-    const { formItemId } = useFormField()
+const FieldRadioGroup = (
+    props: React.ComponentProps<typeof RadioGroup> & { name: string }
+) => (
+    <RadioGroup
+        aria-labelledby={labelId(props.name)}
+        {...props}
+    />
+)
 
-    return (
-        <RadioGroup
-            aria-labelledby={`${formItemId}-label`}
-            {...props}
-        />
-    )
+type FieldProps = {
+    control: Control<PrintOptionsValues>
+    /** Locked, e.g. when the screenshot was flagged. Base UI radios aren't
+     * buttons, so a disabled fieldset doesn't reach them */
+    disabled?: boolean
 }
 
-type FieldProps = { control: Control<PrintOptionsValues> }
+const countryItems = countries.map((country) => ({
+    label: country.name,
+    value: country.code
+}))
 
 /**
  * Delivery country: sets the currency, prices and which sizes are offered
  */
 export const CountryField = ({
     control,
+    disabled,
     onChange
 }: FieldProps & { onChange: (code: string) => void }) => (
-    <FormField
+    <Controller
         control={control}
         name='country'
-        render={({ field }) => (
-            <FormItem className='gap-3'>
-                <FieldLabel>Deliver to</FieldLabel>
+        render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+                <FieldEyebrow
+                    name={field.name}
+                    htmlFor={field.name}>
+                    Deliver to
+                </FieldEyebrow>
                 <Select
+                    items={countryItems}
                     value={field.value}
-                    onValueChange={onChange}>
-                    <FormControl>
-                        <SelectTrigger className='w-full'>
-                            <SelectValue />
-                        </SelectTrigger>
-                    </FormControl>
+                    onValueChange={(code) => code && onChange(code)}
+                    disabled={disabled}>
+                    <SelectTrigger
+                        id={field.name}
+                        ref={field.ref}
+                        aria-invalid={fieldState.invalid}
+                        className='w-full'>
+                        <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
                         {(Object.keys(regions) as Region[]).map((region) => (
                             <SelectGroup key={region}>
@@ -178,8 +194,8 @@ export const CountryField = ({
                         ))}
                     </SelectContent>
                 </Select>
-                <FormMessage />
-            </FormItem>
+                <FieldError errors={[fieldState.error]} />
+            </Field>
         )}
     />
 )
@@ -189,65 +205,66 @@ export const CountryField = ({
  */
 export const ProductTypeField = ({
     control,
+    disabled,
     choices,
     onChange
 }: FieldProps & {
     choices: ProductChoice[]
     onChange: (id: ProductTypeId) => void
 }) => (
-    <FormField
+    <Controller
         control={control}
         name='productType'
-        render={({ field }) => (
-            <FormItem className='gap-3'>
-                <FieldLabel>Product</FieldLabel>
-                <FormControl>
-                    <FieldRadioGroup
-                        value={field.value}
-                        onValueChange={(id) => onChange(id as ProductTypeId)}>
-                        {choices.map((choice) => (
-                            <Label
-                                key={choice.id}
-                                htmlFor={`product-${choice.id}`}
-                                className={choiceCard(!choice.fromPrice)}>
-                                <RadioGroupItem
-                                    id={`product-${choice.id}`}
-                                    value={choice.id}
-                                    disabled={!choice.fromPrice}
-                                    className='mt-0.5'
-                                />
-                                <span className='flex flex-1 flex-col gap-2'>
-                                    <span className='flex items-baseline justify-between gap-2'>
-                                        <span className='font-medium'>
-                                            {choice.name}
-                                        </span>
-                                        <span className='text-sm font-normal text-muted-foreground'>
-                                            {choice.fromPrice
-                                                ? `from ${formatMoney(choice.fromPrice)}`
-                                                : 'Screenshot too small'}
-                                        </span>
+        render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+                <FieldEyebrow name={field.name}>Product</FieldEyebrow>
+                <FieldRadioGroup
+                    name={field.name}
+                    ref={field.ref}
+                    value={field.value}
+                    onValueChange={(id) => onChange(id as ProductTypeId)}
+                    disabled={disabled}
+                    aria-invalid={fieldState.invalid}>
+                    {choices.map((choice) => (
+                        <Label
+                            key={choice.id}
+                            htmlFor={`product-${choice.id}`}
+                            className={choiceCard(!choice.fromPrice)}>
+                            <RadioGroupItem
+                                id={`product-${choice.id}`}
+                                value={choice.id}
+                                disabled={!choice.fromPrice}
+                                className='mt-0.5'
+                            />
+                            <span className='flex flex-1 flex-col gap-2'>
+                                <span className='flex items-baseline justify-between gap-2'>
+                                    <span className='font-medium'>
+                                        {choice.name}
                                     </span>
-                                    <span className='text-sm font-normal text-pretty text-muted-foreground'>
-                                        {productCopy[choice.id].description}
-                                    </span>
-                                    <span className='flex flex-wrap gap-1.5'>
-                                        {productCopy[choice.id].tags.map(
-                                            (tag) => (
-                                                <span
-                                                    key={tag}
-                                                    className={cn(tagClasses)}>
-                                                    {tag}
-                                                </span>
-                                            )
-                                        )}
+                                    <span className='text-sm font-normal text-muted-foreground'>
+                                        {choice.fromPrice
+                                            ? `from ${formatMoney(choice.fromPrice)}`
+                                            : 'Screenshot too small'}
                                     </span>
                                 </span>
-                            </Label>
-                        ))}
-                    </FieldRadioGroup>
-                </FormControl>
-                <FormMessage />
-            </FormItem>
+                                <span className='text-sm font-normal text-pretty text-muted-foreground'>
+                                    {productCopy[choice.id].description}
+                                </span>
+                                <span className='flex flex-wrap gap-1.5'>
+                                    {productCopy[choice.id].tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className={cn(tagClasses)}>
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </span>
+                            </span>
+                        </Label>
+                    ))}
+                </FieldRadioGroup>
+                <FieldError errors={[fieldState.error]} />
+            </Field>
         )}
     />
 )
@@ -265,6 +282,7 @@ const qualityTagClasses: Record<PrintQuality, string[]> = {
  */
 export const SizeField = ({
     control,
+    disabled,
     choices,
     meta,
     onChange
@@ -278,65 +296,62 @@ export const SizeField = ({
     )
 
     return (
-        <FormField
+        <Controller
             control={control}
             name='size'
-            render={({ field }) => (
-                <FormItem className='gap-3'>
-                    <FieldLabel>Size</FieldLabel>
-                    <FormControl>
-                        <FieldRadioGroup
-                            value={field.value}
-                            onValueChange={onChange}
-                            className='gap-2'>
-                            {choices.map((choice) => {
-                                const { inches, cm } = formatSize(
-                                    choice.size,
-                                    meta
-                                )
-                                const disabled = choice.unavailable !== null
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldEyebrow name={field.name}>Size</FieldEyebrow>
+                    <FieldRadioGroup
+                        name={field.name}
+                        ref={field.ref}
+                        value={field.value}
+                        onValueChange={onChange}
+                        disabled={disabled}
+                        aria-invalid={fieldState.invalid}
+                        className='gap-2'>
+                        {choices.map((choice) => {
+                            const { inches, cm } = formatSize(choice.size, meta)
+                            const disabled = choice.unavailable !== null
 
-                                return (
-                                    <Label
-                                        key={choice.size}
-                                        htmlFor={`size-${choice.size}`}
+                            return (
+                                <Label
+                                    key={choice.size}
+                                    htmlFor={`size-${choice.size}`}
+                                    className={cn(
+                                        choiceCard(disabled),
+                                        'items-center rounded-lg px-4 py-3'
+                                    )}>
+                                    <RadioGroupItem
+                                        id={`size-${choice.size}`}
+                                        value={choice.size}
+                                        disabled={disabled}
+                                    />
+                                    <span className='flex flex-1 flex-col gap-0.5'>
+                                        <span className='font-medium'>
+                                            {inches}
+                                        </span>
+                                        <span className='text-xs font-normal text-muted-foreground'>
+                                            {cm}
+                                        </span>
+                                    </span>
+                                    <span
+                                        title={`About ${Math.round(choice.dpi)} pixels per inch`}
                                         className={cn(
-                                            choiceCard(disabled),
-                                            'items-center rounded-lg px-4 py-3'
+                                            tagClasses,
+                                            qualityTagClasses[choice.quality]
                                         )}>
-                                        <RadioGroupItem
-                                            id={`size-${choice.size}`}
-                                            value={choice.size}
-                                            disabled={disabled}
-                                        />
-                                        <span className='flex flex-1 flex-col gap-0.5'>
-                                            <span className='font-medium'>
-                                                {inches}
-                                            </span>
-                                            <span className='text-xs font-normal text-muted-foreground'>
-                                                {cm}
-                                            </span>
-                                        </span>
-                                        <span
-                                            title={`About ${Math.round(choice.dpi)} pixels per inch`}
-                                            className={cn(
-                                                tagClasses,
-                                                qualityTagClasses[
-                                                    choice.quality
-                                                ]
-                                            )}>
-                                            {qualityLabels[choice.quality]}
-                                        </span>
-                                        <span className='w-16 text-right font-medium tabular-nums'>
-                                            {choice.price
-                                                ? formatMoney(choice.price)
-                                                : '-'}
-                                        </span>
-                                    </Label>
-                                )
-                            })}
-                        </FieldRadioGroup>
-                    </FormControl>
+                                        {qualityLabels[choice.quality]}
+                                    </span>
+                                    <span className='w-16 text-right font-medium tabular-nums'>
+                                        {choice.price
+                                            ? formatMoney(choice.price)
+                                            : '-'}
+                                    </span>
+                                </Label>
+                            )
+                        })}
+                    </FieldRadioGroup>
                     {hasTooSmall && (
                         <p className='text-xs text-pretty text-muted-foreground'>
                             Greyed-out sizes need a higher-resolution screenshot
@@ -344,8 +359,8 @@ export const SizeField = ({
                             pixels per inch).
                         </p>
                     )}
-                    <FormMessage />
-                </FormItem>
+                    <FieldError errors={[fieldState.error]} />
+                </Field>
             )}
         />
     )
@@ -357,6 +372,7 @@ export const SizeField = ({
  */
 export const OptionField = ({
     control,
+    disabled,
     name,
     values,
     onChange
@@ -368,92 +384,100 @@ export const OptionField = ({
     const sortedValues = sortOptionValues(name, values)
 
     return (
-        <FormField
+        <Controller
             control={control}
             name={`options.${name}`}
-            render={({ field }) => (
-                <FormItem className='gap-3'>
-                    <FieldLabel aside={optionLabel(name, field.value)}>
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                    <FieldEyebrow
+                        name={field.name}
+                        aside={optionLabel(name, field.value)}>
                         {optionNames[name] ?? name}
-                    </FieldLabel>
-                    <FormControl>
-                        {name === 'color' ? (
-                            <FieldRadioGroup
-                                value={field.value}
-                                onValueChange={onChange}
-                                className='flex flex-wrap gap-3'>
-                                {sortedValues.map((color) => (
-                                    <Label
-                                        key={color}
-                                        htmlFor={`${name}-${color}`}
-                                        title={optionLabel(name, color)}
-                                        style={{
-                                            backgroundColor:
-                                                frameSwatches[color] ??
-                                                'transparent'
-                                        }}
-                                        className={cn([
-                                            'size-9',
-                                            'cursor-pointer',
-                                            'rounded-full',
-                                            'border',
-                                            'transition-shadow',
-                                            'duration-200',
-                                            'has-[[data-state=checked]]:ring-2',
-                                            'has-[[data-state=checked]]:ring-primary',
-                                            'has-[[data-state=checked]]:ring-offset-2',
-                                            'has-[[data-state=checked]]:ring-offset-background',
-                                            'has-[:focus-visible]:ring-2',
-                                            'has-[:focus-visible]:ring-ring/50',
-                                            'has-[:focus-visible]:ring-offset-2',
-                                            'has-[:focus-visible]:ring-offset-background'
-                                        ])}>
-                                        <RadioGroupItem
-                                            id={`${name}-${color}`}
-                                            value={color}
-                                            className='sr-only'
-                                        />
-                                        <span className='sr-only'>
-                                            {optionLabel(name, color)}
+                    </FieldEyebrow>
+                    {name === 'color' ? (
+                        <FieldRadioGroup
+                            name={field.name}
+                            ref={field.ref}
+                            value={field.value}
+                            onValueChange={onChange}
+                            disabled={disabled}
+                            aria-invalid={fieldState.invalid}
+                            className='flex flex-wrap gap-3'>
+                            {sortedValues.map((color) => (
+                                <Label
+                                    key={color}
+                                    htmlFor={`${name}-${color}`}
+                                    title={optionLabel(name, color)}
+                                    style={{
+                                        backgroundColor:
+                                            frameSwatches[color] ??
+                                            'transparent'
+                                    }}
+                                    className={cn([
+                                        'size-9',
+                                        'cursor-pointer',
+                                        'rounded-full',
+                                        'border',
+                                        'transition-shadow',
+                                        'duration-200',
+                                        'has-data-checked:ring-2',
+                                        'has-data-checked:ring-primary',
+                                        'has-data-checked:ring-offset-2',
+                                        'has-data-checked:ring-offset-background',
+                                        'has-[:focus-visible]:ring-2',
+                                        'has-[:focus-visible]:ring-ring/50',
+                                        'has-[:focus-visible]:ring-offset-2',
+                                        'has-[:focus-visible]:ring-offset-background'
+                                    ])}>
+                                    <RadioGroupItem
+                                        id={`${name}-${color}`}
+                                        value={color}
+                                        className='sr-only'
+                                    />
+                                    <span className='sr-only'>
+                                        {optionLabel(name, color)}
+                                    </span>
+                                </Label>
+                            ))}
+                        </FieldRadioGroup>
+                    ) : (
+                        <FieldRadioGroup
+                            name={field.name}
+                            ref={field.ref}
+                            value={field.value}
+                            onValueChange={onChange}
+                            disabled={disabled}
+                            aria-invalid={fieldState.invalid}
+                            className='grid gap-2 sm:grid-cols-2'>
+                            {sortedValues.map((option) => (
+                                <Label
+                                    key={option}
+                                    htmlFor={`${name}-${option}`}
+                                    className={cn(
+                                        choiceCard(),
+                                        'rounded-lg p-3'
+                                    )}>
+                                    <RadioGroupItem
+                                        id={`${name}-${option}`}
+                                        value={option}
+                                        className='mt-0.5'
+                                    />
+                                    <span className='flex flex-col gap-1'>
+                                        <span className='font-medium'>
+                                            {optionLabel(name, option)}
                                         </span>
-                                    </Label>
-                                ))}
-                            </FieldRadioGroup>
-                        ) : (
-                            <FieldRadioGroup
-                                value={field.value}
-                                onValueChange={onChange}
-                                className='grid gap-2 sm:grid-cols-2'>
-                                {sortedValues.map((option) => (
-                                    <Label
-                                        key={option}
-                                        htmlFor={`${name}-${option}`}
-                                        className={cn(
-                                            choiceCard(),
-                                            'rounded-lg p-3'
-                                        )}>
-                                        <RadioGroupItem
-                                            id={`${name}-${option}`}
-                                            value={option}
-                                            className='mt-0.5'
-                                        />
-                                        <span className='flex flex-col gap-1'>
-                                            <span className='font-medium'>
-                                                {optionLabel(name, option)}
+                                        {wrapDescriptions[option] && (
+                                            <span className='text-xs font-normal text-pretty text-muted-foreground'>
+                                                {wrapDescriptions[option]}
                                             </span>
-                                            {wrapDescriptions[option] && (
-                                                <span className='text-xs font-normal text-pretty text-muted-foreground'>
-                                                    {wrapDescriptions[option]}
-                                                </span>
-                                            )}
-                                        </span>
-                                    </Label>
-                                ))}
-                            </FieldRadioGroup>
-                        )}
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
+                                        )}
+                                    </span>
+                                </Label>
+                            ))}
+                        </FieldRadioGroup>
+                    )}
+                    <FieldError errors={[fieldState.error]} />
+                </Field>
             )}
         />
     )

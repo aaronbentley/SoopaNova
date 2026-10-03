@@ -12,7 +12,6 @@ import OrderSummary from '@/components/print-options/order-summary'
 import PreviewStatus from '@/components/print-options/preview-status'
 import PrintPreview from '@/components/print-options/print-preview'
 import ScreenshotDetails from '@/components/print-options/screenshot-details'
-import { Form } from '@/components/ui/form'
 import {
     Sheet,
     SheetContent,
@@ -64,6 +63,7 @@ const PrintOptionsSheet = ({
 }: PrintOptionsSheetProps) => {
     const print = usePrintOptionsForm(meta)
     const { values, form } = print
+    const locked = status === 'flagged'
 
     const countryName =
         countries.find((country) => country.code === values.country)?.name ??
@@ -79,10 +79,8 @@ const PrintOptionsSheet = ({
             onOpenChange={onOpenChange}>
             <SheetContent
                 side='bottom'
-                className='h-dvh gap-0 overflow-y-auto border-none'
-                onOpenAutoFocus={(event) => {
-                    event.preventDefault()
-                }}>
+                className='gap-0 overflow-y-auto data-[side=bottom]:h-dvh data-[side=bottom]:border-none'
+                initialFocus={false}>
                 <div className='wrapper flex flex-col gap-8 py-8'>
                     <SheetHeader className='p-0'>
                         <SheetTitle className='font-extrabold'>
@@ -115,57 +113,60 @@ const PrintOptionsSheet = ({
                             </PrintPreview>
                         </div>
 
-                        <Form {...form}>
-                            <form
-                                noValidate
-                                onSubmit={form.handleSubmit(onCheckout)}
-                                className='min-w-0'>
-                                {/* Locked if the screenshot can't be printed */}
-                                <fieldset
-                                    disabled={status === 'flagged'}
-                                    className='flex min-w-0 flex-col gap-8 disabled:opacity-50'>
-                                    {/* First, as it sets the currency of every price below */}
-                                    <CountryField
-                                        control={form.control}
-                                        onChange={print.setCountry}
-                                    />
-                                    <ProductTypeField
-                                        control={form.control}
-                                        choices={print.productChoices}
-                                        onChange={print.setProductType}
-                                    />
-                                    <SizeField
-                                        control={form.control}
-                                        choices={print.sizeChoices}
-                                        meta={meta}
-                                        onChange={print.setSize}
-                                    />
-                                    {Object.entries(print.optionValues).map(
-                                        ([name, optionValues]) => (
-                                            <OptionField
-                                                key={name}
-                                                control={form.control}
-                                                name={name}
-                                                values={optionValues}
-                                                onChange={(value) =>
-                                                    print.setOption(name, value)
-                                                }
-                                            />
-                                        )
-                                    )}
-                                    <OrderSummary
-                                        control={form.control}
-                                        title={title}
-                                        price={print.price}
-                                        shippingFrom={print.shippingFrom}
-                                        countryName={countryName}
-                                        approved={status === 'ready'}
-                                        pending={checkoutPending}
-                                        error={checkoutError}
-                                    />
-                                </fieldset>
-                            </form>
-                        </Form>
+                        <form
+                            noValidate
+                            onSubmit={form.handleSubmit(onCheckout)}
+                            className='min-w-0'>
+                            {/* Locked if the screenshot can't be printed */}
+                            <fieldset
+                                disabled={locked}
+                                className='flex min-w-0 flex-col gap-8 disabled:opacity-50'>
+                                {/* First, as it sets the currency of every price below */}
+                                <CountryField
+                                    control={form.control}
+                                    disabled={locked}
+                                    onChange={print.setCountry}
+                                />
+                                <ProductTypeField
+                                    control={form.control}
+                                    disabled={locked}
+                                    choices={print.productChoices}
+                                    onChange={print.setProductType}
+                                />
+                                <SizeField
+                                    control={form.control}
+                                    disabled={locked}
+                                    choices={print.sizeChoices}
+                                    meta={meta}
+                                    onChange={print.setSize}
+                                />
+                                {Object.entries(print.optionValues).map(
+                                    ([name, optionValues]) => (
+                                        <OptionField
+                                            key={name}
+                                            control={form.control}
+                                            disabled={locked}
+                                            name={name}
+                                            values={optionValues}
+                                            onChange={(value) =>
+                                                print.setOption(name, value)
+                                            }
+                                        />
+                                    )
+                                )}
+                                <OrderSummary
+                                    control={form.control}
+                                    disabled={locked}
+                                    title={title}
+                                    price={print.price}
+                                    shippingFrom={print.shippingFrom}
+                                    countryName={countryName}
+                                    approved={status === 'ready'}
+                                    pending={checkoutPending}
+                                    error={checkoutError}
+                                />
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </SheetContent>

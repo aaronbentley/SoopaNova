@@ -15,14 +15,16 @@ import { Info } from 'lucide-react'
  */
 const ScreenshotDetails = ({ file, meta }: { file: File; meta: ImageMeta }) => (
     <Popover>
-        <PopoverTrigger asChild>
-            <Button
-                variant='secondary'
-                size='icon'
-                aria-label='Screenshot details'
-                className='absolute top-3 right-3 z-20 size-8 rounded-full bg-background/80 backdrop-blur-sm'>
-                <Info />
-            </Button>
+        <PopoverTrigger
+            render={
+                <Button
+                    variant='secondary'
+                    size='icon'
+                    aria-label='Screenshot details'
+                    className='absolute top-3 right-3 z-20 size-8 rounded-full bg-background/80 backdrop-blur-sm'
+                />
+            }>
+            <Info />
         </PopoverTrigger>
         <PopoverContent
             align='end'

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -30,48 +31,47 @@ const UserButton = () => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    size='icon'
-                    variant='ghost'
-                    className='size-8 rounded-full'>
-                    <Avatar className='size-8'>
-                        <AvatarImage
-                            src={user.imageUrl}
-                            alt=''
-                        />
-                        <AvatarFallback>{initials}</AvatarFallback>
-                    </Avatar>
-                    <span className='sr-only'>Open user menu</span>
-                </Button>
+            <DropdownMenuTrigger
+                render={
+                    <Button
+                        size='icon'
+                        variant='ghost'
+                        className='size-8 rounded-full'
+                    />
+                }>
+                <Avatar className='size-8'>
+                    <AvatarImage
+                        src={user.imageUrl}
+                        alt=''
+                    />
+                    <AvatarFallback>{initials}</AvatarFallback>
+                </Avatar>
+                <span className='sr-only'>Open user menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align='end'
                 className='w-56'>
-                <DropdownMenuLabel className='flex flex-col gap-0.5 font-normal'>
-                    <span className='truncate font-medium'>{name}</span>
-                    {name !== email && (
-                        <span className='truncate text-xs text-muted-foreground'>
-                            {email}
-                        </span>
-                    )}
-                </DropdownMenuLabel>
+                <DropdownMenuGroup>
+                    <DropdownMenuLabel className='flex flex-col gap-0.5 font-normal'>
+                        <span className='truncate font-medium'>{name}</span>
+                        {name !== email && (
+                            <span className='truncate text-xs text-muted-foreground'>
+                                {email}
+                            </span>
+                        )}
+                    </DropdownMenuLabel>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href='/orders/'>
-                        <Box />
-                        Orders
-                    </Link>
+                <DropdownMenuItem render={<Link href='/orders/' />}>
+                    <Box />
+                    Orders
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href='/account/'>
-                        <UserCog />
-                        Account
-                    </Link>
+                <DropdownMenuItem render={<Link href='/account/' />}>
+                    <UserCog />
+                    Account
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                    onSelect={() => signOut({ redirectUrl: '/' })}>
+                <DropdownMenuItem onClick={() => signOut({ redirectUrl: '/' })}>
                     <LogOut />
                     Sign out
                 </DropdownMenuItem>

@@ -51,12 +51,14 @@ const DeleteAccount = () => {
                     already ordered aren’t affected.
                 </p>
                 <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button
-                            variant='destructive'
-                            size='sm'>
-                            Delete account
-                        </Button>
+                    <AlertDialogTrigger
+                        render={
+                            <Button
+                                variant='destructive'
+                                size='sm'
+                            />
+                        }>
+                        Delete account
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>

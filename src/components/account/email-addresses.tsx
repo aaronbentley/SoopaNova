@@ -173,21 +173,23 @@ const EmailAddresses = () => {
                             )}
                             {!isPrimary && (
                                 <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            size='icon'
-                                            variant='ghost'
-                                            className='size-8'>
-                                            <MoreHorizontal />
-                                            <span className='sr-only'>
-                                                Actions for {email.emailAddress}
-                                            </span>
-                                        </Button>
+                                    <DropdownMenuTrigger
+                                        render={
+                                            <Button
+                                                size='icon'
+                                                variant='ghost'
+                                                className='size-8'
+                                            />
+                                        }>
+                                        <MoreHorizontal />
+                                        <span className='sr-only'>
+                                            Actions for {email.emailAddress}
+                                        </span>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align='end'>
                                         {isVerified ? (
                                             <DropdownMenuItem
-                                                onSelect={() =>
+                                                onClick={() =>
                                                     runAccountAction(
                                                         async () => {
                                                             await makePrimary(
@@ -202,7 +204,7 @@ const EmailAddresses = () => {
                                             </DropdownMenuItem>
                                         ) : (
                                             <DropdownMenuItem
-                                                onSelect={() =>
+                                                onClick={() =>
                                                     openDialog(email)
                                                 }>
                                                 Verify
@@ -210,7 +212,7 @@ const EmailAddresses = () => {
                                         )}
                                         <DropdownMenuItem
                                             variant='destructive'
-                                            onSelect={() =>
+                                            onClick={() =>
                                                 runAccountAction(async () => {
                                                     await removeEmail(email)
                                                     await user.reload()
