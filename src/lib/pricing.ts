@@ -8,6 +8,7 @@ import {
     usSalesTaxBuffer,
     type ProductTypeId
 } from '@/assets/data/pricing'
+import { parseSize } from '@/lib/print-quality'
 import type { Currency, Region, ShippingMethod } from '@/types'
 
 export type Price = { amount: number; currency: Currency }
@@ -67,6 +68,42 @@ export const getPrice = (
     const { margin } = productTypes[productType]
 
     return { amount: roundPrice(cost / (1 - margin)), currency }
+}
+
+/**
+ * The lowest of some prices, ignoring sizes that aren't sold (null)
+ */
+export const cheapest = (prices: (Price | null)[]) =>
+    prices
+        .filter((price): price is Price => price !== null)
+        .sort((a, b) => a.amount - b.amount)[0] ?? null
+
+/**
+ * A product type's starting price in a region (its cheapest size sold
+ * there), or null when none of its sizes is
+ */
+export const getFromPrice = (productType: ProductTypeId, region: Region) =>
+    cheapest(
+        productTypes[productType].sizes.map(({ size }) =>
+            getPrice(productType, size, region)
+        )
+    )
+
+/**
+ * The smallest and largest sizes on offer across all products and regions,
+ * by area ('14x24')
+ */
+export const getSizeRange = () => {
+    const area = (size: string) => {
+        const [width, height] = parseSize(size)
+
+        return width * height
+    }
+    const sizes = Object.values(productTypes)
+        .flatMap((productType) => productType.sizes.map(({ size }) => size))
+        .sort((a, b) => area(a) - area(b))
+
+    return { smallest: sizes[0], largest: sizes[sizes.length - 1] }
 }
 
 /**

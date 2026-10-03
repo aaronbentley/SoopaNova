@@ -1,3 +1,4 @@
+import { platforms } from '@/assets/data/platforms'
 import { MetadataRoute } from 'next'
 
 const sitemap = (): MetadataRoute.Sitemap => {
@@ -7,9 +8,7 @@ const sitemap = (): MetadataRoute.Sitemap => {
     const paths = [
         '/',
         '/screenshots/',
-        '/screenshots/xbox/',
-        '/screenshots/playstation/',
-        '/screenshots/steam/',
+        ...platforms.map((platform) => platform.href),
         '/faq/',
         '/about/',
         '/privacy/',

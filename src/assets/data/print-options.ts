@@ -6,35 +6,6 @@ import type { ProductTypeId } from '@/assets/data/pricing'
 export const defaultProductType: ProductTypeId = 'framed-print'
 
 /**
- * Customer-facing copy for the print options sheet
- */
-export const productCopy: Record<
-    ProductTypeId,
-    { description: string; tags: string[] }
-> = {
-    'art-print': {
-        description:
-            'Enhanced matte art paper with crisp detail and rich colour. Unframed.',
-        tags: ['200gsm', 'Matte']
-    },
-    canvas: {
-        description:
-            'Hand-stretched canvas on a 38mm frame, delivered ready to hang.',
-        tags: ['38mm deep', 'Ready to hang']
-    },
-    'framed-print': {
-        description:
-            'An art print in a classic frame behind shatterproof perspex, ready to hang.',
-        tags: ['Classic frame', 'Perspex']
-    },
-    'framed-canvas': {
-        description:
-            'Stretched canvas floating inside a slim frame, ready to hang.',
-        tags: ['Float frame', 'Ready to hang']
-    }
-}
-
-/**
  * Names for Prodigi's option attributes and their values. Anything missing
  * (e.g. a colour Prodigi adds later) falls back to the raw value.
  */

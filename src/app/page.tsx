@@ -1,4 +1,12 @@
-import { heroImage, platforms, products, steps } from '@/assets/data/home'
+import { platforms } from '@/assets/data/platforms'
+import {
+    productTypes,
+    regions,
+    type ProductTypeId
+} from '@/assets/data/pricing'
+import { heroImage, productImages } from '@/assets/data/product-images'
+import { productCopy, sizeRange } from '@/assets/data/products'
+import { steps } from '@/assets/data/steps'
 import Crosshair from '@/components/crosshair'
 import { ctaButtonVariants } from '@/components/cta-button'
 import {
@@ -11,12 +19,32 @@ import {
 } from '@/components/hero'
 import HeroUploadAction from '@/components/hero-upload-action'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
+import ProductPrice from '@/components/product-price'
 import SectionHeader from '@/components/section-header'
+import { getFromPrice } from '@/lib/pricing'
 import { cn } from '@/lib/utils'
+import type { Region } from '@/types'
 import { ArrowRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+
+/**
+ * Each product's "from" price in every region, worked out at build time;
+ * ProductPrice shows the visitor's
+ */
+const products = (Object.keys(productTypes) as ProductTypeId[]).map((id) => ({
+    id,
+    name: productTypes[id].name,
+    image: productImages[id],
+    ...productCopy[id],
+    prices: Object.fromEntries(
+        (Object.keys(regions) as Region[]).map((region) => [
+            region,
+            getFromPrice(id, region)
+        ])
+    ) as Record<Region, ReturnType<typeof getFromPrice>>
+}))
 
 export const metadata: Metadata = {
     title: {
@@ -153,38 +181,49 @@ const Frontpage = () => (
                 <SectionHeader
                     eyebrow='Power-up Prints'
                     heading='Create mighty-fine artwork for your space.'
-                    description='Everything looks better, bigger. Sizes from 8″×14″ all the way up to 38″×70″.'
+                    description={`Four ways to put your favourite screenshot on the wall, in sizes from ${sizeRange}.`}
                 />
-                <div className='mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                <div className='mt-14 grid gap-4 md:grid-cols-2'>
                     {products.map((product) => (
                         <Link
-                            key={product.name}
+                            key={product.id}
                             href='/create/'
                             className='group flex flex-col overflow-hidden rounded-xl border bg-background transition-colors duration-200 hover:border-primary'>
                             <div className='relative aspect-4/3 overflow-hidden border-b'>
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    placeholder='blur'
-                                    fill
-                                    sizes='(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 380px'
-                                    className='object-cover'
-                                />
+                                {product.image ? (
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        placeholder='blur'
+                                        fill
+                                        sizes='(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 600px'
+                                        className='object-cover'
+                                    />
+                                ) : (
+                                    /** No photo yet: the grid backdrop and the brand square */
+                                    <div className='flex size-full items-center justify-center bg-card'>
+                                        <div
+                                            aria-hidden='true'
+                                            className='absolute inset-0 bg-grid mask-fade-bottom'
+                                        />
+                                        <span
+                                            aria-hidden='true'
+                                            className='relative size-3 bg-primary shadow-[0_0_24px_var(--primary)]'
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <div className='flex flex-1 flex-col gap-3 p-6'>
                                 <div className='flex items-baseline justify-between gap-3'>
                                     <h3 className='text-[22px] font-semibold tracking-[-0.03em]'>
                                         {product.name}
                                     </h3>
-                                    <span className='font-mono text-[13px] text-muted-foreground'>
-                                        from{' '}
-                                        <span className='text-foreground'>
-                                            {product.price}
-                                        </span>
+                                    <span className='shrink-0 font-mono text-[13px] text-muted-foreground'>
+                                        <ProductPrice prices={product.prices} />
                                     </span>
                                 </div>
                                 <p className='text-[15px] leading-[1.55] text-muted-foreground text-pretty'>
-                                    {product.body}
+                                    {product.description}
                                 </p>
                                 <div className='mt-auto flex flex-wrap gap-1.5 pt-3'>
                                     {product.tags.map((tag) => (
@@ -208,7 +247,7 @@ const Frontpage = () => (
                 className='pointer-events-none absolute inset-0 bg-grid mask-fade-bottom'
             />
             <div className='wrapper relative flex flex-col items-center py-24 md:py-32 text-center'>
-                <h2 className='text-[clamp(36px,5vw,64px)] leading-none font-bold tracking-[-0.05em] text-balance'>
+                <h2 className='text-[clamp(36px,5vw,64px)] leading-none font-bold tracking-tighter text-balance'>
                     Make something awesome.
                     <br />
                     <span className='text-muted-foreground'>

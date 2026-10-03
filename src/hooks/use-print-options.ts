@@ -1,6 +1,5 @@
 'use client'
 
-import { countries } from '@/assets/data/countries'
 import {
     productTypes,
     shipping,
@@ -9,9 +8,11 @@ import {
 import { defaultOptions, defaultProductType } from '@/assets/data/print-options'
 import {
     detectDeliveryCountry,
+    getRegion,
     rememberDeliveryCountry
 } from '@/lib/delivery-country'
 import {
+    cheapest,
     getCatalogueItem,
     getPrice,
     getShippingPrice,
@@ -50,14 +51,6 @@ export type ProductChoice = {
 type Selection = Omit<PrintOptionsValues, 'confirmed'>
 
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
-
-const regionOf = (country: string): Region =>
-    countries.find((entry) => entry.code === country)?.region ?? 'gb'
-
-const cheapest = (prices: (Price | null)[]) =>
-    prices
-        .filter((price): price is Price => price !== null)
-        .sort((a, b) => a.amount - b.amount)[0] ?? null
 
 /**
  * Sizes for a product type in a region, priced and graded for the screenshot
@@ -105,7 +98,7 @@ const getProductChoices = (region: Region, meta: ImageMeta) =>
  * the first orderable size, and each option's default (or first) value
  */
 const resolveSelection = (selection: Selection, meta: ImageMeta): Selection => {
-    const region = regionOf(selection.country)
+    const region = getRegion(selection.country)
     const productChoices = getProductChoices(region, meta)
 
     const productType =
@@ -176,7 +169,7 @@ export const usePrintOptionsForm = (meta: ImageMeta) => {
         form.setValue('options', next.options, { shouldDirty: true })
     }
 
-    const region = regionOf(values.country)
+    const region = getRegion(values.country)
     const sizeChoices = getSizeChoices(values.productType, region, meta).filter(
         (choice) => choice.unavailable !== 'region'
     )

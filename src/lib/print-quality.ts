@@ -22,6 +22,16 @@ export const parseSize = (size: string) =>
     size.split('x').map(Number) as [number, number]
 
 /**
+ * A size in inches, short edge first, for when there's no screenshot to
+ * orient it by ('14 × 24″')
+ */
+export const formatInches = (size: string) => {
+    const [a, b] = parseSize(size)
+
+    return `${Math.min(a, b)} × ${Math.max(a, b)}″`
+}
+
+/**
  * A size as the screenshot is oriented: long edge first for landscape
  * screenshots (Prodigi rotates the print to match), in inches and cm
  */

@@ -1,4 +1,5 @@
 import { countries, defaultCountry } from '@/assets/data/countries'
+import type { Region } from '@/types'
 
 /**
  * The delivery country for prices and checkout, remembered in this browser
@@ -28,6 +29,13 @@ export const detectDeliveryCountry = () => {
 
     return fromLanguage ?? defaultCountry
 }
+
+/**
+ * The pricing region a country is in (the UK's when it isn't one we deliver
+ * to)
+ */
+export const getRegion = (country: string): Region =>
+    countries.find((entry) => entry.code === country)?.region ?? 'gb'
 
 /**
  * Remember the chosen country for next time

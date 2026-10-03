@@ -6,9 +6,9 @@ import {
     frameSwatches,
     optionNames,
     optionValueLabels,
-    productCopy,
     wrapDescriptions
 } from '@/assets/data/print-options'
+import { productCopy } from '@/assets/data/products'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -22,8 +22,8 @@ import {
     SelectValue
 } from '@/components/ui/select'
 import type { ProductChoice, SizeChoice } from '@/hooks/use-print-options'
-import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { formatMoney } from '@/lib/pricing'
+import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import {
     formatSize,
     qualityLabels,
@@ -424,10 +424,10 @@ export const OptionField = ({
                                         'has-data-checked:ring-primary',
                                         'has-data-checked:ring-offset-2',
                                         'has-data-checked:ring-offset-background',
-                                        'has-[:focus-visible]:ring-2',
-                                        'has-[:focus-visible]:ring-ring/50',
-                                        'has-[:focus-visible]:ring-offset-2',
-                                        'has-[:focus-visible]:ring-offset-background'
+                                        'has-focus-visible:ring-2',
+                                        'has-focus-visible:ring-ring/50',
+                                        'has-focus-visible:ring-offset-2',
+                                        'has-focus-visible:ring-offset-background'
                                     ])}>
                                     <RadioGroupItem
                                         id={`${name}-${color}`}

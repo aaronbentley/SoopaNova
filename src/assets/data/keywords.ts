@@ -1,8 +1,9 @@
 export const keywords = [
     'Prints',
-    'Poster Prints',
+    'Art Prints',
     'Canvas Prints',
     'Framed Prints',
+    'Framed Canvas',
     'Screenshots',
     'Pixels',
     'Xbox',

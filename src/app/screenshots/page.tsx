@@ -1,4 +1,4 @@
-import { platforms } from '@/assets/data/home'
+import { platforms } from '@/assets/data/platforms'
 import {
     PageHeader,
     PageHeaderDescription,

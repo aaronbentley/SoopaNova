@@ -1,3 +1,4 @@
+import { sizeRange } from '@/assets/data/products'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -50,9 +51,10 @@ const Faq = () => {
                         What products do you offer?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        We currently offer handcrafted canvas, poster and framed
-                        prints, made with love by real people, using only the
-                        highest quality materials for your prints.
+                        Art prints, canvases, framed prints and framed canvases,
+                        each made to order. You can choose the frame colour or
+                        how a canvas&apos;s edges wrap, and see the details of
+                        each one when you create your print.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -61,13 +63,13 @@ const Faq = () => {
                         What sizes can I print?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        Print size options can vary depending on the resolution
-                        of the image file you want to print and the print
-                        product you choose.
+                        Sizes run from {sizeRange}, depending on the product and
+                        where we&apos;re delivering to.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        We offer prints ranging in size from 8&Prime;x14&Prime;
-                        all the way to 38&Prime;x70&Prime;.
+                        When you upload a screenshot, we grade each size by how
+                        sharp it will print. Sizes too big for your
+                        screenshot&apos;s resolution can&apos;t be ordered.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -76,10 +78,11 @@ const Faq = () => {
                         How long will it take to receive my print?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        Standard shipping orders are dispatched within 5-7 days,
-                        plus 3-7 business days for delivery (depending on your
-                        location). Expedited shipping orders are dispatched
-                        within 3-5, plus 2 business days for delivery.
+                        Every print is made to order and usually sent out within
+                        two working days. Standard delivery then takes around
+                        2–3 working days in the UK, 4–6 in the US and 5–7 in the
+                        EU. Express is quicker: you&apos;ll see the options and
+                        their prices at checkout.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -88,8 +91,8 @@ const Faq = () => {
                         Where are you able to ship to?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        We currently ship to the United States, the European
-                        Union and Canada.
+                        The United Kingdom, the 27 countries of the European
+                        Union and the United States.
                     </PageSectionDescription>
                 </PageSection>
 
