@@ -108,14 +108,20 @@ const Faq = () => {
 
                 <PageSection className='md:py-10'>
                     <PageSectionHeading>
-                        Do you guarantee your products?
+                        What if something&apos;s wrong with my print?
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        All of our prints come with a 100% satisfaction
-                        guarantee.
+                        If your print arrives damaged, faulty or isn&apos;t what
+                        you ordered, tell us within 14 days of delivery and
+                        we&apos;ll replace it or refund you. The same goes if
+                        your order hasn&apos;t arrived 30 days after you placed
+                        it. Every print is made to order just for you, so we
+                        can&apos;t take it back if you simply change your mind.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        If you&apos;re unhappy with your print, DM us on{' '}
+                        Send us your order details and photos of the problem
+                        (and the packaging, if it was damaged in the post) by DM
+                        on{' '}
                         <a
                             href={process.env.APP_SOCIAL_TWITTER!}
                             title='DM us on Twitter'
@@ -131,7 +137,13 @@ const Faq = () => {
                             className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
                             Instagram
                         </a>{' '}
-                        and we&apos;ll make it right.
+                        and we&apos;ll put it right. Our{' '}
+                        <Link
+                            href='/terms/'
+                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary inline'>
+                            Terms
+                        </Link>{' '}
+                        have the details.
                     </PageSectionDescription>
                 </PageSection>
             </div>

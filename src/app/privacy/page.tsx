@@ -1,3 +1,4 @@
+import { privacyUpdated } from '@/assets/data/legal'
 import {
     PageHeader,
     PageHeaderDescription,
@@ -9,7 +10,9 @@ import {
     PageSectionHeading
 } from '@/components/page-section'
 import { Typography } from '@/components/typography'
+import { format, parseISO } from 'date-fns'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
     title: 'Privacy',
@@ -19,6 +22,47 @@ export const metadata: Metadata = {
     }
 }
 
+const linkClasses =
+    'font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'
+
+/**
+ * Services that handle personal data for us, and what for
+ */
+const processors = [
+    {
+        name: 'Clerk',
+        href: 'https://clerk.com/legal/privacy',
+        purpose: 'accounts and sign-in'
+    },
+    {
+        name: 'Google Firebase and Cloud Vision',
+        href: 'https://firebase.google.com/support/privacy',
+        purpose:
+            'storing your uploads and orders, and checking uploads against our content rules'
+    },
+    {
+        name: 'Stripe',
+        href: 'https://stripe.com/privacy',
+        purpose: 'payments'
+    },
+    {
+        name: 'Prodigi',
+        href: 'https://www.prodigi.com/privacy-and-cookie-policy/',
+        purpose:
+            'printing and delivering your order (with their couriers), so they receive your screenshot and delivery details'
+    },
+    {
+        name: 'Vercel',
+        href: 'https://vercel.com/legal/privacy-policy',
+        purpose: 'hosting the website and anonymous visitor statistics'
+    },
+    {
+        name: 'Cloudflare',
+        href: 'https://www.cloudflare.com/privacypolicy/',
+        purpose: 'protecting sign-in and sign-up from bots'
+    }
+]
+
 const Privacy = () => {
     return (
         <>
@@ -26,24 +70,18 @@ const Privacy = () => {
                 <PageHeader>
                     <PageHeaderHeading>Privacy</PageHeaderHeading>
                     <PageHeaderDescription>
-                        Our Privacy Policy explains what personal information we
-                        collect, how we use personal information, how personal
-                        information is shared, and privacy rights.
+                        What personal information we collect, how we use and
+                        share it, how long we keep it, and your rights.
                     </PageHeaderDescription>
                 </PageHeader>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Context</PageSectionHeading>
                     <PageSectionDescription>
-                        This Privacy Policy is designed to help you understand
-                        how we collect, use, disclose, and safeguard your
-                        personal information when you use our website and
-                        services.
-                    </PageSectionDescription>
-                    <PageSectionDescription>
-                        By accessing or using our website, you consent to the
-                        practices described in this Privacy Policy. Please take
-                        a moment to review the following information.
+                        This Privacy Policy explains how SoopaNova
+                        (&quot;we&quot;) handles your personal information when
+                        you use our website and order prints. We&apos;re
+                        responsible for that information as its data controller.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -51,49 +89,40 @@ const Privacy = () => {
                     <PageSectionHeading>
                         Information We Collect
                     </PageSectionHeading>
+                    <Typography variant='h3'>Your account</Typography>
                     <PageSectionDescription>
-                        When you sign up for an account or use our services, we
-                        may collect personal information, such as your name,
-                        email address, and other details necessary for account
-                        creation and authentication.
-                    </PageSectionDescription>
-                    <Typography variant='h3'>Personal Information</Typography>
-
-                    <PageSectionDescription>
-                        We may collect information about how you interact with
-                        our website, including your IP address, browser type,
-                        operating system, and pages visited.
-                    </PageSectionDescription>
-                    <PageSectionDescription>
-                        This data helps us improve our services and provide a
-                        better user experience.
+                        Your email address. If you sign in with Google, Discord
+                        or Microsoft, we also receive your name and profile
+                        picture from them.
                     </PageSectionDescription>
 
-                    <Typography variant='h3'>Services</Typography>
+                    <Typography variant='h3'>Your screenshots</Typography>
                     <PageSectionDescription>
-                        We use Clerk for authentication services, and you can
-                        refer to{' '}
-                        <a
-                            href='https://clerk.com/privacy'
-                            title='View Clerk Privacy Policy'
-                            target='_blank'
-                            className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
-                            Clerk&apos;s
-                        </a>{' '}
-                        Privacy Policy for more information on how they handle
-                        your data.
+                        The screenshots you upload. They&apos;re deleted
+                        automatically after 3 days. We keep a small preview
+                        image with each order so you can see it on your orders
+                        page.
                     </PageSectionDescription>
 
-                    <Typography variant='h3'>Cookies</Typography>
+                    <Typography variant='h3'>Your orders</Typography>
                     <PageSectionDescription>
-                        We use cookies to enhance your experience on our
-                        website. Cookies are small pieces of data stored on your
-                        device that help us track and analyze usage patterns.
+                        What you ordered and paid, your delivery name, address,
+                        email and phone number (which you enter at checkout),
+                        your delivery&apos;s progress and tracking, and your
+                        confirmation that the print is for personal use, with
+                        when you gave it.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        You can configure your browser to refuse cookies, but
-                        some features of the website may not function properly
-                        as a result.
+                        Payments are handled by Stripe. We never see or store
+                        your card details.
+                    </PageSectionDescription>
+
+                    <Typography variant='h3'>Visits to our website</Typography>
+                    <PageSectionDescription>
+                        Anonymous statistics about the pages visited and how
+                        quickly they load, including the type of browser and
+                        device and the country. These don&apos;t use cookies or
+                        identify you.
                     </PageSectionDescription>
                 </PageSection>
 
@@ -101,87 +130,154 @@ const Privacy = () => {
                     <PageSectionHeading>
                         How We Use Your Information
                     </PageSectionHeading>
-                    <PageSectionDescription>
-                        We use your personal information to:
-                    </PageSectionDescription>
                     <Typography
                         variant='ul'
                         muted>
                         <Typography variant='li'>
-                            Provide and improve our services
+                            To run your account and sign you in
                         </Typography>
                         <Typography variant='li'>
-                            Communicate with you about your account and our
-                            services
+                            To make and deliver your prints, and help with any
+                            problems with your order
                         </Typography>
                         <Typography variant='li'>
-                            Customize your experience on our website
+                            To check uploads automatically against our content
+                            rules, and keep the website secure
                         </Typography>
                         <Typography variant='li'>
-                            Analyze and enhance our website&apos;s performance
+                            To keep the records our accounts and taxes need
+                        </Typography>
+                        <Typography variant='li'>
+                            To see how the website is used, so we can improve it
+                        </Typography>
+                    </Typography>
+                    <PageSectionDescription>
+                        We use your information to fulfil our contract with you
+                        (your account and orders), to meet our legal obligations
+                        (our records), and for our legitimate interests in
+                        keeping the service safe and improving it. We don&apos;t
+                        send marketing emails, and we never sell your
+                        information.
+                    </PageSectionDescription>
+                </PageSection>
+
+                <PageSection className='md:py-10 w-full'>
+                    <PageSectionHeading>
+                        Who We Share It With
+                    </PageSectionHeading>
+                    <PageSectionDescription>
+                        Only the services we use to run SoopaNova, each for its
+                        own part of the job:
+                    </PageSectionDescription>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        {processors.map((processor) => (
+                            <Typography
+                                key={processor.name}
+                                variant='li'>
+                                <a
+                                    href={processor.href}
+                                    title={`${processor.name} Privacy Policy`}
+                                    target='_blank'
+                                    className={linkClasses}>
+                                    {processor.name}
+                                </a>
+                                : {processor.purpose}
+                            </Typography>
+                        ))}
+                    </Typography>
+                    <PageSectionDescription>
+                        Some of these services store or process information in
+                        the United States, under safeguards such as standard
+                        contractual clauses.
+                    </PageSectionDescription>
+                </PageSection>
+
+                <PageSection className='md:py-10 w-full'>
+                    <PageSectionHeading>How Long We Keep It</PageSectionHeading>
+                    <Typography
+                        variant='ul'
+                        muted>
+                        <Typography variant='li'>
+                            Uploaded screenshots: 3 days
+                        </Typography>
+                        <Typography variant='li'>
+                            Your account: until you delete it
+                        </Typography>
+                        <Typography variant='li'>
+                            Orders and their preview images: as long as our
+                            accounts and taxes need them, even if you delete
+                            your account
                         </Typography>
                     </Typography>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>
-                        How We Share Your Information
+                        Cookies and Browser Storage
                     </PageSectionHeading>
                     <PageSectionDescription>
-                        We do not sell, trade, or rent your personal information
-                        to third parties.
+                        We only use what the website needs to work: cookies and
+                        browser storage that keep you signed in, and browser
+                        storage that remembers your theme and delivery country.
+                        There are no advertising or tracking cookies. Stripe
+                        sets its own cookies on its checkout page.
+                    </PageSectionDescription>
+                </PageSection>
+
+                <PageSection className='md:py-10 w-full'>
+                    <PageSectionHeading>Your Rights</PageSectionHeading>
+                    <PageSectionDescription>
+                        You can ask for a copy of your information, ask us to
+                        correct or delete it, or object to how we use it. You
+                        can delete your account yourself on your{' '}
+                        <Link
+                            href='/account/'
+                            className={linkClasses}>
+                            account page
+                        </Link>
+                        , and contact us about anything else.
                     </PageSectionDescription>
                     <PageSectionDescription>
-                        However, we may share your information with trusted
-                        third parties where necessary for business operations,
-                        authentication purposes and order fulfillment.
+                        If you&apos;re unhappy with how we handle your
+                        information, you can complain to the Information
+                        Commissioner&apos;s Office (UK) or your local data
+                        protection authority.
                     </PageSectionDescription>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Security</PageSectionHeading>
                     <PageSectionDescription>
-                        We take the security of your personal information
-                        seriously. We implement industry-standard security
-                        measures to protect your data from unauthorized access,
-                        disclosure, alteration, and destruction.
+                        Uploads and orders are only available to your own
+                        account, and everything is sent over encrypted
+                        connections. No system is perfectly secure, but we take
+                        care to protect your information.
                     </PageSectionDescription>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
-                    <PageSectionHeading>Your Choices</PageSectionHeading>
+                    <PageSectionHeading>Children</PageSectionHeading>
                     <PageSectionDescription>
-                        You have the right to access, correct, or delete your
-                        personal information. You can manage your account
-                        settings or contact us for assistance.
+                        SoopaNova is for adults: you must be 18 or over to use
+                        it.
                     </PageSectionDescription>
-
-                    {/* <PageSectionDescription>
-                        You can also opt-out of receiving promotional emails,
-                        but transactional emails related to your account will
-                        still be sent.
-                    </PageSectionDescription> */}
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Policy Updates</PageSectionHeading>
                     <PageSectionDescription>
-                        We may update this Privacy Policy periodically. Any
-                        changes will be posted on this page, and the date of the
-                        latest revision will be indicated at the top.
-                    </PageSectionDescription>
-                    <PageSectionDescription>
-                        Your continued use of our website after changes are made
-                        constitutes your acceptance of the revised policy.
+                        We may update this Privacy Policy. Any changes will be
+                        posted here, with the date of the latest version below.
                     </PageSectionDescription>
                 </PageSection>
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionHeading>Contact Us</PageSectionHeading>
                     <PageSectionDescription>
-                        If you have any questions or concerns about this Privacy
-                        Policy or our data practices, please contact us via DM
-                        on:
+                        If you have any questions about this Privacy Policy or
+                        your information, please contact us via DM on:
                     </PageSectionDescription>
                     <Typography
                         variant='ul'
@@ -191,16 +287,16 @@ const Privacy = () => {
                                 href={process.env.APP_SOCIAL_TWITTER!}
                                 title='DM us on Twitter'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                                className={linkClasses}>
                                 Twitter
                             </a>
                         </Typography>
                         <Typography variant='li'>
                             <a
                                 href={process.env.APP_SOCIAL_INSTAGRAM!}
-                                title='DM os on Instagram'
+                                title='DM us on Instagram'
                                 target='_blank'
-                                className='font-medium text-primary underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                                className={linkClasses}>
                                 Instagram
                             </a>
                         </Typography>
@@ -209,7 +305,8 @@ const Privacy = () => {
 
                 <PageSection className='md:py-10 w-full'>
                     <PageSectionDescription>
-                        Last updated: December, 2023
+                        Last updated:{' '}
+                        {format(parseISO(privacyUpdated), 'MMMM, yyyy')}
                     </PageSectionDescription>
                 </PageSection>
             </div>
