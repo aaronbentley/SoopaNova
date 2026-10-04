@@ -2,6 +2,7 @@
 
 import { functions, storage } from '@/firebase/config'
 import { ensureFirebaseUser } from '@/firebase/sign-in'
+import { trackEvent } from '@/lib/analytics'
 import { ImageMeta, ModerationResult } from '@/types'
 import { useAuth } from '@clerk/nextjs'
 import { ref, type UploadResult } from 'firebase/storage'
@@ -155,6 +156,16 @@ export const useCreatePrint = () => {
                 upload = await uploadToStorage(file, meta)
                 if (isCancelled()) return
                 uploadedRef.current = { file, result: upload }
+
+                /**
+                 * The top of the funnel: uploaded → checkout started →
+                 * order placed. Retries reuse the upload, so it's once
+                 * per file.
+                 */
+                trackEvent('Screenshot uploaded', {
+                    resolution: `${meta.width} × ${meta.height}`,
+                    format: file.type.replace('image/', '').toUpperCase()
+                })
             }
 
             /**

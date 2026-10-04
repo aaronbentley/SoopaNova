@@ -2,7 +2,11 @@
 
 import { printProperties } from '@/lib/analytics'
 import { trackServerEvent } from '@/lib/analytics-server'
-import { CheckoutError, startCheckout } from '@/lib/checkout'
+import {
+    CheckoutError,
+    startCheckout,
+    type CheckoutFailure
+} from '@/lib/checkout'
 import type { CheckoutRequest } from '@/lib/print-options-schema'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
@@ -40,6 +44,17 @@ export const startCheckoutAction = async (
     const user = await currentUser()
     const email = user?.primaryEmailAddress?.emailAddress
 
+    /**
+     * Record why checkout didn't start, and for which print (unknown when
+     * the request didn't validate)
+     */
+    const trackFailure = (reason: CheckoutFailure | 'error') =>
+        trackServerEvent('Checkout failed', {
+            reason,
+            print:
+                reason === 'invalid' ? 'Unknown' : printProperties(input).print
+        })
+
     try {
         const url = await startCheckout({ userId, email, origin, input })
 
@@ -51,10 +66,12 @@ export const startCheckoutAction = async (
         return { url }
     } catch (error) {
         if (error instanceof CheckoutError) {
+            trackFailure(error.reason)
             return { message: error.message }
         }
 
         console.error('Checkout failed', error)
+        trackFailure('error')
         return { message: "We couldn't start checkout. Please try again." }
     }
 }
