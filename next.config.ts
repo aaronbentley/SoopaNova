@@ -1,3 +1,4 @@
+import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
 
 /**
@@ -73,4 +74,10 @@ const nextConfig: NextConfig = {
     }
 }
 
-export default nextConfig
+/**
+ * Compile .mdx imports (long-form copy in src/content/). Components come
+ * from src/mdx-components.tsx.
+ */
+const withMDX = createMDX()
+
+export default withMDX(nextConfig)

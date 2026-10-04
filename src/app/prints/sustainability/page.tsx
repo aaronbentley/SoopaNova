@@ -4,15 +4,12 @@ import {
     PageHeaderDescription,
     PageHeaderHeading
 } from '@/components/page-header'
-import {
-    PageSection,
-    PageSectionDescription,
-    PageSectionHeading
-} from '@/components/page-section'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { PageSection } from '@/components/page-section'
+import SustainabilityContent from '@/content/sustainability.mdx'
 
 export const metadata: Metadata = {
     title: 'Sustainability',
@@ -97,24 +94,7 @@ const Sustainability = () => (
             </PageSection>
 
             <PageSection className='md:py-10 w-full'>
-                <PageSectionHeading>The honest bit</PageSectionHeading>
-                <PageSectionDescription>
-                    Making and shipping anything has a footprint, and we&apos;re
-                    not going to pretend otherwise: we don&apos;t claim to be
-                    carbon neutral, and we can&apos;t put a carbon number on
-                    your print. What we can do is make it only when you want it,
-                    close to home, and built to last.
-                </PageSectionDescription>
-                <PageSectionDescription>
-                    Our prints are made by our print partner, Prodigi. Their{' '}
-                    <a
-                        href='https://www.prodigi.com/sustainability/'
-                        target='_blank'
-                        className='font-medium text-primary underline underline-offset-4'>
-                        sustainability page
-                    </a>{' '}
-                    has more on how they work.
-                </PageSectionDescription>
+                <SustainabilityContent />
                 <Link
                     href='/prints/'
                     className={cn(ctaButtonVariants(), 'mt-4')}>
