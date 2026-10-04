@@ -1,7 +1,6 @@
 import { jsonLd } from '@/assets/data/json-ld'
 import { platforms } from '@/assets/data/platforms'
 import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
-import { heroImage } from '@/assets/data/product-images'
 import { sizeRange } from '@/assets/data/size-range'
 import { steps } from '@/assets/data/steps'
 import Crosshair from '@/components/crosshair'
@@ -10,10 +9,11 @@ import {
     Hero,
     HeroActions,
     HeroDescription,
-    HeroFrame,
     HeroHeading,
-    HeroPill
+    HeroPill,
+    HeroStage
 } from '@/components/hero'
+import HeroStoryboard from '@/components/hero-storyboard'
 import HeroUploadAction from '@/components/hero-upload-action'
 import JsonLd from '@/components/json-ld'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
@@ -22,7 +22,6 @@ import SectionHeader from '@/components/section-header'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
 import { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
@@ -71,18 +70,9 @@ const Frontpage = () => (
                     Browse prints
                 </Link>
             </HeroActions>
-            <HeroFrame>
-                <Image
-                    src={heroImage}
-                    alt='A gaming screenshot printed and hung on a wall'
-                    placeholder='blur'
-                    loading='eager'
-                    fetchPriority='high'
-                    fill
-                    sizes='(max-width: 1128px) 100vw, 1080px'
-                    className='object-cover'
-                />
-            </HeroFrame>
+            <HeroStage>
+                <HeroStoryboard />
+            </HeroStage>
         </Hero>
 
         <section className='border-b'>

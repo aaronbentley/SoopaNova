@@ -4,6 +4,9 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ## Todosies
 
+### Ideas
+- [x] Hero animation - svg based motion-powered animation depicting screen to print product
+
 ### Build
 
 - [ ] footer
@@ -14,7 +17,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Content
 
-- [ ] Framed canvas photo (placeholder for now; set it in `src/assets/data/product-images.ts`)
+- [ ] Redo product images (placeholder for now; set it in `src/assets/data/product-images.ts`)
 - [ ] Art print photo showing an unframed print (the current one, also the hero, is framed)
 - [ ] Framed print photo without a mount (ours have none)
 - [ ] Later: swap the game art in our own photos (Red Dead Redemption 2, Halo) for art we own the rights to

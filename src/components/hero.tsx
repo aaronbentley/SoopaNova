@@ -98,12 +98,10 @@ export const HeroActions = ({
 )
 
 /**
- * Framed 3:2 image below the hero actions
+ * Full-width stage below the hero actions, on the grid (the storyboard)
  */
-export const HeroFrame = ({ children }: { children: React.ReactNode }) => (
-    <div className='mt-18 w-full max-w-[1080px] rounded-[14px] border bg-card/60 p-1.5 shadow-[0_40px_120px_-40px_color-mix(in_oklch,var(--primary)_45%,transparent)]'>
-        <div className='relative aspect-3/2 overflow-hidden rounded-[9px] bg-black'>
-            {children}
-        </div>
+export const HeroStage = ({ children }: { children: React.ReactNode }) => (
+    <div className='relative mt-8 aspect-4/3 w-screen sm:aspect-2/1 md:aspect-5/2'>
+        {children}
     </div>
 )
