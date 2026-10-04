@@ -25,12 +25,9 @@ import type Stripe from 'stripe'
  * A request that can't go to checkout, with a message for the customer
  */
 export class CheckoutError extends Error {
-    status: number
-
-    constructor(message: string, status: number) {
+    constructor(message: string) {
         super(message)
         this.name = 'CheckoutError'
-        this.status = status
     }
 }
 
@@ -49,8 +46,7 @@ const validate = (input: unknown) => {
 
     if (!parsed.success) {
         throw new CheckoutError(
-            parsed.error.issues[0]?.message ?? 'Invalid checkout request.',
-            400
+            parsed.error.issues[0]?.message ?? 'Invalid checkout request.'
         )
     }
 
@@ -98,8 +94,7 @@ export const startCheckout = async ({
      */
     if (!isOwnUpload(fileName, userId) || !(await isApprovedUpload(fileName))) {
         throw new CheckoutError(
-            "We couldn't verify your screenshot. Please upload it again.",
-            403
+            "We couldn't verify your screenshot. Please upload it again."
         )
     }
 
@@ -109,10 +104,7 @@ export const startCheckout = async ({
     const price = getPrice(productType, size, region)
 
     if (!price) {
-        throw new CheckoutError(
-            `That size isn't available to ${country.name}.`,
-            400
-        )
+        throw new CheckoutError(`That size isn't available to ${country.name}.`)
     }
 
     /**
@@ -131,10 +123,7 @@ export const startCheckout = async ({
         ]
     }).catch((error) => {
         console.error('Prodigi quote failed', error)
-        throw new CheckoutError(
-            "We couldn't start checkout. Please try again.",
-            502
-        )
+        throw new CheckoutError("We couldn't start checkout. Please try again.")
     })
 
     const costs = getQuoteCosts(quote.quotes ?? [], shipping.methods)
@@ -159,8 +148,7 @@ export const startCheckout = async ({
             issues: quote.issues
         })
         throw new CheckoutError(
-            `This print isn't available to ${country.name} right now. Please try another size or product.`,
-            422
+            `This print isn't available to ${country.name} right now. Please try another size or product.`
         )
     }
 
@@ -273,9 +261,6 @@ export const startCheckout = async ({
     } catch (error) {
         console.error('Stripe Checkout session failed', error)
         await session.update({ status: 'failed' }).catch(() => {})
-        throw new CheckoutError(
-            "We couldn't start checkout. Please try again.",
-            502
-        )
+        throw new CheckoutError("We couldn't start checkout. Please try again.")
     }
 }

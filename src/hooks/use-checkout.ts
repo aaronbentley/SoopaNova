@@ -1,14 +1,14 @@
 'use client'
 
-import type {
-    CheckoutRequest,
-    PrintOptionsValues
-} from '@/lib/print-options-schema'
+import { startCheckoutAction } from '@/actions/checkout'
+import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { useState } from 'react'
 
+const checkoutFailed = "We couldn't start checkout. Please try again."
+
 /**
- * Start Stripe Checkout for a print: POST it to /api/checkout and go to the
- * Checkout page, or keep the error message to show in the sheet
+ * Start Stripe Checkout for a print: call the checkout Server Action and go
+ * to the Checkout page, or keep the error message to show in the sheet
  */
 export const useCheckout = () => {
     const [pending, setPending] = useState(false)
@@ -18,37 +18,25 @@ export const useCheckout = () => {
         setPending(true)
         setError(null)
 
-        try {
-            const response = await fetch('/api/checkout/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...values,
-                    fileName
-                } satisfies CheckoutRequest)
-            })
+        /**
+         * The action returns a message for the customer. It only throws when
+         * it can't run at all (offline, or a new deployment), and those
+         * errors aren't worded for customers.
+         */
+        const result = await startCheckoutAction({ ...values, fileName }).catch(
+            () => ({ message: checkoutFailed })
+        )
 
-            const json = await response.json().catch(() => null)
-
-            if (!response.ok || typeof json?.url !== 'string') {
-                throw new Error(
-                    json?.message ??
-                        "We couldn't start checkout. Please try again."
-                )
-            }
-
-            /**
-             * Leave pending on, as the page is navigating away
-             */
-            window.location.assign(json.url)
-        } catch (checkoutError) {
-            setError(
-                checkoutError instanceof Error
-                    ? checkoutError.message
-                    : "We couldn't start checkout. Please try again."
-            )
+        if ('message' in result) {
+            setError(result.message)
             setPending(false)
+            return
         }
+
+        /**
+         * Leave pending on, as the page is navigating away
+         */
+        window.location.assign(result.url)
     }
 
     const clearError = () => setError(null)
