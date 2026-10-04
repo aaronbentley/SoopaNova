@@ -149,6 +149,46 @@
     --color-ring: var(--ring);
 }
 
+/**
+ * Hero glow: a slow breathe plus a drift on each axis. The periods (12s, 19s,
+ * 13s) rarely line up, so the motion doesn't visibly repeat. Each animates its
+ * own property (opacity/scale, translate, transform), so they combine.
+ */
+@theme {
+    --animate-glow:
+        glow-breathe 12s ease-in-out infinite,
+        glow-drift-x 19s ease-in-out infinite alternate,
+        glow-drift-y 13s ease-in-out infinite alternate;
+
+    @keyframes glow-breathe {
+        0%,
+        100% {
+            opacity: 0.75;
+            scale: 0.96;
+        }
+        50% {
+            opacity: 1;
+            scale: 1.04;
+        }
+    }
+    @keyframes glow-drift-x {
+        from {
+            translate: -32px 0;
+        }
+        to {
+            translate: 32px 0;
+        }
+    }
+    @keyframes glow-drift-y {
+        from {
+            transform: translateY(-12px);
+        }
+        to {
+            transform: translateY(16px);
+        }
+    }
+}
+
 @utility container {
     margin-inline: auto;
     padding-inline: 2rem;

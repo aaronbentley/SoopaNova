@@ -16,9 +16,10 @@ export const Hero = ({
             aria-hidden='true'
             className='pointer-events-none absolute inset-0 bg-grid mask-fade-top'
         />
+        {/* Centred with a negative margin (half of w-275) because animate-glow moves translate */}
         <div
             aria-hidden='true'
-            className='pointer-events-none absolute left-1/2 -top-80 h-160 w-275 -translate-x-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--primary)_28%,transparent),transparent)]'
+            className='pointer-events-none absolute left-1/2 -top-80 -ml-137.5 h-160 w-275 bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--primary)_28%,transparent),transparent)] motion-safe:animate-glow'
         />
         <div className='wrapper relative flex flex-col items-center pt-20 pb-16 md:pt-28 md:pb-24 text-center'>
             {children}
