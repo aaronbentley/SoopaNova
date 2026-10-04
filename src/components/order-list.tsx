@@ -1,6 +1,7 @@
 import { productTypes } from '@/assets/data/pricing'
+import CancelOrderButton from '@/components/cancel-order-button'
 import { Badge } from '@/components/ui/badge'
-import type { ProdigiStatus } from '@/lib/orders'
+import type { OrderRefund, ProdigiStatus } from '@/lib/orders'
 import {
     getOrderProgress,
     orderProgressLabels,
@@ -28,6 +29,9 @@ export type OrderListItem = {
     currency?: Currency
     total?: number
     prodigi: ProdigiStatus | null
+    refund: OrderRefund | null
+    /** Until when the customer can cancel it, if they can */
+    cancellableUntil: Date | null
     /** A short-lived signed link to the order's thumbnail */
     thumbnailUrl: string | null
 }
@@ -121,6 +125,16 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
     const progress = order.status
         ? getOrderProgress(order.status, order.prodigi)
         : null
+    const total =
+        order.total !== undefined && order.currency
+            ? formatMoney({ amount: order.total, currency: order.currency })
+            : null
+    const refunded =
+        order.refund && order.currency
+            ? order.refund.full
+                ? 'Refunded'
+                : `${formatMoney({ amount: order.refund.amount, currency: order.currency })} refunded`
+            : null
 
     return (
         <li className='flex gap-4 py-5'>
@@ -149,12 +163,15 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
                 </div>
                 <div className='flex shrink-0 flex-col gap-2 sm:items-end'>
                     <div className='flex items-center gap-3 sm:flex-row-reverse'>
-                        {order.total !== undefined && order.currency && (
-                            <span className='font-semibold tabular-nums'>
-                                {formatMoney({
-                                    amount: order.total,
-                                    currency: order.currency
-                                })}
+                        {total && (
+                            <span
+                                className={cn(
+                                    ['font-semibold tabular-nums'],
+                                    order.refund?.full && [
+                                        'text-muted-foreground line-through'
+                                    ]
+                                )}>
+                                {total}
                             </span>
                         )}
                         {progress && (
@@ -163,7 +180,19 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
                             </Badge>
                         )}
                     </div>
+                    {refunded && (
+                        <p className='text-sm text-muted-foreground'>
+                            {refunded}
+                        </p>
+                    )}
                     <Tracking prodigi={order.prodigi} />
+                    {order.cancellableUntil && total && (
+                        <CancelOrderButton
+                            orderId={order.id}
+                            total={total}
+                            cancellableUntil={order.cancellableUntil}
+                        />
+                    )}
                 </div>
             </div>
         </li>

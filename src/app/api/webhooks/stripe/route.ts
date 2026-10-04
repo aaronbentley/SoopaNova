@@ -1,4 +1,4 @@
-import { expireCheckout, fulfilCheckout } from '@/lib/orders'
+import { expireCheckout, fulfilCheckout, recordRefund } from '@/lib/orders'
 import { getStripe } from '@/lib/stripe'
 import { NextRequest, NextResponse } from 'next/server'
 import type Stripe from 'stripe'
@@ -6,12 +6,13 @@ import type Stripe from 'stripe'
 /**
  * Stripe webhook (no Clerk auth: Stripe signs each event instead).
  * A paid Checkout session becomes an order and is submitted to Prodigi;
- * an expired one closes its print session. Answering 500 makes Stripe retry,
- * which lib/orders.ts makes safe.
+ * an expired one closes its print session, and a refund is recorded on its
+ * order. Answering 500 makes Stripe retry, which lib/orders.ts makes safe.
  *
  * Endpoint: /api/webhooks/stripe/ (with the trailing slash: Stripe doesn't
  * follow the redirect). Events: checkout.session.completed,
- * checkout.session.async_payment_succeeded, checkout.session.expired.
+ * checkout.session.async_payment_succeeded, checkout.session.expired,
+ * charge.refunded.
  */
 export const POST = async (request: NextRequest) => {
     const signature = request.headers.get('stripe-signature')
@@ -45,6 +46,9 @@ export const POST = async (request: NextRequest) => {
                 break
             case 'checkout.session.expired':
                 await expireCheckout(event.data.object)
+                break
+            case 'charge.refunded':
+                await recordRefund(event.data.object)
                 break
         }
     } catch (error) {

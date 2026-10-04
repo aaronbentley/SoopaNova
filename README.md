@@ -5,7 +5,6 @@ Here's hoping I make something fun, cool and preferably, profitable.
 ## Todosies
 
 ### Ideas
-- [ ] Add vercel events for checkout init and product option selection(s)
 - [ ] A one-page doc of the business, product offerings and sales margins
 - [ ] An accounts doc detailing the annual running costs - with examples of sales required to cover them
 - [ ] A weekly or monthly sales report
@@ -14,10 +13,9 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Build
 
-- [ ] Set and handle order cancelation window (refer to prodigi docs)
+- [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
 - [ ] Resend - order status email notifications: order confirmation and dispatch (with tracking) to the customer
-- [ ] Admin email notification on new order, route handler to send email on new order via Resend. Also alert on orders that are on hold, created with issues or failed, and on margin-guard refusals (only logged today)
-- [ ] Admin action to cancel an order (`cancelOrder` already exists in `src/lib/prodigi.ts`)
+- [ ] Admin alerts via Resend: orders created with issues or failed, refunds that failed after a customer cancelled, and margin-guard refusals (only logged today). Prodigi's own order notification emails already cover new orders
 - [ ] Contact/support form as a Server Action in `src/actions/` (checkout already uses one)
 
 ### Content
@@ -36,18 +34,13 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [ ] VAT and sales tax with an accountant (then the price wording and Stripe Tax)
 - [ ] Get the Terms and the copyright position checked once (IP solicitor or a free IP clinic)
 
-### Testing
-
-- [ ] Set `PRODIGI_CALLBACK_SECRET` on Preview, then a test purchase there: payment → order → Prodigi order → status and tracking on `/orders`
-- [ ] Click through the signed-in flows since the Base UI migration: print options sheet (including a flagged screenshot), user menu, `/account`
-- [ ] Safari and iOS
-
 ### Before launch
 
-- [ ] Prodigi live account: add a payment method and a 1–2 hour pause window (so orders can still be cancelled), then re-run `yarn catalogue` against the live API
-- [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it
-- [ ] Stripe live: business name, support email, statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay, Google Pay and Link (no bank debits); payment receipts on
-- [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (same three events) and its `STRIPE_WEBHOOK_SECRET`
+- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it), then re-run `yarn catalogue` against the live API
+- [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
+- [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
+- [ ] Stripe live: business name, support email, statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); payment receipts on
+- [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
 - [ ] Vercel production env vars: live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET`, image limits (and their `NEXT_PUBLIC_` copies)
 - [ ] Decide what the `onOrderCreated` Firebase trigger does (the admin email?) before real orders arrive
 - [ ] Merge `replatform-prodigi` into `main`, then review env vars and delete the `CANVASPOP_*` env vars

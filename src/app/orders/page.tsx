@@ -9,6 +9,7 @@ import { PageSection } from '@/components/page-section'
 import { OrderListSkeleton } from '@/components/skeletons'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ordersCollection } from '@/lib/firebase-admin'
+import { getCancellableUntil } from '@/lib/order-status'
 import { getSignedReadUrl } from '@/lib/uploads'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { Info } from 'lucide-react'
@@ -47,17 +48,31 @@ const getOrders = async (): Promise<OrderListItem[] | null> => {
         return Promise.all(
             snapshot.docs.map(async (doc) => {
                 const thumbnail: string | null = doc.get('thumbnail') ?? null
+                const createdAt: Date = doc.get('createdAt').toDate()
+                const status = doc.get('status')
+                const prodigi = doc.get('prodigi') ?? null
+                const refund = doc.get('refund') ?? null
 
                 return {
                     id: doc.id,
-                    createdAt: doc.get('createdAt').toDate(),
-                    status: doc.get('status'),
+                    createdAt,
+                    status,
                     productType: doc.get('productType'),
                     size: doc.get('size'),
                     options: doc.get('options'),
                     currency: doc.get('currency'),
                     total: doc.get('amounts.total'),
-                    prodigi: doc.get('prodigi') ?? null,
+                    prodigi,
+                    refund: refund && {
+                        amount: refund.amount,
+                        full: refund.full
+                    },
+                    cancellableUntil: getCancellableUntil({
+                        createdAt,
+                        status,
+                        prodigi,
+                        refunded: !!refund
+                    }),
                     thumbnailUrl: thumbnail
                         ? await getSignedReadUrl(thumbnail, 60).catch(
                               () => null

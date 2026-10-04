@@ -9,7 +9,8 @@ import {
     printSessionsCollection,
     storageBucket
 } from '@/lib/firebase-admin'
-import { createOrder, getOrder, ProdigiError } from '@/lib/prodigi'
+import { getCancellableUntil } from '@/lib/order-status'
+import { cancelOrder, createOrder, getOrder, ProdigiError } from '@/lib/prodigi'
 import { getStripe } from '@/lib/stripe'
 import { getSignedReadUrl } from '@/lib/uploads'
 import type { PrintOrderStatus, ShippingMethod } from '@/types'
@@ -308,10 +309,18 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
         })
 
         /**
-         * OnHold (paused, or awaiting payment in Prodigi's dashboard) and
-         * CreatedWithIssues still print, but need a look
+         * OnHold is normal: the order edit window pauses every order for 2
+         * hours, so customers can cancel (Prodigi's "attention" email covers
+         * other holds). CreatedWithIssues still prints, but needs a look.
          */
-        if (outcome === 'OnHold' || outcome === 'CreatedWithIssues') {
+        if (outcome === 'OnHold') {
+            console.info('Prodigi order on hold', {
+                orderId: order.id,
+                prodigiOrderId: prodigiOrder.id
+            })
+        }
+
+        if (outcome === 'CreatedWithIssues') {
             console.error(`Prodigi order ${outcome}`, {
                 orderId: order.id,
                 prodigiOrderId: prodigiOrder.id,
@@ -347,11 +356,12 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
 
 /**
  * Local dev and the preview share the Stripe sandbox, so both receive every
- * event. The dev server (via `stripe listen`) only handles checkouts started
+ * event. Checkout's metadata (also on its payment intent) records where it
+ * started. The dev server (via `stripe listen`) only handles checkouts started
  * on localhost, and deployments only handle the rest.
  */
-const isOwnCheckout = (checkout: Stripe.Checkout.Session) => {
-    const origin = checkout.metadata?.origin
+const isOwnCheckout = (metadata: Stripe.Metadata | null) => {
+    const origin = metadata?.origin
     const isLocal = !!origin && new URL(origin).hostname === 'localhost'
 
     return isLocal === (process.env.NODE_ENV === 'development')
@@ -374,7 +384,7 @@ export const fulfilCheckout = async (
     const { userId, printSessionId } = event.metadata ?? {}
 
     /** Not one of ours (e.g. `stripe trigger`), or another deployment's */
-    if (!userId || !printSessionId || !isOwnCheckout(event)) return
+    if (!userId || !printSessionId || !isOwnCheckout(event.metadata)) return
 
     /**
      * The full session: the chosen shipping rate (for its Prodigi method)
@@ -425,7 +435,7 @@ export const fulfilCheckout = async (
 export const expireCheckout = async (checkout: Stripe.Checkout.Session) => {
     const { userId, printSessionId } = checkout.metadata ?? {}
 
-    if (!userId || !printSessionId || !isOwnCheckout(checkout)) return
+    if (!userId || !printSessionId || !isOwnCheckout(checkout.metadata)) return
 
     const sessionRef = printSessionsCollection(userId).doc(printSessionId)
 
@@ -458,4 +468,197 @@ export const syncProdigiOrder = async (prodigiOrderId: string) => {
     if (!userId || !orderId) return false
 
     return saveProdigiOrder(ordersCollection(userId).doc(orderId), prodigiOrder)
+}
+
+/**
+ * What a customer has been refunded in Stripe: the running total, and
+ * whether it's all of it
+ */
+export type OrderRefund = { amount: number; full: boolean }
+
+/**
+ * A cancellation that didn't go through, with a message for the customer
+ */
+export class CancelOrderError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = 'CancelOrderError'
+    }
+}
+
+const tooLateToCancel =
+    "This order's already on its way to the printer, so it can't be cancelled now."
+
+/**
+ * A customer cancelling their own order while Prodigi has it paused: cancel
+ * it at Prodigi first, so nothing that still prints is refunded, then
+ * refund the payment in full. Returns the order's print, for analytics.
+ */
+export const cancelCustomerOrder = async (userId: string, orderId: string) => {
+    /** The path makes sure it's the customer's own order */
+    const orderRef = ordersCollection(userId).doc(orderId)
+    const order = await orderRef.get()
+
+    if (!order.exists) {
+        throw new CancelOrderError("We couldn't find that order.")
+    }
+
+    const prodigi: ProdigiStatus | null = order.get('prodigi') ?? null
+    const cancellableUntil = getCancellableUntil({
+        createdAt: order.get('createdAt').toDate(),
+        status: order.get('status'),
+        prodigi,
+        refunded: !!order.get('refund')
+    })
+
+    if (!cancellableUntil || !prodigi) {
+        throw new CancelOrderError(tooLateToCancel)
+    }
+
+    /**
+     * The cancel reply may only carry the order's id, so the order is
+     * fetched. It counts as cancelled if it is, whatever the outcome (a
+     * double click may have cancelled it already). Either way the fresh
+     * order is saved, so a refused cancel takes the button away (Prodigi's
+     * callbacks may not have caught it up yet, and never do locally).
+     */
+    const { outcome } = await cancelOrder(prodigi.orderId)
+    let prodigiOrder = await getOrder(prodigi.orderId)
+
+    /**
+     * Prodigi's sandbox has no edit window and can put an order into
+     * production within a second, refusing the cancel. To try the rest of
+     * the flow locally anyway, PRODIGI_SANDBOX_FAKE_CANCEL=true treats a refusal as a
+     * cancel (dev server and sandbox only): the Stripe refund is real, the
+     * Prodigi order isn't cancelled.
+     */
+    if (
+        prodigiOrder.status.stage !== 'Cancelled' &&
+        process.env.PRODIGI_SANDBOX_FAKE_CANCEL === 'true' &&
+        process.env.NODE_ENV === 'development' &&
+        process.env.PRODIGI_API_URL?.includes('sandbox')
+    ) {
+        console.warn('Faking a Prodigi cancel (PRODIGI_SANDBOX_FAKE_CANCEL)', {
+            orderId,
+            prodigiOrderId: prodigi.orderId,
+            outcome
+        })
+        prodigiOrder = {
+            ...prodigiOrder,
+            status: { ...prodigiOrder.status, stage: 'Cancelled' }
+        }
+    }
+
+    await saveProdigiOrder(orderRef, prodigiOrder)
+
+    if (prodigiOrder.status.stage !== 'Cancelled') {
+        console.warn('Prodigi did not cancel the order', {
+            orderId,
+            prodigiOrderId: prodigi.orderId,
+            outcome
+        })
+        throw new CancelOrderError(tooLateToCancel)
+    }
+
+    /**
+     * Refund in full. The idempotency key stops a retry refunding twice.
+     */
+    try {
+        const refund = await getStripe().refunds.create(
+            {
+                payment_intent: order.get('paymentIntentId'),
+                reason: 'requested_by_customer',
+                metadata: { userId, orderId }
+            },
+            { idempotencyKey: `cancel-${orderId}` }
+        )
+
+        await orderRef.update({
+            cancelledAt: FieldValue.serverTimestamp(),
+            cancelledBy: 'customer',
+            refund: {
+                amount: fromMinor(refund.amount),
+                full: true,
+                refundedAt: FieldValue.serverTimestamp()
+            },
+            updatedAt: FieldValue.serverTimestamp()
+        })
+    } catch (error) {
+        console.error('Order cancelled at Prodigi but not refunded', {
+            orderId,
+            userId,
+            error
+        })
+        await orderRef.update({
+            cancelledAt: FieldValue.serverTimestamp(),
+            cancelledBy: 'customer',
+            updatedAt: FieldValue.serverTimestamp()
+        })
+        throw new CancelOrderError(
+            "Your order's cancelled, but the refund didn't go through. We'll sort it out and refund you in full."
+        )
+    }
+
+    return {
+        productType: order.get('productType'),
+        size: order.get('size'),
+        options: order.get('options') ?? {}
+    }
+}
+
+/**
+ * A refund made in Stripe (a customer's cancellation, or one made in the
+ * dashboard, full or partial): keep the running total on the order. Each
+ * event carries the charge's total so far, so a late, older event is
+ * ignored.
+ */
+export const recordRefund = async (charge: Stripe.Charge) => {
+    const paymentIntentId =
+        typeof charge.payment_intent === 'string'
+            ? charge.payment_intent
+            : charge.payment_intent?.id
+
+    if (!paymentIntentId) return
+
+    /**
+     * Checkout's metadata is on the payment intent, not the charge
+     */
+    const { metadata } =
+        await getStripe().paymentIntents.retrieve(paymentIntentId)
+    const { userId, printSessionId } = metadata
+
+    if (!userId || !printSessionId || !isOwnCheckout(metadata)) return
+
+    const session = await printSessionsCollection(userId)
+        .doc(printSessionId)
+        .get()
+    const orderId: string | undefined = session.get('orderId')
+
+    if (!orderId) {
+        console.error('Refunded payment has no order', {
+            userId,
+            printSessionId,
+            paymentIntentId
+        })
+        return
+    }
+
+    const orderRef = ordersCollection(userId).doc(orderId)
+    const amount = fromMinor(charge.amount_refunded)
+
+    await firestore.runTransaction(async (transaction) => {
+        const order = await transaction.get(orderRef)
+        const saved: OrderRefund | null = order.get('refund') ?? null
+
+        if (!order.exists || (saved && saved.amount > amount)) return
+
+        transaction.update(orderRef, {
+            refund: {
+                amount,
+                full: charge.refunded,
+                refundedAt: FieldValue.serverTimestamp()
+            },
+            updatedAt: FieldValue.serverTimestamp()
+        })
+    })
 }

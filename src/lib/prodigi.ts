@@ -103,9 +103,9 @@ export const createQuote = (quote: QuoteRequest) =>
 
 /**
  * Submit an order. Business outcomes come back with HTTP 200: Created,
- * OnHold (paused or awaiting payment), CreatedWithIssues, or AlreadyExists
- * (same idempotencyKey). AlreadyExists only returns the existing order's id,
- * so that order is fetched.
+ * OnHold (paused by the account's order edit window, or awaiting payment),
+ * CreatedWithIssues, or AlreadyExists (same idempotencyKey). OnHold and
+ * AlreadyExists only return the order's id, so that order is fetched.
  */
 export const createOrder = async (order: CreateOrderRequest) => {
     const created = await request<{
@@ -113,7 +113,7 @@ export const createOrder = async (order: CreateOrderRequest) => {
         order: Order
     }>('/orders', order)
 
-    if (created.outcome === 'AlreadyExists') {
+    if (created.outcome === 'OnHold' || created.outcome === 'AlreadyExists') {
         return { ...created, order: await getOrder(created.order.id) }
     }
 

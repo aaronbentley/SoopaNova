@@ -18,6 +18,8 @@ export type AnalyticsEvent =
     | 'Checkout failed'
     /** Paid, and the order created (once per order) */
     | 'Order placed'
+    /** Cancelled and refunded by the customer from their orders */
+    | 'Order cancelled'
 
 export type AnalyticsProperties = Record<string, string>
 

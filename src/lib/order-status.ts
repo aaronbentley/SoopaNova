@@ -14,6 +14,42 @@ export const orderProgressLabels: Record<OrderProgress, string> = {
 }
 
 /**
+ * How long customers can cancel after ordering. Prodigi's order edit window
+ * pauses every order for 2 hours, so this stays well inside it.
+ */
+export const cancelWindowMinutes = 90
+
+/**
+ * Until when the customer can cancel the order, or null if they can't:
+ * Prodigi has it but hasn't started production, it isn't refunded, and it's
+ * within the window. The window starts when the order is created, before
+ * Prodigi's pause does. Prodigi's sandbox has no edit window, so there it
+ * depends on how soon the order goes into production; Prodigi refusing the
+ * cancel is handled.
+ */
+export const getCancellableUntil = (order: {
+    createdAt: Date
+    status?: PrintOrderStatus
+    prodigi: Pick<ProdigiStatus, 'stage' | 'details'> | null
+    refunded: boolean
+}) => {
+    if (
+        order.status !== 'submitted' ||
+        order.prodigi?.stage !== 'InProgress' ||
+        order.prodigi.details?.inProduction !== 'NotStarted' ||
+        order.refunded
+    ) {
+        return null
+    }
+
+    const until = new Date(
+        order.createdAt.getTime() + cancelWindowMinutes * 60 * 1000
+    )
+
+    return until > new Date() ? until : null
+}
+
+/**
  * Where an order is, for the customer: our own status until Prodigi has it,
  * then Prodigi's stage and progress
  */
