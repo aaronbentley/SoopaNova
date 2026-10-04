@@ -5,8 +5,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 ## Todosies
 
 ### Ideas
-- [ ] A one-page doc of the business, product offerings and sales margins
-- [ ] An accounts doc detailing the annual running costs - with examples of sales required to cover them
+- [ ] A one-page doc of the business, product offerings and sales margins, annual running costs - with examples of sales required to cover them
 - [ ] A weekly or monthly sales report
 - [ ] A sheet detailing costs, sales and profits
 
