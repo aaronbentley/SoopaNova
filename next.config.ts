@@ -2,21 +2,34 @@ import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
 
 /**
+ * Allow the Vercel Toolbar (feedback, comments) on preview deployments only
+ */
+const isPreview = process.env.VERCEL_ENV === 'preview'
+const vercelToolbar = {
+    script: isPreview ? ' https://vercel.live' : '',
+    style: isPreview ? ' https://vercel.live' : '',
+    img: isPreview ? ' https://vercel.live https://vercel.com' : '',
+    font: isPreview ? ' https://vercel.live https://assets.vercel.com' : '',
+    frame: isPreview ? ' https://vercel.live' : '',
+    connect: isPreview ? ' https://vercel.live wss://ws-us3.pusher.com' : ''
+}
+
+/**
  * Set CSP headers
  */
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' *.soopanova.app https://challenges.cloudflare.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: *.clerk.com https://storage.googleapis.com;
-    font-src 'self';
+    script-src 'self' 'unsafe-inline' *.soopanova.app https://challenges.cloudflare.com${vercelToolbar.script};
+    style-src 'self' 'unsafe-inline'${vercelToolbar.style};
+    img-src 'self' blob: data: *.clerk.com https://storage.googleapis.com${vercelToolbar.img};
+    font-src 'self'${vercelToolbar.font};
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self' https://challenges.cloudflare.com;
+    frame-src 'self' https://challenges.cloudflare.com${vercelToolbar.frame};
     frame-ancestors 'none';
     worker-src 'self' blob:;
-    connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net;
+    connect-src 'self' *.soopanova.app *.googleapis.com *.cloudfunctions.net${vercelToolbar.connect};
     block-all-mixed-content;
     upgrade-insecure-requests;
 `
