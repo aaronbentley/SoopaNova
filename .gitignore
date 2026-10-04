@@ -40,3 +40,6 @@ certificates
 # Yarn
 .yarn/*
 !.yarn/patches
+
+# Private notes (local only)
+/docs
