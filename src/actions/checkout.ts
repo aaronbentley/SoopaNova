@@ -1,5 +1,7 @@
 'use server'
 
+import { printProperties } from '@/lib/analytics'
+import { trackServerEvent } from '@/lib/analytics-server'
 import { CheckoutError, startCheckout } from '@/lib/checkout'
 import type { CheckoutRequest } from '@/lib/print-options-schema'
 import { auth, currentUser } from '@clerk/nextjs/server'
@@ -40,6 +42,11 @@ export const startCheckoutAction = async (
 
     try {
         const url = await startCheckout({ userId, email, origin, input })
+
+        /**
+         * startCheckout has validated the input, so it's a real print
+         */
+        trackServerEvent('Checkout started', printProperties(input))
 
         return { url }
     } catch (error) {

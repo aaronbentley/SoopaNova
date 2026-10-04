@@ -1,11 +1,13 @@
 'use client'
 
+import { countries } from '@/assets/data/countries'
 import {
     productTypes,
     shipping,
     type ProductTypeId
 } from '@/assets/data/pricing'
 import { defaultOptions, defaultProductType } from '@/assets/data/print-options'
+import { trackEvent } from '@/lib/analytics'
 import {
     detectDeliveryCountry,
     getRegion,
@@ -18,6 +20,7 @@ import {
     getShippingPrice,
     type Price
 } from '@/lib/pricing'
+import { describeOptions, formatPrintSize } from '@/lib/print-labels'
 import {
     printOptionsSchema,
     type PrintOptionsValues
@@ -158,15 +161,21 @@ export const usePrintOptionsForm = (meta: ImageMeta) => {
     const values = useWatch({ control: form.control }) as PrintOptionsValues
 
     /**
-     * Apply a change and resolve the rest of the selection around it
+     * Apply a change and resolve the rest of the selection around it.
+     * `choice` describes the change for analytics, e.g. 'Size: 24 × 16″'.
      */
-    const update = (change: Partial<Selection>) => {
+    const update = (change: Partial<Selection>, choice: string) => {
         const next = resolveSelection({ ...form.getValues(), ...change }, meta)
 
         form.setValue('country', next.country, { shouldDirty: true })
         form.setValue('productType', next.productType, { shouldDirty: true })
         form.setValue('size', next.size, { shouldDirty: true })
         form.setValue('options', next.options, { shouldDirty: true })
+
+        trackEvent('Print option chosen', {
+            choice,
+            product: productTypes[next.productType].name
+        })
     }
 
     const region = getRegion(values.country)
@@ -201,11 +210,22 @@ export const usePrintOptionsForm = (meta: ImageMeta) => {
             : null,
         setCountry: (country: string) => {
             rememberDeliveryCountry(country)
-            update({ country })
+            update(
+                { country },
+                `Delivery country: ${countries.find((entry) => entry.code === country)?.name ?? country}`
+            )
         },
-        setProductType: (productType: ProductTypeId) => update({ productType }),
-        setSize: (newSize: string) => update({ size: newSize }),
+        setProductType: (productType: ProductTypeId) =>
+            update(
+                { productType },
+                `Product: ${productTypes[productType].name}`
+            ),
+        setSize: (newSize: string) =>
+            update({ size: newSize }, `Size: ${formatPrintSize(newSize)}`),
         setOption: (name: string, value: string) =>
-            update({ options: { ...form.getValues('options'), [name]: value } })
+            update(
+                { options: { ...form.getValues('options'), [name]: value } },
+                describeOptions({ [name]: value })
+            )
     }
 }

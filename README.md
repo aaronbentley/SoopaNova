@@ -6,9 +6,15 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Ideas
 - [ ] Add vercel events for checkout init and product option selection(s)
+- [ ] A one-page doc of the business, product offerings and sales margins
+- [ ] An accounts doc detailing the annual running costs - with examples of sales required to cover them
+- [ ] A weekly or monthly sales report
+- [ ] A sheet detailing costs, sales and profits
+
 
 ### Build
 
+- [ ] Set and handle order cancelation window (refer to prodigi docs)
 - [ ] Resend - order status email notifications: order confirmation and dispatch (with tracking) to the customer
 - [ ] Admin email notification on new order, route handler to send email on new order via Resend. Also alert on orders that are on hold, created with issues or failed, and on margin-guard refusals (only logged today)
 - [ ] Admin action to cancel an order (`cancelOrder` already exists in `src/lib/prodigi.ts`)
@@ -44,7 +50,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (same three events) and its `STRIPE_WEBHOOK_SECRET`
 - [ ] Vercel production env vars: live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET`, image limits (and their `NEXT_PUBLIC_` copies)
 - [ ] Decide what the `onOrderCreated` Firebase trigger does (the admin email?) before real orders arrive
-- [ ] Merge `replatform-prodigi` into `main`, then delete the `CANVASPOP_*` env vars
+- [ ] Merge `replatform-prodigi` into `main`, then review env vars and delete the `CANVASPOP_*` env vars
 
 ### Later
 

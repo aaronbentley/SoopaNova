@@ -1,5 +1,7 @@
 import 'server-only'
 
+import { printProperties } from '@/lib/analytics'
+import { trackServerEvent } from '@/lib/analytics-server'
 import {
     FieldValue,
     firestore,
@@ -97,13 +99,13 @@ const toShippingMethod = (checkout: Stripe.Checkout.Session) => {
 
 /**
  * Claim the print session and create its order, in one transaction. If an
- * earlier attempt already did, returns that order.
+ * earlier attempt already did, returns that order (`created: false`).
  */
 const claimPrintSession = async (
     checkout: Stripe.Checkout.Session,
     userId: string,
     printSessionId: string
-): Promise<DocumentReference | null> => {
+): Promise<{ orderRef: DocumentReference; created: boolean } | null> => {
     const sessionRef = printSessionsCollection(userId).doc(printSessionId)
 
     return firestore.runTransaction(async (transaction) => {
@@ -121,7 +123,10 @@ const claimPrintSession = async (
         const existingOrderId: string | null = session.get('orderId')
 
         if (existingOrderId)
-            return ordersCollection(userId).doc(existingOrderId)
+            return {
+                orderRef: ordersCollection(userId).doc(existingOrderId),
+                created: false
+            }
 
         const recipient = toRecipient(checkout)
         const shippingMethod = toShippingMethod(checkout)
@@ -176,7 +181,7 @@ const claimPrintSession = async (
             completedAt: FieldValue.serverTimestamp()
         })
 
-        return orderRef
+        return { orderRef, created: true }
     })
 }
 
@@ -379,12 +384,28 @@ export const fulfilCheckout = async (
         expand: ['shipping_cost.shipping_rate', 'discounts.promotion_code']
     })
 
-    const orderRef = await claimPrintSession(checkout, userId, printSessionId)
+    const claim = await claimPrintSession(checkout, userId, printSessionId)
 
-    if (!orderRef) return
+    if (!claim) return
 
+    const { orderRef, created } = claim
     const order = await orderRef.get()
     const status: PrintOrderStatus = order.get('status')
+
+    /**
+     * Only for the attempt that created the order, so Stripe's retries
+     * don't count it again
+     */
+    if (created) {
+        trackServerEvent(
+            'Order placed',
+            printProperties({
+                productType: order.get('productType'),
+                size: order.get('size'),
+                options: order.get('options')
+            })
+        )
+    }
 
     if (status !== 'paid') return
 
