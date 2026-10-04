@@ -27,9 +27,10 @@ export const regions = {
 >
 
 /**
- * Product types, their sizes and margins. margin is the gross margin on the
- * product price (0.4 = 40 of every 100 is profit before Stripe fees);
- * minMargin is the floor checkout enforces against Prodigi's live quote.
+ * Product types, their sizes and margins. margin is the margin on the
+ * product price after Prodigi's cost and Stripe's card fees (0.4 = 40 of
+ * every 100 is profit); minMargin is the floor checkout enforces against
+ * Prodigi's live quote.
  */
 export const productTypes = {
     'art-print': {
@@ -70,12 +71,25 @@ export type ProductTypeId = keyof typeof productTypes
 export const priceStep = 5
 
 /**
- * Shipping is charged at Prodigi's cost (incl. its tax), rounded up
+ * Shipping is charged at Prodigi's cost (incl. its tax) plus the card fee
+ * on it, rounded up
  */
 export const shipping: { methods: ShippingMethod[]; roundUpTo: number } = {
     methods: ['Standard', 'Express'],
     roundUpTo: 0.5
 }
+
+/**
+ * Stripe's card fees, assuming customers pay with a card from their region:
+ * UK cards 1.5%, EEA cards 2.5% and other cards 3.25%, plus 2% to convert
+ * EUR and USD to GBP, and a fixed 20p (in the region's currency, rounded
+ * up). Prices and shipping include them, so margins are after fees.
+ */
+export const cardFees = {
+    gb: { percent: 0.015, fixed: 0.2 },
+    eu: { percent: 0.045, fixed: 0.25 },
+    us: { percent: 0.0525, fixed: 0.3 }
+} satisfies Record<Region, { percent: number; fixed: number }>
 
 /**
  * US quotes exclude sales tax, so allow for it in US prices

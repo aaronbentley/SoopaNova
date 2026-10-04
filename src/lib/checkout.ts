@@ -7,8 +7,8 @@ import { FieldValue, printSessionsCollection } from '@/lib/firebase-admin'
 import {
     getCatalogueItem,
     getMargin,
+    getShippingCharge,
     getPrice,
-    roundShipping,
     toMinor,
     withSalesTaxBuffer
 } from '@/lib/pricing'
@@ -154,7 +154,7 @@ export const startCheckout = async ({
     if (
         !costs ||
         itemCost === null ||
-        getMargin(price.amount, itemCost) < minMargin
+        getMargin(price.amount, itemCost, region) < minMargin
     ) {
         console.error('Checkout refused by the margin guard', {
             sku: item.sku,
@@ -171,13 +171,14 @@ export const startCheckout = async ({
     }
 
     /**
-     * Shipping options at Prodigi's cost for this country, rounded up
+     * Shipping options at Prodigi's cost for this country plus the card
+     * fee, rounded up
      */
     const shippingRates = shipping.methods.flatMap((method) => {
         const cost = costs.shipping[method]
         return cost === undefined
             ? []
-            : [{ method, amount: roundShipping(cost) }]
+            : [{ method, amount: getShippingCharge(cost, region) }]
     })
 
     /**

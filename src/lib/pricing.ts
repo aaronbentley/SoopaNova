@@ -1,5 +1,6 @@
 import { catalogue } from '@/assets/data/catalogue'
 import {
+    cardFees,
     overrides,
     priceStep,
     productTypes,
@@ -47,8 +48,8 @@ const roundPrice = (amount: number) =>
 
 /**
  * The retail price of a product size in a region: Prodigi's cost marked up
- * to the product type's margin, unless it has a hand-set override. Null when
- * the size isn't sold there.
+ * so the product type's margin is left after the card fee, unless it has a
+ * hand-set override. Null when the size isn't sold there.
  */
 export const getPrice = (
     productType: ProductTypeId,
@@ -66,8 +67,12 @@ export const getPrice = (
     if (override !== undefined) return { amount: override, currency }
 
     const { margin } = productTypes[productType]
+    const { percent, fixed } = cardFees[region]
 
-    return { amount: roundPrice(cost / (1 - margin)), currency }
+    return {
+        amount: roundPrice((cost + fixed) / (1 - margin - percent)),
+        currency
+    }
 }
 
 /**
@@ -145,8 +150,9 @@ export const getSizeRange = () => {
 }
 
 /**
- * The shipping price for a method: Prodigi's cost (incl. tax), rounded up.
- * Null when the method isn't offered for that size and region.
+ * The shipping price for a method: Prodigi's cost (incl. tax) plus the card
+ * fee on it, rounded up. Null when the method isn't offered for that size
+ * and region.
  */
 export const getShippingPrice = (
     productType: ProductTypeId,
@@ -160,16 +166,21 @@ export const getShippingPrice = (
 
     if (cost === undefined || !shipping.methods.includes(method)) return null
 
-    return { amount: roundShipping(cost), currency: regions[region].currency }
+    return {
+        amount: getShippingCharge(cost, region),
+        currency: regions[region].currency
+    }
 }
 
 /**
- * Round a shipping cost up to the next shipping.roundUpTo (0.50)
+ * What we charge for a shipping cost: enough to cover the card fee on it,
+ * rounded up to the next shipping.roundUpTo (0.50)
  */
-export const roundShipping = (cost: number) => {
+export const getShippingCharge = (cost: number, region: Region) => {
     const step = toMinor(shipping.roundUpTo)
+    const charge = cost / (1 - cardFees[region].percent)
 
-    return (Math.ceil(toMinor(cost) / step) * step) / 100
+    return (Math.ceil(toMinor(charge) / step) * step) / 100
 }
 
 /**
@@ -180,10 +191,14 @@ export const withSalesTaxBuffer = (cost: number, region: Region) =>
     region === 'us' ? cost * (1 + usSalesTaxBuffer) : cost
 
 /**
- * The gross margin a price makes on a cost (0.4 = 40%), for the checkout
- * guard to compare with the product type's minMargin
+ * The margin a price makes on a cost after the card fee (0.4 = 40%), for
+ * the checkout guard to compare with the product type's minMargin
  */
-export const getMargin = (price: number, cost: number) => (price - cost) / price
+export const getMargin = (price: number, cost: number, region: Region) => {
+    const { percent, fixed } = cardFees[region]
+
+    return (price - cost - price * percent - fixed) / price
+}
 
 /**
  * Format a price for display: whole amounts without decimals (£34), others
