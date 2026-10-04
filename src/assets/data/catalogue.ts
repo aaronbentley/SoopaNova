@@ -4,7 +4,7 @@
 import type { Catalogue } from '@/types'
 
 export const catalogue: Catalogue = {
-    generatedAt: '2026-10-02',
+    generatedAt: '2026-10-04',
     products: {
         'art-print': [
             {
@@ -125,6 +125,16 @@ export const catalogue: Catalogue = {
                         itemCost: 72,
                         shipping: { Standard: 31.74, Express: 31.74 },
                         madeIn: 'GB'
+                    },
+                    eu: {
+                        itemCost: 82.11,
+                        shipping: { Standard: 80.92, Express: 120.38 },
+                        madeIn: 'NL'
+                    },
+                    us: {
+                        itemCost: 85,
+                        shipping: { Standard: 232.2, Express: 378 },
+                        madeIn: 'US'
                     }
                 }
             }

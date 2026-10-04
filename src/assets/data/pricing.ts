@@ -42,8 +42,7 @@ export const productTypes = {
     canvas: {
         name: 'Canvas',
         prodigiSku: 'GLOBAL-CAN',
-        /** Shipping a 28x48 canvas abroad costs more than the canvas */
-        sizes: [{ size: '14x24' }, { size: '28x48', regions: ['gb'] }],
+        sizes: [{ size: '14x24' }, { size: '28x48' }],
         margin: 0.4,
         minMargin: 0.2
     },

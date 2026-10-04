@@ -33,6 +33,7 @@ import {
 import { getFromPrices, getProductOptions } from '@/lib/pricing'
 import { formatInches } from '@/lib/print-quality'
 import { cn } from '@/lib/utils'
+import type { ProductTypeConfig } from '@/types'
 import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -48,18 +49,22 @@ export const metadata: Metadata = {
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
 
 /**
+ * Typed as the config shape, so a size's optional regions are readable even
+ * when no size uses them
+ */
+const config: Record<ProductTypeId, ProductTypeConfig> = productTypes
+
+/**
  * A product's sizes, noting any only sold in some regions
  * ('14 × 24″, 28 × 48″ (United Kingdom only)')
  */
 const describeSizes = (productType: ProductTypeId) =>
-    productTypes[productType].sizes
-        .map(({ size, ...rest }) => {
-            const only = 'regions' in rest ? rest.regions : undefined
-
-            return only
+    config[productType].sizes
+        .map(({ size, regions: only }) =>
+            only
                 ? `${formatInches(size)} (${only.map((region) => regions[region].name).join(', ')} only)`
                 : formatInches(size)
-        })
+        )
         .join(', ')
 
 /**
