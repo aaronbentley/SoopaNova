@@ -97,8 +97,8 @@
     /* #fafafa */
     --accent-foreground: var(--foreground);
 
-    /* #7f1d1d / hsl(0 62.8% 30.6%) */
-    --destructive: oklch(0.3959 0.1331 25.72);
+    /* #f87171 (light enough for text: base-vega uses it for error text) */
+    --destructive: oklch(0.704 0.191 22.216);
     /* #fafafa */
     --destructive-foreground: var(--foreground);
 

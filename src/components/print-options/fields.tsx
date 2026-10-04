@@ -73,6 +73,12 @@ const tagClasses = [
 ]
 
 /**
+ * A tag saying why something can't be ordered. Its card is faded, so the
+ * tag isn't (it needs to stay readable).
+ */
+const unavailableTagClasses = ['border-destructive/40', 'text-destructive']
+
+/**
  * Id of a field's label, which also names its radio group (a label element
  * can't name a radio group on its own)
  */
@@ -210,43 +216,74 @@ export const ProductTypeField = ({
                     onValueChange={(id) => onChange(id as ProductTypeId)}
                     disabled={disabled}
                     aria-invalid={fieldState.invalid}>
-                    {choices.map((choice) => (
-                        <Label
-                            key={choice.id}
-                            htmlFor={`product-${choice.id}`}
-                            className={choiceCard(!choice.fromPrice)}>
-                            <RadioGroupItem
-                                id={`product-${choice.id}`}
-                                value={choice.id}
-                                disabled={!choice.fromPrice}
-                                className='mt-0.5'
-                            />
-                            <span className='flex flex-1 flex-col gap-2'>
-                                <span className='flex items-baseline justify-between gap-2'>
-                                    <span className='font-medium'>
-                                        {choice.name}
-                                    </span>
-                                    <span className='text-sm font-normal text-muted-foreground'>
-                                        {choice.fromPrice
-                                            ? `from ${formatMoney(choice.fromPrice)}`
-                                            : 'Screenshot too small'}
-                                    </span>
-                                </span>
-                                <span className='text-sm font-normal text-pretty text-muted-foreground'>
-                                    {productCopy[choice.id].description}
-                                </span>
-                                <span className='flex flex-wrap gap-1.5'>
-                                    {productCopy[choice.id].tags.map((tag) => (
+                    {choices.map((choice) => {
+                        const disabled = !choice.fromPrice
+                        const faded = disabled && 'opacity-50'
+
+                        return (
+                            <Label
+                                key={choice.id}
+                                htmlFor={`product-${choice.id}`}
+                                className={cn(
+                                    choiceCard(disabled),
+                                    disabled && 'opacity-100'
+                                )}>
+                                <RadioGroupItem
+                                    id={`product-${choice.id}`}
+                                    value={choice.id}
+                                    disabled={disabled}
+                                    className={cn('mt-0.5', faded)}
+                                />
+                                <span className='flex flex-1 flex-col gap-2'>
+                                    <span className='flex items-baseline justify-between gap-2'>
                                         <span
-                                            key={tag}
-                                            className={cn(tagClasses)}>
-                                            {tag}
+                                            className={cn(
+                                                'font-medium',
+                                                faded
+                                            )}>
+                                            {choice.name}
                                         </span>
-                                    ))}
+                                        {choice.fromPrice ? (
+                                            <span className='text-sm font-normal text-muted-foreground'>
+                                                from{' '}
+                                                {formatMoney(choice.fromPrice)}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className={cn(
+                                                    tagClasses,
+                                                    unavailableTagClasses
+                                                )}>
+                                                Screenshot too small
+                                            </span>
+                                        )}
+                                    </span>
+                                    <span
+                                        className={cn(
+                                            'text-sm font-normal text-pretty text-muted-foreground',
+                                            faded
+                                        )}>
+                                        {productCopy[choice.id].description}
+                                    </span>
+                                    <span
+                                        className={cn(
+                                            'flex flex-wrap gap-1.5',
+                                            faded
+                                        )}>
+                                        {productCopy[choice.id].tags.map(
+                                            (tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className={cn(tagClasses)}>
+                                                    {tag}
+                                                </span>
+                                            )
+                                        )}
+                                    </span>
                                 </span>
-                            </span>
-                        </Label>
-                    ))}
+                            </Label>
+                        )
+                    })}
                 </FieldRadioGroup>
                 <FieldError errors={[fieldState.error]} />
             </Field>
@@ -258,7 +295,7 @@ const qualityTagClasses: Record<PrintQuality, string[]> = {
     great: ['border-primary/40', 'bg-primary/10', 'text-primary'],
     good: [],
     ok: [],
-    low: ['border-destructive/40', 'text-destructive']
+    low: unavailableTagClasses
 }
 
 /**
@@ -299,20 +336,28 @@ export const SizeField = ({
                             const { inches, cm } = formatSize(choice.size, meta)
                             const disabled = choice.unavailable !== null
 
+                            const faded = disabled && 'opacity-50'
+
                             return (
                                 <Label
                                     key={choice.size}
                                     htmlFor={`size-${choice.size}`}
                                     className={cn(
                                         choiceCard(disabled),
-                                        'items-center rounded-lg px-4 py-3'
+                                        'items-center rounded-lg px-4 py-3',
+                                        disabled && 'opacity-100'
                                     )}>
                                     <RadioGroupItem
                                         id={`size-${choice.size}`}
                                         value={choice.size}
                                         disabled={disabled}
+                                        className={cn(faded)}
                                     />
-                                    <span className='flex flex-1 flex-col gap-0.5'>
+                                    <span
+                                        className={cn(
+                                            'flex flex-1 flex-col gap-0.5',
+                                            faded
+                                        )}>
                                         <span className='font-medium'>
                                             {inches}
                                         </span>
@@ -328,7 +373,11 @@ export const SizeField = ({
                                         )}>
                                         {qualityLabels[choice.quality]}
                                     </span>
-                                    <span className='w-16 text-right font-medium tabular-nums'>
+                                    <span
+                                        className={cn(
+                                            'w-16 text-right font-medium tabular-nums',
+                                            faded
+                                        )}>
                                         {choice.price
                                             ? formatMoney(choice.price)
                                             : '-'}
