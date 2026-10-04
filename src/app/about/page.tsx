@@ -18,7 +18,7 @@ const About = () => {
     return (
         <>
             <div>
-                <PageHeader>
+                <PageHeader eyebrow='Origin story'>
                     <PageHeaderHeading>About</PageHeaderHeading>
                     <PageHeaderDescription>
                         TLDR; I love coding, video games & art - therefore

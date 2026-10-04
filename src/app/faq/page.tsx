@@ -18,7 +18,7 @@ const Faq = () => {
     return (
         <>
             <div>
-                <PageHeader>
+                <PageHeader eyebrow='Help'>
                     <PageHeaderHeading>FAQ</PageHeaderHeading>
                     <PageHeaderDescription>
                         It&apos;s dangerous to go alone. Take these answers.

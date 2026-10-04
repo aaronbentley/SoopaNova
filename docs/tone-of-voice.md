@@ -57,7 +57,7 @@ British spelling and idiom, contractions, the odd mild slang.
 - **British English** spelling and dates.
 - **Contractions** everywhere (we'll, can't, it's).
 - **"We"** for SoopaNova and its print partner, **"you/your"** for the reader; **"I"** only on About (see decision 7).
-- **Eyebrows:** short, mono, uppercase: "PRINTS", "SCREENSHOT TIPS", "SUSTAINABILITY".
+- **Eyebrows:** short, mono, uppercase: "PRINTS", "SCREENSHOT TIPS", "SUSTAINABILITY". Plain labels on functional pages: "HELP" (FAQ), "LEGAL" (Terms and Privacy).
 - **Hero headings** end with a pink full stop ("From Pixels to Prints.").
 - **Sizes** as `14 × 24″` (short edge first) with centimetres alongside; prices in the visitor's currency, never hardcoded.
 - **Product and option names** are Prodigi's (Art print, Framed canvas, Antique gold, Mirror wrap).
@@ -78,7 +78,8 @@ The inconsistencies found in the first review, and how they were settled:
    - `/prints`: "Choose your fighter" (fighting games)
    - Screenshot tips: "Pro tips"
    - Product pages: "Ready, player one?" before "Start creating"
-   - Empty orders page: "Your inventory's empty for now."
+   - Orders page: "Inventory" as the eyebrow, and "Your inventory's empty for now." when there are none
+   - About: "Origin story" as the eyebrow (the page reads Prologue to Epilogue)
    - Order confirmation: "Achievement unlocked: order placed"
 
    Keep it to headings, taglines, empty states and confirmations; never in specs, prices, legal text or errors.

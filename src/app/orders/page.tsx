@@ -120,7 +120,7 @@ const Orders = async () => {
     return (
         <>
             <div>
-                <PageHeader>
+                <PageHeader eyebrow='Inventory'>
                     <PageHeaderHeading>Print orders</PageHeaderHeading>
                     <PageHeaderDescription>{displayName}</PageHeaderDescription>
                 </PageHeader>

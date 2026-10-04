@@ -21,7 +21,7 @@ const Privacy = () => {
     return (
         <>
             <div>
-                <PageHeader>
+                <PageHeader eyebrow='Legal'>
                     <PageHeaderHeading>Privacy</PageHeaderHeading>
                     <PageHeaderDescription>
                         What personal information we collect, how we use and

@@ -136,8 +136,10 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
                     <p className='font-mono text-xs text-muted-foreground'>
                         <time dateTime={order.createdAt.toISOString()}>
                             {format(order.createdAt, 'd MMM yyyy')}
-                        </time>{' '}
-                        · <span className='break-all'>{order.id}</span>
+                        </time>
+                    </p>
+                    <p className='font-mono text-xs break-all text-muted-foreground'>
+                        Order ref {order.id}
                     </p>
                     {progress && progressNotes[progress] && (
                         <p className='text-sm text-pretty text-muted-foreground'>

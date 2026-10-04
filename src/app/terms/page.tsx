@@ -21,7 +21,7 @@ const Terms = () => {
     return (
         <>
             <div>
-                <PageHeader>
+                <PageHeader eyebrow='Legal'>
                     <PageHeaderHeading>Terms</PageHeaderHeading>
                     <PageHeaderDescription>
                         Our Terms of Service outline the conditions and
