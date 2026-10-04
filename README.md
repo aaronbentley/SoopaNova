@@ -9,7 +9,6 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Build
 
-- [ ] footer
 - [ ] Resend - order status email notifications: order confirmation and dispatch (with tracking) to the customer
 - [ ] Admin email notification on new order, route handler to send email on new order via Resend. Also alert on orders that are on hold, created with issues or failed, and on margin-guard refusals (only logged today)
 - [ ] Admin action to cancel an order (`cancelOrder` already exists in `src/lib/prodigi.ts`)
