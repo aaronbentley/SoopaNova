@@ -5,7 +5,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 ## Todosies
 
 ### Ideas
-- [x] Hero animation - svg based motion-powered animation depicting screen to print product
+- [ ] Add vercel events for checkout init and product option selection(s)
 
 ### Build
 
