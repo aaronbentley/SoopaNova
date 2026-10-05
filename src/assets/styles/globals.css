@@ -147,6 +147,11 @@
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
+
+    /* The wordmark square's hover glow: a tight core and a wide halo */
+    --shadow-glow:
+        0 0 4px 1px var(--primary), 0 0 14px 3px var(--primary),
+        0 0 32px 6px color-mix(in oklch, var(--primary) 55%, transparent);
 }
 
 /**
@@ -171,6 +176,7 @@
             scale: 1.04;
         }
     }
+
     @keyframes glow-drift-x {
         from {
             translate: -32px 0;
@@ -179,6 +185,7 @@
             translate: 32px 0;
         }
     }
+    
     @keyframes glow-drift-y {
         from {
             transform: translateY(-12px);
@@ -226,6 +233,7 @@
     background-size: 64px 64px;
     background-position: center -1px;
 }
+
 @utility mask-fade-top {
     mask-image: radial-gradient(
         ellipse 70% 60% at 50% 0%,
@@ -233,6 +241,7 @@
         transparent 75%
     );
 }
+
 @utility mask-fade-bottom {
     mask-image: radial-gradient(
         ellipse 60% 80% at 50% 100%,
@@ -245,6 +254,7 @@
     * {
         @apply border-border outline-ring/50;
     }
+    
     html {
         @apply scroll-smooth bg-primary;
     }

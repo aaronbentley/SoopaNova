@@ -24,7 +24,7 @@ const Header = () => (
                 <Link
                     href='/'
                     aria-label='Home'
-                    className='transition-opacity duration-200 hover:opacity-80'>
+                    className='group/wordmark'>
                     <Wordmark />
                 </Link>
                 <MainNav />
