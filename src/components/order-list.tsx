@@ -44,7 +44,7 @@ const progressVariants: Record<
     received: 'secondary',
     printing: 'secondary',
     shipped: 'default',
-    cancelled: 'outline',
+    cancelled: 'destructive',
     onHold: 'destructive'
 }
 
@@ -54,11 +54,12 @@ const progressNotes: Partial<Record<OrderProgress, string>> = {
 }
 
 /**
- * The order's screenshot at its own shape, fitted in a square slot. Its size
- * isn't stored, so 16:9 (the usual screenshot) is reserved until it loads.
+ * The order's screenshot at its own shape, fitted within a square (a fixed
+ * width, so the text lines up). Its size isn't stored, so 16:9 (the usual
+ * screenshot) is reserved until it loads.
  */
 const OrderThumbnail = ({ url }: { url: string | null }) => (
-    <div className='flex size-20 shrink-0 items-start sm:size-24'>
+    <div className='w-24 shrink-0 sm:w-32 md:w-40'>
         {url ? (
             <Image
                 src={url}
@@ -66,7 +67,7 @@ const OrderThumbnail = ({ url }: { url: string | null }) => (
                 width={480}
                 height={270}
                 unoptimized={true}
-                className='h-auto max-h-full w-auto max-w-full rounded-md border bg-muted'
+                className='h-auto max-h-24 w-auto max-w-full rounded-md border bg-muted sm:max-h-32 md:max-h-40'
             />
         ) : (
             <div className='flex aspect-video w-full items-center justify-center rounded-md border bg-muted'>
@@ -143,7 +144,7 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
             : null
 
     return (
-        <li className='flex gap-4 py-5'>
+        <li className='flex gap-4 py-5 md:gap-6'>
             <OrderThumbnail url={order.thumbnailUrl} />
             <div className='flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:justify-between sm:gap-6'>
                 <div className='flex min-w-0 flex-col gap-1'>
@@ -216,7 +217,11 @@ const OrderList = ({
     orders: OrderListItem[]
     className?: string
 }) => (
-    <ul className={cn(['divide-y border-y'], className)}>
+    <ul
+        className={cn(
+            ['w-full', 'max-w-4xl', 'divide-y', 'border-y'],
+            className
+        )}>
         {orders.map((order) => (
             <OrderRow
                 key={order.id}
