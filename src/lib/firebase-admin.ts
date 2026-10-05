@@ -2,7 +2,7 @@ import 'server-only'
 
 import { cert, getApps, initializeApp } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
-import { FieldValue, getFirestore } from 'firebase-admin/firestore'
+import { FieldPath, FieldValue, getFirestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
 
 /**
@@ -49,9 +49,9 @@ export const ordersBucket = getStorage(app).bucket(
 )
 
 /**
- * Export Firestore FieldValue helpers
+ * Export Firestore FieldValue and FieldPath helpers
  */
-export { FieldValue }
+export { FieldPath, FieldValue }
 
 /**
  * A user's document in the customers collection

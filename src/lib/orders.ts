@@ -3,6 +3,13 @@ import 'server-only'
 import { printProperties } from '@/lib/analytics'
 import { trackServerEvent } from '@/lib/analytics-server'
 import {
+    queueCancelledEmails,
+    queueOrderPlacedEmails,
+    queueRefundedEmail,
+    queueRefundFailedEmail,
+    queueShippedEmails
+} from '@/lib/email'
+import {
     FieldValue,
     firestore,
     ordersCollection,
@@ -192,6 +199,7 @@ const toProdigiStatus = (order: Order) => ({
     details: order.status.details,
     issues: order.status.issues ?? [],
     shipments: (order.shipments ?? []).map((shipment) => ({
+        id: shipment.id,
         status: shipment.status,
         carrier: shipment.carrier?.name ?? null,
         service: shipment.carrier?.service ?? null,
@@ -416,15 +424,24 @@ export const fulfilCheckout = async (
         )
     }
 
-    if (status !== 'paid') return
+    if (status === 'paid') {
+        if (!order.get('thumbnail')) {
+            const thumbnail = await keepThumbnail(
+                order.get('fileName'),
+                order.id
+            )
 
-    if (!order.get('thumbnail')) {
-        const thumbnail = await keepThumbnail(order.get('fileName'), order.id)
+            if (thumbnail) await orderRef.update({ thumbnail })
+        }
 
-        if (thumbnail) await orderRef.update({ thumbnail })
+        await submitToProdigi(orderRef, origin)
     }
 
-    await submitToProdigi(orderRef, origin)
+    /**
+     * Once it's with Prodigi (or refused). Each email goes once, so a retry
+     * that finds the order done only sends any that failed.
+     */
+    queueOrderPlacedEmails(orderRef)
 }
 
 /**
@@ -466,7 +483,12 @@ export const syncProdigiOrder = async (prodigiOrderId: string) => {
 
     if (!userId || !orderId) return false
 
-    return saveProdigiOrder(ordersCollection(userId).doc(orderId), prodigiOrder)
+    const orderRef = ordersCollection(userId).doc(orderId)
+    const saved = await saveProdigiOrder(orderRef, prodigiOrder)
+
+    if (saved) queueShippedEmails(orderRef)
+
+    return saved
 }
 
 /**
@@ -582,6 +604,8 @@ export const cancelCustomerOrder = async (userId: string, orderId: string) => {
             },
             updatedAt: FieldValue.serverTimestamp()
         })
+
+        queueCancelledEmails(orderRef)
     } catch (error) {
         console.error('Order cancelled at Prodigi but not refunded', {
             orderId,
@@ -593,6 +617,7 @@ export const cancelCustomerOrder = async (userId: string, orderId: string) => {
             cancelledBy: 'customer',
             updatedAt: FieldValue.serverTimestamp()
         })
+        queueRefundFailedEmail(orderRef)
         throw new CancelOrderError(
             "Your order's cancelled, but the refund didn't go through. We'll sort it out and refund you in full."
         )
@@ -645,11 +670,11 @@ export const recordRefund = async (charge: Stripe.Charge) => {
     const orderRef = ordersCollection(userId).doc(orderId)
     const amount = fromMinor(charge.amount_refunded)
 
-    await firestore.runTransaction(async (transaction) => {
+    const recorded = await firestore.runTransaction(async (transaction) => {
         const order = await transaction.get(orderRef)
         const saved: OrderRefund | null = order.get('refund') ?? null
 
-        if (!order.exists || (saved && saved.amount > amount)) return
+        if (!order.exists || (saved && saved.amount > amount)) return null
 
         transaction.update(orderRef, {
             refund: {
@@ -659,5 +684,38 @@ export const recordRefund = async (charge: Stripe.Charge) => {
             },
             updatedAt: FieldValue.serverTimestamp()
         })
+
+        return {
+            previous: saved?.amount ?? 0,
+            cancelledBy: order.get('cancelledBy') ?? null
+        }
+    })
+
+    if (
+        !recorded ||
+        amount <= recorded.previous ||
+        recorded.cancelledBy === 'customer'
+    ) {
+        return
+    }
+
+    /**
+     * Email the customer about a refund made in the dashboard. A customer's
+     * own cancel sends its own email, and its refund carries our metadata
+     * (this event can arrive before the cancel is saved).
+     */
+    const {
+        data: [latest]
+    } = await getStripe().refunds.list({
+        payment_intent: paymentIntentId,
+        limit: 1
+    })
+
+    if (latest?.metadata?.orderId) return
+
+    queueRefundedEmail(orderRef, {
+        amount: Math.round((amount - recorded.previous) * 100) / 100,
+        refunded: amount,
+        full: charge.refunded
     })
 }
