@@ -53,22 +53,28 @@ const progressNotes: Partial<Record<OrderProgress, string>> = {
     onHold: "There's a problem with this order. We're looking into it."
 }
 
+/**
+ * The order's screenshot at its own shape, fitted in a square slot. Its size
+ * isn't stored, so 16:9 (the usual screenshot) is reserved until it loads.
+ */
 const OrderThumbnail = ({ url }: { url: string | null }) => (
-    <div className='relative size-20 shrink-0 overflow-hidden rounded-md border bg-muted sm:size-24'>
+    <div className='flex size-20 shrink-0 items-start sm:size-24'>
         {url ? (
             <Image
                 src={url}
                 alt=''
-                fill={true}
-                sizes='96px'
+                width={480}
+                height={270}
                 unoptimized={true}
-                className='object-cover'
+                className='h-auto max-h-full w-auto max-w-full rounded-md border bg-muted'
             />
         ) : (
-            <ImageIcon
-                aria-hidden={true}
-                className='absolute inset-0 m-auto size-6 text-muted-foreground'
-            />
+            <div className='flex aspect-video w-full items-center justify-center rounded-md border bg-muted'>
+                <ImageIcon
+                    aria-hidden={true}
+                    className='size-6 text-muted-foreground'
+                />
+            </div>
         )}
     </div>
 )
