@@ -20,8 +20,9 @@ const thumbnailSize = 480
 
 /**
  * Where an upload's thumbnail is stored. It's outside the root, so the
- * Storage rules don't let clients read or write it, and the bucket's 3-day
- * lifecycle rule cleans it up unless an order copies it somewhere permanent.
+ * Storage rules don't let clients read or write it, and the uploads
+ * bucket's 3-day lifecycle rule cleans it up. An order copies it to the
+ * orders bucket.
  */
 export const thumbnailPath = (uploadName: string) =>
     `thumbnails/${uploadName}.webp`

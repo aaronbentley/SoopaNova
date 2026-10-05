@@ -6,8 +6,9 @@ import {
     FieldValue,
     firestore,
     ordersCollection,
+    ordersBucket,
     printSessionsCollection,
-    storageBucket
+    uploadsBucket
 } from '@/lib/firebase-admin'
 import { getCancellableUntil } from '@/lib/order-status'
 import { cancelOrder, createOrder, getOrder, ProdigiError } from '@/lib/prodigi'
@@ -30,21 +31,16 @@ import type Stripe from 'stripe'
 const fromMinor = (amount: number | null | undefined) => (amount ?? 0) / 100
 
 /**
- * Where an order's thumbnail is kept. The moderation thumbnail is deleted
- * with its upload, so each order copies it here.
- */
-const orderThumbnailPath = (orderId: string) => `orders/${orderId}.webp`
-
-/**
- * Copy the upload's moderation thumbnail for the order. Not fatal: the
- * order still prints without one.
+ * Copy the upload's moderation thumbnail to the orders bucket as
+ * `{orderId}.webp`: it's deleted with the upload, and orders keep theirs.
+ * Not fatal: the order still prints without one.
  */
 const keepThumbnail = async (fileName: string, orderId: string) => {
-    const source = storageBucket.file(`thumbnails/${fileName}.webp`)
-    const destination = storageBucket.file(orderThumbnailPath(orderId))
+    const source = uploadsBucket.file(`thumbnails/${fileName}.webp`)
+    const destination = ordersBucket.file(`${orderId}.webp`)
 
     try {
-        /** The bucket's retention policy blocks overwrites, so a retry keeps the first copy */
+        /** A retry keeps the first copy */
         const [[copied], [exists]] = await Promise.all([
             destination.exists(),
             source.exists()
@@ -277,7 +273,10 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
      * Uploads are deleted after 3 days, and Prodigi downloads within minutes
      * of the order (retrying for a while), so the url lasts as long
      */
-    const assetUrl = await getSignedReadUrl(order.get('fileName'), 3 * 24 * 60)
+    const assetUrl = await getSignedReadUrl(
+        uploadsBucket.file(order.get('fileName')),
+        3 * 24 * 60
+    )
 
     const callbackSecret = process.env.PRODIGI_CALLBACK_SECRET
     const options: Record<string, string> = order.get('options') ?? {}

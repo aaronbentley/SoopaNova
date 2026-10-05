@@ -1,6 +1,11 @@
 import 'server-only'
 
-import { storageBucket } from '@/lib/firebase-admin'
+import { uploadsBucket } from '@/lib/firebase-admin'
+
+/**
+ * A Storage file (the type isn't exported by firebase-admin)
+ */
+type File = ReturnType<typeof uploadsBucket.file>
 
 /**
  * Uploads are named `{uuid}--{userId}--{filename}` at the bucket root
@@ -21,7 +26,7 @@ export const isOwnUpload = (fileName: string, userId: string) => {
  * Cloud Function can set the `moderation` metadata (see storage.rules).
  */
 export const isApprovedUpload = async (fileName: string) => {
-    const [metadata] = await storageBucket
+    const [metadata] = await uploadsBucket
         .file(fileName)
         .getMetadata()
         .catch(() => [null])
@@ -30,14 +35,14 @@ export const isApprovedUpload = async (fileName: string) => {
 }
 
 /**
- * A signed link to read a file in the uploads bucket (signed locally with
- * the service account key, so no request is made)
+ * A signed link to read a file in either bucket (signed locally with the
+ * service account key, so no request is made)
  */
 export const getSignedReadUrl = async (
-    path: string,
+    file: File,
     expiresInMinutes: number
 ) => {
-    const [url] = await storageBucket.file(path).getSignedUrl({
+    const [url] = await file.getSignedUrl({
         version: 'v4',
         action: 'read',
         expires: Date.now() + expiresInMinutes * 60 * 1000
@@ -55,13 +60,10 @@ export const getThumbnailUrl = async (
     fileName: string,
     expiresInMinutes = 120
 ) => {
-    const path = `thumbnails/${fileName}.webp`
-    const [exists] = await storageBucket
-        .file(path)
-        .exists()
-        .catch(() => [false])
+    const file = uploadsBucket.file(`thumbnails/${fileName}.webp`)
+    const [exists] = await file.exists().catch(() => [false])
 
     if (!exists) return null
 
-    return getSignedReadUrl(path, expiresInMinutes)
+    return getSignedReadUrl(file, expiresInMinutes)
 }

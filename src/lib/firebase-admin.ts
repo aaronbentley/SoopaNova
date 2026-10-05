@@ -33,10 +33,19 @@ export const adminAuth = getAuth(app)
 export const firestore = getFirestore(app)
 
 /**
- * Export the uploads Storage bucket
+ * Export the uploads Storage bucket: uploads and their moderation
+ * thumbnails, deleted after 3 days
  */
-export const storageBucket = getStorage(app).bucket(
-    process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!
+export const uploadsBucket = getStorage(app).bucket(
+    process.env.FIREBASE_STORAGE_BUCKET!
+)
+
+/**
+ * Export the orders Storage bucket: each order's thumbnail, kept. Only the
+ * Admin SDK uses it (not linked to Firebase, so no client access).
+ */
+export const ordersBucket = getStorage(app).bucket(
+    process.env.FIREBASE_ORDERS_BUCKET!
 )
 
 /**

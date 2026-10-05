@@ -8,7 +8,7 @@ import {
 import { PageSection } from '@/components/page-section'
 import { OrderListSkeleton } from '@/components/skeletons'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ordersCollection } from '@/lib/firebase-admin'
+import { ordersBucket, ordersCollection } from '@/lib/firebase-admin'
 import { getCancellableUntil } from '@/lib/order-status'
 import { getSignedReadUrl } from '@/lib/uploads'
 import { auth, currentUser } from '@clerk/nextjs/server'
@@ -74,9 +74,10 @@ const getOrders = async (): Promise<OrderListItem[] | null> => {
                         refunded: !!refund
                     }),
                     thumbnailUrl: thumbnail
-                        ? await getSignedReadUrl(thumbnail, 60).catch(
-                              () => null
-                          )
+                        ? await getSignedReadUrl(
+                              ordersBucket.file(thumbnail),
+                              60
+                          ).catch(() => null)
                         : null
                 }
             })

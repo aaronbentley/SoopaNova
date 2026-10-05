@@ -1,7 +1,9 @@
 rules_version = '2';
 
 /**
- * Firebase Storage rules.
+ * Firebase Storage rules for the uploads bucket (the project's default
+ * bucket). The orders bucket isn't linked to Firebase, so clients can't
+ * reach it at all.
  *
  * The browser signs in to Firebase Auth with a custom token whose uid is the
  * Clerk user id (see src/app/api/firebase/token). Uploads are named
