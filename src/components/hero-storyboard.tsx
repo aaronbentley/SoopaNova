@@ -668,12 +668,44 @@ const HeroStoryboard = () => {
                                 />
                             ))}
                         </g>
-                        <path
-                            d='M300 241 v18 M262 260 h76'
-                            strokeWidth={2}
-                            strokeLinecap='round'
-                            className='stroke-foreground/40'
-                        />
+                        {/**
+                         * The stand draws on with it: the neck drops from the
+                         * bezel's bottom centre, then the base spreads out
+                         * from the middle, in one translucent layer so the
+                         * joins don't darken
+                         */}
+                        <g opacity={0.4}>
+                            {/**
+                             * Each piece is held at nothing until its start
+                             * (a fraction of the bezel's 0.9s) rather than
+                             * delayed, which would show it whole meanwhile
+                             */}
+                            {[
+                                { d: 'M300 241 V259', start: 0, end: 0.45 },
+                                { d: 'M300 260 H262', start: 0.35, end: 1 },
+                                { d: 'M300 260 H338', start: 0.35, end: 1 }
+                            ].map(({ d, start, end }) => (
+                                <m.path
+                                    key={d}
+                                    d={d}
+                                    fill='none'
+                                    strokeWidth={2}
+                                    strokeLinecap='round'
+                                    className='stroke-foreground'
+                                    initial={false}
+                                    animate={{
+                                        pathLength: is('play')
+                                            ? [0, 0, drawn, drawn]
+                                            : drawn
+                                    }}
+                                    transition={{
+                                        duration: 0.9,
+                                        times: [0, start, end, 1],
+                                        ease: 'easeInOut'
+                                    }}
+                                />
+                            ))}
+                        </g>
                     </m.g>
 
                     <Icon
