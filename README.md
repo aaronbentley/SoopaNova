@@ -42,7 +42,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
 - [ ] Vercel production env vars: live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET`, image limits (and their `NEXT_PUBLIC_` copies)
 - [ ] Decide what the `onOrderCreated` Firebase trigger does (the admin email?) before real orders arrive
-- [ ] Merge `replatform-prodigi` into `main`, then review env vars and delete the `CANVASPOP_*` env vars
+- [ ] Merge `replatform-prodigi` into `main`, then review env vars: set `MIN_IMAGE_WIDTH` / `MIN_IMAGE_HEIGHT` and their `NEXT_PUBLIC_` copies to 1920 × 1080 in Preview and Production (still 1280 × 720 there; the upload check and the Screenshots page's tips use them, and the `NEXT_PUBLIC_` ones need a redeploy), and delete the `CANVASPOP_*` env vars
 
 ### Later
 
