@@ -31,6 +31,7 @@ export default defineConfig([
                         'src/app/sign-in/**',
                         'src/app/sign-up/**',
                         'src/app/sso-callback/**',
+                        'src/app/llms.txt/**',
                         /**
                          * Webhooks: Stripe and Prodigi aren't signed-in users,
                          * so each route verifies its caller itself
