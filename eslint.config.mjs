@@ -43,7 +43,11 @@ export default defineConfig([
                          * Webhooks: Stripe and Prodigi aren't signed-in users,
                          * so each route verifies its caller itself
                          */
-                        'src/app/api/webhooks/**'
+                        'src/app/api/webhooks/**',
+                        /**
+                         * Vercel Cron jobs: each checks CRON_SECRET itself
+                         */
+                        'src/app/api/cron/**'
                     ]
                 }
             ]

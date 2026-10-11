@@ -3,6 +3,7 @@ import 'server-only'
 import { countries } from '@/assets/data/countries'
 import { termsVersion } from '@/assets/data/legal'
 import { productTypes, shipping } from '@/assets/data/pricing'
+import { queueMarginAlert } from '@/lib/email'
 import { FieldValue, printSessionsCollection } from '@/lib/firebase-admin'
 import {
     getCatalogueItem,
@@ -151,11 +152,10 @@ export const startCheckout = async ({
      * The margin guard: refuse rather than sell at a loss if Prodigi's cost
      * has risen (or this country costs more than the catalogue's)
      */
-    if (
-        !costs ||
-        itemCost === null ||
-        getMargin(price.amount, itemCost, region) < minMargin
-    ) {
+    const margin =
+        itemCost === null ? null : getMargin(price.amount, itemCost, region)
+
+    if (!costs || margin === null || margin < minMargin) {
         console.error('Checkout refused by the margin guard', {
             sku: item.sku,
             country: country.code,
@@ -163,6 +163,23 @@ export const startCheckout = async ({
             itemCost,
             minMargin,
             issues: quote.issues
+        })
+
+        /**
+         * Tell the site owner (at most once a day per SKU and country): the
+         * catalogue's prices need refreshing
+         */
+        queueMarginAlert({
+            sku: item.sku,
+            productName,
+            size,
+            options,
+            country,
+            price,
+            itemCost,
+            margin,
+            minMargin,
+            issues: quote.issues ?? []
         })
         throw new CheckoutError(
             `This print isn't available to ${country.name} right now. Please try another size or product.`,

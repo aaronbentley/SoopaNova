@@ -1,6 +1,6 @@
 import { syncProdigiOrder } from '@/lib/orders'
 import { ProdigiError } from '@/lib/prodigi'
-import { createHash, timingSafeEqual } from 'node:crypto'
+import { isValidToken } from '@/lib/secrets'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -10,14 +10,6 @@ import { NextRequest, NextResponse } from 'next/server'
  * the body only says which order changed: the order itself is fetched from
  * Prodigi.
  */
-
-const sha256 = (value: string) => createHash('sha256').update(value).digest()
-
-/**
- * Compare in constant time (hashing first evens out the lengths)
- */
-const isValidToken = (token: string | null, secret: string) =>
-    token !== null && timingSafeEqual(sha256(token), sha256(secret))
 
 export const POST = async (request: NextRequest) => {
     const secret = process.env.PRODIGI_CALLBACK_SECRET
