@@ -694,13 +694,17 @@ export const sendSupportEmail = async ({
     message: string
     userId: string | null
 }) => {
+    /**
+     * Without Resend configured, only local dev carries on as if it was
+     * sent; Preview and Live tell the sender it failed
+     */
     if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
-        console.info('Support email skipped (no RESEND_API_KEY/ADMIN_EMAIL)', {
-            topic,
-            email
-        })
+        const local = getEnvironment() === 'Local'
+        const log = local ? console.info : console.error
 
-        return getEnvironment() !== 'Live'
+        log('Support email skipped (no RESEND_API_KEY/ADMIN_EMAIL)', { topic })
+
+        return local
     }
 
     const variables: Variables = {
