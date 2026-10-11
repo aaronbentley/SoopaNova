@@ -2,6 +2,7 @@ import { links } from '@/assets/data/links'
 import { regions } from '@/assets/data/pricing'
 import { Facebook, Instagram, Threads, Twitter } from '@/components/icons'
 import Wordmark from '@/components/wordmark'
+import { getCurrentYear } from '@/lib/cached-dates'
 import Link from 'next/link'
 
 /**
@@ -53,7 +54,7 @@ const columns = [
 const regionNames = Object.values(regions).map((region) => region.name)
 const deliveryAreas = `${regionNames.slice(0, -1).join(', ')} and ${regionNames.at(-1)}`
 
-const Footer = () => (
+const Footer = async () => (
     <footer className='border-t'>
         <div className='wrapper grid gap-12 py-16 md:grid-cols-[minmax(0,1.4fr)_minmax(0,2fr)]'>
             <div className='flex flex-col items-start gap-5'>
@@ -110,7 +111,7 @@ const Footer = () => (
             <div className='wrapper flex flex-col gap-3 py-6 text-xs text-muted-foreground'>
                 <div className='flex flex-wrap items-center justify-between gap-x-6 gap-y-2'>
                     <span>
-                        &copy; {new Date().getFullYear()}{' '}
+                        &copy; {await getCurrentYear()}{' '}
                         <a
                             href={process.env.APP_COMPANY_URL!}
                             target='_blank'

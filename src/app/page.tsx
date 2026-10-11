@@ -26,6 +26,11 @@ import Link from 'next/link'
 
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: {
         absolute: `${process.env.APP_TITLE!} - ${process.env.APP_STRAPLINE!}`

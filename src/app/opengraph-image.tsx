@@ -1,4 +1,5 @@
 import { brandColors, withAlpha } from '@/lib/brand-colors'
+import { cacheLife } from 'next/cache'
 import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
@@ -25,16 +26,26 @@ const colors = {
 }
 
 /**
- * Geist from the `geist` package (Satori needs ttf/otf/woff, not woff2)
+ * Geist from the `geist` package (Satori needs ttf/otf/woff, not woff2),
+ * cached so the image stays static. Returned as ArrayBuffers: a cached
+ * Buffer comes back as a Uint8Array, which Satori can't read.
  */
-const font = (path: string) =>
-    readFile(join(process.cwd(), 'node_modules/geist/dist/fonts', path))
+const font = async (path: string) =>
+    new Uint8Array(
+        await readFile(
+            join(process.cwd(), 'node_modules/geist/dist/fonts', path)
+        )
+    ).buffer
 
-const [geistRegular, geistBold, geistMonoMedium] = await Promise.all([
-    font('geist-sans/Geist-Regular.ttf'),
-    font('geist-sans/Geist-Bold.ttf'),
-    font('geist-mono/GeistMono-Medium.ttf')
-])
+const loadFonts = async () => {
+    'use cache'
+    cacheLife('max')
+    return Promise.all([
+        font('geist-sans/Geist-Regular.ttf'),
+        font('geist-sans/Geist-Bold.ttf'),
+        font('geist-mono/GeistMono-Medium.ttf')
+    ])
+}
 
 const Arrow = () => (
     <svg
@@ -53,6 +64,8 @@ const Arrow = () => (
 )
 
 const opengraphImage = async () => {
+    const [geistRegular, geistBold, geistMonoMedium] = await loadFonts()
+
     return new ImageResponse(
         <div
             tw='flex h-full w-full flex-col items-center justify-center'

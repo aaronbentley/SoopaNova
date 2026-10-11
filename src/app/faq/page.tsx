@@ -6,6 +6,11 @@ import {
 import FaqContent from '@/content/faq.mdx'
 import { Metadata } from 'next'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'FAQ',
     description: 'Got questions? We got answers.',

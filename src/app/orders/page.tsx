@@ -17,6 +17,19 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
+/**
+ * Signed-in content renders per request, but the header, footer and
+ * loading state must stay static so the page appears at once
+ */
+export const ensureStatic = 'shell'
+
+/**
+ * instant = false: kept on purpose. auth.protect() must run before the page
+ * renders (the Clerk ESLint rule requires it at the top), so navigating here
+ * waits for the server and shows the loading spinner meanwhile
+ */
+export const instant = false
+
 export const metadata: Metadata = {
     title: 'Orders',
     description: 'Print Orders.',

@@ -6,6 +6,13 @@ export const cn = (...inputs: ClassValue[]) => {
     return twMerge(clsx(inputs))
 }
 
+/**
+ * Formats bytes into a human-readable string with optional accuracy.
+ * @param bytes - The number of bytes to format.
+ * @param decimals - The number of decimal places to include.
+ * @param sizeType - Whether to use accurate (binary) or normal (decimal) units.
+ * @returns A human-readable string representing the formatted bytes.
+ */
 export const formatBytes = (
     bytes: number,
     decimals = 0,
@@ -22,6 +29,12 @@ export const formatBytes = (
     }`
 }
 
+/**
+ * Calculates the aspect ratio of an image given its width and height.
+ * @param width - The width of the image.
+ * @param height - The height of the image.
+ * @returns The aspect ratio in the format "width:height".
+ */
 export const getAspectRatio = (width: number, height: number) => {
     const gcd = (a: number, b: number): number => {
         if (b === 0) return a
@@ -32,6 +45,11 @@ export const getAspectRatio = (width: number, height: number) => {
     return `${width / divisor}:${height / divisor}`
 }
 
+/**
+ * Converts a Unix timestamp in milliseconds to a formatted date string.
+ * @param timestamp - The Unix timestamp in milliseconds.
+ * @returns The formatted date string in the format "dd MMM yyyy".
+ */
 export const getDateFromUnixTimestamp = (timestamp: number) => {
     if (!timestamp) throw new Error('Timestamp is required')
     const fileDate = fromUnixTime(timestamp / 1000)

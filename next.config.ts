@@ -35,6 +35,8 @@ const cspHeader = `
 `
 
 const nextConfig: NextConfig = {
+    cacheComponents: true,
+    partialPrefetching: true,
     trailingSlash: true,
     images: {
         formats: ['image/avif', 'image/webp']

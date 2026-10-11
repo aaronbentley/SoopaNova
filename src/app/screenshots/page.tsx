@@ -35,6 +35,11 @@ import { ArrowRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'Screenshots',
     description:

@@ -16,10 +16,13 @@ const findPlatform = (slug: string) =>
     platforms.find((platform) => platform.slug === slug)
 
 /**
- * One static page per platform; anything else is a 404
+ * Fail the build if anything makes this page render per request
  */
-export const dynamicParams = false
+export const ensureStatic = 'navigation'
 
+/**
+ * One static page per platform; anything else is a 404 (notFound() below)
+ */
 export const generateStaticParams = () =>
     platforms.map(({ slug }) => ({ platform: slug }))
 

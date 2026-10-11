@@ -9,6 +9,11 @@ import { Metadata } from 'next'
 import { PageSection, PageSectionDescription } from '@/components/page-section'
 import TermsContent from '@/content/terms.mdx'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'Terms',
     description: 'Terms of Service',

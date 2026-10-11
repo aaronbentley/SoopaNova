@@ -14,7 +14,52 @@ import { cn } from '@/lib/utils'
 import { ClerkLoaded, ClerkLoading, Show } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { Suspense, useSyncExternalStore } from 'react'
+
+const subscribe = () => () => {}
+
+const Loading = () => <Loader2 className='size-6 animate-spin text-primary' />
+
+/**
+ * The account area: a spinner until Clerk loads, then the CTA or user menu.
+ * <ClerkLoading> reads Clerk's live status during render, so if Clerk loads
+ * before hydration it renders nothing where the server sent a spinner, and
+ * hydration fails. Show the spinner until hydration is done, then hand over.
+ */
+const AccountArea = () => {
+    const hydrated = useSyncExternalStore(
+        subscribe,
+        () => true,
+        () => false
+    )
+
+    if (!hydrated) return <Loading />
+
+    return (
+        <>
+            <ClerkLoading>
+                <Loading />
+            </ClerkLoading>
+            <ClerkLoaded>
+                <Show when='signed-out'>
+                    <Link
+                        href='/create/'
+                        className={cn(buttonVariants({ size: 'sm' }), [
+                            'shadow-none',
+                            'hover:bg-primary',
+                            'hover:brightness-110',
+                            'duration-200'
+                        ])}>
+                        Start creating
+                    </Link>
+                </Show>
+                <Show when='signed-in'>
+                    <UserButton />
+                </Show>
+            </ClerkLoaded>
+        </>
+    )
+}
 
 const Header = () => (
     <header className='sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm'>
@@ -32,26 +77,7 @@ const Header = () => (
             <div className='flex items-center gap-2'>
                 <ModeToggle />
                 <Suspense>
-                    <ClerkLoading>
-                        <Loader2 className='size-6 animate-spin text-primary' />
-                    </ClerkLoading>
-                    <ClerkLoaded>
-                        <Show when='signed-out'>
-                            <Link
-                                href='/create/'
-                                className={cn(buttonVariants({ size: 'sm' }), [
-                                    'shadow-none',
-                                    'hover:bg-primary',
-                                    'hover:brightness-110',
-                                    'duration-200'
-                                ])}>
-                                Start creating
-                            </Link>
-                        </Show>
-                        <Show when='signed-in'>
-                            <UserButton />
-                        </Show>
-                    </ClerkLoaded>
+                    <AccountArea />
                 </Suspense>
             </div>
         </div>

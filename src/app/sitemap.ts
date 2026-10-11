@@ -1,9 +1,12 @@
 import { platforms } from '@/assets/data/platforms'
 import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
 import { productPath } from '@/assets/data/products'
+import { getLastModified } from '@/lib/cached-dates'
 import { MetadataRoute } from 'next'
 
-const sitemap = (): MetadataRoute.Sitemap => {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+    const lastModified = await getLastModified()
+
     /**
      * Create page paths
      */
@@ -25,7 +28,6 @@ const sitemap = (): MetadataRoute.Sitemap => {
      */
     return paths.map((path) => {
         const url = new URL(path, process.env.APP_URL!)
-        const lastModified = new Date()
 
         return {
             url: url.href,

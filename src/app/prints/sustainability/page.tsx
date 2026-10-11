@@ -12,6 +12,11 @@ import Link from 'next/link'
 import { PageSection } from '@/components/page-section'
 import SustainabilityContent from '@/content/sustainability.mdx'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'Sustainability',
     description:

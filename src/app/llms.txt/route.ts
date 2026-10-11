@@ -13,8 +13,6 @@ import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { formatInches, qualityThresholds } from '@/lib/print-quality'
 import type { Region } from '@/types'
 
-export const dynamic = 'force-static'
-
 /**
  * A summary of the site for AI assistants (https://llmstxt.org/), built at
  * build time from the same data as the pages, so prices and sizes stay true

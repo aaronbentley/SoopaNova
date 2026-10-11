@@ -9,6 +9,11 @@ import { Metadata } from 'next'
 import { PageSection, PageSectionDescription } from '@/components/page-section'
 import PrivacyContent from '@/content/privacy.mdx'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'Privacy',
     description: 'Privacy Policy',

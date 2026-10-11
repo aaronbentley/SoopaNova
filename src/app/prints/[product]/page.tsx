@@ -54,10 +54,13 @@ const isProductType = (product: string): product is ProductTypeId =>
     productTypeIds.includes(product as ProductTypeId)
 
 /**
- * One static page per product; anything else is a 404
+ * Fail the build if anything makes this page render per request
  */
-export const dynamicParams = false
+export const ensureStatic = 'navigation'
 
+/**
+ * One static page per product; anything else is a 404 (notFound() below)
+ */
 export const generateStaticParams = () =>
     productTypeIds.map((product) => ({ product }))
 

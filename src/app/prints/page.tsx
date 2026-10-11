@@ -38,6 +38,11 @@ import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'Prints',
     description: `Art prints, canvases, framed prints and framed canvases of your gaming screenshots, side by side, in sizes from ${sizeRange}.`,

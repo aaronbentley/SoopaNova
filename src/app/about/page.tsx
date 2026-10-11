@@ -6,6 +6,11 @@ import {
 import { Metadata } from 'next'
 import AboutContent from '@/content/about.mdx'
 
+/**
+ * Fail the build if anything makes this page render per request
+ */
+export const ensureStatic = 'navigation'
+
 export const metadata: Metadata = {
     title: 'About',
     description: 'TLDR; I love coding, I love video games, I love art.',
