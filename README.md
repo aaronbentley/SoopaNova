@@ -13,9 +13,11 @@ Here's hoping I make something fun, cool and preferably, profitable.
 ### Build
 
 - [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
-- [ ] Resend - order status email notifications: order confirmation and dispatch (with tracking) to the customer
-- [ ] Admin alerts via Resend: orders created with issues or failed, refunds that failed after a customer cancelled, and margin-guard refusals (only logged today). Prodigi's own order notification emails already cover new orders
+- [x] Resend order emails to the customer: confirmed, shipped (with tracking), cancelled and refunded
+- [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
+- [ ] Admin alert for margin-guard refusals (only logged today, and tracked as a `Checkout failed` event with `reason: margin`)
 - [ ] Contact/support form as a Server Action in `src/actions/` (checkout already uses one)
+- [ ] Remove the `onOrderCreated` Firebase trigger: it only logs, and the app sends the order emails
 
 ### Content
 
@@ -38,14 +40,16 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it), then re-run `yarn catalogue` against the live API
 - [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
-- [ ] Stripe live: business name, support email, statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); payment receipts on
+- [ ] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them
 - [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
-- [ ] Vercel production env vars: live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET`, image limits (and their `NEXT_PUBLIC_` copies)
-- [ ] Decide what the `onOrderCreated` Firebase trigger does (the admin email?) before real orders arrive
+- [ ] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview; in Production also the live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET` and the image limits (and their `NEXT_PUBLIC_` copies)
+- [ ] Set `PRODIGI_CALLBACK_SECRET` on Preview, then a full test purchase there: upload → options → Stripe test card → order → Prodigi sandbox order → callbacks update `/orders`, emails arrive, analytics events show up in Vercel
+- [ ] Test the customer-cancel emails end to end (needs an order less than 90 minutes old)
+- [ ] Click through the signed-in flows since the Base UI migration (print options sheet including a flagged screenshot, user menu, `/account`), and test on Safari and iOS
 - [ ] Merge `replatform-prodigi` into `main`, then review env vars: set `MIN_IMAGE_WIDTH` / `MIN_IMAGE_HEIGHT` and their `NEXT_PUBLIC_` copies to 1920 × 1080 in Preview and Production (still 1280 × 720 there; the upload check and the Screenshots page's tips use them, and the `NEXT_PUBLIC_` ones need a redeploy), and delete the `CANVASPOP_*` env vars
 
 ### Later
 
 - [ ] Promo codes: turn on `allow_promotion_codes` in checkout (orders already store the code)
 - [ ] Zero-budget marketing (promo codes, affiliates), keeping the guardrails: no hosted gallery of customers' screenshots, ads labelled as ads
-- [ ] More products? A mid-size canvas for the EU and US, desk mats or mousemats; check Stripe fees by card region
+- [ ] More products? A mid-size canvas (only 14×24 and 28×48 today), desk mats or mousemats
