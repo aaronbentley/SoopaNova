@@ -110,6 +110,7 @@ ${platforms
 ## Help
 
 - [FAQ](${url('/faq/')}): products, sizes, delivery times, cancelling, shipping countries and print problems
+- [Support](${url('/support/')}): a contact form for questions about an order, problems with a print, account help, and copyright or trademark concerns (replies by email)
 - [About](${url('/about/')}): who makes ${title} and why
 
 ## Optional

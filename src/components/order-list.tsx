@@ -14,6 +14,7 @@ import type { Currency, PrintOrderStatus } from '@/types'
 import { format } from 'date-fns'
 import { ExternalLink, ImageIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 /**
  * An order as the orders page shows it. Orders from before the Stripe +
@@ -162,6 +163,11 @@ const OrderRow = ({ order }: { order: OrderListItem }) => {
                     <p className='font-mono text-xs break-all text-muted-foreground'>
                         Order ref {order.id}
                     </p>
+                    <Link
+                        href={`/support/?topic=order&order=${order.id}`}
+                        className='w-fit text-xs text-muted-foreground underline underline-offset-4 transition-colors duration-200 hover:text-primary'>
+                        Get help with this order
+                    </Link>
                     {progress && progressNotes[progress] && (
                         <p className='text-sm text-pretty text-muted-foreground'>
                             {progressNotes[progress]}

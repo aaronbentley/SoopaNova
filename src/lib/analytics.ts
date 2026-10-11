@@ -20,6 +20,8 @@ export type AnalyticsEvent =
     | 'Order placed'
     /** Cancelled and refunded by the customer from their orders */
     | 'Order cancelled'
+    /** A message sent from the support form */
+    | 'Support request sent'
 
 export type AnalyticsProperties = Record<string, string>
 

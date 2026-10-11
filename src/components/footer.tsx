@@ -41,6 +41,7 @@ const columns = [
         title: process.env.APP_TITLE!,
         links: [
             ...links.filter((link) => !link.children),
+            { href: '/support/', label: 'Support' },
             { href: '/privacy/', label: 'Privacy' },
             { href: '/terms/', label: 'Terms' }
         ]

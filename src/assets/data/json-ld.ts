@@ -7,6 +7,7 @@ import {
 import { productImages } from '@/assets/data/product-images'
 import { productPages } from '@/assets/data/product-pages'
 import { productCopy, productPath } from '@/assets/data/products'
+import { supportEmail } from '@/assets/data/support'
 import { getPrice, getProductOptions } from '@/lib/pricing'
 import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { formatInches } from '@/lib/print-quality'
@@ -69,7 +70,13 @@ const organization: Organization = {
         process.env.APP_SOCIAL_INSTAGRAM,
         process.env.APP_SOCIAL_THREADS,
         process.env.APP_SOCIAL_FACEBOOK
-    ].filter((link): link is string => !!link)
+    ].filter((link): link is string => !!link),
+    contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: supportEmail,
+        url: url('/support/')
+    }
 }
 
 const website: WebSite = {

@@ -18,6 +18,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
         '/prints/sustainability/',
         ...(Object.keys(productTypes) as ProductTypeId[]).map(productPath),
         '/faq/',
+        '/support/',
         '/about/',
         '/privacy/',
         '/terms/'

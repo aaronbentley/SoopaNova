@@ -36,7 +36,8 @@ const templates = {
     shipped: 'order-shipped',
     cancelled: 'order-cancelled',
     refunded: 'order-refunded',
-    admin: 'admin-order-update'
+    admin: 'admin-order-update',
+    support: 'support-request'
 } as const
 
 type EmailOptions = Parameters<Resend['emails']['send']>[0]
@@ -659,3 +660,75 @@ export const queueRefundedEmail = (
             }
         )
     )
+
+/**
+ * Trim HTML to Resend's variable limit without cutting an entity or tag
+ * in half
+ */
+const fitVariable = (html: string) =>
+    html.length <= maxVariableLength
+        ? html
+        : `${html.slice(0, maxVariableLength - 1).replace(/&[^;]*$|<[^>]*$/, '')}…`
+
+/**
+ * A message from the support form, emailed to the site owner (from
+ * notifications@, set on the template) with reply-to the sender. No
+ * auto-reply, so the form can't be used to email other people. Sent and
+ * awaited, unlike the order emails, so the form can say if it failed.
+ * Returns false if it wasn't sent.
+ */
+export const sendSupportEmail = async ({
+    topic,
+    name,
+    email,
+    orderRef,
+    message,
+    userId
+}: {
+    topic: string
+    name: string
+    email: string
+    orderRef?: string
+    message: string
+    userId: string | null
+}) => {
+    if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
+        console.info('Support email skipped (no RESEND_API_KEY/ADMIN_EMAIL)', {
+            topic,
+            email
+        })
+
+        return getEnvironment() !== 'Live'
+    }
+
+    const variables: Variables = {
+        ENVIRONMENT: getEnvironment(),
+        TOPIC: escapeHtml(topic),
+        SENDER_NAME: escapeHtml(name),
+        SENDER_EMAIL: escapeHtml(email),
+        MESSAGE: fitVariable(escapeHtml(message).replace(/\r?\n/g, '<br>'))
+    }
+
+    /**
+     * Left out, these use the template's fallbacks ('None given', 'Not
+     * signed in')
+     */
+    if (orderRef) variables.ORDER_REF = mono(orderRef)
+    if (userId) variables.ACCOUNT = mono(userId)
+
+    try {
+        const { error } = await getResend().emails.send({
+            to: process.env.ADMIN_EMAIL,
+            replyTo: email,
+            template: { id: templates.support, variables }
+        })
+
+        if (error) throw error
+
+        return true
+    } catch (error) {
+        console.error('Support email failed', { topic, error })
+
+        return false
+    }
+}

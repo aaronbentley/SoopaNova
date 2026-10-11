@@ -32,6 +32,13 @@ export default defineConfig([
                         'src/app/sign-up/**',
                         'src/app/sso-callback/**',
                         'src/app/llms.txt/**',
+                        'src/app/support/**',
+                        /**
+                         * Server Actions open to anyone, e.g. the support form
+                         * (rights holders won't have accounts): each checks its
+                         * caller with Vercel BotID instead
+                         */
+                        'src/actions/public/**',
                         /**
                          * Webhooks: Stripe and Prodigi aren't signed-in users,
                          * so each route verifies its caller itself

@@ -1,4 +1,5 @@
 import createMDX from '@next/mdx'
+import { withBotId } from 'botid/next/config'
 import type { NextConfig } from 'next'
 
 /**
@@ -95,4 +96,8 @@ const nextConfig: NextConfig = {
  */
 const withMDX = createMDX()
 
-export default withMDX(nextConfig)
+/**
+ * Vercel BotID (the support form): proxies its script and checks through
+ * same-origin paths, so the CSP needs no extra origins
+ */
+export default withBotId(withMDX(nextConfig))
