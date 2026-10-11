@@ -3,13 +3,20 @@ import { productCopy, productPath } from '@/assets/data/products'
 import ProductImage from '@/components/product-image'
 import ProductPrice from '@/components/product-price'
 import { getFromPrices } from '@/lib/pricing'
+import type { Catalogue } from '@/types'
 import Link from 'next/link'
 
 /**
  * A product's card, linking to its page: photo, name, "from" price,
  * description and tags (homepage and /prints)
  */
-const ProductCard = ({ productType }: { productType: ProductTypeId }) => (
+const ProductCard = ({
+    catalogue,
+    productType
+}: {
+    catalogue: Catalogue
+    productType: ProductTypeId
+}) => (
     <Link
         href={productPath(productType)}
         className='group flex flex-col overflow-hidden rounded-xl border bg-background transition-colors duration-200 hover:border-primary'>
@@ -25,7 +32,7 @@ const ProductCard = ({ productType }: { productType: ProductTypeId }) => (
                 </h3>
                 <span className='shrink-0 font-mono text-[13px] text-muted-foreground'>
                     <ProductPrice
-                        prices={getFromPrices(productType)}
+                        prices={getFromPrices(catalogue, productType)}
                         from
                     />
                 </span>

@@ -11,7 +11,10 @@ import type { CheckoutRequest } from '@/lib/print-options-schema'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 
-export type CheckoutResult = { url: string } | { message: string }
+export type CheckoutResult =
+    | { url: string }
+    /** pricesChanged: the browser should load the new prices */
+    | { message: string; pricesChanged?: true }
 
 /**
  * Start Stripe Checkout for a print chosen in the print options sheet.
@@ -67,7 +70,9 @@ export const startCheckoutAction = async (
     } catch (error) {
         if (error instanceof CheckoutError) {
             trackFailure(error.reason)
-            return { message: error.message }
+            return error.reason === 'price-changed'
+                ? { message: error.message, pricesChanged: true }
+                : { message: error.message }
         }
 
         console.error('Checkout failed', error)

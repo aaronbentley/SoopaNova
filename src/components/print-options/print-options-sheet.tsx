@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/sheet'
 import type { PrintStatus } from '@/hooks/use-create-print'
 import { usePrintOptionsForm } from '@/hooks/use-print-options'
+import type { Price } from '@/lib/pricing'
 import type { PrintOptionsValues } from '@/lib/print-options-schema'
 import { formatSize } from '@/lib/print-quality'
 import type { ImageMeta } from '@/types'
@@ -36,8 +37,11 @@ interface PrintOptionsSheetProps {
     progress: number
     error: string | null
     onRetry: () => void
-    /** Called with the validated options when the form is submitted */
-    onCheckout: (values: PrintOptionsValues) => void
+    /**
+     * Called with the validated options and the price shown when the form
+     * is submitted
+     */
+    onCheckout: (values: PrintOptionsValues, price: Price) => void
     checkoutPending: boolean
     checkoutError: string | null
 }
@@ -115,7 +119,10 @@ const PrintOptionsSheet = ({
 
                         <form
                             noValidate
-                            onSubmit={form.handleSubmit(onCheckout)}
+                            onSubmit={form.handleSubmit((submitted) => {
+                                if (print.price)
+                                    onCheckout(submitted, print.price)
+                            })}
                             className='min-w-0'>
                             {/* Locked if the screenshot can't be printed */}
                             <fieldset

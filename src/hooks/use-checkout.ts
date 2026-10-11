@@ -1,7 +1,9 @@
 'use client'
 
 import { startCheckoutAction } from '@/actions/checkout'
+import type { Price } from '@/lib/pricing'
 import type { PrintOptionsValues } from '@/lib/print-options-schema'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const checkoutFailed = "We couldn't start checkout. Please try again."
@@ -11,10 +13,15 @@ const checkoutFailed = "We couldn't start checkout. Please try again."
  * to the Checkout page, or keep the error message to show in the sheet
  */
 export const useCheckout = () => {
+    const router = useRouter()
     const [pending, setPending] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const checkout = async (fileName: string, values: PrintOptionsValues) => {
+    const checkout = async (
+        fileName: string,
+        values: PrintOptionsValues,
+        price: Price
+    ) => {
         setPending(true)
         setError(null)
 
@@ -23,13 +30,21 @@ export const useCheckout = () => {
          * it can't run at all (offline, or a new deployment), and those
          * errors aren't worded for customers.
          */
-        const result = await startCheckoutAction({ ...values, fileName }).catch(
-            () => ({ message: checkoutFailed })
-        )
+        const result = await startCheckoutAction({
+            ...values,
+            fileName,
+            price
+        }).catch(() => ({ message: checkoutFailed }))
 
         if ('message' in result) {
             setError(result.message)
             setPending(false)
+
+            /**
+             * Prices were updated since the page loaded: fetch the new
+             * catalogue so the sheet shows them
+             */
+            if ('pricesChanged' in result) router.refresh()
             return
         }
 

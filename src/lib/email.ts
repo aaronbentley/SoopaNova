@@ -9,7 +9,13 @@ import {
     firestore,
     ordersBucket
 } from '@/lib/firebase-admin'
-import type { CostDrift } from '@/lib/catalogue-drift'
+import {
+    describeChange,
+    describeProblem,
+    needsApproval,
+    sortChanges
+} from '@/lib/catalogue-diff'
+import type { CatalogueRefresh } from '@/lib/catalogue-refresh'
 import type { ProdigiStatus } from '@/lib/orders'
 import { formatMoney, toMinor, type Price } from '@/lib/pricing'
 import { describeOptions, formatPrintSize } from '@/lib/print-labels'
@@ -59,7 +65,7 @@ const getResend = () => {
  * Which deployment this is. Only Live emails customers: Preview and local
  * dev take sandbox orders, so their customer emails go to ADMIN_EMAIL.
  */
-const getEnvironment = () => {
+export const getEnvironment = () => {
     if (process.env.VERCEL_ENV === 'production') return 'Live'
     if (process.env.VERCEL_ENV === 'preview') return 'Preview'
 
@@ -749,7 +755,7 @@ const alertInterval = 24 * 60 * 60 * 1000
  * alertInterval. Returns a release function for when sending fails, or null
  * if it's not due yet.
  */
-const claimAlert = async (key: string) => {
+export const claimAlert = async (key: string) => {
     const ref = firestore.collection('adminAlerts').doc(key)
 
     const claimed = await firestore.runTransaction(async (transaction) => {
@@ -800,8 +806,8 @@ export const queueMarginAlert = (alert: {
         const hasCost = alert.itemCost !== null && alert.margin !== null
 
         const intro = hasCost
-            ? `A customer couldn't check out: Prodigi's live cost leaves <strong>${percent(alert.margin!)}</strong> after the card fee, below the <strong>${percent(alert.minMargin)}</strong> minimum, so checkout was refused. Re-run <code>yarn catalogue</code> and deploy to refresh prices, or change the margins in <code>pricing.ts</code>.`
-            : `A customer couldn't check out: Prodigi's quote had no cost for this print and country, so checkout was refused. Check the product in Prodigi's dashboard, then re-run <code>yarn catalogue</code>.`
+            ? `A customer couldn't check out: Prodigi's live cost leaves <strong>${percent(alert.margin!)}</strong> after the card fee, below the <strong>${percent(alert.minMargin)}</strong> minimum, so checkout was refused. This print's costs have been refreshed from Prodigi, and you'll get another email if that changed anything. If it keeps happening, check the margins in <code>pricing.ts</code>.`
+            : `A customer couldn't check out: Prodigi's quote had no cost for this print and country, so checkout was refused. Check the product in Prodigi's dashboard.`
 
         const rows: [label: string, value: string][] = [
             ['Print', escapeHtml(print)],
@@ -852,84 +858,88 @@ export const queueMarginAlert = (alert: {
         }
     })
 
-const signedPercent = (value: number) =>
-    `${value > 0 ? '+' : ''}${Math.round(value * 100)}%`
+/**
+ * A change as an email row, in red when it's worth a closer look
+ */
+const describedRow = ({
+    label,
+    detail,
+    warning
+}: {
+    label: string
+    detail: string
+    warning: boolean
+}): [string, string] => [
+    escapeHtml(label),
+    warning
+        ? `<strong style="color:#dc2626">${escapeHtml(detail)}</strong>`
+        : escapeHtml(detail)
+]
 
 /**
- * The weekly catalogue check found Prodigi costs that differ from
- * catalogue.ts. Sent and awaited by the cron route; returns false if it
- * wasn't sent.
+ * What a catalogue refresh did (the weekly cron, or the margin guard
+ * refreshing a refused SKU): applied, waiting for approval with a link to
+ * /admin/catalogue, or unchanged but with SKUs Prodigi couldn't price. Sent
+ * and awaited; returns false if it wasn't sent.
  */
-export const sendCatalogueDriftEmail = async ({
-    checked,
-    drifts,
-    generatedAt
-}: {
-    checked: number
-    drifts: CostDrift[]
-    generatedAt: string
-}) => {
+export const sendCatalogueRefreshEmail = async ({
+    outcome,
+    changes,
+    problems,
+    trigger
+}: CatalogueRefresh & { trigger: 'weekly' | 'checkout' }) => {
     if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
         console.info(
-            'Catalogue drift email skipped (no RESEND_API_KEY/ADMIN_EMAIL)'
+            'Catalogue refresh email skipped (no RESEND_API_KEY/ADMIN_EMAIL)'
         )
         return false
     }
 
-    const order = { missing: 0, unchecked: 1, item: 2, shipping: 3 }
-    const sorted = [...drifts].sort((a, b) => order[a.kind] - order[b.kind])
-    const belowMinimum = drifts.filter(
-        (drift) =>
-            drift.kind === 'item' &&
-            drift.margin !== null &&
-            drift.margin < drift.minMargin
+    const approval = changes.filter(needsApproval)
+    const belowMinimum = changes.filter(
+        (change) =>
+            change.kind === 'price' &&
+            change.margin !== null &&
+            change.margin < change.minMargin
     ).length
 
-    const rows = sorted.map((drift): [string, string] => {
-        const print = `${productTypes[drift.productType].name}, ${formatPrintSize(drift.size)}`
-        const { currency } = regions[drift.region]
-        const label = `${escapeHtml(print)} · ${drift.region.toUpperCase()}`
-        const cost = (amount: number) => formatMoney({ amount, currency })
+    const rows = [
+        ...problems.map((problem) => describedRow(describeProblem(problem))),
+        ...sortChanges(changes).map((change) =>
+            describedRow(describeChange(change))
+        )
+    ]
 
-        if (drift.kind === 'missing') {
-            return [label, '<strong>No quote</strong>']
-        }
-
-        if (drift.kind === 'unchecked') {
-            return [label, 'Couldn’t check (Prodigi didn’t answer)']
-        }
-
-        if (drift.kind === 'shipping') {
-            return [
-                `${label} · ${drift.method}`,
-                drift.live === null
-                    ? 'No longer offered'
-                    : `${cost(drift.catalogue)} → ${cost(drift.live)} (${signedPercent((drift.live - drift.catalogue) / drift.catalogue)})`
-            ]
-        }
-
-        const margin =
-            drift.margin === null
-                ? ''
-                : drift.margin < drift.minMargin
-                  ? ` · <strong style="color:#dc2626">${percent(drift.margin)} margin</strong>`
-                  : ` · ${percent(drift.margin)} margin`
-
-        return [
-            label,
-            `${cost(drift.catalogue)} → ${cost(drift.live)} (${signedPercent((drift.live - drift.catalogue) / drift.catalogue)})${margin}`
-        ]
-    })
+    const count = (value: number, noun: string) =>
+        `${value} ${noun}${value === 1 ? '' : 's'}`
+    const reviewUrl = new URL('/admin/catalogue/', process.env.APP_URL!).href
 
     const intro = [
-        `${drifts.length} cost ${drifts.length === 1 ? 'change' : 'changes'} across the ${checked} prints and regions checked, since <code>catalogue.ts</code> was generated on ${generatedAt}.`,
-        belowMinimum
-            ? `<strong>${belowMinimum} ${belowMinimum === 1 ? 'is' : 'are'} below the minimum margin</strong>, so checkout refuses ${belowMinimum === 1 ? 'it' : 'them'} until prices are updated.`
+        trigger === 'checkout'
+            ? 'The margin guard refused a checkout, so that print’s costs were refreshed from Prodigi.'
             : '',
-        'Item costs change your margin; shipping is charged at the live cost, so it only changes the "+ shipping from" prices shown. Run <code>yarn catalogue</code> and deploy to update prices.'
+        outcome === 'applied'
+            ? `${count(changes.length, 'change')} from Prodigi ${changes.length === 1 ? 'is' : 'are'} live on the site now.`
+            : '',
+        outcome === 'pending'
+            ? `${count(approval.length, 'change')} ${approval.length === 1 ? 'needs' : 'need'} your approval: a price moving more than 10%, or new options or print areas from Prodigi. Nothing has changed on the site yet. <a href="${reviewUrl}" style="color:#ec4699">Review and apply them</a>.`
+            : '',
+        problems.length
+            ? `Prodigi couldn’t price ${count(problems.length, 'print')}, so their old costs are kept.`
+            : '',
+        belowMinimum
+            ? `<strong>${belowMinimum} ${belowMinimum === 1 ? 'is' : 'are'} below the minimum margin</strong> (a hand-set price in <code>pricing.ts</code>?), so checkout refuses ${belowMinimum === 1 ? 'it' : 'them'}.`
+            : ''
     ]
         .filter(Boolean)
         .join(' ')
+
+    const headline =
+        outcome === 'pending'
+            ? 'Price changes are waiting for you'
+            : outcome === 'applied'
+              ? `Prices updated: ${count(changes.length, 'change')}`
+              : `Couldn’t check ${count(problems.length, 'print')}`
 
     try {
         const { error } = await getResend().emails.send({
@@ -938,10 +948,8 @@ export const sendCatalogueDriftEmail = async ({
                 id: templates.alert,
                 variables: {
                     ENVIRONMENT: getEnvironment(),
-                    EVENT: 'Catalogue check',
-                    HEADLINE: belowMinimum
-                        ? `Prodigi costs changed: ${belowMinimum} below the minimum margin`
-                        : 'Prodigi costs have changed',
+                    EVENT: 'Catalogue refresh',
+                    HEADLINE: headline,
                     INTRO: intro.slice(0, maxVariableLength),
                     DETAILS: detailRows(rows)
                 }
@@ -952,7 +960,7 @@ export const sendCatalogueDriftEmail = async ({
 
         return true
     } catch (error) {
-        console.error('Catalogue drift email failed', error)
+        console.error('Catalogue refresh email failed', error)
 
         return false
     }

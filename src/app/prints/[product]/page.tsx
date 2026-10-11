@@ -40,6 +40,7 @@ import {
     formatInches,
     qualityThresholds
 } from '@/lib/print-quality'
+import { getCatalogue } from '@/lib/catalogue-store'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -95,16 +96,17 @@ const ProductPage = async ({ params }: Props) => {
 
     if (!isProductType(product)) notFound()
 
+    const catalogue = await getCatalogue()
     const { name, sizes } = productTypes[product]
     const { intro, features, specs } = productPages[product]
-    const options = Object.entries(getProductOptions(product)).map(
+    const options = Object.entries(getProductOptions(catalogue, product)).map(
         ([optionName, values]) =>
             [optionName, sortOptionValues(optionName, values)] as const
     )
 
     return (
         <>
-            <JsonLd data={productJsonLd(product)} />
+            <JsonLd data={productJsonLd(catalogue, product)} />
             <div>
                 <PageHeader eyebrow='Prints'>
                     <PageHeaderHeading>{name}</PageHeaderHeading>
@@ -120,7 +122,7 @@ const ProductPage = async ({ params }: Props) => {
                         </Link>
                         <span className='font-mono text-sm text-muted-foreground'>
                             <ProductPrice
-                                prices={getFromPrices(product)}
+                                prices={getFromPrices(catalogue, product)}
                                 from
                             />
                         </span>
@@ -197,6 +199,7 @@ const ProductPage = async ({ params }: Props) => {
                                     <TableCell className='text-right font-mono tabular-nums'>
                                         <ProductPrice
                                             prices={getRegionPrices(
+                                                catalogue,
                                                 product,
                                                 size
                                             )}

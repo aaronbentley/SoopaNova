@@ -1,4 +1,3 @@
-import { catalogue } from '@/assets/data/catalogue'
 import {
     cardFees,
     overrides,
@@ -10,7 +9,7 @@ import {
     type ProductTypeId
 } from '@/assets/data/pricing'
 import { parseSize } from '@/lib/print-quality'
-import type { Currency, Region, ShippingMethod } from '@/types'
+import type { Catalogue, Currency, Region, ShippingMethod } from '@/types'
 
 export type Price = { amount: number; currency: Currency }
 
@@ -20,20 +19,30 @@ export type Price = { amount: number; currency: Currency }
 export const toMinor = (amount: number) => Math.round(amount * 100)
 
 /**
+ * Every function that needs Prodigi's costs takes the catalogue first: it's
+ * read from Global Config (getCatalogue on the server, useCatalogue in the
+ * browser), not compiled in
+ */
+
+/**
  * A catalogue item by product type and size ('14x24')
  */
-export const getCatalogueItem = (productType: ProductTypeId, size: string) =>
-    catalogue.products[productType]?.find((item) => item.size === size)
+export const getCatalogueItem = (
+    catalogue: Catalogue,
+    productType: ProductTypeId,
+    size: string
+) => catalogue.products[productType]?.find((item) => item.size === size)
 
 /**
  * Prodigi's cost for an item in a region, plus the US sales tax allowance
  */
 const getItemCost = (
+    catalogue: Catalogue,
     productType: ProductTypeId,
     size: string,
     region: Region
 ) => {
-    const cost = getCatalogueItem(productType, size)?.costs[region]
+    const cost = getCatalogueItem(catalogue, productType, size)?.costs[region]
 
     if (!cost) return null
 
@@ -52,12 +61,13 @@ const roundPrice = (amount: number) =>
  * hand-set override. Null when the size isn't sold there.
  */
 export const getPrice = (
+    catalogue: Catalogue,
     productType: ProductTypeId,
     size: string,
     region: Region
 ): Price | null => {
-    const item = getCatalogueItem(productType, size)
-    const cost = getItemCost(productType, size, region)
+    const item = getCatalogueItem(catalogue, productType, size)
+    const cost = getItemCost(catalogue, productType, size, region)
 
     if (!item || cost === null) return null
 
@@ -87,40 +97,54 @@ export const cheapest = (prices: (Price | null)[]) =>
  * A product type's starting price in a region (its cheapest size sold
  * there), or null when none of its sizes is
  */
-export const getFromPrice = (productType: ProductTypeId, region: Region) =>
+export const getFromPrice = (
+    catalogue: Catalogue,
+    productType: ProductTypeId,
+    region: Region
+) =>
     cheapest(
         productTypes[productType].sizes.map(({ size }) =>
-            getPrice(productType, size, region)
+            getPrice(catalogue, productType, size, region)
         )
     )
 
 /**
  * A size's price in every region (null where it isn't sold)
  */
-export const getRegionPrices = (productType: ProductTypeId, size: string) =>
+export const getRegionPrices = (
+    catalogue: Catalogue,
+    productType: ProductTypeId,
+    size: string
+) =>
     Object.fromEntries(
         (Object.keys(regions) as Region[]).map((region) => [
             region,
-            getPrice(productType, size, region)
+            getPrice(catalogue, productType, size, region)
         ])
     ) as Record<Region, Price | null>
 
 /**
  * A product type's starting price in every region
  */
-export const getFromPrices = (productType: ProductTypeId) =>
+export const getFromPrices = (
+    catalogue: Catalogue,
+    productType: ProductTypeId
+) =>
     Object.fromEntries(
         (Object.keys(regions) as Region[]).map((region) => [
             region,
-            getFromPrice(productType, region)
+            getFromPrice(catalogue, productType, region)
         ])
     ) as Record<Region, Price | null>
 
 /**
  * Every option a product type has across its sizes (frame colours, canvas
- * edges), as read from Prodigi by the catalogue script
+ * edges), as read from Prodigi when the catalogue was built
  */
-export const getProductOptions = (productType: ProductTypeId) => {
+export const getProductOptions = (
+    catalogue: Catalogue,
+    productType: ProductTypeId
+) => {
     const options: Record<string, string[]> = {}
 
     for (const item of catalogue.products[productType] ?? []) {
@@ -155,14 +179,14 @@ export const getSizeRange = () => {
  * and region.
  */
 export const getShippingPrice = (
+    catalogue: Catalogue,
     productType: ProductTypeId,
     size: string,
     region: Region,
     method: ShippingMethod
 ): Price | null => {
-    const cost = getCatalogueItem(productType, size)?.costs[region]?.shipping[
-        method
-    ]
+    const cost = getCatalogueItem(catalogue, productType, size)?.costs[region]
+        ?.shipping[method]
 
     if (cost === undefined || !shipping.methods.includes(method)) return null
 

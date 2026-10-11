@@ -185,7 +185,7 @@
             translate: 32px 0;
         }
     }
-    
+
     @keyframes glow-drift-y {
         from {
             transform: translateY(-12px);
@@ -254,7 +254,7 @@
     * {
         @apply border-border outline-ring/50;
     }
-    
+
     html {
         @apply scroll-smooth bg-primary;
     }

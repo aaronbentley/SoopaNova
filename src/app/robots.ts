@@ -11,7 +11,8 @@ const robots = (): MetadataRoute.Robots => {
                 '/sso-callback/',
                 '/create/',
                 '/orders/',
-                '/account/'
+                '/account/',
+                '/admin/'
             ]
         },
         sitemap: `${process.env.APP_URL!}/sitemap.xml`

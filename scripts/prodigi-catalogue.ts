@@ -1,42 +1,34 @@
 /**
- * Build src/assets/data/catalogue.ts from Prodigi: for each product size in
- * src/assets/data/pricing.ts, the options customers can choose, the pixels it
- * needs, and what it costs (incl. Prodigi's tax) to make and ship to each
- * region.
+ * Refresh the catalogue in Global Config from Prodigi now, for the Prodigi
+ * API in .env.local (catalogue_sandbox or catalogue_live): every size in
+ * src/assets/data/pricing.ts, with its options, the pixels it needs, and
+ * what it costs (incl. Prodigi's tax) to make and ship to each region.
+ * Unlike the weekly cron (/api/cron/catalogue/), it applies every change
+ * without asking, and drops any pending catalogue.
  *
  *   yarn catalogue
  *
- * Reads PRODIGI_API_KEY and PRODIGI_API_URL from .env.local. Prices are
- * quoted for the API's environment, so run it against the live API (or check
- * the sandbox matches) before launch.
+ * Reads PRODIGI_API_KEY, PRODIGI_API_URL, GLOBAL_CONFIG, VERCEL_API_TOKEN and
+ * VERCEL_TEAM_ID from .env.local. Pages pick up the new catalogue when
+ * they're next built or revalidated: run the cron (or deploy) to refresh the
+ * live site straight away.
  */
-import type {
-    Catalogue,
-    CatalogueCost,
-    CatalogueItem,
-    ProductTypeConfig,
-    Region
-} from '@/types'
-import type {
-    ProductDetails as ProdigiProduct,
-    Quote as ProdigiQuote
-} from '@/types/prodigi'
-import { writeFile } from 'node:fs/promises'
+import type { ProductDetails } from '@/types/prodigi'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
-import * as prettier from 'prettier'
-import { productTypes, regions, shipping } from '../src/assets/data/pricing.ts'
-import { getQuoteCosts } from '../src/lib/prodigi-costs.ts'
+import { buildCatalogue } from '../src/lib/catalogue-build.ts'
+import { storedCatalogueSchema } from '../src/lib/catalogue-schema.ts'
+import {
+    catalogueKeys,
+    readItem,
+    writeItems
+} from '../src/lib/global-config.ts'
 
 /**
  * The script can't import src/lib/prodigi.ts (it's server-only and uses @/
  * imports Node can't resolve), so it has its own small request helper but
- * shares the API types.
+ * shares the build with the cron.
  */
-
-const outFile = fileURLToPath(
-    new URL('../src/assets/data/catalogue.ts', import.meta.url)
-)
 
 process.loadEnvFile(fileURLToPath(new URL('../.env.local', import.meta.url)))
 
@@ -83,140 +75,51 @@ const prodigi = async (path: string, body?: unknown) => {
     throw new Error(`${path}: still rate-limited after 5 attempts`)
 }
 
-/**
- * The options customers can choose (attributes with more than one value),
- * keeping only values that ship to every country the size is sold in
- */
-const getOptions = (product: ProdigiProduct, countries: string[]) => {
-    const variants = product.variants.filter((variant) =>
-        countries.every((country) => variant.shipsTo.includes(country))
-    )
-
-    const options: Record<string, string[]> = {}
-
-    for (const [name, values] of Object.entries(product.attributes)) {
-        if (values.length < 2) continue
-        options[name] = values.filter((value) =>
-            variants.some((variant) => variant.attributes[name] === value)
-        )
-    }
-
-    return { options, variant: variants[0] }
-}
+const { current, pending } = catalogueKeys()
 
 /**
- * Quote one item to a country, for every shipping method we offer.
- * Costs include Prodigi's tax (US quotes have none; see usSalesTaxBuffer).
+ * The stored catalogue fills in anything Prodigi doesn't answer
  */
-const quoteCost = async (
-    sku: string,
-    attributes: Record<string, string>,
-    country: string,
-    currency: string
-): Promise<CatalogueCost> => {
-    const json = await prodigi('/quotes', {
-        destinationCountryCode: country,
-        currencyCode: currency,
-        items: [
-            { sku, copies: 1, attributes, assets: [{ printArea: 'default' }] }
-        ]
-    })
+const stored = await readItem(current)
+const fallback = stored ? storedCatalogueSchema.parse(stored) : null
 
-    const quotes: ProdigiQuote[] = json?.quotes ?? []
-    const costs = getQuoteCosts(quotes, shipping.methods)
-
-    if (!costs) {
-        throw new Error(
-            `${sku} → ${country}: no quote ${JSON.stringify(json?.issues)}`
-        )
-    }
-
-    return costs
-}
-
-const config: Record<string, ProductTypeConfig> = productTypes
-const allRegions = Object.keys(regions) as Region[]
-const products: Catalogue['products'] = {}
-
-for (const [id, productType] of Object.entries(config)) {
-    products[id] = []
-
-    for (const entry of productType.sizes) {
-        const sku = `${productType.prodigiSku}-${entry.size.toUpperCase()}`
-        const sellIn = entry.regions ?? allRegions
-        const countries = sellIn.map((region) => regions[region].quoteCountry)
-
-        /**
-         * Product details: options and the pixels Prodigi asks for
-         */
-        const { product }: { product: ProdigiProduct } = await prodigi(
-            `/products/${sku}`
-        )
-        const { options, variant } = getOptions(product, countries)
-
-        if (!variant) {
-            throw new Error(`${sku} doesn't ship to ${countries.join(', ')}`)
-        }
-
-        const printArea = variant.printAreaSizes.default
-
-        /**
-         * Quote with the first value of each option (options don't change
-         * the price; checkout re-quotes the customer's exact choice)
-         */
-        const attributes = Object.fromEntries(
-            Object.entries(options).map(([name, values]) => [name, values[0]])
-        )
-
-        const costs: CatalogueItem['costs'] = {}
-
-        for (const region of sellIn) {
-            const { quoteCountry, currency } = regions[region]
-            costs[region] = await quoteCost(
-                sku,
-                attributes,
-                quoteCountry,
-                currency
-            )
+const { catalogue, problems } = await buildCatalogue({
+    prodigi: {
+        getProduct: async (sku) =>
+            (
+                (await prodigi(`/products/${encodeURIComponent(sku)}`)) as {
+                    product: ProductDetails
+                }
+            ).product,
+        quote: (request) => prodigi('/quotes', request)
+    },
+    fallback,
+    onItem: (item) => {
+        for (const [region, cost] of Object.entries(item.costs)) {
             console.log(
-                `${sku.padEnd(24)} ${region}  item ${costs[region].itemCost} ${currency}, shipping ${JSON.stringify(costs[region].shipping)}, made in ${costs[region].madeIn}`
+                `${item.sku.padEnd(24)} ${region}  item ${cost.itemCost}, shipping ${JSON.stringify(cost.shipping)}, made in ${cost.madeIn}`
             )
         }
-
-        products[id].push({
-            sku,
-            size: entry.size,
-            description: product.description.replace(/\s+/g, ' ').trim(),
-            printArea: {
-                width: printArea.horizontalResolution,
-                height: printArea.verticalResolution
-            },
-            options,
-            costs
-        })
     }
+})
+
+for (const problem of problems) {
+    console.warn(
+        `${problem.sku} ${problem.region ?? ''}: ${problem.kind}, ${problem.detail}${fallback ? ' (kept the stored costs)' : ''}`
+    )
 }
 
-/**
- * Write the catalogue, formatted like the rest of the codebase
- */
-const catalogue: Catalogue = {
-    generatedAt: new Date().toISOString().slice(0, 10),
-    products
-}
+await writeItems([
+    {
+        operation: 'upsert',
+        key: current,
+        value: {
+            ...catalogue,
+            appliedAt: new Date().toISOString(),
+            appliedBy: 'script'
+        }
+    },
+    { operation: 'upsert', key: pending, value: null }
+])
 
-const source = `/**
- * Generated by scripts/prodigi-catalogue.ts (\`yarn catalogue\`). Don't edit.
- */
-import type { Catalogue } from '@/types'
-
-export const catalogue: Catalogue = ${JSON.stringify(catalogue)}
-`
-
-const prettierConfig = await prettier.resolveConfig(outFile)
-await writeFile(
-    outFile,
-    await prettier.format(source, { ...prettierConfig, filepath: outFile })
-)
-
-console.log(`\nWrote ${outFile}`)
+console.log(`\nWrote ${current} to Global Config`)

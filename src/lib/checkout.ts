@@ -3,7 +3,9 @@ import 'server-only'
 import { countries } from '@/assets/data/countries'
 import { termsVersion } from '@/assets/data/legal'
 import { productTypes, shipping } from '@/assets/data/pricing'
-import { queueMarginAlert } from '@/lib/email'
+import { refreshRefusedSku } from '@/lib/catalogue-refresh'
+import { catalogueTag, getCatalogue } from '@/lib/catalogue-store'
+import { queueMarginAlert, sendCatalogueRefreshEmail } from '@/lib/email'
 import { FieldValue, printSessionsCollection } from '@/lib/firebase-admin'
 import {
     getCatalogueItem,
@@ -14,19 +16,27 @@ import {
     withSalesTaxBuffer
 } from '@/lib/pricing'
 import { describeOptions, formatPrintSize } from '@/lib/print-labels'
-import { checkoutRequestSchema } from '@/lib/print-options-schema'
+import { makeCheckoutRequestSchema } from '@/lib/print-options-schema'
 import { createQuote } from '@/lib/prodigi'
 import { getQuoteCosts } from '@/lib/prodigi-costs'
 import { getStripe } from '@/lib/stripe'
 import { getThumbnailUrl, isApprovedUpload, isOwnUpload } from '@/lib/uploads'
-import type { ShippingMethod } from '@/types'
+import type { Catalogue, ShippingMethod } from '@/types'
+import { updateTag } from 'next/cache'
+import { after } from 'next/server'
 import type Stripe from 'stripe'
 
 /**
  * Why checkout was refused (for analytics)
  */
 export type CheckoutFailure =
-    'invalid' | 'upload' | 'not-sold' | 'quote' | 'margin' | 'stripe'
+    | 'invalid'
+    | 'upload'
+    | 'not-sold'
+    | 'price-changed'
+    | 'quote'
+    | 'margin'
+    | 'stripe'
 
 /**
  * A request that can't go to checkout, with a message for the customer
@@ -51,8 +61,8 @@ const shippingNames: Partial<Record<ShippingMethod, string>> = {
  * types, a product type and size sold in the country's region, every option
  * valid, and the personal-use confirmation
  */
-const validate = (input: unknown) => {
-    const parsed = checkoutRequestSchema.safeParse(input)
+const validate = (catalogue: Catalogue, input: unknown) => {
+    const parsed = makeCheckoutRequestSchema(catalogue).safeParse(input)
 
     if (!parsed.success) {
         throw new CheckoutError(
@@ -61,13 +71,20 @@ const validate = (input: unknown) => {
         )
     }
 
-    const { fileName, productType, size, options, country: code } = parsed.data
+    const {
+        fileName,
+        productType,
+        size,
+        options,
+        country: code,
+        price: shownPrice
+    } = parsed.data
 
     /**
      * The schema has checked these exist
      */
     const country = countries.find((entry) => entry.code === code)!
-    const item = getCatalogueItem(productType, size)!
+    const item = getCatalogueItem(catalogue, productType, size)!
 
     return {
         fileName,
@@ -76,7 +93,8 @@ const validate = (input: unknown) => {
         options,
         country,
         region: country.region,
-        item
+        item,
+        shownPrice
     }
 }
 
@@ -97,8 +115,17 @@ export const startCheckout = async ({
     origin: string
     input: unknown
 }) => {
-    const { fileName, productType, size, options, country, region, item } =
-        validate(input)
+    const catalogue = await getCatalogue()
+    const {
+        fileName,
+        productType,
+        size,
+        options,
+        country,
+        region,
+        item,
+        shownPrice
+    } = validate(catalogue, input)
 
     /**
      * The upload must be the customer's own and approved by moderation
@@ -113,12 +140,26 @@ export const startCheckout = async ({
     /**
      * Our price, from the catalogue and pricing config (never the browser)
      */
-    const price = getPrice(productType, size, region)
+    const price = getPrice(catalogue, productType, size, region)
 
     if (!price) {
         throw new CheckoutError(
             `That size isn't available to ${country.name}.`,
             'not-sold'
+        )
+    }
+
+    /**
+     * The catalogue can be refreshed while the sheet is open: don't send the
+     * customer to pay a price they weren't shown
+     */
+    if (
+        toMinor(price.amount) !== toMinor(shownPrice.amount) ||
+        price.currency !== shownPrice.currency
+    ) {
+        throw new CheckoutError(
+            'Our prices have just been updated. Please check the new price and try again.',
+            'price-changed'
         )
     }
 
@@ -181,6 +222,38 @@ export const startCheckout = async ({
             minMargin,
             issues: quote.issues ?? []
         })
+
+        /**
+         * Refresh this SKU's costs (once a day). When the new prices apply
+         * on their own, the customer can see the new price and try again.
+         */
+        const refresh = await refreshRefusedSku(item.sku)
+
+        if (refresh && refresh.outcome !== 'unchanged') {
+            after(() =>
+                sendCatalogueRefreshEmail({ ...refresh, trigger: 'checkout' })
+            )
+        }
+
+        if (refresh?.outcome === 'applied') {
+            updateTag(catalogueTag)
+
+            const repriced = refresh.changes.some(
+                (change) =>
+                    change.kind === 'price' &&
+                    change.sku === item.sku &&
+                    change.region === region &&
+                    change.price.to?.amount !== change.price.from?.amount
+            )
+
+            if (repriced) {
+                throw new CheckoutError(
+                    'Our prices have just been updated. Please check the new price and try again.',
+                    'price-changed'
+                )
+            }
+        }
+
         throw new CheckoutError(
             `This print isn't available to ${country.name} right now. Please try another size or product.`,
             'margin'

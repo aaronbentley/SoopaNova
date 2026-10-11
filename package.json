@@ -22,6 +22,7 @@
         "@mdx-js/react": "^3.1.1",
         "@next/mdx": "^16.4.0",
         "@vercel/analytics": "^2.0.1",
+        "@vercel/global-config": "^1.5.1",
         "@vercel/speed-insights": "^2.0.0",
         "@wrksz/themes": "^2.0.3",
         "botid": "^1.5.11",

@@ -8,14 +8,15 @@ import {
 } from '@/assets/data/pricing'
 import { productCopy, productPath } from '@/assets/data/products'
 import { sizeRange } from '@/assets/data/size-range'
+import { getCatalogue } from '@/lib/catalogue-store'
 import { formatMoney, getProductOptions, getRegionPrices } from '@/lib/pricing'
 import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { formatInches, qualityThresholds } from '@/lib/print-quality'
-import type { Region } from '@/types'
+import type { Catalogue, Region } from '@/types'
 
 /**
- * A summary of the site for AI assistants (https://llmstxt.org/), built at
- * build time from the same data as the pages, so prices and sizes stay true
+ * A summary of the site for AI assistants (https://llmstxt.org/), built
+ * from the same data as the pages, so prices and sizes stay true
  */
 
 const url = (path: string) => new URL(path, process.env.APP_URL!).href
@@ -26,11 +27,11 @@ const regionIds = Object.keys(regions) as Region[]
 /**
  * A product's sizes with their price in each region, and its options
  */
-const describeProduct = (productType: ProductTypeId) => {
+const describeProduct = (catalogue: Catalogue, productType: ProductTypeId) => {
     const { name, sizes } = productTypes[productType]
 
     const sizeLines = sizes.map(({ size }) => {
-        const prices = getRegionPrices(productType, size)
+        const prices = getRegionPrices(catalogue, productType, size)
         const regionPrices = regionIds
             .map((region) => prices[region] && formatMoney(prices[region]))
             .filter(Boolean)
@@ -39,7 +40,9 @@ const describeProduct = (productType: ProductTypeId) => {
         return `- ${formatInches(size)}: ${regionPrices}`
     })
 
-    const optionLines = Object.entries(getProductOptions(productType)).map(
+    const optionLines = Object.entries(
+        getProductOptions(catalogue, productType)
+    ).map(
         ([option, values]) =>
             `- ${optionNames[option] ?? option}: ${sortOptionValues(
                 option,
@@ -59,7 +62,7 @@ const describeProduct = (productType: ProductTypeId) => {
     ].join('\n')
 }
 
-const content = () => {
+const content = (catalogue: Catalogue) => {
     const title = process.env.APP_TITLE!
     const currencies = regionIds
         .map(
@@ -84,7 +87,7 @@ Orders can be cancelled for a full refund within 90 minutes of ordering. Prints 
 
 Prices are per print, in ${currencies}, with shipping added at checkout. Sizes are in inches.
 
-${productTypeIds.map(describeProduct).join('\n\n')}
+${productTypeIds.map((productType) => describeProduct(catalogue, productType)).join('\n\n')}
 
 ## Prints
 
@@ -120,7 +123,7 @@ ${platforms
 `
 }
 
-export const GET = () =>
-    new Response(content(), {
+export const GET = async () =>
+    new Response(content(await getCatalogue()), {
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     })

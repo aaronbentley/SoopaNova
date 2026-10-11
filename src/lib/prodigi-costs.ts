@@ -2,7 +2,7 @@ import type { CatalogueCost, ShippingMethod } from '@/types'
 import type { Money, Quote } from '@/types/prodigi'
 
 /**
- * Prodigi's costs from a quote response, shared by the catalogue script and
+ * Prodigi's costs from a quote response, shared by the catalogue build and
  * checkout. It only has type imports, so Node can run it directly.
  */
 

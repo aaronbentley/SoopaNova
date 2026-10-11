@@ -74,11 +74,11 @@ const UploadFile = ({
                             print.start(screenshot.file, screenshot.meta)
                         }
                     }}
-                    onCheckout={(values) => {
+                    onCheckout={(values, price) => {
                         const fileName =
                             screenshot.file &&
                             print.getUploadName(screenshot.file)
-                        if (fileName) checkout.checkout(fileName, values)
+                        if (fileName) checkout.checkout(fileName, values, price)
                     }}
                     checkoutPending={checkout.pending}
                     checkoutError={checkout.error}

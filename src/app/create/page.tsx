@@ -1,3 +1,4 @@
+import CatalogueProvider from '@/components/catalogue-provider'
 import CheckoutToast from '@/components/checkout-toast'
 import {
     PageHeader,
@@ -5,6 +6,7 @@ import {
     PageHeaderHeading
 } from '@/components/page-header'
 import UploadFile from '@/components/upload-file'
+import { getCatalogue } from '@/lib/catalogue-store'
 import { auth } from '@clerk/nextjs/server'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
@@ -37,6 +39,8 @@ const Create = async () => {
      */
     await auth.protect()
 
+    const catalogue = await getCatalogue()
+
     return (
         <>
             <div>
@@ -48,7 +52,9 @@ const Create = async () => {
                         Turn your gaming screenshots into mighty-fine artwork
                         for your space.
                     </PageHeaderDescription>
-                    <UploadFile className='my-16' />
+                    <CatalogueProvider catalogue={catalogue}>
+                        <UploadFile className='my-16' />
+                    </CatalogueProvider>
                     <Suspense>
                         <CheckoutToast />
                     </Suspense>

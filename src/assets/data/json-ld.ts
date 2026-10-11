@@ -11,7 +11,7 @@ import { supportEmail } from '@/assets/data/support'
 import { getPrice, getProductOptions } from '@/lib/pricing'
 import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { formatInches } from '@/lib/print-quality'
-import type { Region } from '@/types'
+import type { Catalogue, Region } from '@/types'
 import type {
     AggregateOffer,
     Graph,
@@ -25,8 +25,8 @@ import type {
 /**
  * Structured data: the homepage's business, website and printing service
  * with its products, and each product page's product. Products, prices,
- * options, specs and images come from the same data as the pages, worked out
- * at build time, so they can't say anything the pages don't.
+ * options, specs and images come from the same data as the pages (the
+ * catalogue is passed in), so they can't say anything the pages don't.
  *
  * Validate with https://validator.schema.org/ after changing it.
  */
@@ -92,6 +92,7 @@ const website: WebSite = {
  * for the region. Null when none of its sizes is sold there.
  */
 const regionOffer = (
+    catalogue: Catalogue,
     productType: ProductTypeId,
     region: Region
 ): AggregateOffer | null => {
@@ -100,7 +101,7 @@ const regionOffer = (
 
     const offers: Offer[] = productTypes[productType].sizes.flatMap(
         ({ size }) => {
-            const price = getPrice(productType, size, region)
+            const price = getPrice(catalogue, productType, size, region)
 
             if (!price) return []
 
@@ -142,7 +143,10 @@ const regionOffer = (
 /**
  * The product page's specs, then its options ('Frame colour: Black, White…')
  */
-const productProperties = (productType: ProductTypeId): PropertyValue[] => [
+const productProperties = (
+    catalogue: Catalogue,
+    productType: ProductTypeId
+): PropertyValue[] => [
     ...productPages[productType].specs.map(
         ({ label, value }): PropertyValue => ({
             '@type': 'PropertyValue',
@@ -150,7 +154,7 @@ const productProperties = (productType: ProductTypeId): PropertyValue[] => [
             value
         })
     ),
-    ...Object.entries(getProductOptions(productType)).map(
+    ...Object.entries(getProductOptions(catalogue, productType)).map(
         ([optionName, values]): PropertyValue => ({
             '@type': 'PropertyValue',
             name: optionNames[optionName] ?? optionName,
@@ -161,7 +165,7 @@ const productProperties = (productType: ProductTypeId): PropertyValue[] => [
     )
 ]
 
-const product = (productType: ProductTypeId): Product => {
+const product = (catalogue: Catalogue, productType: ProductTypeId): Product => {
     const image = productImages[productType]
 
     return {
@@ -173,9 +177,9 @@ const product = (productType: ProductTypeId): Product => {
         category: 'Wall art',
         brand: { '@type': 'Brand', name: process.env.APP_TITLE! },
         ...(image && { image: url(image.src) }),
-        additionalProperty: productProperties(productType),
+        additionalProperty: productProperties(catalogue, productType),
         offers: regionIds
-            .map((region) => regionOffer(productType, region))
+            .map((region) => regionOffer(catalogue, productType, region))
             .filter((offer): offer is AggregateOffer => offer !== null)
     }
 }
@@ -184,7 +188,7 @@ const product = (productType: ProductTypeId): Product => {
  * The homepage: the business, the website and the printing service, whose
  * catalogue lists every product
  */
-export const jsonLd: Graph = {
+export const homeJsonLd = (catalogue: Catalogue): Graph => ({
     '@context': 'https://schema.org',
     '@graph': [
         organization,
@@ -201,11 +205,13 @@ export const jsonLd: Graph = {
             hasOfferCatalog: {
                 '@type': 'OfferCatalog',
                 name: 'Prints',
-                itemListElement: productTypeIds.map(product)
+                itemListElement: productTypeIds.map((productType) =>
+                    product(catalogue, productType)
+                )
             }
         }
     ]
-}
+})
 
 /**
  * /prints: a collection page listing every product's page
@@ -247,7 +253,10 @@ export const printsJsonLd: Graph = {
  * A product page: the product, the page it's the subject of, and a
  * breadcrumb back through Prints to the homepage
  */
-export const productJsonLd = (productType: ProductTypeId): Graph => {
+export const productJsonLd = (
+    catalogue: Catalogue,
+    productType: ProductTypeId
+): Graph => {
     const pageUrl = url(productPath(productType))
     const { name } = productTypes[productType]
 
@@ -275,7 +284,7 @@ export const productJsonLd = (productType: ProductTypeId): Graph => {
                     { name, url: pageUrl }
                 ])
             },
-            product(productType)
+            product(catalogue, productType)
         ]
     }
 }

@@ -12,6 +12,8 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Build
 
+- [ ] Verify / exclude the region-specific "brown" frame colour from the catalogue changes
+- [ ] Add env.ts to verify env vars (a la SLinkyPixels & NOSY)
 - [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
 - [x] Resend order emails to the customer: confirmed, shipped (with tracking), cancelled and refunded
 - [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
@@ -38,12 +40,15 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Before launch
 
-- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it), then re-run `yarn catalogue` against the live API
+- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it), then fill `catalogue_live` from the live API (`yarn catalogue` with the live Prodigi key in `.env.local`, or `vercel crons run /api/cron/catalogue/` once production has the live key). It's seeded from the sandbox for now
 - [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
 - [ ] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them
 - [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
-- [x] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview, and `CRON_SECRET` in Production (the weekly Prodigi cost check)
+- [x] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview, and `CRON_SECRET` in Production (the weekly catalogue refresh)
+- [x] Vercel Global Config store `soopanova` connected (`GLOBAL_CONFIG` in every environment) and `VERCEL_TEAM_ID` in Production and Preview
+- [x] Vercel env var `ADMIN_USER_ID` in Production (aaronbentley@me.com on the prod Clerk instance)
+- [ ] Vercel env var `VERCEL_API_TOKEN` (an access token scoped to the SlinkyPixels team, for catalogue writes) in Production and Preview
 - [ ] Vercel env vars in Production: the live Stripe and Prodigi keys, `STRIPE_WEBHOOK_SECRET`, `PRODIGI_CALLBACK_SECRET` and the image limits (and their `NEXT_PUBLIC_` copies)
 - [ ] A full test purchase on the Preview (`PRODIGI_CALLBACK_SECRET` is set there): upload → options → Stripe test card → order → Prodigi sandbox order → callbacks update `/orders`, emails arrive, analytics events show up in Vercel
 - [ ] Test the customer-cancel emails end to end (needs an order less than 90 minutes old)
