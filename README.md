@@ -17,7 +17,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
 - [ ] Admin alert for margin-guard refusals (only logged today, and tracked as a `Checkout failed` event with `reason: margin`)
 - [ ] Contact/support form as a Server Action in `src/actions/` (checkout already uses one)
-- [ ] Remove the `onOrderCreated` Firebase trigger: it only logs, and the app sends the order emails
+- [x] Remove the `onOrderCreated` Firebase trigger: it only logs, and the app sends the order emails
 
 ### Content
 

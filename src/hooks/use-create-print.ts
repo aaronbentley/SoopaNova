@@ -38,10 +38,7 @@ export const useCreatePrint = () => {
      */
     const [uploadFile, , snapshot] = useUploadFile()
     const [moderateImageUrl] = useHttpsCallable<
-        {
-            fileRef: UploadResult['ref']
-            fileMetadata: UploadResult['metadata']
-        },
+        { name: string },
         ModerationResult
     >(functions, 'moderateImageUrl')
 
@@ -96,15 +93,14 @@ export const useCreatePrint = () => {
      */
     const moderate = async (upload: UploadResult) => {
         const response = await moderateImageUrl({
-            fileRef: upload.ref,
-            fileMetadata: upload.metadata
+            name: upload.metadata.name
         })
 
         const moderation = response?.data
 
         /**
-         * The check failed or returned no result - not a flag, so the user
-         * can try again
+         * The check failed or returned no result (the function throws, and
+         * the hook returns undefined) - not a flag, so the user can try again
          */
         if (moderation?.status !== 'ok' || !moderation.detections) {
             throw new Error(
