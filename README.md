@@ -16,7 +16,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [x] Resend order emails to the customer: confirmed, shipped (with tracking), cancelled and refunded
 - [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
 - [ ] Admin alert for margin-guard refusals (only logged today, and tracked as a `Checkout failed` event with `reason: margin`)
-- [ ] Contact/support form as a Server Action in `src/actions/` (checkout already uses one)
+- [x] Contact/support form: `/support/`, with a BotID-protected Server Action in `src/actions/public/`
 - [x] Remove the `onOrderCreated` Firebase trigger: it only logs, and the app sends the order emails
 
 ### Content
@@ -31,7 +31,8 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [ ] Decide the business structure (sole trader or limited company). Blocks Stripe live activation and the seller details
 - [ ] Add the seller's trading name, geographic address and support email to the Terms and Privacy
 - [ ] Add the governing law to the Terms
-- [ ] Terms: say "no resale" outright, and add a copyright complaints process using the support email
+- [x] Copyright complaints process: the support form's copyright topic, referenced from the Terms
+- [ ] Terms: say "no resale" outright
 - [ ] VAT and sales tax with an accountant (then the price wording and Stripe Tax)
 - [ ] Get the Terms and the copyright position checked once (IP solicitor or a free IP clinic)
 
