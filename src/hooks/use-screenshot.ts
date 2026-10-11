@@ -1,5 +1,6 @@
 'use client'
 
+import { env } from '@/config/env'
 import { getAspectRatio } from '@/lib/utils'
 import { ImageMeta } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
@@ -8,10 +9,8 @@ import { toast } from 'sonner'
 /**
  * Minimum screenshot dimensions for a print
  */
-export const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
-export const imageMinHeight = parseInt(
-    process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!
-)
+export const imageMinWidth = env.client.NEXT_PUBLIC_MIN_IMAGE_WIDTH
+export const imageMinHeight = env.client.NEXT_PUBLIC_MIN_IMAGE_HEIGHT
 
 /**
  * Read an image's dimensions from its object url

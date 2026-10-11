@@ -1,6 +1,7 @@
 import { platforms } from '@/assets/data/platforms'
 import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
 import { productPath } from '@/assets/data/products'
+import { env } from '@/config/env'
 import { getLastModified } from '@/lib/cached-dates'
 import { MetadataRoute } from 'next'
 
@@ -28,7 +29,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
      * Loop through paths and build sitemap objects
      */
     return paths.map((path) => {
-        const url = new URL(path, process.env.APP_URL!)
+        const url = new URL(path, env.APP_URL)
 
         return {
             url: url.href,

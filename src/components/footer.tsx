@@ -2,6 +2,7 @@ import { links } from '@/assets/data/links'
 import { regions } from '@/assets/data/pricing'
 import { Facebook, Instagram, Threads, Twitter } from '@/components/icons'
 import Wordmark from '@/components/wordmark'
+import { env } from '@/config/env'
 import { getCurrentYear } from '@/lib/cached-dates'
 import Link from 'next/link'
 
@@ -9,16 +10,16 @@ import Link from 'next/link'
  * Social links, in display order
  */
 const socials = [
-    { title: 'Twitter', href: process.env.APP_SOCIAL_TWITTER!, Icon: Twitter },
+    { title: 'Twitter', href: env.APP_SOCIAL_TWITTER, Icon: Twitter },
     {
         title: 'Instagram',
-        href: process.env.APP_SOCIAL_INSTAGRAM!,
+        href: env.APP_SOCIAL_INSTAGRAM,
         Icon: Instagram
     },
-    { title: 'Threads', href: process.env.APP_SOCIAL_THREADS!, Icon: Threads },
+    { title: 'Threads', href: env.APP_SOCIAL_THREADS, Icon: Threads },
     {
         title: 'Facebook',
-        href: process.env.APP_SOCIAL_FACEBOOK!,
+        href: env.APP_SOCIAL_FACEBOOK,
         Icon: Facebook
     }
 ]
@@ -38,7 +39,7 @@ const columns = [
             ]
         })),
     {
-        title: process.env.APP_TITLE!,
+        title: env.APP_TITLE,
         links: [
             ...links.filter((link) => !link.children),
             { href: '/support/', label: 'Support' },
@@ -65,7 +66,7 @@ const Footer = async () => (
                     <Wordmark />
                 </Link>
                 <p className='max-w-xs text-sm text-pretty text-muted-foreground'>
-                    {process.env.APP_DESCRIPTION!}
+                    {env.APP_DESCRIPTION}
                 </p>
                 <div className='flex items-center gap-2'>
                     {socials.map(({ title, href, Icon }) => (
@@ -114,10 +115,10 @@ const Footer = async () => (
                     <span>
                         &copy; {await getCurrentYear()}{' '}
                         <a
-                            href={process.env.APP_COMPANY_URL!}
+                            href={env.APP_COMPANY_URL}
                             target='_blank'
                             className='transition-colors duration-200 hover:text-primary'>
-                            {process.env.APP_COMPANY!}
+                            {env.APP_COMPANY}
                         </a>
                         . All rights reserved.
                     </span>

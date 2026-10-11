@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { syncProdigiOrder } from '@/lib/orders'
 import { ProdigiError } from '@/lib/prodigi'
 import { isValidToken } from '@/lib/secrets'
@@ -12,7 +13,7 @@ import { NextRequest, NextResponse } from 'next/server'
  */
 
 export const POST = async (request: NextRequest) => {
-    const secret = process.env.PRODIGI_CALLBACK_SECRET
+    const secret = env.PRODIGI_CALLBACK_SECRET
 
     if (!secret) {
         console.error('PRODIGI_CALLBACK_SECRET must be set')

@@ -10,6 +10,7 @@ import {
     TooltipContent,
     TooltipTrigger
 } from '@/components/ui/tooltip'
+import { env } from '@/config/env'
 import { cn, formatBytes, getDateFromUnixTimestamp } from '@/lib/utils'
 import { ImageMeta } from '@/types'
 import { AlertTriangle } from 'lucide-react'
@@ -28,8 +29,8 @@ const ImageMetadata = ({ file, imageMeta }: ImageMetadataProps) => {
     /**
      * Define minimum image dimensions
      */
-    const imageMinWidth = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH!)
-    const imageMinHeight = parseInt(process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT!)
+    const imageMinWidth = env.client.NEXT_PUBLIC_MIN_IMAGE_WIDTH
+    const imageMinHeight = env.client.NEXT_PUBLIC_MIN_IMAGE_HEIGHT
 
     /**
      * Format image dimensions

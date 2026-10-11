@@ -3,6 +3,12 @@ import { withBotId } from 'botid/next/config'
 import type { NextConfig } from 'next'
 
 /**
+ * Validate the environment variables first, so `next dev` and `next build`
+ * stop straight away with a list of anything missing or invalid
+ */
+import './src/config/env'
+
+/**
  * Allow the Vercel Toolbar (feedback, comments) on preview deployments only
  */
 const isPreview = process.env.VERCEL_ENV === 'preview'

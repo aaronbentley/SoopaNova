@@ -3,6 +3,7 @@ import 'server-only'
 import { countries } from '@/assets/data/countries'
 import { cardFees, productTypes, regions } from '@/assets/data/pricing'
 import type { ProductTypeId } from '@/assets/data/pricing'
+import { env } from '@/config/env'
 import {
     FieldPath,
     FieldValue,
@@ -56,7 +57,7 @@ type Variables = Record<string, string>
 let client: Resend | null = null
 
 const getResend = () => {
-    if (!client) client = new Resend(process.env.RESEND_API_KEY)
+    if (!client) client = new Resend(env.RESEND_API_KEY)
 
     return client
 }
@@ -66,8 +67,8 @@ const getResend = () => {
  * dev take sandbox orders, so their customer emails go to ADMIN_EMAIL.
  */
 export const getEnvironment = () => {
-    if (process.env.VERCEL_ENV === 'production') return 'Live'
-    if (process.env.VERCEL_ENV === 'preview') return 'Preview'
+    if (env.VERCEL_ENV === 'production') return 'Live'
+    if (env.VERCEL_ENV === 'preview') return 'Preview'
 
     return 'Local'
 }
@@ -193,7 +194,7 @@ const deliveryAddress = (recipient: Recipient) => {
 const customerAddress = (order: DocumentSnapshot) =>
     getEnvironment() === 'Live'
         ? ((order.get('recipient') as Recipient | null)?.email ?? null)
-        : process.env.ADMIN_EMAIL!
+        : env.ADMIN_EMAIL
 
 /**
  * A row of the order confirmation's price summary (styled like the
@@ -232,7 +233,7 @@ const mono = (value: string) =>
 const muted = (value: string) => `<span style="color:#737373">${value}</span>`
 
 const stripeUrl = (order: DocumentSnapshot) => {
-    const isTest = /^(sk|rk)_test_/.test(process.env.STRIPE_SECRET_KEY ?? '')
+    const isTest = /^(sk|rk)_test_/.test(env.STRIPE_SECRET_KEY ?? '')
 
     return `https://dashboard.stripe.com/${isTest ? 'test/' : ''}payments/${order.get('paymentIntentId')}`
 }
@@ -268,7 +269,7 @@ const adminEmail = async (
     const card = await printCard(order)
 
     return {
-        to: process.env.ADMIN_EMAIL!,
+        to: env.ADMIN_EMAIL!,
         template: {
             id: templates.admin,
             variables: {
@@ -333,7 +334,7 @@ const sendOnce = async (
  * only logged.
  */
 const queue = (name: string, send: () => Promise<void>) => {
-    if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
+    if (!env.RESEND_API_KEY || !env.ADMIN_EMAIL) {
         console.info(
             `Order email skipped (no RESEND_API_KEY/ADMIN_EMAIL): ${name}`
         )
@@ -704,7 +705,7 @@ export const sendSupportEmail = async ({
      * Without Resend configured, only local dev carries on as if it was
      * sent; Preview and Live tell the sender it failed
      */
-    if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
+    if (!env.RESEND_API_KEY || !env.ADMIN_EMAIL) {
         const local = getEnvironment() === 'Local'
         const log = local ? console.info : console.error
 
@@ -730,7 +731,7 @@ export const sendSupportEmail = async ({
 
     try {
         const { error } = await getResend().emails.send({
-            to: process.env.ADMIN_EMAIL,
+            to: env.ADMIN_EMAIL!,
             replyTo: email,
             template: { id: templates.support, variables }
         })
@@ -838,7 +839,7 @@ export const queueMarginAlert = (alert: {
 
         try {
             const { error } = await getResend().emails.send({
-                to: process.env.ADMIN_EMAIL!,
+                to: env.ADMIN_EMAIL!,
                 template: {
                     id: templates.alert,
                     variables: {
@@ -888,7 +889,7 @@ export const sendCatalogueRefreshEmail = async ({
     problems,
     trigger
 }: CatalogueRefresh & { trigger: 'weekly' | 'checkout' }) => {
-    if (!process.env.RESEND_API_KEY || !process.env.ADMIN_EMAIL) {
+    if (!env.RESEND_API_KEY || !env.ADMIN_EMAIL) {
         console.info(
             'Catalogue refresh email skipped (no RESEND_API_KEY/ADMIN_EMAIL)'
         )
@@ -912,7 +913,7 @@ export const sendCatalogueRefreshEmail = async ({
 
     const count = (value: number, noun: string) =>
         `${value} ${noun}${value === 1 ? '' : 's'}`
-    const reviewUrl = new URL('/admin/catalogue/', process.env.APP_URL!).href
+    const reviewUrl = new URL('/admin/catalogue/', env.APP_URL).href
 
     const intro = [
         trigger === 'checkout'
@@ -943,7 +944,7 @@ export const sendCatalogueRefreshEmail = async ({
 
     try {
         const { error } = await getResend().emails.send({
-            to: process.env.ADMIN_EMAIL,
+            to: env.ADMIN_EMAIL!,
             template: {
                 id: templates.alert,
                 variables: {

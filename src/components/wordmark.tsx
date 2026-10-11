@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
 
 /**
@@ -39,7 +40,7 @@ const Wordmark = ({
                 size === 'md' ? 'size-2.5' : 'size-2'
             )}
         />
-        {process.env.NEXT_PUBLIC_APP_TITLE!}
+        {env.client.NEXT_PUBLIC_APP_TITLE}
     </span>
 )
 

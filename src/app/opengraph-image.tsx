@@ -1,10 +1,11 @@
+import { env } from '@/config/env'
 import { brandColors, withAlpha } from '@/lib/brand-colors'
 import { cacheLife } from 'next/cache'
 import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-export const alt = `${process.env.APP_TITLE!}: ${process.env.APP_DESCRIPTION!}`
+export const alt = `${env.APP_TITLE}: ${env.APP_DESCRIPTION}`
 
 export const size = {
     width: 2400,
@@ -181,7 +182,7 @@ const opengraphImage = async () => {
                         backgroundColor: colors.primary
                     }}
                 />
-                {process.env.APP_TITLE!}
+                {env.APP_TITLE}
             </div>
         </div>,
         {

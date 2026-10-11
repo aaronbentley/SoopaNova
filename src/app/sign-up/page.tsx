@@ -1,4 +1,5 @@
 import AuthCard from '@/components/auth-card'
+import { env } from '@/config/env'
 import { Metadata } from 'next'
 
 /**
@@ -8,7 +9,7 @@ export const ensureStatic = 'navigation'
 
 export const metadata: Metadata = {
     title: 'Sign up',
-    description: `Sign up to ${process.env.APP_TITLE!}.`,
+    description: `Sign up to ${env.APP_TITLE}.`,
     alternates: {
         canonical: '/sign-up/'
     }

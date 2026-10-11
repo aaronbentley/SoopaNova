@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { MetadataRoute } from 'next'
 
 const robots = (): MetadataRoute.Robots => {
@@ -15,7 +16,7 @@ const robots = (): MetadataRoute.Robots => {
                 '/admin/'
             ]
         },
-        sitemap: `${process.env.APP_URL!}/sitemap.xml`
+        sitemap: `${env.APP_URL}/sitemap.xml`
     }
 }
 

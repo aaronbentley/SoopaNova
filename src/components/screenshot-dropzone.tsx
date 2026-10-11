@@ -1,6 +1,7 @@
 'use client'
 
 import { ctaButtonVariants } from '@/components/cta-button'
+import { env } from '@/config/env'
 import { cn, formatBytes } from '@/lib/utils'
 import { UploadCloud } from 'lucide-react'
 import { useCallback } from 'react'
@@ -14,9 +15,8 @@ const accept = {
     'image/jpeg': [],
     'image/png': []
 }
-const maxSize =
-    1024 * 1024 * parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_FILE_SIZE! || '')
-const minSize = `${process.env.NEXT_PUBLIC_MIN_IMAGE_WIDTH}×${process.env.NEXT_PUBLIC_MIN_IMAGE_HEIGHT}`
+const maxSize = 1024 * 1024 * env.client.NEXT_PUBLIC_MAX_UPLOAD_FILE_SIZE
+const minSize = `${env.client.NEXT_PUBLIC_MIN_IMAGE_WIDTH}×${env.client.NEXT_PUBLIC_MIN_IMAGE_HEIGHT}`
 
 /**
  * What to tell the customer when a file is turned away, by react-dropzone's

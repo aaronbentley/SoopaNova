@@ -2681,30 +2681,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/global-config-fs@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@vercel/global-config-fs@npm:0.1.0"
-  checksum: 10c0/e5d541d399c9d7c393ac3d1b65701e0d5ce1bc37bf8d81b5afd2f1ccaada00d6fb7aa50622a5a6475c256e0ff21b537d30cf54d4c13ce1b9f6ac0100dca6c714
-  languageName: node
-  linkType: hard
-
-"@vercel/global-config@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "@vercel/global-config@npm:1.5.1"
-  dependencies:
-    "@vercel/global-config-fs": "npm:0.1.0"
-  peerDependencies:
-    "@opentelemetry/api": ^1.7.0
-    next: ">=1"
-  peerDependenciesMeta:
-    "@opentelemetry/api":
-      optional: true
-    next:
-      optional: true
-  checksum: 10c0/1538e159cd6d1900d20d4656b1326ce42f87e2515feff4e57fa9c7bbaa159ecb272a8ed765829b6caf948e0c3d2d38f8a8d1f00407a5058db6c05a29115590c1
-  languageName: node
-  linkType: hard
-
 "@vercel/speed-insights@npm:^2.0.0":
   version: 2.0.0
   resolution: "@vercel/speed-insights@npm:2.0.0"
@@ -7323,6 +7299,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-env-safe@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "next-env-safe@npm:1.0.2"
+  peerDependencies:
+    zod: ">=3.22.0"
+  checksum: 10c0/b98f0d215d4b2b35d08f07656cfefe1c5a69cbd5d60faab410180f2dae970ebe3825bee7d9c0f6d77653a9aaaaec976d814b220b3dc1e071b6a43a533bb1228f
+  languageName: node
+  linkType: hard
+
 "next@npm:16.4.0":
   version: 16.4.0
   resolution: "next@npm:16.4.0"
@@ -8929,7 +8914,6 @@ __metadata:
     "@types/react": "npm:19.3.0"
     "@types/react-dom": "npm:19.3.0"
     "@vercel/analytics": "npm:^2.0.1"
-    "@vercel/global-config": "npm:^1.5.1"
     "@vercel/speed-insights": "npm:^2.0.0"
     "@wrksz/themes": "npm:^2.0.3"
     botid: "npm:^1.5.11"
@@ -8946,6 +8930,7 @@ __metadata:
     lucide-react: "npm:^1.55.0"
     motion: "npm:^14.1.0"
     next: "npm:16.4.0"
+    next-env-safe: "npm:^1.0.2"
     postcss: "npm:^8.5.29"
     prettier: "npm:^3.9.10"
     prettier-plugin-tailwindcss: "npm:^0.8.1"

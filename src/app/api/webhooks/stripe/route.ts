@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { expireCheckout, fulfilCheckout, recordRefund } from '@/lib/orders'
 import { getStripe } from '@/lib/stripe'
 import { NextRequest, NextResponse } from 'next/server'
@@ -16,7 +17,7 @@ import type Stripe from 'stripe'
  */
 export const POST = async (request: NextRequest) => {
     const signature = request.headers.get('stripe-signature')
-    const secret = process.env.STRIPE_WEBHOOK_SECRET
+    const secret = env.STRIPE_WEBHOOK_SECRET
 
     if (!secret) {
         console.error('STRIPE_WEBHOOK_SECRET must be set')

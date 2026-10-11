@@ -1,4 +1,5 @@
 import 'server-only'
+import { env } from '@/config/env'
 
 /**
  * The site owner, by Clerk user id (ADMIN_USER_ID; dev and prod Clerk
@@ -6,6 +7,4 @@ import 'server-only'
  * auth(), and admin pages 404 for everyone else.
  */
 export const isAdmin = (userId: string | null | undefined) =>
-    !!userId &&
-    !!process.env.ADMIN_USER_ID &&
-    userId === process.env.ADMIN_USER_ID
+    !!userId && !!env.ADMIN_USER_ID && userId === env.ADMIN_USER_ID

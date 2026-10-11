@@ -20,6 +20,7 @@ import JsonLd from '@/components/json-ld'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
 import ProductCard from '@/components/product-card'
 import SectionHeader from '@/components/section-header'
+import { env } from '@/config/env'
 import { getCatalogue } from '@/lib/catalogue-store'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
@@ -35,7 +36,7 @@ export const ensureStatic = 'navigation'
 
 export const metadata: Metadata = {
     title: {
-        absolute: `${process.env.APP_TITLE!} - ${process.env.APP_STRAPLINE!}`
+        absolute: `${env.APP_TITLE} - ${env.APP_STRAPLINE}`
     }
 }
 

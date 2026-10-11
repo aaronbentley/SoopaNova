@@ -49,6 +49,12 @@ export const ensureStatic = 'shell'
  */
 export const instant = false
 
+/**
+ * Room for "Check Prodigi now", which quotes every SKU (about 40 Prodigi
+ * requests, 3 at a time)
+ */
+export const maxDuration = 300
+
 export const metadata: Metadata = {
     title: 'Catalogue changes',
     robots: { index: false, follow: false }
@@ -81,15 +87,18 @@ const PendingChanges = async () => {
 
     if (!pending) {
         return (
-            <Alert className='max-w-xl'>
-                <Info className='size-4' />
-                <AlertTitle>Nothing is waiting for you</AlertTitle>
-                <AlertDescription>
-                    {current
-                        ? `Prices come from the catalogue applied on ${dateFormat.format(new Date(current.appliedAt))} by ${sources[current.appliedBy]}.`
-                        : 'The store has no catalogue yet: run yarn catalogue.'}
-                </AlertDescription>
-            </Alert>
+            <>
+                <Alert className='max-w-xl'>
+                    <Info className='size-4' />
+                    <AlertTitle>Nothing is waiting for you</AlertTitle>
+                    <AlertDescription>
+                        {current
+                            ? `Prices come from the catalogue applied on ${dateFormat.format(new Date(current.appliedAt))} by ${sources[current.appliedBy]}.`
+                            : 'The store has no catalogue yet: run yarn catalogue.'}
+                    </AlertDescription>
+                </Alert>
+                <CatalogueApproval hasPending={false} />
+            </>
         )
     }
 
@@ -146,7 +155,7 @@ const PendingChanges = async () => {
                     })}
                 </TableBody>
             </Table>
-            <CatalogueApproval />
+            <CatalogueApproval hasPending />
         </>
     )
 }

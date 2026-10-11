@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { env } from '@/config/env'
 import type {
     CancelOrderOutcome,
     CreateOrderOutcome,
@@ -50,8 +51,8 @@ export class ProdigiError extends Error {
 const retryDelays = [500, 1000, 2000]
 
 const request = async <T>(path: string, body?: unknown): Promise<T> => {
-    const apiUrl = process.env.PRODIGI_API_URL
-    const apiKey = process.env.PRODIGI_API_KEY
+    const apiUrl = env.PRODIGI_API_URL
+    const apiKey = env.PRODIGI_API_KEY
 
     if (!apiUrl || !apiKey) {
         throw new Error('PRODIGI_API_URL and PRODIGI_API_KEY must be set')

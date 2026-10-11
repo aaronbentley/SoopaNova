@@ -8,6 +8,7 @@ import {
 } from '@/assets/data/pricing'
 import { productCopy, productPath } from '@/assets/data/products'
 import { sizeRange } from '@/assets/data/size-range'
+import { env } from '@/config/env'
 import { getCatalogue } from '@/lib/catalogue-store'
 import { formatMoney, getProductOptions, getRegionPrices } from '@/lib/pricing'
 import { optionLabel, sortOptionValues } from '@/lib/print-labels'
@@ -19,7 +20,7 @@ import type { Catalogue, Region } from '@/types'
  * from the same data as the pages, so prices and sizes stay true
  */
 
-const url = (path: string) => new URL(path, process.env.APP_URL!).href
+const url = (path: string) => new URL(path, env.APP_URL).href
 
 const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
 const regionIds = Object.keys(regions) as Region[]
@@ -63,7 +64,7 @@ const describeProduct = (catalogue: Catalogue, productType: ProductTypeId) => {
 }
 
 const content = (catalogue: Catalogue) => {
-    const title = process.env.APP_TITLE!
+    const title = env.APP_TITLE
     const currencies = regionIds
         .map(
             (region) => `${regions[region].currency} (${regions[region].name})`

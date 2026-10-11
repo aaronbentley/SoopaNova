@@ -12,12 +12,15 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Build
 
-- [ ] Verify / exclude the region-specific "brown" frame colour from the catalogue changes
-- [ ] Add env.ts to verify env vars (a la SLinkyPixels & NOSY)
+- [x] Add "admin" group (above orders & my account) to user dropdown menu with link to "catalogue"
+- [x] Verify / exclude the region-specific "brown" frame colour from the catalogue changes
+- [x] Offer brown framed canvas option - but add some UI to convey this to the user - remove exception code
+- [x] admin/catalogue should have a refresh button, and clear the table upon approval
+- [x] Add env.ts to verify env vars (a la SLinkyPixels & NOSY): `src/config/env.ts` with `next-env-safe`
 - [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
 - [x] Resend order emails to the customer: confirmed, shipped (with tracking), cancelled and refunded
 - [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
-- [ ] Admin alert for margin-guard refusals (only logged today, and tracked as a `Checkout failed` event with `reason: margin`)
+- [x] Admin alert for margin-guard refusals (only logged today, and tracked as a `Checkout failed` event with `reason: margin`)
 - [x] Contact/support form: `/support/`, with a BotID-protected Server Action in `src/actions/public/`
 - [x] Remove the `onOrderCreated` Firebase trigger: it only logs, and the app sends the order emails
 
@@ -40,7 +43,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Before launch
 
-- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it), then fill `catalogue_live` from the live API (`yarn catalogue` with the live Prodigi key in `.env.local`, or `vercel crons run /api/cron/catalogue/` once production has the live key). It's seeded from the sandbox for now
+- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it). `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the weekly cron keeps it fresh once production has the live key
 - [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
 - [ ] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them

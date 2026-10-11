@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { env } from '@/config/env'
 import { cert, getApps, initializeApp } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { FieldPath, FieldValue, getFirestore } from 'firebase-admin/firestore'
@@ -12,13 +13,12 @@ const app =
     getApps()[0] ??
     initializeApp({
         credential: cert({
-            projectId: process.env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID!,
-            clientEmail: process.env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL!,
-            privateKey:
-                process.env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY!.replace(
-                    /\\n/g,
-                    '\n'
-                )
+            projectId: env.FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+            clientEmail: env.FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+            privateKey: env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(
+                /\\n/g,
+                '\n'
+            )
         })
     })
 
@@ -36,17 +36,13 @@ export const firestore = getFirestore(app)
  * Export the uploads Storage bucket: uploads and their moderation
  * thumbnails, deleted after 3 days
  */
-export const uploadsBucket = getStorage(app).bucket(
-    process.env.FIREBASE_STORAGE_BUCKET!
-)
+export const uploadsBucket = getStorage(app).bucket(env.FIREBASE_STORAGE_BUCKET)
 
 /**
  * Export the orders Storage bucket: each order's thumbnail, kept. Only the
  * Admin SDK uses it (not linked to Firebase, so no client access).
  */
-export const ordersBucket = getStorage(app).bucket(
-    process.env.FIREBASE_ORDERS_BUCKET!
-)
+export const ordersBucket = getStorage(app).bucket(env.FIREBASE_ORDERS_BUCKET)
 
 /**
  * Export Firestore FieldValue and FieldPath helpers
@@ -57,15 +53,13 @@ export { FieldPath, FieldValue }
  * A user's document in the customers collection
  */
 const customerDoc = (userId: string) =>
-    firestore.collection(process.env.FIREBASE_FIRESTORE_COLLECTION!).doc(userId)
+    firestore.collection(env.FIREBASE_FIRESTORE_COLLECTION).doc(userId)
 
 /**
  * A user's orders: customers/{userId}/orders
  */
 export const ordersCollection = (userId: string) =>
-    customerDoc(userId).collection(
-        process.env.FIREBASE_FIRESTORE_SUB_COLLECTION!
-    )
+    customerDoc(userId).collection(env.FIREBASE_FIRESTORE_SUB_COLLECTION)
 
 /**
  * A user's print sessions: customers/{userId}/printSessions.

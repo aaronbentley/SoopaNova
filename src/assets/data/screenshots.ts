@@ -1,8 +1,9 @@
+import { env } from '@/config/env'
 import { qualityThresholds } from '@/lib/print-quality'
 
-const minWidth = Number(process.env.MIN_IMAGE_WIDTH)
-const minHeight = Number(process.env.MIN_IMAGE_HEIGHT)
-const maxFileSize = Number(process.env.MAX_UPLOAD_FILE_SIZE)
+const minWidth = env.MIN_IMAGE_WIDTH
+const minHeight = env.MIN_IMAGE_HEIGHT
+const maxFileSize = env.MAX_UPLOAD_FILE_SIZE
 
 /**
  * Common screenshot resolutions, for the Screenshots page's sizes table

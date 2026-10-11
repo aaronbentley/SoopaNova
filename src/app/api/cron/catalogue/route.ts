@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { refreshCatalogue } from '@/lib/catalogue-refresh'
 import { catalogueTag } from '@/lib/catalogue-store'
 import { sendCatalogueRefreshEmail } from '@/lib/email'
@@ -19,7 +20,7 @@ export const maxDuration = 300
  * and emails the site owner what it did.
  */
 export const GET = async (request: NextRequest) => {
-    const secret = process.env.CRON_SECRET
+    const secret = env.CRON_SECRET
 
     if (!secret) {
         console.error('CRON_SECRET must be set')

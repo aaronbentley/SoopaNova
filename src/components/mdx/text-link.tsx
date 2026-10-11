@@ -1,3 +1,4 @@
+import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import type { ComponentPropsWithoutRef } from 'react'
@@ -6,9 +7,9 @@ import type { ComponentPropsWithoutRef } from 'react'
  * Social profiles, linked from MDX as `[Twitter](social:twitter)`
  */
 const socialLinks: Record<string, string | undefined> = {
-    twitter: process.env.APP_SOCIAL_TWITTER,
-    instagram: process.env.APP_SOCIAL_INSTAGRAM,
-    threads: process.env.APP_SOCIAL_THREADS
+    twitter: env.APP_SOCIAL_TWITTER,
+    instagram: env.APP_SOCIAL_INSTAGRAM,
+    threads: env.APP_SOCIAL_THREADS
 }
 
 const linkClassName = [

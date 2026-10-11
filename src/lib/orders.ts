@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { env } from '@/config/env'
 import { printProperties } from '@/lib/analytics'
 import { trackServerEvent } from '@/lib/analytics-server'
 import {
@@ -286,7 +287,7 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
         3 * 24 * 60
     )
 
-    const callbackSecret = process.env.PRODIGI_CALLBACK_SECRET
+    const callbackSecret = env.PRODIGI_CALLBACK_SECRET
     const options: Record<string, string> = order.get('options') ?? {}
 
     try {
@@ -555,9 +556,9 @@ export const cancelCustomerOrder = async (userId: string, orderId: string) => {
      */
     if (
         prodigiOrder.status.stage !== 'Cancelled' &&
-        process.env.PRODIGI_SANDBOX_FAKE_CANCEL === 'true' &&
+        env.PRODIGI_SANDBOX_FAKE_CANCEL === 'true' &&
         process.env.NODE_ENV === 'development' &&
-        process.env.PRODIGI_API_URL?.includes('sandbox')
+        env.PRODIGI_API_URL?.includes('sandbox')
     ) {
         console.warn('Faking a Prodigi cancel (PRODIGI_SANDBOX_FAKE_CANCEL)', {
             orderId,

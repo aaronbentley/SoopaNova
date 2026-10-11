@@ -8,6 +8,7 @@ import { productImages } from '@/assets/data/product-images'
 import { productPages } from '@/assets/data/product-pages'
 import { productCopy, productPath } from '@/assets/data/products'
 import { supportEmail } from '@/assets/data/support'
+import { env } from '@/config/env'
 import { getPrice, getProductOptions } from '@/lib/pricing'
 import { optionLabel, sortOptionValues } from '@/lib/print-labels'
 import { formatInches } from '@/lib/print-quality'
@@ -31,7 +32,7 @@ import type {
  * Validate with https://validator.schema.org/ after changing it.
  */
 
-const url = (path: string) => new URL(path, process.env.APP_URL!).href
+const url = (path: string) => new URL(path, env.APP_URL).href
 
 const ids = {
     organization: url('/#organization'),
@@ -62,14 +63,14 @@ const productTypeIds = Object.keys(productTypes) as ProductTypeId[]
 const organization: Organization = {
     '@type': 'Organization',
     '@id': ids.organization,
-    name: process.env.APP_TITLE!,
+    name: env.APP_TITLE,
     url: url('/'),
     logo: url('/apple-icon'),
     sameAs: [
-        process.env.APP_SOCIAL_TWITTER,
-        process.env.APP_SOCIAL_INSTAGRAM,
-        process.env.APP_SOCIAL_THREADS,
-        process.env.APP_SOCIAL_FACEBOOK
+        env.APP_SOCIAL_TWITTER,
+        env.APP_SOCIAL_INSTAGRAM,
+        env.APP_SOCIAL_THREADS,
+        env.APP_SOCIAL_FACEBOOK
     ].filter((link): link is string => !!link),
     contactPoint: {
         '@type': 'ContactPoint',
@@ -82,7 +83,7 @@ const organization: Organization = {
 const website: WebSite = {
     '@type': 'WebSite',
     '@id': ids.website,
-    name: process.env.APP_TITLE!,
+    name: env.APP_TITLE,
     url: url('/'),
     publisher: { '@id': ids.organization }
 }
@@ -175,7 +176,7 @@ const product = (catalogue: Catalogue, productType: ProductTypeId): Product => {
         description: productCopy[productType].description,
         url: url(productPath(productType)),
         category: 'Wall art',
-        brand: { '@type': 'Brand', name: process.env.APP_TITLE! },
+        brand: { '@type': 'Brand', name: env.APP_TITLE },
         ...(image && { image: url(image.src) }),
         additionalProperty: productProperties(catalogue, productType),
         offers: regionIds
@@ -196,9 +197,9 @@ export const homeJsonLd = (catalogue: Catalogue): Graph => ({
         {
             '@type': 'Service',
             '@id': ids.service,
-            name: `${process.env.APP_TITLE!} prints`,
+            name: `${env.APP_TITLE} prints`,
             serviceType: 'Gaming screenshot printing',
-            description: process.env.APP_DESCRIPTION!,
+            description: env.APP_DESCRIPTION,
             url: url('/'),
             provider: { '@id': ids.organization },
             areaServed: regionIds.map((region) => regions[region].name),
@@ -242,7 +243,7 @@ export const printsJsonLd: Graph = {
             '@type': 'BreadcrumbList',
             '@id': ids.printsBreadcrumb,
             itemListElement: breadcrumbs([
-                { name: process.env.APP_TITLE!, url: url('/') },
+                { name: env.APP_TITLE, url: url('/') },
                 { name: 'Prints', url: url('/prints/') }
             ])
         }
@@ -279,7 +280,7 @@ export const productJsonLd = (
                 '@type': 'BreadcrumbList',
                 '@id': ids.breadcrumb(productType),
                 itemListElement: breadcrumbs([
-                    { name: process.env.APP_TITLE!, url: url('/') },
+                    { name: env.APP_TITLE, url: url('/') },
                     { name: 'Prints', url: url('/prints/') },
                     { name, url: pageUrl }
                 ])

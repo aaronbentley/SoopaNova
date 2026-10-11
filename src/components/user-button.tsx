@@ -11,12 +11,15 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { env } from '@/config/env'
 import { useClerk, useUser } from '@clerk/nextjs'
-import { Box, LogOut, UserCog } from 'lucide-react'
+import { Box, LogOut, Tags, UserCog } from 'lucide-react'
 import Link from 'next/link'
 
 /**
- * Signed-in user menu: avatar trigger with Orders, Account and Sign out
+ * Signed-in user menu: avatar trigger with Orders, Account and Sign out,
+ * plus an Admin group for the site owner. NEXT_PUBLIC_ADMIN_USER_ID only
+ * shows the links; the admin pages check ADMIN_USER_ID on the server.
  */
 const UserButton = () => {
     const { signOut } = useClerk()
@@ -28,6 +31,9 @@ const UserButton = () => {
     const email = user.primaryEmailAddress?.emailAddress ?? ''
     const name = user.fullName || email
     const initials = (user.fullName || email).charAt(0).toUpperCase()
+    const isAdmin =
+        !!env.client.NEXT_PUBLIC_ADMIN_USER_ID &&
+        user.id === env.client.NEXT_PUBLIC_ADMIN_USER_ID
 
     return (
         <DropdownMenu>
@@ -62,6 +68,21 @@ const UserButton = () => {
                     </DropdownMenuLabel>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
+                {isAdmin && (
+                    <>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel className='eyebrow text-[11px] text-muted-foreground'>
+                                Admin
+                            </DropdownMenuLabel>
+                            <DropdownMenuItem
+                                render={<Link href='/admin/catalogue/' />}>
+                                <Tags />
+                                Catalogue
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                    </>
+                )}
                 <DropdownMenuItem render={<Link href='/orders/' />}>
                     <Box />
                     Orders

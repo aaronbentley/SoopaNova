@@ -6,6 +6,7 @@ import Header from '@/components/header'
 import TailwindIndicator from '@/components/tailwind-indicator'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
@@ -17,39 +18,39 @@ import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 
 export const generateViewport = (): Viewport => {
-    const themeColor = process.env.APP_BRAND_COLOUR!
+    const themeColor = env.APP_BRAND_COLOUR
     return {
         themeColor
     }
 }
 
 export const generateMetadata = async (): Promise<Metadata> => ({
-    metadataBase: new URL(process.env.APP_URL!),
+    metadataBase: new URL(env.APP_URL),
     title: {
-        default: process.env.APP_TITLE!,
-        template: `%s - ${process.env.APP_TITLE!}`
+        default: env.APP_TITLE,
+        template: `%s - ${env.APP_TITLE}`
     },
-    description: process.env.APP_DESCRIPTION!,
-    keywords: [process.env.APP_TITLE!, ...keywords],
+    description: env.APP_DESCRIPTION,
+    keywords: [env.APP_TITLE, ...keywords],
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        siteName: process.env.APP_TITLE!
-        // url: process.env.APP_URL!,
+        siteName: env.APP_TITLE
+        // url: env.APP_URL,
     },
     twitter: {
         card: 'summary_large_image',
-        title: process.env.APP_TITLE!,
-        description: process.env.APP_DESCRIPTION!,
-        creator: process.env.APP_SOCIAL_TWITTER!
+        title: env.APP_TITLE,
+        description: env.APP_DESCRIPTION,
+        creator: env.APP_SOCIAL_TWITTER
     },
     authors: [
         {
-            name: process.env.APP_COMPANY!,
-            url: process.env.APP_COMPANY_TWITTER!
+            name: env.APP_COMPANY,
+            url: env.APP_COMPANY_TWITTER
         }
     ],
-    creator: process.env.APP_COMPANY!,
+    creator: env.APP_COMPANY,
     alternates: {
         canonical: '/'
     }

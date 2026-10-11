@@ -1,6 +1,7 @@
 'use server'
 
 import { isAdmin } from '@/lib/admin'
+import { refreshCatalogue } from '@/lib/catalogue-refresh'
 import {
     applyCatalogue,
     catalogueTag,
@@ -10,7 +11,8 @@ import {
 import { auth } from '@clerk/nextjs/server'
 import { updateTag } from 'next/cache'
 
-export type CatalogueActionResult = { done: true } | { message: string }
+export type CatalogueActionResult =
+    { done: true; summary?: string } | { message: string }
 
 /**
  * Apply the pending catalogue on /admin/catalogue: its prices go live as
@@ -62,6 +64,49 @@ export const discardPendingCatalogueAction =
             console.error('Discarding the pending catalogue failed', error)
             return {
                 message: "Couldn't discard the changes. Please try again."
+            }
+        }
+    }
+
+const count = (value: number, noun: string) =>
+    `${value} ${noun}${value === 1 ? '' : 's'}`
+
+/**
+ * Rebuild the catalogue from Prodigi now, like the weekly cron: small
+ * changes apply straight away, big ones are kept for approval. The page
+ * shows the result, so there's no email.
+ */
+export const refreshCatalogueAction =
+    async (): Promise<CatalogueActionResult> => {
+        /**
+         * Check the caller is the site owner
+         */
+        const { userId } = await auth()
+
+        if (!userId) return { message: 'Please sign in.' }
+        if (!isAdmin(userId)) return { message: 'Not allowed.' }
+
+        try {
+            const { outcome, changes, problems } = await refreshCatalogue()
+
+            if (outcome === 'applied') updateTag(catalogueTag)
+
+            const summary = {
+                unchanged: 'No changes from Prodigi',
+                applied: `Applied ${count(changes.length, 'change')}`,
+                pending: `${count(changes.length, 'change')} waiting for approval`
+            }[outcome]
+
+            return {
+                done: true,
+                summary: problems.length
+                    ? `${summary}. Prodigi couldn’t price ${count(problems.length, 'print')}.`
+                    : summary
+            }
+        } catch (error) {
+            console.error('Refreshing the catalogue failed', error)
+            return {
+                message: "Couldn't refresh the catalogue. Please try again."
             }
         }
     }
