@@ -1,11 +1,7 @@
 'use client'
 
 import { useAuthNavigate } from '@/hooks/use-auth-navigate'
-/**
- * @clerk/nextjs 7.9.9 bundles HandleSSOCallback but doesn't export it; import
- * it from @clerk/react (the same copy @clerk/nextjs uses) until it does
- */
-import { HandleSSOCallback } from '@clerk/react'
+import { HandleSSOCallback } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
