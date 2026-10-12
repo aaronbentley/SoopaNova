@@ -7299,12 +7299,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-env-safe@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "next-env-safe@npm:1.0.2"
-  peerDependencies:
-    zod: ">=3.22.0"
-  checksum: 10c0/b98f0d215d4b2b35d08f07656cfefe1c5a69cbd5d60faab410180f2dae970ebe3825bee7d9c0f6d77653a9aaaaec976d814b220b3dc1e071b6a43a533bb1228f
+"next-safe-env@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "next-safe-env@npm:1.0.0"
+  bin:
+    next-safe-env: dist/cli/index.mjs
+  checksum: 10c0/50c0dc0674e8b455d4bdc582983b4e49b0cb7e313041ac3d0df5ffd8ef940380412017ab26735f03be6ffe04d68857097d6ce9e17dfe1e82b7c92520feaa81f2
   languageName: node
   linkType: hard
 
@@ -8930,7 +8930,7 @@ __metadata:
     lucide-react: "npm:^1.55.0"
     motion: "npm:^14.1.0"
     next: "npm:16.4.0"
-    next-env-safe: "npm:^1.0.2"
+    next-safe-env: "npm:^1.0.0"
     postcss: "npm:^8.5.29"
     prettier: "npm:^3.9.10"
     prettier-plugin-tailwindcss: "npm:^0.8.1"

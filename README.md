@@ -16,7 +16,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 - [x] Verify / exclude the region-specific "brown" frame colour from the catalogue changes
 - [x] Offer brown framed canvas option - but add some UI to convey this to the user - remove exception code
 - [x] admin/catalogue should have a refresh button, and clear the table upon approval
-- [x] Add env.ts to verify env vars (a la SLinkyPixels & NOSY): `src/config/env.ts` with `next-env-safe`
+- [x] Add env.ts to verify env vars (a la SLinkyPixels & NOSY): `src/config/env.ts` with `next-safe-env`
 - [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
 - [x] Resend order emails to the customer: confirmed, shipped (with tracking), cancelled and refunded
 - [x] Admin emails via Resend: new orders, and "Needs attention" for orders Prodigi refused or flagged and refunds that failed after a customer cancelled
