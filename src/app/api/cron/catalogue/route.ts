@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export const maxDuration = 300
 
 /**
- * The weekly catalogue refresh, run by Vercel Cron (vercel.json; production
+ * The daily catalogue refresh, run by Vercel Cron (vercel.json; production
  * only, or `vercel crons run /api/cron/catalogue/` after adding a size to
  * pricing.ts). No Clerk auth: Vercel sends `Authorization: Bearer
  * CRON_SECRET`. Rebuilds the catalogue from Prodigi, applies small changes
@@ -41,10 +41,10 @@ export const GET = async (request: NextRequest) => {
         }
 
         const emailed =
-            result.outcome !== 'unchanged' || result.problems.length
+            result.changes.length || result.problems.length
                 ? await sendCatalogueRefreshEmail({
                       ...result,
-                      trigger: 'weekly'
+                      trigger: 'daily'
                   })
                 : false
 

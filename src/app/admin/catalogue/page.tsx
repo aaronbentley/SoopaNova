@@ -70,7 +70,7 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
 })
 
 const sources: Record<StoredCatalogue['appliedBy'], string> = {
-    cron: 'the weekly refresh',
+    cron: 'the daily refresh',
     script: 'yarn catalogue',
     admin: 'you, on this page'
 }

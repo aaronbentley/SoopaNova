@@ -229,7 +229,7 @@ export const startCheckout = async ({
          */
         const refresh = await refreshRefusedSku(item.sku)
 
-        if (refresh && refresh.outcome !== 'unchanged') {
+        if (refresh?.changes.length) {
             after(() =>
                 sendCatalogueRefreshEmail({ ...refresh, trigger: 'checkout' })
             )

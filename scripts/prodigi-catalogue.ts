@@ -3,7 +3,7 @@
  * API in .env.local (catalogue_sandbox or catalogue_live): every size in
  * src/assets/data/pricing.ts, with its options, the pixels it needs, and
  * what it costs (incl. Prodigi's tax) to make and ship to each region.
- * Unlike the weekly cron (/api/cron/catalogue/), it applies every change
+ * Unlike the daily cron (/api/cron/catalogue/), it applies every change
  * without asking, and drops any pending catalogue.
  *
  *   yarn catalogue

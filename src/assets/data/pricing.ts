@@ -59,8 +59,11 @@ export const productTypes = {
         name: 'Framed canvas',
         prodigiSku: 'GLOBAL-FRA-CAN',
         sizes: [{ size: '20x36' }, { size: '22x40' }],
-        /** Brown is made in the US only, so it's not offered anywhere */
-        excludeOptions: { color: ['brown'] },
+        /**
+         * Brown frames are only made in the US: elsewhere they'd ship from
+         * there at several times the shipping cost, so they're US-only
+         */
+        optionRegions: { color: { brown: ['us'] } },
         margin: 0.35,
         minMargin: 0.2
     }

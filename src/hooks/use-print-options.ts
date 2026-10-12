@@ -17,6 +17,7 @@ import {
 import {
     cheapest,
     getCatalogueItem,
+    getItemOptions,
     getPrice,
     getShippingPrice,
     type Price
@@ -133,12 +134,15 @@ const resolveSelection = (
         ? getCatalogueItem(catalogue, productType, size)
         : undefined
     const options = Object.fromEntries(
-        Object.entries(item?.options ?? {}).map(([name, values]) => {
-            const value = [selection.options[name], defaultOptions[name]].find(
-                (candidate) => candidate && values.includes(candidate)
-            )
-            return [name, value ?? values[0]]
-        })
+        Object.entries(item ? getItemOptions(item, region) : {}).map(
+            ([name, values]) => {
+                const value = [
+                    selection.options[name],
+                    defaultOptions[name]
+                ].find((candidate) => candidate && values.includes(candidate))
+                return [name, value ?? values[0]]
+            }
+        )
     )
 
     return { country: selection.country, productType, size, options }
@@ -217,7 +221,7 @@ export const usePrintOptionsForm = (meta: ImageMeta) => {
         productChoices: getProductChoices(catalogue, region, meta),
         sizeChoices,
         size: size ?? null,
-        optionValues: item?.options ?? {},
+        optionValues: item ? getItemOptions(item, region) : {},
         price: size?.price ?? null,
         shippingFrom: size
             ? cheapest(

@@ -15,12 +15,18 @@ import {
     type Price
 } from '@/lib/pricing'
 import { formatPrintSize, optionLabel } from '@/lib/print-labels'
-import type { Catalogue, CatalogueItem, Region, ShippingMethod } from '@/types'
+import type {
+    Catalogue,
+    CatalogueItem,
+    ProductTypeConfig,
+    Region,
+    ShippingMethod
+} from '@/types'
 
 /**
  * What changes between two catalogues (the stored one and a fresh build),
  * in the terms customers see: our prices and shipping charges, options and
- * print areas. The weekly refresh applies a catalogue on its own when every
+ * print areas. The daily refresh applies a catalogue on its own when every
  * change is small (needsApproval), and lists the changes in its email and
  * on /admin/catalogue.
  */
@@ -192,11 +198,23 @@ const diffItem = (
         ...Object.keys(after.options)
     ])
 
+    /**
+     * Values whose regions pricing.ts sets (brown frames are US-only) are
+     * managed there, so they're never listed for review
+     */
+    const config: ProductTypeConfig = productTypes[base.productType]
+    const managed = config.optionRegions ?? {}
+
     for (const option of optionNames) {
+        const isListed = (value: string) => !managed[option]?.[value]
         const valuesFrom = before.options[option] ?? []
         const valuesTo = after.options[option] ?? []
-        const added = valuesTo.filter((value) => !valuesFrom.includes(value))
-        const removed = valuesFrom.filter((value) => !valuesTo.includes(value))
+        const added = valuesTo.filter(
+            (value) => !valuesFrom.includes(value) && isListed(value)
+        )
+        const removed = valuesFrom.filter(
+            (value) => !valuesTo.includes(value) && isListed(value)
+        )
 
         if (added.length || removed.length) {
             changes.push({ ...base, kind: 'options', option, added, removed })

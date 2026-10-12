@@ -17,7 +17,7 @@ import { claimAlert, getEnvironment } from '@/lib/email'
 import { createQuote, getProductDetails } from '@/lib/prodigi'
 
 /**
- * Refresh the catalogue from Prodigi: the weekly cron does every SKU, and
+ * Refresh the catalogue from Prodigi: the daily cron does every SKU, and
  * the margin guard does the one it refused. Small changes are applied
  * straight away; big price moves and changed options or print areas are
  * kept as the pending catalogue for the site owner to approve on

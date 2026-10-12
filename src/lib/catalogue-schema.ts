@@ -31,6 +31,9 @@ const item = z.object({
         height: z.number().int().positive()
     }),
     options: z.record(z.string(), z.array(z.string())),
+    optionRegions: z
+        .record(z.string(), z.record(z.string(), z.array(region)))
+        .optional(),
     costs: z.partialRecord(region, cost)
 })
 

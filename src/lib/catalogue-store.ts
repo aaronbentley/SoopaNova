@@ -65,7 +65,7 @@ export const getCatalogue = async (): Promise<StoredCatalogue> => {
 }
 
 /**
- * A catalogue the weekly refresh wants approved (uncached: only the admin
+ * A catalogue the daily refresh wants approved (uncached: only the admin
  * page, its actions and the refresh read it)
  */
 export const getPendingCatalogue = () => read(catalogueKeys().pending)

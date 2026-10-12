@@ -878,7 +878,7 @@ const describedRow = ({
 ]
 
 /**
- * What a catalogue refresh did (the weekly cron, or the margin guard
+ * What a catalogue refresh did (the daily cron, or the margin guard
  * refreshing a refused SKU): applied, waiting for approval with a link to
  * /admin/catalogue, or unchanged but with SKUs Prodigi couldn't price. Sent
  * and awaited; returns false if it wasn't sent.
@@ -888,7 +888,7 @@ export const sendCatalogueRefreshEmail = async ({
     changes,
     problems,
     trigger
-}: CatalogueRefresh & { trigger: 'weekly' | 'checkout' }) => {
+}: CatalogueRefresh & { trigger: 'daily' | 'checkout' }) => {
     if (!env.RESEND_API_KEY || !env.ADMIN_EMAIL) {
         console.info(
             'Catalogue refresh email skipped (no RESEND_API_KEY/ADMIN_EMAIL)'

@@ -13,8 +13,7 @@ Here's hoping I make something fun, cool and preferably, profitable.
 ### Build
 
 - [x] Add "admin" group (above orders & my account) to user dropdown menu with link to "catalogue"
-- [x] Verify / exclude the region-specific "brown" frame colour from the catalogue changes
-- [x] Offer brown framed canvas option - but add some UI to convey this to the user - remove exception code
+- [x] Brown framed-canvas frames: US-only (`optionRegions` in `pricing.ts`), and never listed in catalogue reviews
 - [x] admin/catalogue should have a refresh button, and clear the table upon approval
 - [x] Add env.ts to verify env vars (a la SLinkyPixels & NOSY): `src/config/env.ts` with `next-safe-env`
 - [x] Order cancellation: Prodigi's 2-hour order edit window, and customers cancel (with a full refund) from `/orders` for 90 minutes
@@ -43,12 +42,12 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Before launch
 
-- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it). `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the weekly cron keeps it fresh once production has the live key
+- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it). `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the daily cron keeps it fresh once production has the live key
 - [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
 - [ ] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them
 - [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
-- [x] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview, and `CRON_SECRET` in Production (the weekly catalogue refresh)
+- [x] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview, and `CRON_SECRET` in Production (the daily catalogue refresh)
 - [x] Vercel Global Config store `soopanova` connected (`GLOBAL_CONFIG` in every environment) and `VERCEL_TEAM_ID` in Production and Preview
 - [x] Vercel env var `ADMIN_USER_ID` in Production (aaronbentley@me.com on the prod Clerk instance)
 - [ ] Vercel env var `VERCEL_API_TOKEN` (an access token scoped to the SlinkyPixels team, for catalogue writes) in Production and Preview
@@ -62,4 +61,5 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 - [ ] Promo codes: turn on `allow_promotion_codes` in checkout (orders already store the code)
 - [ ] Zero-budget marketing (promo codes, affiliates), keeping the guardrails: no hosted gallery of customers' screenshots, ads labelled as ads
+- [ ] Gift cards: our own balance in Firestore, spent in the print options sheet (covers shipping and keeps any leftover), not Stripe promotion codes. After the re-platform; details in the plan
 - [ ] More products? A mid-size canvas (only 14×24 and 28×48 today), desk mats or mousemats

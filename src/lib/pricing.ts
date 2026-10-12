@@ -9,7 +9,13 @@ import {
     type ProductTypeId
 } from '@/assets/data/pricing'
 import { parseSize } from '@/lib/print-quality'
-import type { Catalogue, Currency, Region, ShippingMethod } from '@/types'
+import type {
+    Catalogue,
+    CatalogueItem,
+    Currency,
+    Region,
+    ShippingMethod
+} from '@/types'
 
 export type Price = { amount: number; currency: Currency }
 
@@ -138,8 +144,25 @@ export const getFromPrices = (
     ) as Record<Region, Price | null>
 
 /**
- * Every option a product type has across its sizes (frame colours, canvas
- * edges), as read from Prodigi when the catalogue was built
+ * A size's options offered in a region, leaving out values pricing.ts
+ * limits to other regions (brown frames are US-only). Without a region,
+ * the values offered everywhere.
+ */
+export const getItemOptions = (item: CatalogueItem, region?: Region) =>
+    Object.fromEntries(
+        Object.entries(item.options).map(([name, values]) => [
+            name,
+            values.filter((value) => {
+                const only = item.optionRegions?.[name]?.[value]
+
+                return !only || (region !== undefined && only.includes(region))
+            })
+        ])
+    )
+
+/**
+ * Every option a product type offers everywhere across its sizes (frame
+ * colours, canvas edges), as read from Prodigi when the catalogue was built
  */
 export const getProductOptions = (
     catalogue: Catalogue,
@@ -148,7 +171,7 @@ export const getProductOptions = (
     const options: Record<string, string[]> = {}
 
     for (const item of catalogue.products[productType] ?? []) {
-        for (const [name, values] of Object.entries(item.options)) {
+        for (const [name, values] of Object.entries(getItemOptions(item))) {
             options[name] = [...new Set([...(options[name] ?? []), ...values])]
         }
     }

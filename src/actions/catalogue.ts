@@ -72,7 +72,7 @@ const count = (value: number, noun: string) =>
     `${value} ${noun}${value === 1 ? '' : 's'}`
 
 /**
- * Rebuild the catalogue from Prodigi now, like the weekly cron: small
+ * Rebuild the catalogue from Prodigi now, like the daily cron: small
  * changes apply straight away, big ones are kept for approval. The page
  * shows the result, so there's no email.
  */
@@ -93,7 +93,9 @@ export const refreshCatalogueAction =
 
             const summary = {
                 unchanged: 'No changes from Prodigi',
-                applied: `Applied ${count(changes.length, 'change')}`,
+                applied: changes.length
+                    ? `Applied ${count(changes.length, 'change')}`
+                    : 'Updated the catalogue, with no price changes',
                 pending: `${count(changes.length, 'change')} waiting for approval`
             }[outcome]
 

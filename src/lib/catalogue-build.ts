@@ -2,6 +2,7 @@ import type {
     Catalogue,
     CatalogueCost,
     CatalogueItem,
+    OptionRegions,
     ProductTypeConfig,
     Region
 } from '@/types'
@@ -18,7 +19,7 @@ import { getQuoteCosts } from './prodigi-costs.ts'
  * Build the catalogue from Prodigi: for each product size in pricing.ts, the
  * options customers can choose, the pixels it needs, and what it costs
  * (incl. Prodigi's tax) to make and ship to each region. Shared by
- * `yarn catalogue` and the weekly cron (catalogue-refresh.ts), so it only
+ * `yarn catalogue` and the daily cron (catalogue-refresh.ts), so it only
  * has relative and type imports and Node can run it directly.
  */
 
@@ -56,23 +57,55 @@ const concurrency = 3
 
 /**
  * The options customers can choose (attributes with more than one value),
- * keeping only values that ship to every country the size is sold in
+ * keeping only values that ship to every region the size is sold in, or to
+ * the regions pricing.ts limits them to (optionRegions)
  */
-const getOptions = (product: ProductDetails, countries: string[]) => {
-    const variants = product.variants.filter((variant) =>
-        countries.every((country) => variant.shipsTo.includes(country))
-    )
+const getOptions = (
+    product: ProductDetails,
+    sellIn: Region[],
+    limits: OptionRegions
+) => {
+    const shipsToAll = (
+        variant: ProductDetails['variants'][number],
+        to: Region[]
+    ) =>
+        to.every((region) =>
+            variant.shipsTo.includes(regions[region].quoteCountry)
+        )
 
     const options: Record<string, string[]> = {}
+    const optionRegions: OptionRegions = {}
 
     for (const [name, values] of Object.entries(product.attributes)) {
         if (values.length < 2) continue
-        options[name] = values.filter((value) =>
-            variants.some((variant) => variant.attributes[name] === value)
-        )
+
+        options[name] = values.filter((value) => {
+            const limit = limits[name]?.[value]
+            const to = limit
+                ? sellIn.filter((region) => limit.includes(region))
+                : sellIn
+
+            const offered =
+                to.length > 0 &&
+                product.variants.some(
+                    (variant) =>
+                        variant.attributes[name] === value &&
+                        shipsToAll(variant, to)
+                )
+
+            if (offered && limit) {
+                optionRegions[name] = { ...optionRegions[name], [value]: to }
+            }
+
+            return offered
+        })
     }
 
-    return { options, variant: variants[0] }
+    return {
+        options,
+        optionRegions,
+        variant: product.variants.find((variant) => shipsToAll(variant, sellIn))
+    }
 }
 
 const message = (error: unknown) =>
@@ -108,17 +141,11 @@ const buildItem = async (
         return fallback ?? null
     }
 
-    const { options, variant } = getOptions(product, countries)
-
-    for (const [name, excluded] of Object.entries(
-        config.excludeOptions ?? {}
-    )) {
-        if (options[name]) {
-            options[name] = options[name].filter(
-                (value) => !excluded.includes(value)
-            )
-        }
-    }
+    const { options, optionRegions, variant } = getOptions(
+        product,
+        sellIn,
+        config.optionRegions ?? {}
+    )
 
     if (!variant) {
         problems.push({
@@ -132,11 +159,15 @@ const buildItem = async (
     const printArea = variant.printAreaSizes.default
 
     /**
-     * Quote with the first value of each option (options don't change the
-     * price; checkout re-quotes the customer's exact choice)
+     * Quote with the first value of each option that's offered everywhere
+     * (options don't change the price; checkout re-quotes the customer's
+     * exact choice)
      */
     const attributes = Object.fromEntries(
-        Object.entries(options).map(([name, values]) => [name, values[0]])
+        Object.entries(options).map(([name, values]) => [
+            name,
+            values.find((value) => !optionRegions[name]?.[value]) ?? values[0]
+        ])
     )
 
     const costs: Partial<Record<Region, CatalogueCost>> = {}
@@ -192,6 +223,7 @@ const buildItem = async (
             height: printArea.verticalResolution
         },
         options,
+        ...(Object.keys(optionRegions).length && { optionRegions }),
         costs
     }
 }

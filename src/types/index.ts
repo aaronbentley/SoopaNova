@@ -27,6 +27,11 @@ export type ModerationResult = {
  */
 export type Region = 'gb' | 'eu' | 'us'
 
+/**
+ * Option values limited to some regions, by option and value
+ */
+export type OptionRegions = Record<string, Record<string, Region[]>>
+
 export type Currency = 'GBP' | 'EUR' | 'USD'
 
 /**
@@ -46,10 +51,10 @@ export type ProductTypeConfig = {
     /** Sizes in inches ('14x24'), optionally limited to some regions */
     sizes: { size: string; regions?: Region[] }[]
     /**
-     * Option values to leave out even when Prodigi lists them, e.g. a frame
-     * colour that's only made in one region
+     * Option values only offered in some regions, e.g. a frame colour that's
+     * only made in the US: { color: { brown: ['us'] } }
      */
-    excludeOptions?: Record<string, string[]>
+    optionRegions?: OptionRegions
     /** Target gross margin on the product price (0.4 = 40%) */
     margin: number
     /** Lowest margin checkout accepts against Prodigi's live quote */
@@ -77,6 +82,8 @@ export type CatalogueItem = {
     printArea: { width: number; height: number }
     /** Customer choices, e.g. { color: ['black', 'white'] } */
     options: Record<string, string[]>
+    /** Values of those only offered in some regions (from pricing.ts) */
+    optionRegions?: OptionRegions
     costs: Partial<Record<Region, CatalogueCost>>
 }
 
@@ -86,7 +93,7 @@ export type Catalogue = {
 }
 
 /**
- * Who put a catalogue in the store: the weekly cron, `yarn catalogue`, or
+ * Who put a catalogue in the store: the daily cron, `yarn catalogue`, or
  * the site owner approving a pending one on /admin/catalogue
  */
 export type CatalogueSource = 'cron' | 'script' | 'admin'

@@ -1,6 +1,6 @@
 import { countries } from '@/assets/data/countries'
 import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
-import { getCatalogueItem } from '@/lib/pricing'
+import { getCatalogueItem, getItemOptions } from '@/lib/pricing'
 import type { Catalogue, ProductTypeConfig } from '@/types'
 import { z } from 'zod'
 
@@ -75,12 +75,15 @@ const checkCatalogue =
             return
         }
 
-        const names = Object.keys(item.options)
+        /**
+         * Only the values offered in the country's region (brown frames
+         * are US-only)
+         */
+        const offered = getItemOptions(item, country.region)
+        const names = Object.keys(offered)
         const validOptions =
             Object.keys(values.options).length === names.length &&
-            names.every((name) =>
-                item.options[name].includes(values.options[name])
-            )
+            names.every((name) => offered[name].includes(values.options[name]))
 
         if (!validOptions) {
             context.addIssue({
