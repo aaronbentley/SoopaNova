@@ -32,21 +32,23 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 ### Legal and business
 
-- [ ] Decide the business structure (sole trader or limited company). Blocks Stripe live activation and the seller details
-- [ ] Add the seller's trading name, geographic address and support email to the Terms and Privacy
-- [ ] Add the governing law to the Terms
+- [x] Decide the business structure: sole trader, banking with Monzo Business (decided 2026-10-13)
+- [x] Add the seller's trading name, geographic address and support email to the Terms and Privacy (from `seller` in `src/assets/data/legal.ts`)
+- [ ] Replace the address placeholder in `seller` (`src/assets/data/legal.ts`) with a business address (a business address service keeps the home address private)
+- [ ] ICO data protection fee: check with the ICO's self-assessment whether SoopaNova must pay it (most businesses that handle customer data do)
+- [x] Add the governing law to the Terms (England and Wales)
 - [x] Copyright complaints process: the support form's copyright topic, referenced from the Terms
-- [ ] Terms: say "no resale" outright
+- [x] Terms: say "no resale" outright
 - [ ] VAT and sales tax with an accountant (then the price wording and Stripe Tax)
 - [ ] Get the Terms and the copyright position checked once (IP solicitor or a free IP clinic)
 
 ### Before launch
 
-- [ ] Prodigi live account: add a payment method and set the order edit window to 2 hours (Settings → Preferences; customer cancel relies on it). `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the daily cron keeps it fresh once production has the live key
+- [ ] Prodigi live account: payment method and the 2-hour order edit window are set (Settings → Preferences; customer cancel relies on it), but the payment method is the personal Monzo card: switch it to the Monzo Business card. `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the daily cron keeps it fresh once production has the live key
 - [ ] Email Prodigi support: billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
-- [ ] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them
-- [ ] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`) and its `STRIPE_WEBHOOK_SECRET`
+- [x] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them. Payouts go to Monzo Business (done 2026-10-13)
+- [x] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`, snapshot payloads, API version 2026-09-30.endive) and a live server key; the signing secret and key are in the password manager, waiting for the Vercel Production env vars below
 - [x] Vercel env vars: `RESEND_API_KEY` and `ADMIN_EMAIL` in Production and Preview, and `CRON_SECRET` in Production (the daily catalogue refresh)
 - [x] Vercel Global Config store `soopanova` connected (`GLOBAL_CONFIG` in every environment) and `VERCEL_TEAM_ID` in Production and Preview
 - [x] Vercel env var `ADMIN_USER_ID` in Production (aaronbentley@me.com on the prod Clerk instance)
