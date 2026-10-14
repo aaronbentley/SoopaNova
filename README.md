@@ -50,7 +50,26 @@ Here's hoping I make something fun, cool and preferably, profitable.
 
 - [ ] Prodigi live account: payment method and the 2-hour order edit window are set (Settings → Preferences; customer cancel relies on it), but the payment method is the personal Monzo card: switch it to the Monzo Business card. `catalogue_live` was filled from the live API on 2026-10-11 (`yarn catalogue`); the daily cron keeps it fresh once production has the live key
 - [ ] Float in the Monzo Business account before launch: about £500 (the worst single order, a US 28×48 canvas with Express, costs Prodigi about £350; a typical order about £80). Prodigi charges the card per order, but Stripe's first payout takes 7–14 days and later ones about 3 business days, so the float covers that gap. More if launch is promoted (£750–£1,000 for 5–10 orders in the first two weeks). It comes back with the first payouts
-- [ ] Email Prodigi support: when exactly the card is charged (submission or the end of the edit window) and what happens to an order if the card is declined, billing model, callback retries and signing, the cancel cut-off, maximum asset size, whether Prodigi Pro is worth it, and whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds and refuse the cancel)
+- [ ] Email Prodigi support (support@prodigi.com) with what their FAQ doesn't answer:
+  - A declined card: how long an order is held "until the payment clears" before it's cancelled, and whether a callback or email says so
+  - The exchange rate (or margin over the market rate) for EUR and USD orders
+  - Whether the sandbox can pause orders (it has no edit window, so a sandbox order can be in production within seconds), and why one returned `FailedToCancel` while its `/actions` said `cancel.isAvailable: Yes`
+  - Callbacks: retry policy, signing or IP ranges, and whether they can arrive out of order
+  - API rate limits, and the maximum image file size or pixel count
+  - Any notice or changelog for cost and lab-routing changes
+  - Products: will brown framed-canvas frames stay US-only, is a mid-size `GLOBAL-` canvas coming, and are there desk mats or mousemats
+  - Christmas 2026 cut-off dates per lab and shipping method
+  - Optional: whether labs review or refuse game artwork, and how takedown requests reach them; whether a UK seller without a US sales tax registration can use a resale certificate (probably not, so the 8% allowance stays)
+- [x] Answered by Prodigi's FAQ (checked 2026-10-14):
+  - **Charged when the order is submitted**, after the edit window ends; a paused ("Submitted") order cancels free. Once in production a cancel isn't guaranteed and the product is charged (only unused shipping refunded)
+  - **Billing:** per order by card or PayPal (one method at a time); weekly/monthly invoicing by Direct Debit for higher volumes via sales@prodigi.com, after a credit check, with a backup card
+  - **Currency:** labs outside the UK charge in their own currency (US in USD), converted to the default currency at the rate when the order is placed
+  - **Tax:** UK deliveries carry 20% UK VAT; EU orders without a VAT ID carry the destination country's VAT; invoices are split by production region. US sales tax is charged on US deliveries unless a resale or exemption certificate is on file (tax@prodigi.com)
+  - **Faults and losses:** damaged or wrong items via Prodigi's form (order id + photos), fixed at their expense; lost parcels replaced on request after 30 days, except for a wrong address (our cost). No custom return address, no returns of unwanted items
+  - **Packaging:** fully white-label, no Prodigi branding and no cost prices on delivery notes; black-and-white packing slips free, other inserts paid (75% off with Pro)
+  - **Images:** JPG, PNG or PDF; each download is tried 10 times, then the order gets `order.items.assets.FailedToDownloaded` (our "Needs attention" email catches it); images are deleted after fulfilment, usually within two weeks
+  - **Prodigi Pro:** 15% off products, 75% off inserts, an account manager and priority support; no trial, cancel any time; the price is in the dashboard (Subscriptions)
+- [ ] EU costs vary by country, because Prodigi charges the destination country's VAT (e.g. 19% Germany, 27% Hungary), but the catalogue quotes the EU region for one country. The margin guard quotes the exact country, so nothing sells at a loss, but checkout may be refused in high-VAT countries: check which ones
 - [ ] Test a customer cancel on live once the edit window is set: a real order, cancelled from `/orders` within 90 minutes (cancel + refund already worked end to end in the sandbox on 2026-10-04)
 - [x] Stripe live: business name, support email (`support@soopanova.app`, not aaronbentley@me.com), statement descriptor, Terms and Privacy URLs, branding; cards, Apple Pay and Google Pay only (no Amazon Pay, Link or bank debits); Stripe's own receipt and refund emails **off** (Settings → Customer emails), as in the sandbox, because the Resend emails replace them. Payouts go to Monzo Business (done 2026-10-13)
 - [x] Stripe live webhook `https://soopanova.app/api/webhooks/stripe/` (the same four events, including `charge.refunded`, snapshot payloads, API version 2026-09-30.endive) and a live server key; the signing secret and key are in the password manager, waiting for the Vercel Production env vars below
