@@ -21,6 +21,7 @@ import {
 } from '@/components/page-section'
 import ProductImage from '@/components/product-image'
 import ProductPrice from '@/components/product-price'
+import { PageHeaderSkeleton } from '@/components/skeletons'
 import {
     Table,
     TableBody,
@@ -46,6 +47,7 @@ import { ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 type Props = { params: Promise<{ product: string }> }
 
@@ -91,7 +93,7 @@ const Bullet = () => (
     />
 )
 
-const ProductPage = async ({ params }: Props) => {
+const Product = async ({ params }: Props) => {
     const { product } = await params
 
     if (!isProductType(product)) notFound()
@@ -303,5 +305,15 @@ const ProductPage = async ({ params }: Props) => {
         </>
     )
 }
+
+/**
+ * The product comes from the url, so it renders inside Suspense: a click
+ * paints the shared shell (header, footer, this fallback) straight away
+ */
+const ProductPage = ({ params }: Props) => (
+    <Suspense fallback={<PageHeaderSkeleton eyebrow='Prints' />}>
+        <Product params={params} />
+    </Suspense>
+)
 
 export default ProductPage

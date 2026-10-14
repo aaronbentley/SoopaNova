@@ -6,9 +6,11 @@ import {
 } from '@/components/page-header'
 import { PageSection } from '@/components/page-section'
 import PlatformTile, { PlatformStrip } from '@/components/platform-tile'
+import { PageHeaderSkeleton } from '@/components/skeletons'
 import type { MDXContent } from 'mdx/types'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 type Props = { params: Promise<{ platform: string }> }
 
@@ -42,7 +44,7 @@ export const generateMetadata = async ({
     }
 }
 
-const ScreenshotGuide = async ({ params }: Props) => {
+const PlatformGuide = async ({ params }: Props) => {
     const platform = findPlatform((await params).platform)
 
     if (!platform) notFound()
@@ -81,5 +83,15 @@ const ScreenshotGuide = async ({ params }: Props) => {
         </>
     )
 }
+
+/**
+ * The platform comes from the url, so it renders inside Suspense: a click
+ * paints the shared shell (header, footer, this fallback) straight away
+ */
+const ScreenshotGuide = ({ params }: Props) => (
+    <Suspense fallback={<PageHeaderSkeleton eyebrow='Screenshots' />}>
+        <PlatformGuide params={params} />
+    </Suspense>
+)
 
 export default ScreenshotGuide
