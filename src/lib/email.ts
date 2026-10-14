@@ -21,7 +21,7 @@ import type { ProdigiStatus } from '@/lib/orders'
 import { formatMoney, toMinor, type Price } from '@/lib/pricing'
 import { describeOptions, formatPrintSize } from '@/lib/print-labels'
 import type { Currency, Region, ShippingMethod } from '@/types'
-import type { Recipient } from '@/types/prodigi'
+import type { Issue, Recipient } from '@/types/prodigi'
 import type {
     DocumentReference,
     DocumentSnapshot
@@ -288,21 +288,33 @@ const adminEmail = async (
 
 /**
  * Send an email once per order: claim `emails.{key}`, send, and release the
- * claim if sending fails. `build` returns null when there's nothing to send.
+ * claim if sending fails. `build` returns null when there's nothing to send
+ * (the claim stays). `covers` names other emails this one makes unnecessary,
+ * claimed and released with it.
  */
 const sendOnce = async (
     orderRef: DocumentReference,
     key: string,
-    build: (order: DocumentSnapshot) => Promise<EmailOptions | null>
+    build: (order: DocumentSnapshot) => Promise<EmailOptions | null>,
+    covers?: (order: DocumentSnapshot) => string[]
 ) => {
     const field = new FieldPath('emails', key)
+    let covered: FieldPath[] = []
 
     const order = await firestore.runTransaction(async (transaction) => {
         const snapshot = await transaction.get(orderRef)
 
         if (!snapshot.exists || snapshot.get(field)) return null
 
-        transaction.update(orderRef, field, FieldValue.serverTimestamp())
+        covered = (covers?.(snapshot) ?? []).map(
+            (other) => new FieldPath('emails', other)
+        )
+        transaction.update(
+            orderRef,
+            field,
+            FieldValue.serverTimestamp(),
+            ...covered.flatMap((other) => [other, FieldValue.serverTimestamp()])
+        )
 
         return snapshot
     })
@@ -325,7 +337,13 @@ const sendOnce = async (
             key,
             error
         })
-        await orderRef.update(field, FieldValue.delete()).catch(() => {})
+        await orderRef
+            .update(
+                field,
+                FieldValue.delete(),
+                ...covered.flatMap((other) => [other, FieldValue.delete()])
+            )
+            .catch(() => {})
     }
 }
 
@@ -397,8 +415,14 @@ export const queueOrderPlacedEmails = (orderRef: DocumentReference) =>
             }
         })
 
-        await sendOnce(orderRef, 'admin-new-order', (order) =>
-            adminEmail(order, newOrderSummary(order))
+        await sendOnce(
+            orderRef,
+            'admin-new-order',
+            (order) => adminEmail(order, newOrderSummary(order)),
+            (order) =>
+                (
+                    (order.get('prodigi') as ProdigiStatus | null)?.issues ?? []
+                ).map(issueKey)
         )
     })
 
@@ -560,6 +584,68 @@ export const queueShippedEmails = (orderRef: DocumentReference) =>
                     }
                 }
             )
+        }
+    })
+
+/**
+ * The email an issue is claimed under, so each one is reported once
+ */
+const issueKey = ({ errorCode, objectId }: Issue) =>
+    `admin-issue-${errorCode}-${objectId ?? 'order'}`
+
+/**
+ * A Prodigi update: tell the site owner about each issue Prodigi raises
+ * after the order was placed, such as an image it couldn't download or a
+ * payment it needs authorised. Issues the order came with are in the new
+ * order email, which claims their keys; until that's gone, it'll cover any
+ * that arrive. Prodigi's daily "attention" email backs this up.
+ */
+export const queueIssueEmails = (orderRef: DocumentReference) =>
+    queue('issues', async () => {
+        const order = await orderRef.get()
+        const prodigi: ProdigiStatus | null = order.get('prodigi') ?? null
+
+        for (const issue of prodigi?.issues ?? []) {
+            await sendOnce(orderRef, issueKey(issue), async (order) => {
+                if (!order.get(new FieldPath('emails', 'admin-new-order')))
+                    return null
+
+                const authorisation = issue.authorisationDetails
+                const authorisationUrl =
+                    authorisation?.authorisationUrl.startsWith('https://')
+                        ? authorisation.authorisationUrl
+                        : null
+
+                return adminEmail(order, {
+                    event: 'Needs attention',
+                    headline: `Prodigi flagged an issue: ${printName(order)}`,
+                    intro: `Prodigi raised an issue with this order: <strong>${escapeHtml(issue.description)}</strong>. ${
+                        authorisationUrl
+                            ? `It won't go ahead until the payment is <a href="${escapeHtml(authorisationUrl)}">authorised</a>.`
+                            : `Sort it out in Prodigi's dashboard, or cancel it there and refund the customer in Stripe.`
+                    }`,
+                    rows: [
+                        customerRow(order),
+                        ['Issue', mono(issue.errorCode)],
+                        ...(authorisation
+                            ? [
+                                  [
+                                      'To authorise',
+                                      escapeHtml(
+                                          `${authorisation.paymentDetails.amount} ${authorisation.paymentDetails.currency}`
+                                      )
+                                  ] as [string, string]
+                              ]
+                            : []),
+                        [
+                            'Prodigi order',
+                            mono(
+                                `${order.get('prodigi.orderId')} · ${order.get('prodigi.stage')}`
+                            )
+                        ]
+                    ]
+                })
+            })
         }
     })
 

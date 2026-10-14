@@ -5,6 +5,7 @@ import { printProperties } from '@/lib/analytics'
 import { trackServerEvent } from '@/lib/analytics-server'
 import {
     queueCancelledEmails,
+    queueIssueEmails,
     queueOrderPlacedEmails,
     queueRefundedEmail,
     queueRefundFailedEmail,
@@ -318,8 +319,9 @@ const submitToProdigi = async (orderRef: DocumentReference, origin: string) => {
 
         /**
          * OnHold is normal: the order edit window pauses every order for 2
-         * hours, so customers can cancel (Prodigi's "attention" email covers
-         * other holds). CreatedWithIssues still prints, but needs a look.
+         * hours, so customers can cancel (issues raised later are emailed from
+         * syncProdigiOrder, and Prodigi's daily "attention" email covers other
+         * holds). CreatedWithIssues still prints, but needs a look.
          */
         if (outcome === 'OnHold') {
             console.info('Prodigi order on hold', {
@@ -487,7 +489,10 @@ export const syncProdigiOrder = async (prodigiOrderId: string) => {
     const orderRef = ordersCollection(userId).doc(orderId)
     const saved = await saveProdigiOrder(orderRef, prodigiOrder)
 
-    if (saved) queueShippedEmails(orderRef)
+    if (saved) {
+        queueShippedEmails(orderRef)
+        queueIssueEmails(orderRef)
+    }
 
     return saved
 }
