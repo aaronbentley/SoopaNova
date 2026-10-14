@@ -43,3 +43,6 @@ certificates
 
 # Private notes (local only)
 /docs
+
+# Mockup rooms and artwork for yarn mockups (kept locally)
+/design

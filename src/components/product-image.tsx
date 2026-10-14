@@ -1,4 +1,4 @@
-import { productTypes, type ProductTypeId } from '@/assets/data/pricing'
+import type { ProductTypeId } from '@/assets/data/pricing'
 import { productImages } from '@/assets/data/product-images'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -20,7 +20,7 @@ const ProductImage = ({
     eager?: boolean
     className?: string
 }) => {
-    const image = productImages[productType]
+    const photo = productImages[productType]
 
     return (
         <div
@@ -28,10 +28,10 @@ const ProductImage = ({
                 ['relative', 'aspect-4/3', 'overflow-hidden'],
                 className
             )}>
-            {image ? (
+            {photo ? (
                 <Image
-                    src={image}
-                    alt={productTypes[productType].name}
+                    src={photo.image}
+                    alt={photo.alt}
                     placeholder='blur'
                     fill
                     sizes={sizes}

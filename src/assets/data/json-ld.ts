@@ -167,7 +167,7 @@ const productProperties = (
 ]
 
 const product = (catalogue: Catalogue, productType: ProductTypeId): Product => {
-    const image = productImages[productType]
+    const photo = productImages[productType]
 
     return {
         '@type': 'Product',
@@ -177,7 +177,7 @@ const product = (catalogue: Catalogue, productType: ProductTypeId): Product => {
         url: url(productPath(productType)),
         category: 'Wall art',
         brand: { '@type': 'Brand', name: env.APP_TITLE },
-        ...(image && { image: url(image.src) }),
+        ...(photo && { image: url(photo.image.src) }),
         additionalProperty: productProperties(catalogue, productType),
         offers: regionIds
             .map((region) => regionOffer(catalogue, productType, region))
