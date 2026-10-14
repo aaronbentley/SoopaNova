@@ -42,7 +42,8 @@ export const generateMetadata = async (): Promise<Metadata> => ({
         card: 'summary_large_image',
         title: env.APP_TITLE,
         description: env.APP_DESCRIPTION,
-        creator: env.APP_SOCIAL_TWITTER
+        /** X wants the @handle, not the profile url */
+        creator: `@${new URL(env.APP_SOCIAL_TWITTER).pathname.split('/')[1]}`
     },
     authors: [
         {
